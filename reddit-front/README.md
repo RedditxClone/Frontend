@@ -68,26 +68,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-# Important Notes
-
-- Work only on the developement branch, create the branches from the developement branch
-  **Example**:![image](./readme_images/change_branch_source.png)
-
-  **mark the developement, not the master**
-
-- Do not forget Testing and put the testing code in the testing directory
-
-- **For icons**: use [React Icons](https://react-icons.github.io/react-icons/)
-
-- **For documentations**: use [JSDoc](https://jsdoc.app/)
-
-## File Structure
-
-- For the pages put the code in the pages directory
-
-- For the reusable and repeated components and all helper material, put them in utilities
-
-- documentations are mandatory for each component or page. Put them in documentations folder.
-
-##
