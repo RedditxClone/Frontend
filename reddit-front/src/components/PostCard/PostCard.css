@@ -1,0 +1,28 @@
+div.post-card {
+  width: 640px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.1s;
+  margin-bottom: 30px;
+}
+
+div.post-card:hover {
+  border-color: #898989;
+}
+
+@media (max-width: 970px) {
+  div.post-card {
+    width: 95%;
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+}
+
+@media (max-width: 640px) {
+  div.post-card {
+    width: 96%;
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+}
