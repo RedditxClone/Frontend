@@ -1,6 +1,12 @@
 import { ThemeProvider, Typography } from '@mui/material';
 import theme from './CreateCommunity.style';
 
+/**
+ * A label with icon and text
+ * @param {propType} props
+ * @returns {Label} - Label defined with text and icon
+ */
+
 function ButtonLabel(props) {
   return (
     <ThemeProvider theme={theme}>

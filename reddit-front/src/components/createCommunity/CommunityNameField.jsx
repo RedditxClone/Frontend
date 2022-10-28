@@ -3,6 +3,14 @@ import { BsExclamationCircle } from 'react-icons/bs';
 import { useState } from 'react';
 import { CommunityNameTextField, InfoBox } from './CreateCommunity.style';
 
+/**
+ * Modified TextField with its label
+ * @param {protoType} props
+ * @property {visited} boolen - to indicate the input was focused or not
+ * @property {isHovering} boolen - to indicate the input was hovering over a specific element
+ * @returns {input}  - modified input
+ */
+
 function CommunityNameField(props) {
   const [visited, setVisited] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -51,6 +59,7 @@ function CommunityNameField(props) {
         }}
       >
         <CommunityNameTextField
+          testId
           maxLength={21}
           required
           onBlur={() => setVisited(true)}

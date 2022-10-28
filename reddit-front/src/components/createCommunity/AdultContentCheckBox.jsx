@@ -3,6 +3,16 @@
 import { Box, Typography, FormGroup, FormControlLabel } from '@mui/material';
 import { WiderCheckBox, FlairWrapper } from './CreateCommunity.style';
 
+/**
+ * @description This component is resposinble to render the checkBox of NSFW
+ * @typedef propType
+ *
+ * @property {boolean} checked
+ * @property {function} onChangeAdultContent
+ *
+ * @returns CheckBox with its label
+ */
+
 function AdultContentCheckBox(props) {
   const onChangeAdultContent = () => {
     props.onChangeAdultContent((prev) => !prev);

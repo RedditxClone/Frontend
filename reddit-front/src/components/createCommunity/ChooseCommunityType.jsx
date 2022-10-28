@@ -11,6 +11,16 @@ import { BsLockFill, BsFillPersonFill } from 'react-icons/bs';
 import { ImEye } from 'react-icons/im';
 import ButtonLabel from './ButtonLabel';
 
+/**
+ * This Component for rendering the radio buttoms,
+ * @param {propType} props
+ * @return {RadioGroup}
+ */
+
+/**
+ * The three types of community
+ * @type {Array<object>}
+ */
 const COMMUNITY_TYPES = [
   {
     id: 'pub',

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import { useState } from 'react';
 import {
   CardActions,
@@ -16,6 +17,23 @@ import theme, {
 import CommunityNameField from './CommunityNameField';
 import ChooseCommunityType from './ChooseCommunityType';
 import AdultContentCheckBox from './AdultContentCheckBox';
+
+/**
+ * Create Community Card
+ *
+ * Related style - see {@link Global Style for Create Community}
+ */
+
+/**
+ * Create Community Card
+ * @typedef PropType
+ * @property {boolean} open - to control the modal
+ * @property {string} communityName - the entered community name
+ * @property {string} communityType - the chosen community type
+ * @property {boolean} isAdultContent - the adult content flag
+ *
+ * @returns Create Community Card with Modal overlay
+ */
 
 function CreateCommunity() {
   const [open, setOpen] = useState(true);
@@ -39,7 +57,6 @@ function CreateCommunity() {
             <CardHeaderUnderlined
               title={<Typography variant="h1">Create Community</Typography>}
               action={
-                // eslint-disable-next-line react/jsx-wrap-multilines
                 <IconButton onClick={() => setOpen(false)}>
                   <GrFormClose />
                 </IconButton>
