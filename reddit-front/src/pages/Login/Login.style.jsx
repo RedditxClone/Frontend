@@ -57,7 +57,7 @@ const ButtonImageDiv = styled('div')(({ id }) => (
     left: '16px',
     position: 'absolute',
     width: '20px',
-    backgroundImage: id === 'GoogleImage' ? 'url(https://www.redditstatic.com/accountmanager/021031274726bcaef27a190f609eb59f.svg)' : 'url(../../src/assets/Images/Safeimagekit-resized-imgpng.png)'
+    backgroundImage: id === 'GoogleImage' ? 'url(https://www.redditstatic.com/accountmanager/021031274726bcaef27a190f609eb59f.svg)' : 'url(../../assets/Images/Safeimagekit-resized-imgpng.png)'
   }
 ));
 
