@@ -1,34 +1,5 @@
 import { styled } from '@mui/material';
 
-const AllDiv = styled('div')(
-  {
-    display: 'flex'
-  }
-);
-
-const ContentDiv = styled('div')(
-  {
-    alignSelf: 'center',
-    padding: '24px',
-    paddingBottom: '0px'
-  }
-);
-
-const UserAggrementDiv = styled('div')(
-  {
-    fontSize: '12px',
-    fontWeight: '400',
-    fontFamily: "'Noto Sans Wancho',sans-serif",
-    lineHeight: '18px',
-    marginTop: '8px',
-    marginBottom: '48px',
-    '& a': {
-      color: '#0079d3',
-      textDecoration: 'none'
-    }
-  }
-);
-
 const DividerDiv = styled('div')(
   {
     alignItems: 'center',
@@ -61,45 +32,7 @@ const ButtonImageDiv = styled('div')(({ id }) => (
   }
 ));
 
-const StyledFooter = styled('footer')(
-  {
-    '& a': {
-      color: '#0079d3',
-      textDecoration: 'none'
-    },
-    '& #forget': {
-      fontFamily: "'IBM Plex Sans',sans-serif",
-      fontSize: '12px',
-      fontWeight: '400',
-      lineHeight: '18px',
-      marginTop: '8px',
-      marginBottom: '20px',
-      color: '#252526'
-    },
-    '& #Newto': {
-      fontFamily: "'Noto Sans Wancho',sans-serif",
-      fontSize: '12px',
-      fontWeight: '400',
-      lineHeight: '18px',
-      marginTop: '8px'
-    },
-
-    '& #BottomLink': {
-      fontFamily: "'IBM Plex Sans',sans-serif",
-      fontSize: '12px',
-      fontWeight: '600',
-      letterSpacing: '.5px',
-      lineHeight: '24px',
-      textTransform: 'uppercase'
-    }
-  }
-);
-
 export {
-  AllDiv,
-  ContentDiv,
-  UserAggrementDiv,
   DividerDiv,
-  ButtonImageDiv,
-  StyledFooter
+  ButtonImageDiv
 };

@@ -3,13 +3,16 @@ import InfoInput from '../../components/InfoInput/InfoInput';
 import SideImage from '../../components/SideImage/SideImage';
 import InfoButton from '../../components/InfoButton/InfoButton';
 import {
+  DividerDiv,
+  ButtonImageDiv
+} from './Login.style';
+import {
   AllDiv,
   ContentDiv,
   UserAggrementDiv,
-  DividerDiv,
-  ButtonImageDiv,
+  DotDiv,
   StyledFooter
-} from './Login.style';
+} from '../../components/GlobalStyles/GlobalStyles.style';
 
 export default function Login() {
   const outLined = true;
@@ -44,8 +47,14 @@ export default function Login() {
             <span className="DividerText">OR</span>
             <span className="DividerLine"> </span>
           </DividerDiv>
-          <InfoInput id="loginUserName" label="username" />
-          <InfoInput id="loginPassword" label="password" />
+          <DotDiv>
+            <InfoInput id="loginUserName" label="username" />
+            <span className="Dot"> </span>
+          </DotDiv>
+          <DotDiv>
+            <InfoInput id="loginPassword" label="password" />
+            <span className="Dot"> </span>
+          </DotDiv>
           <InfoButton outlined={!outLined} len={len}>LOG IN</InfoButton>
           <StyledFooter>
             <p id="forget">

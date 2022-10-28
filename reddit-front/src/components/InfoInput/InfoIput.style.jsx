@@ -4,22 +4,35 @@ const StyledTextField = styled(TextField)(
   {
     marginBottom: '18px',
     display: 'block',
-    '& fieldset': {
-      border: '1px solid rgba(0,0,0,.1)',
-      borderRadius: '4px',
-      backgroundColor: '#fcfcfb',
-      width: '260px'
-    //   '&:focus': {
-    //     border: '1px solid rgba(0,0,0,.1)',
-    //     backgroundColor: 'red',
-    //     outline: '0'
-    //   }
+    '& .MuiOutlinedInput-root': {
+      ' & fieldset': {
+        border: '1px solid rgba(0,0,0,.1)',
+        borderRadius: '4px',
+        backgroundColor: '#fcfcfb',
+        width: '260px'
+      },
+      '&.Mui-focused fieldset': {
+        border: '1px solid rgba(0,0,0,.2)',
+        backgroundColor: '#fff',
+        outline: '0'
+      }
     },
-    '& fieldset.Mui-focused': {
-      border: '1px solid rgba(0,0,0,.1)',
-      backgroundColor: '#fff',
-      outline: '0'
-    },
+    // '& fieldset': {
+    //   border: '1px solid rgba(0,0,0,.1)',
+    //   borderRadius: '4px',
+    //   backgroundColor: '#fcfcfb',
+    //   width: '260px'
+    // //   '&:focus': {
+    // //     border: '1px solid rgba(0,0,0,.1)',
+    // //     backgroundColor: 'red',
+    // //     outline: '0'
+    // //   }
+    // },
+    // '&.Mui-focused fieldset': {
+    //   border: '10px solid rgba(0,0,0,.1)',
+    //   backgroundColor: 'red',
+    //   outline: '0'
+    // },
 
     '& label': {
       fontSize: '10px',
@@ -36,7 +49,7 @@ const StyledTextField = styled(TextField)(
       pointerEvents: 'none'
     },
 
-    '& label.Mui-focused': {
+    '&:hover label': {
       transform: 'translate3d(0,-8px,0) scale(.83333333)',
       lineHeight: '14px',
       color: '#a5a4a4'
