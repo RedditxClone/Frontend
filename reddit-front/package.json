@@ -6,16 +6,20 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/material": "^5.10.10",
+    "@mui/styles": "^5.10.10",
     "@reduxjs/toolkit": "^1.8.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "jsdoc": "^3.6.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
+    "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
+    "sass": "^1.55.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -23,7 +27,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src/**/*.jsx && eslint ./src/*.jsx"
+    "lint": "eslint ./src/**/*.jsx && eslint ./src/*.jsx",
+    "docs": "jsdoc -c jsdoc.conf.json"
   },
   "browserslist": {
     "production": [
@@ -41,6 +46,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^8.26.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react": "^1.1.7",
     "eslint-plugin-import": "^2.26.0",
