@@ -34,12 +34,9 @@ import { useState, memo } from 'react';
 import './PostInteractions.css';
 
 import { GoComment } from 'react-icons/go';
-import { RiShareForwardLine } from 'react-icons/ri';
 import { BsThreeDots, BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { BiHide } from 'react-icons/bi';
-import { FiCopy } from 'react-icons/fi';
 import { TbArrowsCross } from 'react-icons/tb';
-import { ImEmbed2 } from 'react-icons/im';
 import SmallScreenVoting from '../Voting/SmallScreenVoting/SmallScreenVoting';
 
 /**
@@ -50,11 +47,18 @@ import SmallScreenVoting from '../Voting/SmallScreenVoting/SmallScreenVoting';
  * @property {number} votesCount
  */
 
+/**
+ * This Component for the post's interaction (comment, share, hide, etc).
+ * It just listens to the user interaction and handles it.
+ *
+ */
+
 function PostInteractions({
   setHidePost,
   commentsCount,
   votesCount,
-  divideBigNumber
+  divideBigNumber,
+  postId
 }) {
   // states: false -> normal(unsaved), true  -> saved
   const [saveState, setSaveState] = useState(false);
@@ -64,35 +68,10 @@ function PostInteractions({
 
   /* This function shows the dropdown for more interactions on the post */
   const handleClickMoreInteractions = () => {
-    // if the share drop down is opened, close it.
-    const shareDropDown = document.querySelector(
-      '.post-share .interactions-dropdown'
-    );
-    if (shareDropDown.classList.contains('is-visible')) {
-      shareDropDown.classList.remove('is-visible');
-    }
-
     // showing the dropdown
     document
-      .querySelector('.post-more-interactions .interactions-dropdown')
+      .getElementById(`interactions-dropdown-${postId}`)
       .classList.toggle('is-visible');
-  };
-
-  /* This function shows the dropdown for share options */
-  const handleShareClick = () => {
-    // if the the another drop down is opened, close it.
-    const moreInteractionsDropDown = document.querySelector(
-      '.post-more-interactions .interactions-dropdown'
-    );
-    if (moreInteractionsDropDown.classList.contains('is-visible')) {
-      moreInteractionsDropDown.classList.remove('is-visible');
-    }
-    // showing the dropdown
-    const shareDropDown = document.querySelector(
-      '.post-share .interactions-dropdown'
-    );
-    shareDropDown.classList.toggle('is-visible');
-    shareDropDown.scrollIntoView();
   };
 
   const handleHideButton = () => {
@@ -105,7 +84,10 @@ function PostInteractions({
 
   // Returning the result
   return (
-    &lt;div className="post-interactions">
+    &lt;div
+      className="post-interactions"
+      data-testid="test-post-interactions"
+    >
       &lt;div className="post-interaction-content">
         &lt;SmallScreenVoting
           votesCount={votesCount}
@@ -115,58 +97,35 @@ function PostInteractions({
           &lt;GoComment fontSize="18px" />
           &lt;span className="comments-count">{getCommentsCount()}&lt;/span>
         &lt;/a>
-        &lt;div className="post-share">
-          &lt;button
-            type="button"
-            onClick={handleShareClick}
-          >
-            &lt;RiShareForwardLine fontSize="18px" />
-            &lt;span> share&lt;/span>
-            &lt;div className="interactions-dropdown">
-              &lt;div className="post-copy-link">
-                &lt;a>
-                  &lt;FiCopy fontSize="25px" />
-                  &lt;span> copy link&lt;/span>
-                &lt;/a>
-              &lt;/div>
-              &lt;div className="post-cross">
-                &lt;a>
-                  &lt;TbArrowsCross fontSize="25px" />
-                  &lt;span> cross post&lt;/span>
-                &lt;/a>
-              &lt;/div>
-              &lt;div className="post-embed">
-                &lt;a>
-                  &lt;ImEmbed2 fontSize="25px" />
-                  &lt;span> embed&lt;/span>
-                &lt;/a>
-              &lt;/div>
-            &lt;/div>
-          &lt;/button>
-        &lt;/div>
+        &lt;a
+          className="post-share"
+          data-testid="test-share-post"
+        >
+          &lt;TbArrowsCross fontSize="25px" />
+          &lt;span> cross post&lt;/span>
+        &lt;/a>
         {!saveState ? (
-          &lt;div className="post-save">
-            &lt;button
-              type="button"
-              onClick={handleSavePost}
-            >
-              &lt;BsBookmark fontSize="18px" />
-              &lt;span> save&lt;/span>
-            &lt;/button>
-          &lt;/div>
+          &lt;a
+            onClick={handleSavePost}
+            className="post-save"
+          >
+            &lt;BsBookmark fontSize="18px" />
+            &lt;span> save&lt;/span>
+          &lt;/a>
         ) : (
-          &lt;div className="post-unsave">
-            &lt;button
-              type="button"
-              onClick={handleSavePost}
-            >
-              &lt;BsFillBookmarkFill fontSize="18px" />
-              &lt;span> unsave&lt;/span>
-            &lt;/button>
-          &lt;/div>
+          &lt;a
+            className="post-unsave"
+            onClick={handleSavePost}
+          >
+            &lt;BsFillBookmarkFill fontSize="18px" />
+            &lt;span> unsave&lt;/span>
+          &lt;/a>
         )}
 
-        &lt;div className="post-more-interactions">
+        &lt;div
+          className="post-more-interactions"
+          data-testid="test-post-more-interactions"
+        >
           &lt;button
             type="button"
             onClick={handleClickMoreInteractions}
@@ -175,7 +134,11 @@ function PostInteractions({
               fontSize="18px"
               color="#949494"
             />
-            &lt;div className="interactions-dropdown">
+            &lt;div
+              className="interactions-dropdown"
+              id={`interactions-dropdown-${postId}`}
+              data-testid="test-2-interactions-dropdown"
+            >
               &lt;div
                 className="post-hide"
                 onClick={handleHideButton}
@@ -185,6 +148,30 @@ function PostInteractions({
                   &lt;span> hide&lt;/span>
                 &lt;/a>
               &lt;/div>
+              {!saveState ? (
+                &lt;a
+                  onClick={handleSavePost}
+                  className="post-save-2"
+                >
+                  &lt;BsBookmark fontSize="18px" />
+                  &lt;span> save&lt;/span>
+                &lt;/a>
+              ) : (
+                &lt;a
+                  className="post-unsave-2"
+                  onClick={handleSavePost}
+                >
+                  &lt;BsFillBookmarkFill fontSize="18px" />
+                  &lt;span> unsave&lt;/span>
+                &lt;/a>
+              )}
+              &lt;a
+                className="post-share-2"
+                data-testid="test-share-post"
+              >
+                &lt;TbArrowsCross fontSize="25px" />
+                &lt;span> cross post&lt;/span>
+              &lt;/a>
             &lt;/div>
           &lt;/button>
         &lt;/div>
@@ -204,13 +191,13 @@ export default memo(PostInteractions);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#PostContent">PostContent</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Oct 26 2022 01:21:00 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Oct 31 2022 19:13:40 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
