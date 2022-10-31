@@ -8,8 +8,16 @@ import { BiUpvote, BiDownvote } from 'react-icons/bi';
  * @property {number} votesCount
  * @property {function} divideBigNumber
  */
+
+/**
+ * This Component for the post's voting section.
+ * It contains two methods for handling the up & down voting.
+ *
+ */
+
 function Voting({ votesCount, divideBigNumber }) {
   const [votingCounter, setVotingCounter] = useState(votesCount);
+  const [votesCountColor, setVotesCountColor] = useState('black');
   // voting states : 0 -> not voted, 1 -> up, -1 -> down
   const [votingCurrentState, setVotingCurrentState] = useState(0);
   const [votingCurrentColors, setVotingCurrentColors] = useState({
@@ -26,6 +34,7 @@ function Voting({ votesCount, divideBigNumber }) {
           up: '#ff6830',
           down: votingCurrentColors.down
         });
+        setVotesCountColor('#ff6830');
         break;
       case 1:
         setVotingCounter(votingCounter - 1);
@@ -34,6 +43,7 @@ function Voting({ votesCount, divideBigNumber }) {
           up: '#c0c2c4',
           down: '#c0c2c4'
         });
+        setVotesCountColor('black');
         break;
       case -1:
         setVotingCounter(votingCounter + 2);
@@ -42,6 +52,7 @@ function Voting({ votesCount, divideBigNumber }) {
           up: '#ff6830',
           down: '#c0c2c4'
         });
+        setVotesCountColor('#ff6830');
         break;
       default:
         break;
@@ -57,6 +68,7 @@ function Voting({ votesCount, divideBigNumber }) {
           up: votingCurrentColors.up,
           down: '#0272c4'
         });
+        setVotesCountColor('#0272c4');
         break;
       case 1:
         setVotingCounter(votingCounter - 2);
@@ -65,6 +77,7 @@ function Voting({ votesCount, divideBigNumber }) {
           up: '#c0c2c4',
           down: '#0272c4'
         });
+        setVotesCountColor('#0272c4');
         break;
       case -1:
         setVotingCounter(votingCounter + 1);
@@ -73,6 +86,7 @@ function Voting({ votesCount, divideBigNumber }) {
           up: '#c0c2c4',
           down: '#c0c2c4'
         });
+        setVotesCountColor('black');
         break;
       default:
         break;
@@ -100,6 +114,7 @@ function Voting({ votesCount, divideBigNumber }) {
         <div
           className="votes-count"
           data-testid="test-votes-count"
+          style={{ color: votesCountColor }}
         >
           {votingCounter > 0 ? divideBigNumber(votingCounter) : 'Vote'}
         </div>
