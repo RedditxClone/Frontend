@@ -1,8 +1,15 @@
 import ReCAPTCHA from 'react-google-recaptcha';
 
-function Recaptcha() {
+/**
+ * Recaptcha is a component from googl to check if you are a robot or not
+ *
+ * @returns
+ */
+
+function Recaptcha(props) {
   const onChange = (value) => {
-    console.log(value);
+    if (value) props.setRecaptch(true);
+    else props.setRecaptch(false);
   };
   return (
     <ReCAPTCHA
