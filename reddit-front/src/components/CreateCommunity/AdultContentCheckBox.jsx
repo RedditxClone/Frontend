@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/jsx-wrap-multilines */
 // eslint-disable-next-line object-curly-newline
 import { Box, Typography, FormGroup, FormControlLabel } from '@mui/material';
