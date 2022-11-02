@@ -2,9 +2,9 @@ import { styled } from '@mui/material';
 
 const StyledBody = styled('body')(
   {
-    fontSize: '14px',
+    fontSize: '1.4rem',
     fontWeight: '500',
-    lineHeight: '18px',
+    lineHeight: '1.8rem',
     color: '#1a1a1b',
     fontFamily: "'IBM Plex Sans',sans-serif",
     margin: '0'
@@ -19,19 +19,19 @@ const AllDiv = styled('div')(
 const ContentDiv = styled('div')(
   {
     alignSelf: 'center',
-    padding: '24px',
+    padding: '2.4rem',
     paddingBottom: '0px'
   }
 );
 
 const UserAggrementDiv = styled('div')(
   {
-    fontSize: '12px',
+    fontSize: '1.2rem',
     fontWeight: '400',
     fontFamily: "'Noto Sans Wancho',sans-serif",
-    lineHeight: '18px',
-    marginTop: '8px',
-    marginBottom: '48px',
+    lineHeight: '1.8rem',
+    marginTop: '.8rem',
+    marginBottom: '4.8rem',
     '& a': {
       color: '#0079d3',
       textDecoration: 'none'
@@ -44,10 +44,10 @@ const DotDiv = styled('div')(
     position: 'relative',
     '& .Dot': {
       position: 'absolute',
-      top: '20px',
-      left: '80px',
-      width: '6px',
-      height: '6px',
+      top: '2rem',
+      left: '8rem',
+      width: '.6rem',
+      height: '.6rem',
       borderRadius: '3px',
       backgroundColor: '#24a0ed'
     },
@@ -67,27 +67,27 @@ const StyledFooter = styled('footer')(
     },
     '& #forget': {
       fontFamily: "'IBM Plex Sans',sans-serif",
-      fontSize: '12px',
+      fontSize: '1.2rem',
       fontWeight: '400',
-      lineHeight: '18px',
-      marginTop: '8px',
-      marginBottom: '20px',
+      lineHeight: '1.8rem',
+      marginTop: '.8rem',
+      marginBottom: '.2rem',
       color: '#252526'
     },
     '& #Newto': {
       fontFamily: "'Noto Sans Wancho',sans-serif",
-      fontSize: '12px',
+      fontSize: '1.2rem',
       fontWeight: '400',
-      lineHeight: '18px',
-      marginTop: '8px'
+      lineHeight: '1.8rem',
+      marginTop: '.8rem'
     },
 
     '& #BottomLink': {
       fontFamily: "'IBM Plex Sans',sans-serif",
-      fontSize: '12px',
-      fontWeight: '600',
+      fontSize: '1.2rem',
+      fontWeight: '900',
       letterSpacing: '.5px',
-      lineHeight: '24px',
+      lineHeight: '2.4rem',
       textTransform: 'uppercase'
     }
   }
