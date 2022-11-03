@@ -15,7 +15,7 @@ import {
 
 export default function ForgetUserName() {
   const outLined = true;
-  const len = 360;
+  const len = 36;
   const blen = 100;
   return (
     <AllDiv>
