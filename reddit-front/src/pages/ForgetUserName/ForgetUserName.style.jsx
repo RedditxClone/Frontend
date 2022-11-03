@@ -35,7 +35,14 @@ const ForgetFooterDiv = styled('div')(
       fontWeight: '600',
       letterSpacing: '.5px',
       lineHeight: '24px',
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
+      color: '#0079d3',
+      textDecoration: 'none',
+      '& div': {
+        marginBottom: '5px',
+        display: 'inline',
+        alignItems: 'center'
+      }
     }
   }
 );

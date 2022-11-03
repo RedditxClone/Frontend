@@ -2,9 +2,9 @@ import { styled } from '@mui/material';
 
 const StyledBody = styled('body')(
   {
-    fontSize: '14px',
+    fontSize: '1.4rem',
     fontWeight: '500',
-    lineHeight: '18px',
+    lineHeight: '1.8rem',
     color: '#1a1a1b',
     fontFamily: "'IBM Plex Sans',sans-serif",
     margin: '0'
@@ -19,19 +19,19 @@ const AllDiv = styled('div')(
 const ContentDiv = styled('div')(
   {
     alignSelf: 'center',
-    padding: '24px',
+    padding: '2.4rem',
     paddingBottom: '0px'
   }
 );
 
 const UserAggrementDiv = styled('div')(
   {
-    fontSize: '12px',
+    fontSize: '1.2rem',
     fontWeight: '400',
     fontFamily: "'Noto Sans Wancho',sans-serif",
-    lineHeight: '18px',
-    marginTop: '8px',
-    marginBottom: '48px',
+    lineHeight: '1.8rem',
+    marginTop: '.8rem',
+    marginBottom: '4.8rem',
     '& a': {
       color: '#0079d3',
       textDecoration: 'none'
@@ -39,15 +39,15 @@ const UserAggrementDiv = styled('div')(
   }
 );
 
-const DotDiv = styled('div')(
+const DotDiv = styled('div')(({ len }) => (
   {
     position: 'relative',
     '& .Dot': {
       position: 'absolute',
-      top: '20px',
-      left: '80px',
-      width: '6px',
-      height: '6px',
+      top: '2rem',
+      left: `${len}rem`,
+      width: '.6rem',
+      height: '.6rem',
       borderRadius: '3px',
       backgroundColor: '#24a0ed'
     },
@@ -56,38 +56,6 @@ const DotDiv = styled('div')(
         display: 'none'
       }
     }
-  }
-);
-
-const DividerDiv = styled('div')(
-  {
-    alignItems: 'center',
-    display: 'flex',
-    margin: '28px 0',
-    justifyContent: 'space-between',
-    width: '300px',
-    '.DividerLine': {
-      borderTop: '1px solid #edeff1',
-      width: '40%'
-    },
-    '.DividerText': {
-      fontSize: '14px',
-      fontWeight: '500',
-      lineHeight: '18px',
-      color: '#878a8c'
-    }
-  }
-);
-
-const ButtonImageDiv = styled('div')(({ id }) => (
-  {
-    backgroundRepeat: 'no-repeat',
-    content: '""',
-    height: '20px',
-    left: '16px',
-    position: 'absolute',
-    width: '20px',
-    backgroundImage: id === 'GoogleImage' ? 'url(https://www.redditstatic.com/accountmanager/021031274726bcaef27a190f609eb59f.svg)' : 'url(../../assets/Images/Safeimagekit-resized-imgpng.png)'
   }
 ));
 
@@ -99,27 +67,27 @@ const StyledFooter = styled('footer')(
     },
     '& #forget': {
       fontFamily: "'IBM Plex Sans',sans-serif",
-      fontSize: '12px',
+      fontSize: '1.2rem',
       fontWeight: '400',
-      lineHeight: '18px',
-      marginTop: '8px',
-      marginBottom: '20px',
+      lineHeight: '1.8rem',
+      marginTop: '.8rem',
+      marginBottom: '.2rem',
       color: '#252526'
     },
     '& #Newto': {
       fontFamily: "'Noto Sans Wancho',sans-serif",
-      fontSize: '12px',
+      fontSize: '1.2rem',
       fontWeight: '400',
-      lineHeight: '18px',
-      marginTop: '8px'
+      lineHeight: '1.8rem',
+      marginTop: '1.2rem'
     },
 
     '& #BottomLink': {
       fontFamily: "'IBM Plex Sans',sans-serif",
-      fontSize: '12px',
-      fontWeight: '600',
+      fontSize: '1.2rem',
+      fontWeight: '700',
       letterSpacing: '.5px',
-      lineHeight: '24px',
+      lineHeight: '3.2rem',
       textTransform: 'uppercase'
     }
   }
@@ -131,7 +99,5 @@ export {
   ContentDiv,
   UserAggrementDiv,
   DotDiv,
-  DividerDiv,
-  ButtonImageDiv,
   StyledFooter
 };

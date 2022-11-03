@@ -4,7 +4,9 @@ import SideImage from '../../components/SideImage/SideImage';
 import InfoButton from '../../components/InfoButton/InfoButton';
 import {
   DividerDiv,
-  ButtonImageDiv
+  ContainerDiv,
+  ButtonImageDiv,
+  ImgDiv
 } from './Login.style';
 import {
   AllDiv,
@@ -16,7 +18,10 @@ import {
 
 export default function Login() {
   const outLined = true;
-  const len = 280;
+  const len = 28;
+  const dlen = 5;
+  const lhlen = 3;
+  const ahlen = 5;
   return (
     <AllDiv>
       <SideImage />
@@ -33,14 +38,22 @@ export default function Login() {
         </UserAggrementDiv>
         <form action="/login" method="post">
           <div className="AnotherWayToLogin">
-            <InfoButton outlined={outLined} len={len}>
-              <ButtonImageDiv id="GoogleImage"> </ButtonImageDiv>
-              CONTINUE WITH GOOGLE
-            </InfoButton>
-            <InfoButton outlined={outLined} len={len}>
-              <ButtonImageDiv id="FaceBookImage"> </ButtonImageDiv>
-              CONTINUE WITH FACEBOOK
-            </InfoButton>
+            <ContainerDiv>
+              <InfoButton outlined={outLined} len={len} align="left" hlen={ahlen}>
+                <ImgDiv className="ImgBackGroundDiv">
+                  <ButtonImageDiv id="GoogleImage" className="ButtonImg"> </ButtonImageDiv>
+                </ImgDiv>
+                CONTINUE WITH GOOGLE
+              </InfoButton>
+            </ContainerDiv>
+            <ContainerDiv>
+              <InfoButton outlined={outLined} len={len} align="left" hlen={ahlen}>
+                <ImgDiv className="ImgBackGroundDiv">
+                  <ButtonImageDiv id="FaceBookImage" className="ButtonImg"> </ButtonImageDiv>
+                </ImgDiv>
+                CONTINUE WITH FACEBOOK
+              </InfoButton>
+            </ContainerDiv>
           </div>
           <DividerDiv>
             <span className="DividerLine"> </span>
@@ -51,11 +64,11 @@ export default function Login() {
             <InfoInput id="loginUserName" label="username" len={len} />
             <span className="Dot"> </span>
           </DotDiv>
-          <DotDiv>
+          <DotDiv len={dlen}>
             <InfoInput id="loginPassword" label="password" len={len} />
             <span className="Dot"> </span>
           </DotDiv>
-          <InfoButton outlined={!outLined} len={len}>LOG IN</InfoButton>
+          <InfoButton outlined={!outLined} len={len} align="center" hlen={lhlen}>LOG IN</InfoButton>
           <StyledFooter>
             <p id="forget">
               Forgot your
@@ -64,7 +77,7 @@ export default function Login() {
               <a href=" "> password </a>
               ?
             </p>
-            <p id="newto">
+            <p id="Newto">
               New to Reddit?
               <a href=" " id="BottomLink"> SIGN UP </a>
             </p>

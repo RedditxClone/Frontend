@@ -11,12 +11,14 @@ import {
   RedditImageDiv,
   DescriptionDiv,
   ForgetFooterDiv
-} from './ForgerUserName.style';
+} from './ForgetUserName.style';
 
 export default function ForgetUserName() {
   const outLined = true;
-  const len = 36;
-  const blen = 100;
+  const len = 38;
+  const blen = 15;
+  const dlen = 10;
+  const lhlen = 3;
   return (
     <AllDiv>
       <SideImage />
@@ -27,22 +29,25 @@ export default function ForgetUserName() {
           <p>
             Tell us the email address associated with your Reddit
             <br />
-            account, and we’ll send you an email with your username.
+            account, and we&#8217;ll send you an email with your username.
           </p>
         </DescriptionDiv>
         <form action="/forgetusername" method="post">
-          <DotDiv>
+          <DotDiv len={dlen}>
             <InfoInput id="loginUserEmail" label="email address" len={len} />
             <span className="Dot"> </span>
           </DotDiv>
-          <InfoButton outlined={!outLined} len={blen}>EMAIL ME</InfoButton>
+          <InfoButton outlined={!outLined} len={blen} align="center" hlen={lhlen}>EMAIL ME</InfoButton>
           <ForgetFooterDiv>
             <p id="Forget">
-              Dont have an email or need assistance logging in?
+              Don&#8217;t have an email or need assistance logging in?
               <a className="BottomLink" href="https://reddithelp.com/hc/en-us/sections/360008917491-Account-Security"> GET HELP </a>
             </p>
             <p>
-              <a className="BottomLink" href=" ">LOG IN .</a>
+              <a className="BottomLink" href=" ">
+                LOG IN
+                <div> .</div>
+              </a>
               <a className="BottomLink" href=" "> SIGN UP</a>
             </p>
           </ForgetFooterDiv>

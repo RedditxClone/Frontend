@@ -3,18 +3,25 @@ import InfoInput from '../../components/InfoInput/InfoInput';
 import SideImage from '../../components/SideImage/SideImage';
 import InfoButton from '../../components/InfoButton/InfoButton';
 import {
+  DividerDiv,
+  ContainerDiv,
+  ButtonImageDiv,
+  ImgDiv
+} from './SignUp.style';
+import {
   AllDiv,
   ContentDiv,
   UserAggrementDiv,
   DotDiv,
-  DividerDiv,
-  ButtonImageDiv,
   StyledFooter
 } from '../../components/GlobalStyles/GlobalStyles.style';
 
 export default function Login() {
   const outLined = true;
-  const len = 280;
+  const len = 28;
+  const dlen = 5;
+  const lhlen = 3;
+  const ahlen = 5;
   return (
     <AllDiv>
       <SideImage />
@@ -34,27 +41,35 @@ export default function Login() {
         </UserAggrementDiv>
         <form action="/signup" method="post">
           <div className="AnotherWayToLogin">
-            <InfoButton outlined={outLined} len={len}>
-              <ButtonImageDiv id="GoogleImage"> </ButtonImageDiv>
-              CONTINUE WITH GOOGLE
-            </InfoButton>
-            <InfoButton outlined={outLined} len={len}>
-              <ButtonImageDiv id="FaceBookImage"> </ButtonImageDiv>
-              CONTINUE WITH FACEBOOK
-            </InfoButton>
+            <ContainerDiv>
+              <InfoButton outlined={outLined} len={len} align="left" hlen={ahlen}>
+                <ImgDiv className="ImgBackGroundDiv">
+                  <ButtonImageDiv id="GoogleImage" className="ButtonImg"> </ButtonImageDiv>
+                </ImgDiv>
+                CONTINUE WITH GOOGLE
+              </InfoButton>
+            </ContainerDiv>
+            <ContainerDiv>
+              <InfoButton outlined={outLined} len={len} align="left" hlen={ahlen}>
+                <ImgDiv className="ImgBackGroundDiv">
+                  <ButtonImageDiv id="FaceBookImage" className="ButtonImg"> </ButtonImageDiv>
+                </ImgDiv>
+                CONTINUE WITH FACEBOOK
+              </InfoButton>
+            </ContainerDiv>
           </div>
           <DividerDiv>
             <span className="DividerLine"> </span>
             <span className="DividerText">OR</span>
             <span className="DividerLine"> </span>
           </DividerDiv>
-          <DotDiv>
-            <InfoInput id="signupUserEmail" label="useremail" />
+          <DotDiv len={dlen}>
+            <InfoInput id="signupUserEmail" label="email" len={len} />
             <span className="Dot"> </span>
           </DotDiv>
-          <InfoButton outlined={!outLined} len={len}>CONTINUE</InfoButton>
+          <InfoButton outlined={!outLined} len={len} align="center" hlen={lhlen}>CONTINUE</InfoButton>
           <StyledFooter>
-            <p id="newto">
+            <p id="Newto">
               Already a redditor?
               <a href=" " id="BottomLink"> LOG IN </a>
             </p>

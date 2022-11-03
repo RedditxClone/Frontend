@@ -9,7 +9,7 @@ const StyledTextField = styled(TextField)(({ len }) => (
         border: '1px solid rgba(0,0,0,.1)',
         borderRadius: '4px',
         backgroundColor: '#fcfcfb',
-        width: `${len}px`
+        width: `${len}rem`
       },
       '&.Mui-focused fieldset': {
         border: '1px solid rgba(0,0,0,.2)',
@@ -17,16 +17,15 @@ const StyledTextField = styled(TextField)(({ len }) => (
         outline: '0'
       }
     },
-
     '& label': {
-      fontSize: '10px',
-      fontWeight: '600',
+      fontSize: '1rem',
+      fontWeight: '500',
       letterSpacing: '.5px',
       position: 'absolute',
       // display: 'inline-block',
       verticalAlign: 'middle',
-      top: '14px',
-      left: '12px',
+      top: '1.4rem',
+      left: '1.2rem',
       color: '#a5a4a4',
       textTransform: 'uppercase',
       transform: 'translateZ(0)',
@@ -34,8 +33,8 @@ const StyledTextField = styled(TextField)(({ len }) => (
     },
 
     '&:hover label': {
-      transform: 'translate3d(0,-8px,0) scale(.83333333)',
-      lineHeight: '14px',
+      transform: 'translate3d(0,-0.8rem,0) scale(.83333333)',
+      lineHeight: '1.4rem',
       color: '#a5a4a4'
     }
 
