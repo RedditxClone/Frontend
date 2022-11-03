@@ -26,16 +26,19 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable jsx-a11y/media-has-caption */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
-import { useEffect, memo } from 'react';
+import { useEffect, memo, useState } from 'react';
 import PostInteractions from '../PostInteractions/PostInteractions';
 import './PostContent.css';
 import Logo from './test.png';
+import Img2 from './test2.jpg';
+import Img3 from './test3.jpg';
 /**
  * @typedef PropType
  * @property {number} comments_count
@@ -50,26 +53,115 @@ import Logo from './test.png';
  *
  * @param {PropType}  props
  */
+
+/**
+ * This Component for the post content (images, videos, text, etc.)
+ * Calling the method 'getPostContent' to determine what is the type of the content.
+ * Checking for the content type, and seeing if it is more than one image, so we call
+ * the method 'showSlides' to render a slideshow for the images
+ *
+ */
 function PostContent(props) {
   let postContent = null;
+  let slideIndex = 0;
+
+  const showSlides = () => {
+    const slides = document.getElementsByClassName('my-slides');
+    const slidesLength = slides.length;
+    if (slideIndex === slidesLength) {
+      slideIndex = 0;
+    }
+    if (slideIndex &lt; 0) {
+      slideIndex = slidesLength - 1;
+    }
+
+    let i;
+    for (i = 0; i &lt; slidesLength; i += 1) {
+      slides[i].style.display = 'none';
+    }
+    if (slides[slideIndex] != null) {
+      slides[slideIndex].style.display = 'block';
+    }
+  };
+
+  const nextSlide = () => {
+    slideIndex += 1;
+    showSlides();
+  };
+  const prevSlide = () => {
+    slideIndex -= 1;
+    showSlides();
+  };
+
   /* Gets the post type (img, video, ..), and returns the content as html component */
   const getPostContent = function () {
     const contentType = props.postContentData.post_type;
+    const mediaCount = props.postContentData.media_count;
+
     switch (contentType) {
       case 'img':
-        postContent = (
-          &lt;img
-            src={Logo}
-            alt="post image"
-          />
-        );
+        if (mediaCount > 1) {
+          postContent = (
+            &lt;>
+              &lt;div className="my-slides fade">
+                &lt;img
+                  src={Logo}
+                  alt="post image"
+                />
+              &lt;/div>
+              &lt;div className="my-slides fade">
+                &lt;img
+                  src={Img2}
+                  alt="post image"
+                />
+              &lt;/div>
+              &lt;div className="my-slides fade">
+                &lt;img
+                  src={Img3}
+                  alt="post image"
+                />
+              &lt;/div>
+              &lt;button
+                type="button"
+                className="prev"
+                onClick={prevSlide}
+              >
+                ❮
+              &lt;/button>
+              &lt;button
+                type="button"
+                className="next"
+                onClick={nextSlide}
+              >
+                ❯
+              &lt;/button>
+            &lt;/>
+          );
+          showSlides(1);
+        } else {
+          postContent = (
+            &lt;div className="post-image">
+              &lt;img
+                src={Img2}
+                alt="post image"
+              />
+            &lt;/div>
+          );
+        }
         break;
       case 'video':
         postContent = (
-          &lt;img
-            src={Logo}
-            alt="post image"
-          />
+          &lt;video
+            controls="true"
+            muted="false"
+            preload="auto"
+            className="post-content-video"
+          >
+            &lt;source
+              src=""
+              type="video/mp4"
+            />
+          &lt;/video>
         );
         break;
       case 'text':
@@ -84,9 +176,15 @@ function PostContent(props) {
 
   // Returning the result
   return (
-    &lt;div className="post-content">
+    &lt;div
+      className="post-content"
+      data-testid="test-post-content"
+    >
       {props.children}
-      &lt;div className="post-title-container">
+      &lt;div
+        className="post-title-container"
+        data-testid="test-post-title"
+      >
         &lt;div className="post-title">
           &lt;a
             className="post-link"
@@ -107,11 +205,7 @@ function PostContent(props) {
         &lt;/div>
       &lt;/div>
       &lt;div className="post-main-content">
-        &lt;div className="post-content-core">
-          &lt;a href="#">
-            &lt;div className="post-final-content">{getPostContent()}&lt;/div>
-          &lt;/a>
-        &lt;/div>
+        &lt;div className="post-content-core">{getPostContent()}&lt;/div>
       &lt;/div>
       &lt;PostInteractions
         setHidePost={props.setHidePost}
@@ -120,6 +214,7 @@ function PostContent(props) {
         )}
         votesCount={props.postContentData.votes}
         divideBigNumber={props.divideBigNumber}
+        postId={props.postContentData.id}
       />
     &lt;/div>
   );
@@ -136,13 +231,13 @@ export default memo(PostContent);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#PostContent">PostContent</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Oct 26 2022 01:21:00 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Oct 31 2022 19:13:40 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

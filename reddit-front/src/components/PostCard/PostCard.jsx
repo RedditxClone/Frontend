@@ -22,6 +22,13 @@ import Voting from './Voting/Voting';
  *
  * @param {PropType}  postData
  */
+
+/**
+ * This Component is the main post component
+ * It wraps other small components that do the work.
+ *
+ */
+
 export default function PostCard({ postData }) {
   const [hidePost, setHidePost] = useState(false);
 

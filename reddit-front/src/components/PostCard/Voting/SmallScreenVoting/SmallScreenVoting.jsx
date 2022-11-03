@@ -9,6 +9,12 @@ import { BiUpvote, BiDownvote } from 'react-icons/bi';
  * @property {function} divideBigNumber
  */
 
+/**
+ * This Component is as same as the Voting Component but for the small screens ( for responsive )
+ * It contains two methods for handling the up & down voting.
+ *
+ */
+
 export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
   const [votingCounter, setVotingCounter] = useState(votesCount);
   // voting status : 0 -> no voted, 1 -> up, -1 -> down
@@ -91,9 +97,9 @@ export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
             onClick={handleUpVoting}
           />
         </span>
-        <div className="votes-count">
+        <span className="votes-count">
           {votingCounter > 0 ? divideBigNumber(votingCounter) : 'Vote'}
-        </div>
+        </span>
         <span className="down-vote-icon">
           <BiDownvote
             color={votingCurrentColors.down}

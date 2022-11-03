@@ -52,6 +52,7 @@ div.voting-content {
   font-weight: 700;
   line-height: 16px;
   text-align: center;
+  width: 40px;
 }
 
 @media (max-width: 970px) {
