@@ -19,20 +19,10 @@ import ChooseCommunityType from './ChooseCommunityType';
 import AdultContentCheckBox from './AdultContentCheckBox';
 
 /**
- * Create Community Card
- *
- * Related style - see {@link Global Style for Create Community}
- */
-
-/**
- * Create Community Card
- * @typedef PropType
- * @property {boolean} open - to control the modal
- * @property {string} communityName - the entered community name
- * @property {string} communityType - the chosen community type
- * @property {boolean} isAdultContent - the adult content flag
- *
- * @returns Create Community Card with Modal overlay
+ * This Card appears when click on create community button
+ * , and you choose the properties for your community like name and type and the ability
+ * of sharing adult content
+ * @returns {React.Component}
  */
 
 function CreateCommunity() {

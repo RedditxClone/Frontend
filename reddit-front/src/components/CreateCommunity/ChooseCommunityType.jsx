@@ -12,14 +12,16 @@ import { ImEye } from 'react-icons/im';
 import ButtonLabel from './ButtonLabel';
 
 /**
- * This Component for rendering the radio buttoms,
- * @param {propType} props
- * @return {RadioGroup}
+ * @typedef community_type
+ * @property {string} id id for the community type
+ * @property {ReactIcon} icon icon displayed in the label
+ * @property {string} type String represents the type of the community
+ * @property {string} description String in the label which represents
  */
 
 /**
- * The three types of community
- * @type {Array<object>}
+ * The three types of community and their properties
+ * @type {Array<community_type>}
  */
 const COMMUNITY_TYPES = [
   {
@@ -43,9 +45,14 @@ const COMMUNITY_TYPES = [
   }
 ];
 
-function ChooseCommunityType(props) {
+/**
+ * This Component for rendering the radio buttoms,
+ * @param {function} onChangeCommunityType
+ * @return {MUI.RadioGroup} a list of radio buttons to choose the community types
+ */
+function ChooseCommunityType({ onChangeCommunityType }) {
   const onChangeType = (event) => {
-    props.onChangeCommunityType(event.target.value);
+    onChangeCommunityType(event.target.value);
   };
 
   return (
