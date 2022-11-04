@@ -5,20 +5,19 @@ import { CommunityNameTextField, InfoBox } from './CreateCommunity.style';
 
 /**
  * Modified TextField with its label
- * @param {protoType} props
- * @property {visited} boolen - to indicate the input was focused or not
- * @property {isHovering} boolen - to indicate the input was hovering over a specific element
- * @returns {input}  - modified input
+ * @param {Number} communityNameLength The length of the community name to check on the
+ * maximum length
+ * @returns {React.Component}  - modified input for community name
  */
 
-function CommunityNameField(props) {
+function CommunityNameField({ communityNameLength }) {
   const [visited, setVisited] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
 
   const onHoveringHandler = () => {
     setTimeout(setIsHovering(true), 20000);
   };
-  const helperText = `${21 - props.communityNameLength} Characters remaining`;
+  const helperText = `${21 - communityNameLength} Characters remaining`;
 
   const changeCommunityNameHandler = (event) => {
     props.onChangeCommunityName(event.target.value);
@@ -79,11 +78,11 @@ function CommunityNameField(props) {
       </Box>
       <Typography
         variant="subtitle1"
-        color={props.communityNameLength === 21 ? 'error' : ''}
+        color={communityNameLength === 21 ? 'error' : ''}
       >
         {helperText}
       </Typography>
-      {visited && props.communityNameLength === 0 && (
+      {visited && communityNameLength === 0 && (
         <Typography
           variant="subtitle1"
           color="error"

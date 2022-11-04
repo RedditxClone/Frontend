@@ -7,17 +7,13 @@ import { WiderCheckBox, FlairWrapper } from './CreateCommunity.style';
 
 /**
  * @description This component is resposinble to render the checkBox of NSFW
- * @typedef propType
- *
- * @property {boolean} checked
- * @property {function} onChangeAdultContent
- *
- * @returns CheckBox with its label
+ * @param {boolean} checked To check if the the adult content is allowed or not
+ * @param {function} onChangeAdultContent This function sets the value of the checked preperty
+ * @returns {React.Component} CheckBox with its label
  */
-
-function AdultContentCheckBox(props) {
-  const onChangeAdultContent = () => {
-    props.onChangeAdultContent((prev) => !prev);
+function AdultContentCheckBox({ onChangeAdultContent, checked }) {
+  const chhangeAdultContentHandler = () => {
+    onChangeAdultContent((prev) => !prev);
   };
   return (
     <Box>
@@ -27,8 +23,8 @@ function AdultContentCheckBox(props) {
           sx={{ marginLeft: '0' }}
           control={
             <WiderCheckBox
-              checked={props.checked}
-              onChange={onChangeAdultContent}
+              checked={checked}
+              onChange={chhangeAdultContentHandler}
             />
           }
           label={
