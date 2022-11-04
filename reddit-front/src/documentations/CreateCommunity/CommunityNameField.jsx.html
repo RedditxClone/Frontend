@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CommunityNameField.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CommunityNameField.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Box, Typography } from '@mui/material';
+import { BsExclamationCircle } from 'react-icons/bs';
+import { useState } from 'react';
+import { CommunityNameTextField, InfoBox } from './CreateCommunity.style';
+
+/**
+ * Modified TextField with its label
+ * @param {Number} communityNameLength The length of the community name to check on the
+ * maximum length
+ * @returns {React.Component}  - modified input for community name
+ */
+
+function CommunityNameField({ communityNameLength }) {
+  const [visited, setVisited] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+
+  const onHoveringHandler = () => {
+    setTimeout(setIsHovering(true), 20000);
+  };
+  const helperText = `${21 - communityNameLength} Characters remaining`;
+
+  const changeCommunityNameHandler = (event) => {
+    props.onChangeCommunityName(event.target.value);
+  };
+  return (
+    &lt;Box sx={{ marginBottom: '3rem' }}>
+      &lt;Box>
+        &lt;Typography variant="h1">Name&lt;/Typography>
+        &lt;Typography
+          variant="subtitle1"
+          sx={{ display: 'flex', alignItems: 'center', marginTop: '0.5rem' }}
+        >
+          &lt;span style={{ marginRight: '1rem' }}>
+            Community names including capitalization cannot be changed.
+          &lt;/span>
+          &lt;div style={{ position: 'relative' }}>
+            &lt;BsExclamationCircle
+              onMouseOver={onHoveringHandler}
+              onMouseLeave={() => setIsHovering(false)}
+            />
+            {isHovering &amp;&amp; (
+              &lt;InfoBox>
+                Names cannot have spaces (e.g., &amp;quot;r/bookclub&amp;quot; not
+                &amp;quot;r/book club&amp;quot;), must be between 3-21 characters, and
+                underscores (&amp;quot;_&amp;quot;) are the only special characters
+                allowed. Avoid using solely trademarked names (e.g.,
+                &amp;quot;r/FansOfAcme&amp;quot; not &amp;quot;r/Acme&amp;quot;).
+              &lt;/InfoBox>
+            )}
+          &lt;/div>
+        &lt;/Typography>
+      &lt;/Box>
+      &lt;Box
+        sx={{
+          marginTop: '1.2rem',
+          marginBottom: '0',
+          boxSizing: 'border-box'
+        }}
+      >
+        &lt;CommunityNameTextField
+          testId
+          maxLength={21}
+          required
+          onBlur={() => setVisited(true)}
+          onChange={changeCommunityNameHandler}
+        />
+        &lt;span
+          style={{
+            fontSize: '1.6rem',
+            color: '#7c7c7c',
+            position: 'relative',
+            top: '-3.5rem',
+            left: '0.8rem'
+          }}
+        >
+          r/
+        &lt;/span>
+      &lt;/Box>
+      &lt;Typography
+        variant="subtitle1"
+        color={communityNameLength === 21 ? 'error' : ''}
+      >
+        {helperText}
+      &lt;/Typography>
+      {visited &amp;&amp; communityNameLength === 0 &amp;&amp; (
+        &lt;Typography
+          variant="subtitle1"
+          color="error"
+        >
+          A community name is required
+        &lt;/Typography>
+      )}
+    &lt;/Box>
+  );
+}
+
+export default CommunityNameField;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdultContentCheckBox">AdultContentCheckBox</a></li><li><a href="global.html#ButtonLabel">ButtonLabel</a></li><li><a href="global.html#CardHeaderUnderlined">CardHeaderUnderlined</a></li><li><a href="global.html#CenteredCard">CenteredCard</a></li><li><a href="global.html#ChooseCommunityType">ChooseCommunityType</a></li><li><a href="global.html#COMMUNITY_TYPES">COMMUNITY_TYPES</a></li><li><a href="global.html#CommunityNameField">CommunityNameField</a></li><li><a href="global.html#CommunityNameTextField">CommunityNameTextField</a></li><li><a href="global.html#CreateCommunity">CreateCommunity</a></li><li><a href="global.html#FlairWrapper">FlairWrapper</a></li><li><a href="global.html#InfoBox">InfoBox</a></li><li><a href="global.html#StyledButton">StyledButton</a></li><li><a href="global.html#theme">theme</a></li><li><a href="global.html#WiderCheckBox">WiderCheckBox</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Nov 04 2022 18:13:36 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

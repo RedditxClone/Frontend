@@ -1,0 +1,89 @@
+.post-content {
+  padding-top: 10px;
+  background-color: white;
+  width: 600px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.post-content .post-title {
+  display: inline;
+  position: relative;
+  text-decoration: none;
+  word-break: break-word;
+  vertical-align: baseline;
+}
+
+.post-content .post-link {
+  color: inherit;
+  display: inline-block;
+  margin: 5px 0;
+  padding-left: 8px;
+}
+
+.flair {
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: text-top;
+  background-color: gray;
+  border-radius: 10px;
+  margin: 2px 0 0 5px;
+}
+.flair:hover {
+  opacity: 0.9;
+}
+.flair .flair-link {
+  margin: 0;
+  padding: 2px 8px;
+  border: 0;
+  color: black;
+  font-size: 10px;
+  vertical-align: baseline;
+}
+
+.post-content .post-title-heading {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #222;
+  display: inline;
+}
+
+.post-content .post-main-content {
+  margin-top: 8px;
+  width: 100%;
+  height: auto;
+}
+.post-content .post-content-core {
+  cursor: pointer;
+  width: 95%;
+}
+.post-content .post-content-core a {
+  width: 100%;
+  display: inline-block;
+  color: black;
+}
+.post-content .post-content-core .post-image {
+  width: 98%;
+  height: auto;
+}
+.post-content .post-content-core .post-image > img {
+  width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+.post-content .post-content-video {
+  background-color: black;
+  width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+@media (max-width: 970px) {
+  .post-content {
+    width: 93%;
+  }
+}

@@ -1,3 +1,14 @@
+# Important Notes for Contributers
+
+- Create your branches from the developement branch as a source branch
+- The components should have extension **.jsx**
+- Do not forget documentations for each component
+- For Icons: use [react icons](https://react-icons.github.io/react-icons)
+- For Documentations: use [JSDoc](https://jsdoc.app/)
+- For The pages components, store the code in the pages directory
+- For the reusable and repeatable components, store them in utilities
+- **Do not forget Testing**
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

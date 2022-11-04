@@ -1,5 +1,8 @@
+import './index.css';
+import CreateCommunity from './components/CreateCommunity/CreateCommunity';
+
 function App() {
-  return <div>hello</div>;
+  return <CreateCommunity />;
 }
 
 export default App;
