@@ -1,7 +1,7 @@
 {
   "source": {
-    "include": ["src/components/InfoInput"],
-    "includePattern": ".jsx$",
+    "include": ["src/components/InfoInput/"],
+    "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(node_modules/|docs)"
   },
   "plugins": ["plugins/markdown"],

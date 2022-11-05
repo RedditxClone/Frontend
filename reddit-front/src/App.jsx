@@ -1,10 +1,10 @@
 import { ThemeProvider } from '@mui/material';
 import { StyledBody } from './components/GlobalStyles/GlobalStyles.style';
 // import Login from './pages/Login/Login';
-// import SignUp from './pages/SignUp/SignUp';
+import SignUp from './pages/SignUp/SignUp';
 // import ForgetUserName from './pages/ForgetUserName/ForgetUserName';
 // import ForgetPasswordName from './pages/ForgetUserPassword/ForgetUserPassword';
-import ResetPassword from './pages/ResetPassword/ResetPassword';
+// import ResetPassword from './pages/ResetPassword/ResetPassword';
 import theme from './utilities/theme';
 
 function App() {
@@ -12,10 +12,10 @@ function App() {
     <StyledBody>
       <ThemeProvider theme={theme}>
         {/* <Login /> */}
-        {/* <SignUp /> */}
+        <SignUp />
         {/* <ForgetUserName /> */}
         {/* <ForgetPasswordName /> */}
-        <ResetPassword />
+        {/* <ResetPassword /> */}
       </ThemeProvider>
     </StyledBody>
   );
