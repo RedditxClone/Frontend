@@ -24,7 +24,7 @@ export default function ForgetUserName() {
       <SideImage />
       <ContentDiv>
         <RedditImageDiv />
-        <Typography variant="h1">Recover your username</Typography>
+        <Typography id="ForgetUserNameTitle" variant="h1">Recover your username</Typography>
         <DescriptionDiv>
           <p>
             Tell us the email address associated with your Reddit
