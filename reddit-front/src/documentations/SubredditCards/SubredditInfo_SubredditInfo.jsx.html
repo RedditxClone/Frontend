@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: SubredditInfo/SubredditInfo.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: SubredditInfo/SubredditInfo.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
+import Box from '@mui/material/Box';
+import { useState } from 'react';
+import SubredditName from '../SubredditName/SubredditName';
+import { LogoNameContainer, LogoNameContent } from './SubredditInfo.Style';
+
+/**
+ * @typedef PropType
+ * @property {string} baseColor
+ * @property {string} color
+ */
+
+/**
+ * This Component for the Container of the community Title and Logo
+ *
+ */
+
+export default function SubredditInfo({ color, baseColor }) {
+  const [hasLogo, setHasLogo] = useState(false);
+  return (
+    &lt;Box
+      component="div"
+      sx={{
+        backgroundColor: 'white',
+        width: '100%',
+        display: 'block'
+      }}
+    >
+      &lt;LogoNameContainer>
+        &lt;LogoNameContent>
+          {hasLogo ? null : (
+            &lt;svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              style={{
+                borderRadius: '100%',
+                border: '4px solid white',
+                width: '7.2rem',
+                height: '7.2rem',
+                backgroundColor: 'white',
+                boxSizing: 'border-box',
+                fill: baseColor,
+                zIndex: 10
+              }}
+            >
+              &lt;path d="M16.5,2.924,11.264,15.551H9.91L15.461,2.139h.074a9.721,9.721,0,1,0,.967.785ZM8.475,8.435a1.635,1.635,0,0,0-.233.868v4.2H6.629V6.2H8.174v.93h.041a2.927,2.927,0,0,1,1.008-.745,3.384,3.384,0,0,1,1.453-.294,3.244,3.244,0,0,1,.7.068,1.931,1.931,0,0,1,.458.151l-.656,1.558a2.174,2.174,0,0,0-1.067-.246,2.159,2.159,0,0,0-.981.215A1.59,1.59,0,0,0,8.475,8.435Z" />
+            &lt;/svg>
+          )}
+          &lt;SubredditName highlightColor="lime" />
+        &lt;/LogoNameContent>
+      &lt;/LogoNameContainer>
+    &lt;/Box>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#BackgroundImage">BackgroundImage</a></li><li><a href="global.html#ButtonsContainer">ButtonsContainer</a></li><li><a href="global.html#CancelSaveContainer">CancelSaveContainer</a></li><li><a href="global.html#CardsContainer">CardsContainer</a></li><li><a href="global.html#CardsHeaderContainer">CardsHeaderContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#DropDownMenuContainer">DropDownMenuContainer</a></li><li><a href="global.html#DropDownMenuItem">DropDownMenuItem</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#FlairItem">FlairItem</a></li><li><a href="global.html#FlairItemContainer">FlairItemContainer</a></li><li><a href="global.html#FlairsContainer">FlairsContainer</a></li><li><a href="global.html#HeadingContainer">HeadingContainer</a></li><li><a href="global.html#LogoNameContainer">LogoNameContainer</a></li><li><a href="global.html#LogoNameContent">LogoNameContent</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#MessageModsButton">MessageModsButton</a></li><li><a href="global.html#ModeratorsContainer">ModeratorsContainer</a></li><li><a href="global.html#ModeratorUsername">ModeratorUsername</a></li><li><a href="global.html#NotificationTypesContainer">NotificationTypesContainer</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PopupInfo">PopupInfo</a></li><li><a href="global.html#RuleContainer">RuleContainer</a></li><li><a href="global.html#RuleDescription">RuleDescription</a></li><li><a href="global.html#RulesCardContainer">RulesCardContainer</a></li><li><a href="global.html#RuleTitle">RuleTitle</a></li><li><a href="global.html#SelectList">SelectList</a></li><li><a href="global.html#SelectListOption">SelectListOption</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#ShowRuleDescription">ShowRuleDescription</a></li><li><a href="global.html#SideBarContainer">SideBarContainer</a></li><li><a href="global.html#SingleNotificationTypeContainer">SingleNotificationTypeContainer</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledSubredditName">StyledSubredditName</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#StylesSpan">StylesSpan</a></li><li><a href="global.html#SubredditTitle">SubredditTitle</a></li><li><a href="global.html#SubTopic">SubTopic</a></li><li><a href="global.html#SubTopicsContainer">SubTopicsContainer</a></li><li><a href="global.html#SuggestedSubTopic">SuggestedSubTopic</a></li><li><a href="global.html#SuggestedSubTopicsContainer">SuggestedSubTopicsContainer</a></li><li><a href="global.html#TopicDropdownList">TopicDropdownList</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 03 2022 19:22:30 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CommunityTopics/CommunityTopics.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CommunityTopics/CommunityTopics.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable block-spacing */
+/* eslint-disable indent */
+/* eslint-disable operator-linebreak */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable arrow-body-style */
+/* eslint-disable array-callback-return */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import { useState } from 'react';
+import { Box, Typography, Link } from '@mui/material';
+import { BsInfoCircle, BsPencil } from 'react-icons/bs';
+import { AiOutlineDown } from 'react-icons/ai';
+import { MdDone } from 'react-icons/md';
+import {
+  StyledActionButton,
+  SubTopic,
+  StylesSpan,
+  PopupInfo,
+  SelectList,
+  TopicDropdownList,
+  SelectListOption,
+  SubTopicsContainer,
+  CancelSaveContainer,
+  SuggestedSubTopicsContainer,
+  SuggestedSubTopic,
+  HeadingContainer
+} from './CommunityTopics.Style';
+
+/**
+ * @typedef PropType
+ * @property {string} baseColor
+ * @property {string} highlightColor
+ * @property {array} subTopicsList
+ * @property {array} chosenSubTopicsList
+ * @property {array} trackUserChosenSubTopic
+ * @property {array} trackUserRemovedSubTopic
+ */
+
+/**
+ * This Component for the Community Topics.
+ * Moderator can change (add, remove) the topics in this component
+ *
+ */
+
+export default function CommunityTopics({
+  highlightColor,
+  baseColor,
+  subTopicsList,
+  chosenSubTopicsList,
+  trackUserChosenSubTopic,
+  trackUserRemovedSubTopic
+}) {
+  // states
+  const [infoIconColor, setInfoIconColor] = useState('#aaa');
+  const [showInfo, setShowInfo] = useState(false);
+  const [showTopics, setShowTopics] = useState(false);
+  const [showSubTopics, setShowSubTopics] = useState(false);
+  const [subTopicsCounter, setSubTopicsCounter] = useState(
+    chosenSubTopicsList.length
+  );
+  const [activeTopic, setActiveTopic] = useState(2); // this will depend on the data form api
+  const [editSubTopics, setEditSubTopics] = useState(false);
+  const maxTopics = 25;
+  const maxNumOfShownSubTopics = 7;
+
+  const topicsList = ['Activism', 'Anime', 'Art', 'Careers'];
+
+  const [rerender, setRerender] = useState(false);
+
+  // Event listeners
+
+  const activateTopic = (e) => {
+    const topicId = e.target.id;
+    setActiveTopic(topicId);
+  };
+  /**
+   * This Method returns the list of topics to be shown,
+   * if there are more than 7 topics, it will return the only first 7
+   *
+   */
+  const getSubTopicsToShow = (isEditingMode) => {
+    if (isEditingMode) return chosenSubTopicsList;
+
+    if (chosenSubTopicsList.length &lt;= 7) return chosenSubTopicsList;
+
+    return chosenSubTopicsList.slice(0, 7);
+  };
+
+  const choseSubTopic = (e) => {
+    if (subTopicsCounter &lt; maxTopics) {
+      const value = e.target.innerHTML;
+      const i = subTopicsList.indexOf(value);
+      trackUserChosenSubTopic.push(value);
+      chosenSubTopicsList.push(value);
+      setSubTopicsCounter(subTopicsCounter + 1);
+      subTopicsList.splice(i, 1);
+      setRerender(!rerender);
+    } else {
+      // TODO: sweet alert here
+      console.log('Max numbers allowed is ', maxTopics);
+    }
+  };
+
+  /**
+   * This Method executes the actions that made by the user (moderator)
+   *
+   */
+  const saveNewTopic = () => {
+    // // Saving Modifications for the chosen sub topics
+    // trackUserChosenSubTopic.forEach((item) => {
+    //   // Store the item in the chosen list
+    //   chosenSubTopicsList.push(item);
+    //   // remove it from the original list
+    //   subTopicsList.splice(subTopicsList.indexOf(item), 1);
+    // });
+    // trackUserChosenSubTopic.splice(0, trackUserChosenSubTopic.length);
+
+    // // Saving Modifications for the removed sub topics
+    // trackUserRemovedSubTopic.forEach((item) => {
+    //   // return the item to the original list
+    //   subTopicsList.push(item);
+    //   // Remove the item from the chosen list
+    //   ChosenSubTopicsList.splice(ChosenSubTopicsList.indexOf(item), 1);
+    // });
+    // trackUserRemovedSubTopic.splice(0, trackUserRemovedSubTopic.length);
+
+    // Update the counter value
+    setSubTopicsCounter(chosenSubTopicsList.length);
+
+    // closing the edit mode
+    setEditSubTopics(false);
+    setShowSubTopics(false);
+  };
+
+  /**
+   * This Method cancels the unsaved actions that made by the user (moderator)
+   *
+   */
+  const cancelModification = () => {
+    // Canceling Modifications for the chosen sub topics
+    trackUserChosenSubTopic.forEach((item) => {
+      // return the item to the original list
+      subTopicsList.push(item);
+      // remove it from the chosen list
+      chosenSubTopicsList.splice(chosenSubTopicsList.indexOf(item), 1);
+    });
+    trackUserChosenSubTopic.splice(0, trackUserChosenSubTopic.length);
+
+    // Canceling Modifications for the removed sub topics
+    trackUserRemovedSubTopic.forEach((item) => {
+      // return the item to the original list
+      chosenSubTopicsList.push(item);
+      // remove it from the chosen list
+      subTopicsList.splice(chosenSubTopicsList.indexOf(item), 1);
+    });
+    trackUserRemovedSubTopic.splice(0, trackUserRemovedSubTopic.length);
+
+    // Resetting the counter to the old value before editing
+    setSubTopicsCounter(chosenSubTopicsList.length);
+
+    // closing the edit mode
+    setEditSubTopics(false);
+    setShowSubTopics(false);
+  };
+
+  const handleClickOnChosenSubTopic = (e) => {
+    if (editSubTopics) {
+      let value = e.target.innerHTML.trim();
+      const i = chosenSubTopicsList.indexOf(value);
+
+      if (value === 'x') {
+        value = e.target.previousSibling.innerHTML.trim();
+      }
+
+      trackUserRemovedSubTopic.push(value);
+      subTopicsList.push(value);
+      chosenSubTopicsList.splice(i, 1);
+      setSubTopicsCounter(subTopicsCounter - 1);
+      setRerender(!rerender);
+    }
+  };
+
+  return (
+    &lt;Box
+      sx={{
+        marginTop: '16px',
+        paddingTop: '16px'
+      }}
+    >
+      {/* Title */}
+      &lt;HeadingContainer>
+        &lt;Typography
+          variant="h5"
+          sx={{
+            fontWeight: '500',
+            marginBottom: '4px'
+          }}
+        >
+          Community topics
+        &lt;/Typography>
+
+        {/* Info about community topics */}
+        &lt;Box
+          style={{
+            position: 'relative'
+          }}
+        >
+          &lt;BsInfoCircle
+            style={{
+              color: infoIconColor,
+              fontSize: '22px',
+              marginLeft: '5px',
+              paddingBottom: '5px'
+            }}
+            onMouseOver={() => {
+              setInfoIconColor('54b4ff');
+              setShowInfo(true);
+            }}
+            onMouseOut={() => {
+              setInfoIconColor('#aaa');
+              setShowInfo(false);
+            }}
+          />
+          {showInfo ? (
+            &lt;PopupInfo
+              variant="paragraph"
+              onMouseOver={() => {
+                setInfoIconColor('54b4ff');
+                setShowInfo(true);
+              }}
+              onMouseOut={() => {
+                setInfoIconColor('#aaa');
+                setShowInfo(false);
+              }}
+            >
+              Adding community topics allow people to find your community. Add a
+              primary topic and sub topics to be discovered more easily.
+            &lt;/PopupInfo>
+          ) : null}
+        &lt;/Box>
+      &lt;/HeadingContainer>
+
+      {/* List of the topics */}
+      &lt;SelectList
+        sx={{ border: showTopics ? '1px solid black' : 'none' }}
+        onClick={() => {
+          setShowTopics(!showTopics);
+          if (showSubTopics) {
+            setShowSubTopics(false);
+            setEditSubTopics(false);
+          }
+        }}
+      >
+        &lt;Link
+          sx={{
+            textDecoration: 'none',
+            cursor: 'pointer',
+            display: 'inline-block',
+            marginRight: '10px',
+            fontSize: '14px',
+            color: highlightColor,
+            fontWeight: '600'
+          }}
+        >
+          {topicsList[activeTopic]}
+        &lt;/Link>
+
+        &lt;AiOutlineDown
+          fontSize="18px"
+          style={{
+            fontWeight: '600',
+            color: highlightColor
+          }}
+        />
+
+        {/* All topics dropdown list */}
+        {showTopics ? (
+          &lt;TopicDropdownList>
+            {topicsList.map((topic, index) => {
+              return activeTopic === index ? (
+                &lt;SelectListOption
+                  key={`topic-${index}`}
+                  id={index}
+                  variant="paragraph"
+                  sx={{
+                    color: highlightColor,
+                    '&amp;:hover': {
+                      backgroundColor: highlightColor,
+                      color: 'white'
+                    }
+                  }}
+                >
+                  {topic}
+                  &lt;MdDone style={{ marginLeft: '190px' }} />
+                &lt;/SelectListOption>
+              ) : (
+                &lt;SelectListOption
+                  onClick={activateTopic}
+                  key={`topic-${index}`}
+                  id={index}
+                  variant="paragraph"
+                  sx={{
+                    color: 'black',
+                    '&amp;:hover': {
+                      backgroundColor: highlightColor,
+                      color: 'white'
+                    }
+                  }}
+                >
+                  {topic}
+                &lt;/SelectListOption>
+              );
+            })}
+          &lt;/TopicDropdownList>
+        ) : null}
+      &lt;/SelectList>
+
+      {/* List of the sub topics */}
+      &lt;SubTopicsContainer
+        className="community-sub-topics"
+        sx={{
+          '&amp;:hover': {
+            border: `1px solid ${highlightColor}`
+          }
+        }}
+        onClick={() => {
+          if (!editSubTopics) {
+            setEditSubTopics(true);
+            setShowSubTopics(true);
+            if (showTopics) setShowTopics(false);
+          }
+        }}
+      >
+        {/* List of the old sub topics */}
+        {getSubTopicsToShow(editSubTopics).map((subTopic, index) => {
+          return (
+            &lt;SubTopic
+              id={`sub-topic-item-${index}`}
+              key={index}
+              sx={{
+                color: highlightColor,
+                '&amp;:hover': {
+                  backgroundColor: editSubTopics ? baseColor : '#ccc',
+                  color: editSubTopics ? 'white' : highlightColor
+                }
+              }}
+              onClick={handleClickOnChosenSubTopic}
+            >
+              &lt;StylesSpan>{`${subTopic} `}&lt;/StylesSpan>
+              {editSubTopics ? (
+                &lt;span
+                  style={{
+                    color: '#aaa',
+                    width: '5%',
+                    padding: '1px 2px 1px 1px'
+                  }}
+                >
+                  {' '}
+                  x
+                &lt;/span>
+              ) : (
+                ''
+              )}
+            &lt;/SubTopic>
+          );
+        })}
+
+        {!editSubTopics &amp;&amp;
+        chosenSubTopicsList.length - maxNumOfShownSubTopics > 0 ? (
+          &lt;div
+            style={{
+              fontSize: '14px',
+              fontWeight: '400',
+              display: 'inline-block',
+              marginTop: '8px',
+              marginLeft: '4px',
+              padding: '2px',
+              color: highlightColor
+            }}
+          >
+            {`+ ${chosenSubTopicsList.length - maxNumOfShownSubTopics}`}
+          &lt;/div>
+        ) : null}
+
+        {!editSubTopics &amp;&amp; chosenSubTopicsList.length > 0 ? (
+          &lt;div
+            style={{
+              fontSize: '14px',
+              fontWeight: '400',
+              display: 'inline-block',
+              marginTop: '8px',
+              marginLeft: '4px',
+              padding: '2px'
+            }}
+          >
+            &lt;BsPencil fontSize="18px" />
+          &lt;/div>
+        ) : null}
+        &lt;Box />
+
+        {!editSubTopics &amp;&amp; chosenSubTopicsList.length === 0 ? (
+          &lt;SubTopic
+            sx={{
+              color: highlightColor,
+              padding: '5px 5px 8px 5px',
+              fontWeight: '500',
+              '&amp;:hover': {
+                backgroundColor: editSubTopics ? baseColor : '#ccc',
+                color: editSubTopics ? 'white' : highlightColor
+              }
+            }}
+            onClick={handleClickOnChosenSubTopic}
+          >
+            &lt;StylesSpan>
+              &lt;span style={{ fontSize: '18px' }}> + &lt;/span> Add Subtopics
+            &lt;/StylesSpan>
+          &lt;/SubTopic>
+        ) : null}
+
+        {/* Controls (cancel, save) */}
+        {editSubTopics ? (
+          &lt;CancelSaveContainer>
+            &lt;Box
+              color="#7c7c7c"
+              id="topics-counter"
+            >
+              {`${subTopicsCounter}/${maxTopics}`}
+            &lt;/Box>
+            &lt;Box sx={{ float: 'right' }}>
+              &lt;StyledActionButton
+                onClick={cancelModification}
+                sx={{ color: highlightColor }}
+              >
+                Cancel
+              &lt;/StyledActionButton>
+              &lt;StyledActionButton
+                onClick={saveNewTopic}
+                sx={{ color: highlightColor }}
+              >
+                Save
+              &lt;/StyledActionButton>
+            &lt;/Box>
+          &lt;/CancelSaveContainer>
+        ) : null}
+
+        {/* List of the suggested sub topics */}
+        {showSubTopics ? (
+          &lt;SuggestedSubTopicsContainer>
+            {subTopicsList.map((topic, index) => {
+              return (
+                &lt;SuggestedSubTopic
+                  key={`topic-${index}`}
+                  id={index}
+                  variant="paragraph"
+                  sx={{
+                    '&amp;:hover': {
+                      backgroundColor: baseColor,
+                      color: 'white'
+                    }
+                  }}
+                  onClick={choseSubTopic}
+                >
+                  {topic}
+                &lt;/SuggestedSubTopic>
+              );
+            })}
+          &lt;/SuggestedSubTopicsContainer>
+        ) : null}
+      &lt;/SubTopicsContainer>
+    &lt;/Box>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#BackgroundImage">BackgroundImage</a></li><li><a href="global.html#ButtonsContainer">ButtonsContainer</a></li><li><a href="global.html#CancelSaveContainer">CancelSaveContainer</a></li><li><a href="global.html#CardsContainer">CardsContainer</a></li><li><a href="global.html#CardsHeaderContainer">CardsHeaderContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#DropDownMenuContainer">DropDownMenuContainer</a></li><li><a href="global.html#DropDownMenuItem">DropDownMenuItem</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#FlairItem">FlairItem</a></li><li><a href="global.html#FlairItemContainer">FlairItemContainer</a></li><li><a href="global.html#FlairsContainer">FlairsContainer</a></li><li><a href="global.html#HeadingContainer">HeadingContainer</a></li><li><a href="global.html#LogoNameContainer">LogoNameContainer</a></li><li><a href="global.html#LogoNameContent">LogoNameContent</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#MessageModsButton">MessageModsButton</a></li><li><a href="global.html#ModeratorsContainer">ModeratorsContainer</a></li><li><a href="global.html#ModeratorUsername">ModeratorUsername</a></li><li><a href="global.html#NotificationTypesContainer">NotificationTypesContainer</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PopupInfo">PopupInfo</a></li><li><a href="global.html#RuleContainer">RuleContainer</a></li><li><a href="global.html#RuleDescription">RuleDescription</a></li><li><a href="global.html#RulesCardContainer">RulesCardContainer</a></li><li><a href="global.html#RuleTitle">RuleTitle</a></li><li><a href="global.html#SelectList">SelectList</a></li><li><a href="global.html#SelectListOption">SelectListOption</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#ShowRuleDescription">ShowRuleDescription</a></li><li><a href="global.html#SideBarContainer">SideBarContainer</a></li><li><a href="global.html#SingleNotificationTypeContainer">SingleNotificationTypeContainer</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledSubredditName">StyledSubredditName</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#StylesSpan">StylesSpan</a></li><li><a href="global.html#SubredditTitle">SubredditTitle</a></li><li><a href="global.html#SubTopic">SubTopic</a></li><li><a href="global.html#SubTopicsContainer">SubTopicsContainer</a></li><li><a href="global.html#SuggestedSubTopic">SuggestedSubTopic</a></li><li><a href="global.html#SuggestedSubTopicsContainer">SuggestedSubTopicsContainer</a></li><li><a href="global.html#TopicDropdownList">TopicDropdownList</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 03 2022 19:22:30 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

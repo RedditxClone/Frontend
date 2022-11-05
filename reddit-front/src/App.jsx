@@ -42,7 +42,7 @@ const buttons2 = [
 
 function App() {
   // return <HomeCommunitiesCard pic={pic} communities={communities} buttons1={buttons1} buttons2={buttons2} />;
-  return <HomeCreatePostCard />;
+  return <HomeLanguagesCard />;
 }
 
 export default App;

@@ -2,6 +2,7 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import StyledHorizontalLine from '../../utilities/StyledHorizontalLine/StyledHorizontalLine';
 import {
   StyledLink, StyledRowBox, StyledColBox, Root
 } from './HomePageCards.style';
@@ -38,16 +39,12 @@ export default function HomeLanguagesCard() {
               </StyledLink>
             </StyledColBox>
           </StyledRowBox>
-          <Typography
-            variant="h5"
-            sx={{
-              color: '#f7f7f7',
-              marginLeft: '0.5rem',
-              marginBottom: '0.3rem'
-            }}
-          >
-            ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
-          </Typography>
+          <StyledHorizontalLine
+            marginTop={1.6}
+            marginBottom={1.6}
+            marginLeft={0}
+            marginRight={0.7}
+          />
           <StyledRowBox>
             <StyledColBox>
               <StyledLink underline="none">English</StyledLink>
@@ -62,16 +59,12 @@ export default function HomeLanguagesCard() {
               <StyledLink underline="none"> Português</StyledLink>
             </StyledColBox>
           </StyledRowBox>
-          <Typography
-            variant="h5"
-            sx={{
-              color: '#f7f7f7',
-              marginLeft: '0.5rem',
-              marginBottom: '0.3rem'
-            }}
-          >
-            ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
-          </Typography>
+          <StyledHorizontalLine
+            marginTop={1.6}
+            marginBottom={1.6}
+            marginLeft={0}
+            marginRight={0.7}
+          />
           <Typography
             variant="h5"
             sx={{

@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import { RoundedButton, Root } from './HomePageCards.style';
 import redditimage from '../../assets/snoo-small.png';
 import redditCover from '../../assets/2y2pftyz87981.png';
+import StyledHorizontalLine from '../../utilities/StyledHorizontalLine/StyledHorizontalLine';
 
 /**
  * this function returns Create Post Card ,the one that is displayed after the communities card
@@ -74,19 +75,14 @@ export default function HomeCreatePostCard() {
             >
               Your personal Reddit frontpage. Come here to check in with your
               favorite communities.
+              <StyledHorizontalLine
+                marginTop={1.6}
+                marginBottom={1.6}
+                marginLeft={0}
+                marginRight={2}
+              />
             </Typography>
-            <Typography
-              variant="h5"
-              sx={{
-                color: '#f7f7f7',
-                marginLeft: '0.3rem',
-                marginBottom: '0.3rem'
 
-              }}
-            >
-              ــــــــــــــــــــــــــــــــــــــــــــ
-              ــــــــــــــــــــــــــــــــــــــــــــــــــــ
-            </Typography>
             <RoundedButton
               sx={{
                 margin: '1.5rem',
