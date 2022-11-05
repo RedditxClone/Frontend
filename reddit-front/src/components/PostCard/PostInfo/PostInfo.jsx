@@ -23,6 +23,13 @@ import Logo from './test.png';
  * @property {function} divideBigNumber
  */
 
+/**
+ * This Component for the post Info ( post header ) which contains the username that posted the post
+ * , the community of the post, flairs, and the join community button.
+ * Using Redux here for fetching the data of the username and the community.
+ *
+ */
+
 function PostInfo({
   communityName,
   communityId,

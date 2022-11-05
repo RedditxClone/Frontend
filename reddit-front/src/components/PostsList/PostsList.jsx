@@ -9,6 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../../store/slices/PostSlice';
 import PostCard from '../PostCard/PostCard';
 
+/**
+ * This Component for the posts List.
+ * It fetches the api data for the posts, then looping on each post data to display it.
+ *
+ */
+
 export default function PostsList() {
   const dispatch = useDispatch();
 
