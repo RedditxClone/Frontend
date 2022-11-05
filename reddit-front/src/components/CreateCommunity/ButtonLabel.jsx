@@ -2,23 +2,26 @@ import { ThemeProvider, Typography } from '@mui/material';
 import theme from './CreateCommunity.style';
 
 /**
- * A label with icon and text
- * @param {propType} props
- * @returns {Label} - Label defined with text and icon
+ * @description This component is resposinble to render the label connected to a specific button
+ * @param {ReactIcon} icon icon displayed in the label
+ * @param {string} type String represents the type of the community
+ * @param {string} description String in the label which represents
+ * a short brief for each community type
+ * @returns {React.Component} CheckBox with its label
  */
 
-function ButtonLabel(props) {
+function ButtonLabel({ icon, type, description }) {
   return (
     <ThemeProvider theme={theme}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <span style={{ fontSize: '1.5rem' }}>{props.icon}</span>
+        <span style={{ fontSize: '1.5rem' }}>{icon}</span>
         <Typography
           sx={{ margin: '0 0.5rem 0 0.5rem' }}
           variant="h2"
         >
-          {props.type}
+          {type}
         </Typography>
-        <Typography variant="subtitle2">{props.description}</Typography>
+        <Typography variant="subtitle2">{description}</Typography>
       </div>
     </ThemeProvider>
   );
