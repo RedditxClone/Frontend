@@ -2,15 +2,10 @@ import StyledTextField from './InfoIput.style';
 
 /**
  * @description This component is resposinble for styling mui input
- * @typedef PropType
- * @property {number} len
- * @property {string} label
+ * @param {number} len  to set width of input
+ * @param {string} label to set label of input
+ * @returns {React.Component} styled input field
  */
-
-/**
- *
- * @param {PropType}  props
- */
-export default function InfoInput(props) {
-  return <StyledTextField label={props.label} len={props.len} />;
+export default function InfoInput({ len, label }) {
+  return <StyledTextField label={label} len={len} />;
 }
