@@ -1,11 +1,11 @@
 import { Typography } from '@mui/material';
 import SideImage from '../../components/SideImage/SideImage';
-import InfoInput from '../../components/InfoInput/InfoInput';
-import InfoButton from '../../components/InfoButton/InfoButton';
+import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import {
   AllDiv,
   ContentDiv,
-  DotDiv
+  DotDiv,
+  LinkWithMargin
 } from '../../components/GlobalStyles/GlobalStyles.style';
 import {
   RedditImageDiv,
@@ -13,6 +13,7 @@ import {
   ForgetFooterDiv,
   CheckDiv
 } from './ResetPassword.style';
+import InfoButton from '../../components/InfoButton/InfoButton';
 
 export default function ForgetUserPassword() {
   const outLined = true;
@@ -26,19 +27,28 @@ export default function ForgetUserPassword() {
       <SideImage />
       <ContentDiv>
         <RedditImageDiv />
-        <Typography variant="h1">Reset your password</Typography>
+        <Typography variant="h3">Reset your password</Typography>
         <DescriptionDiv>
-          <p>
-            Choose a new password here, then log in to your account.
-          </p>
+          <p>Choose a new password here, then log in to your account.</p>
         </DescriptionDiv>
-        <form action="/resetuserpassword" method="post">
+        <form
+          action="/resetuserpassword"
+          method="post"
+        >
           <DotDiv len={dlen}>
-            <InfoInput id="loginNewPassword" label="new password" len={len} />
+            <LoginInputField
+              id="loginNewPassword"
+              label="new password"
+              len={len}
+            />
             <span className="Dot"> </span>
           </DotDiv>
           <DotDiv len={ulen}>
-            <InfoInput id="loginVerifyPassword" label="verify password" len={len} />
+            <LoginInputField
+              id="loginVerifyPassword"
+              label="verify password"
+              len={len}
+            />
             <span className="Dot"> </span>
           </DotDiv>
           <CheckDiv>
@@ -46,16 +56,34 @@ export default function ForgetUserPassword() {
             <div id="Check">
               Changing your password logs you out of all browsers on your
               <br />
-              device(s). Checking this box also logs you out of all apps you have
+              device(s). Checking this box also logs you out of all apps you
+              have
               <br />
               authorized.
             </div>
           </CheckDiv>
-          <InfoButton outlined={!outLined} len={blen} align="center" hlen={lhlen}>SET PASSWORD</InfoButton>
+          <InfoButton
+            outlined={!outLined}
+            len={blen}
+            align="center"
+            hlen={lhlen}
+          >
+            SET PASSWORD
+          </InfoButton>
           <ForgetFooterDiv>
             <p>
-              <a className="BottomLink" href=" ">LOG IN .</a>
-              <a className="BottomLink" href=" "> SIGN UP</a>
+              <LinkWithMargin
+                className="BottomLink"
+                href=" "
+              >
+                LOG IN
+              </LinkWithMargin>
+              <LinkWithMargin
+                className="BottomLink"
+                href=" "
+              >
+                SIGN UP
+              </LinkWithMargin>
             </p>
           </ForgetFooterDiv>
         </form>

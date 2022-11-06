@@ -1,7 +1,6 @@
 import { Typography } from '@mui/material';
 import SideImage from '../../components/SideImage/SideImage';
-import InfoInput from '../../components/InfoInput/InfoInput';
-import InfoButton from '../../components/InfoButton/InfoButton';
+import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import {
   AllDiv,
   ContentDiv,
@@ -12,6 +11,7 @@ import {
   DescriptionDiv,
   ForgetFooterDiv
 } from './ForgetUserName.style';
+import InfoButton from '../../components/InfoButton/InfoButton';
 
 export default function ForgetUserName() {
   const outLined = true;
@@ -24,7 +24,12 @@ export default function ForgetUserName() {
       <SideImage />
       <ContentDiv>
         <RedditImageDiv />
-        <Typography id="ForgetUserNameTitle" variant="h1">Recover your username</Typography>
+        <Typography
+          id="ForgetUserNameTitle"
+          variant="h3"
+        >
+          Recover your username
+        </Typography>
         <DescriptionDiv>
           <p>
             Tell us the email address associated with your Reddit
@@ -32,23 +37,52 @@ export default function ForgetUserName() {
             account, and we&#8217;ll send you an email with your username.
           </p>
         </DescriptionDiv>
-        <form action="/forgetusername" method="post">
+        <form
+          action="/forgetusername"
+          method="post"
+        >
           <DotDiv len={dlen}>
-            <InfoInput id="loginUserEmail" label="email address" len={len} />
+            <LoginInputField
+              id="loginUserEmail"
+              label="email address"
+              len={len}
+            />
             <span className="Dot"> </span>
           </DotDiv>
-          <InfoButton outlined={!outLined} len={blen} align="center" hlen={lhlen}>EMAIL ME</InfoButton>
+          <InfoButton
+            outlined={!outLined}
+            len={blen}
+            align="center"
+            hlen={lhlen}
+          >
+            EMAIL ME
+          </InfoButton>
           <ForgetFooterDiv>
             <p id="Forget">
               Don&#8217;t have an email or need assistance logging in?
-              <a className="BottomLink" href="https://reddithelp.com/hc/en-us/sections/360008917491-Account-Security"> GET HELP </a>
+              <a
+                className="BottomLink"
+                href="https://reddithelp.com/hc/en-us/sections/360008917491-Account-Security"
+              >
+                {' '}
+                GET HELP
+              </a>
             </p>
             <p>
-              <a className="BottomLink" href=" ">
+              <a
+                className="BottomLink"
+                href=" "
+              >
                 LOG IN
                 <div> .</div>
               </a>
-              <a className="BottomLink" href=" "> SIGN UP</a>
+              <a
+                className="BottomLink"
+                href=" "
+              >
+                {' '}
+                SIGN UP
+              </a>
             </p>
           </ForgetFooterDiv>
         </form>

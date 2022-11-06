@@ -1,5 +1,4 @@
 import { Typography } from '@mui/material';
-// import InfoInput from '../../components/InfoInput/InfoInput';
 import SideImage from '../../components/SideImage/SideImage';
 import InfoButton from '../../components/InfoButton/InfoButton';
 import {
@@ -13,9 +12,10 @@ import {
   ContentDiv,
   UserAggrementDiv,
   DotDiv,
-  StyledFooter
+  StyledFooter,
+  LinkWithMargin
 } from '../../components/GlobalStyles/GlobalStyles.style';
-import LoginInputField from '../../components/loginInputField/LoginInputFiled';
+import LoginInputField from '../../components/LoginInputField/LoginInputField';
 
 export default function Login() {
   const outLined = true;
@@ -26,18 +26,17 @@ export default function Login() {
     <AllDiv>
       <SideImage />
       <ContentDiv>
-        <Typography variant="h1">Log in</Typography>
+        <Typography variant="h3">Log in</Typography>
         <UserAggrementDiv>
           <p>
             By continuing, you agree to our
-            <a href="https://www.redditinc.com/policies/user-agreement">
+            <LinkWithMargin href="https://www.redditinc.com/policies/user-agreement">
               User Agreement
-            </a>
+            </LinkWithMargin>
             and
-            <a href="https://www.reddit.com/policies/privacy-policy">
+            <LinkWithMargin href="https://www.reddit.com/policies/privacy-policy">
               Privacy Policy
-            </a>
-            .
+            </LinkWithMargin>
           </p>
         </UserAggrementDiv>
         <form
