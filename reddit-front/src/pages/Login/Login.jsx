@@ -110,7 +110,7 @@ export default function Login() {
               or
               <a href=" "> password </a>
             </p>
-            <p id="newto">
+            <p id="Newto">
               New to Reddit?
               <a
                 href=" "

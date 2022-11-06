@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PostInteractions/PostInteractions.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PostInteractions/PostInteractions.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/prop-types */
+import { useState, memo } from 'react';
+import './PostInteractions.css';
+
+import { GoComment } from 'react-icons/go';
+import { BsThreeDots, BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
+import { BiHide } from 'react-icons/bi';
+import { TbArrowsCross } from 'react-icons/tb';
+import SmallScreenVoting from '../Voting/SmallScreenVoting/SmallScreenVoting';
+
+/**
+ * @typedef PropType
+ * @property {function} setHidePost
+ * @property {number} commentsCount
+ * @property {function} divideBigNumber
+ * @property {number} votesCount
+ */
+
+/**
+ * This Component for the post's interaction (comment, share, hide, etc).
+ * It just listens to the user interaction and handles it.
+ *
+ */
+
+function PostInteractions({
+  setHidePost,
+  commentsCount,
+  votesCount,
+  divideBigNumber,
+  postId
+}) {
+  // states: false -> normal(unsaved), true  -> saved
+  const [saveState, setSaveState] = useState(false);
+  const handleSavePost = () => {
+    setSaveState((prevSaveState) => !prevSaveState);
+  };
+
+  /* This function shows the dropdown for more interactions on the post */
+  const handleClickMoreInteractions = () => {
+    // showing the dropdown
+    document
+      .getElementById(`interactions-dropdown-${postId}`)
+      .classList.toggle('is-visible');
+  };
+
+  const handleHideButton = () => {
+    setHidePost(true);
+  };
+
+  const getCommentsCount = function () {
+    return commentsCount ? commentsCount.concat(' Comments') : 'No Comments';
+  };
+
+  // Returning the result
+  return (
+    &lt;div
+      className="post-interactions"
+      data-testid="test-post-interactions"
+    >
+      &lt;div className="post-interaction-content">
+        &lt;SmallScreenVoting
+          votesCount={votesCount}
+          divideBigNumber={divideBigNumber}
+        />
+        &lt;a className="post-comment">
+          &lt;GoComment fontSize="18px" />
+          &lt;span className="comments-count">{getCommentsCount()}&lt;/span>
+        &lt;/a>
+        &lt;a
+          className="post-share"
+          data-testid="test-share-post"
+        >
+          &lt;TbArrowsCross fontSize="25px" />
+          &lt;span> cross post&lt;/span>
+        &lt;/a>
+        {!saveState ? (
+          &lt;a
+            onClick={handleSavePost}
+            className="post-save"
+          >
+            &lt;BsBookmark fontSize="18px" />
+            &lt;span> save&lt;/span>
+          &lt;/a>
+        ) : (
+          &lt;a
+            className="post-unsave"
+            onClick={handleSavePost}
+          >
+            &lt;BsFillBookmarkFill fontSize="18px" />
+            &lt;span> unsave&lt;/span>
+          &lt;/a>
+        )}
+
+        &lt;div
+          className="post-more-interactions"
+          data-testid="test-post-more-interactions"
+        >
+          &lt;button
+            type="button"
+            onClick={handleClickMoreInteractions}
+          >
+            &lt;BsThreeDots
+              fontSize="18px"
+              color="#949494"
+            />
+            &lt;div
+              className="interactions-dropdown"
+              id={`interactions-dropdown-${postId}`}
+              data-testid="test-2-interactions-dropdown"
+            >
+              &lt;div
+                className="post-hide"
+                onClick={handleHideButton}
+              >
+                &lt;a>
+                  &lt;BiHide fontSize="25px" />
+                  &lt;span> hide&lt;/span>
+                &lt;/a>
+              &lt;/div>
+              {!saveState ? (
+                &lt;a
+                  onClick={handleSavePost}
+                  className="post-save-2"
+                >
+                  &lt;BsBookmark fontSize="18px" />
+                  &lt;span> save&lt;/span>
+                &lt;/a>
+              ) : (
+                &lt;a
+                  className="post-unsave-2"
+                  onClick={handleSavePost}
+                >
+                  &lt;BsFillBookmarkFill fontSize="18px" />
+                  &lt;span> unsave&lt;/span>
+                &lt;/a>
+              )}
+              &lt;a
+                className="post-share-2"
+                data-testid="test-share-post"
+              >
+                &lt;TbArrowsCross fontSize="25px" />
+                &lt;span> cross post&lt;/span>
+              &lt;/a>
+            &lt;/div>
+          &lt;/button>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+export default memo(PostInteractions);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Oct 31 2022 19:13:40 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

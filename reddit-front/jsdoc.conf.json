@@ -1,0 +1,17 @@
+{
+  "source": {
+    "include": ["src/components/CreateCommunity/"],
+    "includePattern": ".jsx$",
+    "excludePattern": "(node_modules/|docs)"
+  },
+  "plugins": ["plugins/markdown"],
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": true
+  },
+  "opts": {
+    "recurse": true,
+    "destination": "src/documentations/CreateCommunity",
+    "readme": "README.md"
+  }
+}

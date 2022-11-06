@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PostInfo/PostInfo.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PostInfo/PostInfo.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable object-curly-newline */
+/* eslint-disable prefer-template */
+/* eslint-disable consistent-return */
+/* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import './PostInfo.css';
+import { memo, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getPostRelatedCommunityInfo,
+  getPostRelatedUserInfo
+} from '../../../store/slices/PostSlice';
+import Logo from './test.png';
+
+/**
+ * @typedef PropType
+ * @property {number} postId
+ * @property {number} userId
+ * @property {number} communityId
+ * @property {string} communityName
+ * @property {string} postedBy
+ * @property {timestamp} postedAt
+ * @property {function} divideBigNumber
+ */
+
+/**
+ * This Component for the post Info ( post header ) which contains the username that posted the post
+ * , the community of the post, flairs, and the join community button.
+ * Using Redux here for fetching the data of the username and the community.
+ *
+ */
+
+function PostInfo({
+  communityName,
+  communityId,
+  userId,
+  postedBy,
+  postedAt,
+  divideBigNumber,
+  postId
+}) {
+  const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
+  const { postRelatedCommunityData, postRelatedUserData } = useSelector(
+    (state) => state.post
+  );
+
+  const dispatch = useDispatch();
+
+  // Dispatching the action to get the data of subreddit and user that related to the post
+  useEffect(() => {
+    dispatch(getPostRelatedCommunityInfo(communityId));
+    dispatch(getPostRelatedUserInfo(userId));
+    setIsCommunityNameHovered(false);
+  }, [isCommunityNameHovered]);
+
+  /* This function shows the subreddit info while hovering on the subreddit name */
+  const handleHoverOnSubreddit = () => {
+    setIsCommunityNameHovered(true);
+    const communityInformation = document.getElementById(
+      'community-information-post-' + postId
+    );
+
+    communityInformation.style.display = 'block';
+    communityInformation.style.visibility = 'visible';
+  };
+
+  /* This function hides the subreddit info while hovering out the subreddit name */
+  const handleHoverOutSubreddit = () => {
+    const communityInformation = document.getElementById(
+      'community-information-post-' + postId
+    );
+    communityInformation.style.display = 'none';
+    communityInformation.style.visibility = 'hidden';
+  };
+
+  /* This function shows the user info while hovering on the username */
+  const handleHoverOnUsername = () => {
+    const userInformation = document.getElementById(
+      'user-information-post-' + postId
+    );
+    userInformation.style.display = 'block';
+    userInformation.style.visibility = 'visible';
+  };
+
+  /* This function hides the user info while hovering out the username */
+  const handleHoverOutUsername = () => {
+    const userInformation = document.getElementById(
+      'user-information-post-' + postId
+    );
+    userInformation.style.display = 'none';
+    userInformation.style.visibility = 'hidden';
+  };
+
+  /* This function return the subreddit name concatenated with 'r/' */
+  const getCommunityName = function () {
+    return communityName ? 'r/ '.concat(communityName) : 'community_name';
+  };
+
+  /* This function return the username of the person that published the post 'u/' */
+  const getPostedBy = function () {
+    return postedBy ? 'u/ '.concat(postedBy) : 'user_name';
+  };
+
+  /* This function return date at which the post was published */
+  const getPostedAt = function () {
+    return postedAt ? postedAt.concat(' ago') : 'posted_time';
+  };
+
+  // Returning the result
+  return (
+    &lt;div
+      className="post-info"
+      data-testid="test-post-info"
+    >
+      &lt;div
+        className="community-logo"
+        data-testid="test-post-logo"
+      >
+        &lt;a className="community-logo-link">
+          &lt;img
+            src={Logo}
+            alt="community Logo"
+          />
+        &lt;/a>
+      &lt;/div>
+      &lt;div className="post-info-details">
+        &lt;div
+          className="community-name"
+          onMouseOver={handleHoverOnSubreddit}
+          onFocus={handleHoverOnSubreddit}
+          onMouseOut={handleHoverOutSubreddit}
+          onBlur={handleHoverOutSubreddit}
+          data-testid="test-post-community-name"
+        >
+          &lt;a href="#">{getCommunityName()}&lt;/a>
+          &lt;div
+            className="community-information"
+            id={'community-information-post-' + postId}
+          >
+            &lt;div className="community-information-header">
+              &lt;div className="community-logo-2">
+                &lt;img
+                  src={Logo}
+                  alt="community logo"
+                />
+              &lt;/div>
+              &lt;h3 className="community-name-2">
+                &lt;a href="#">{getCommunityName()}&lt;/a>
+              &lt;/h3>
+            &lt;/div>
+            &lt;div className="community-stats">
+              &lt;div className="community-stats-item">
+                &lt;span className="members-count">
+                  {divideBigNumber(postRelatedCommunityData.members_count)}
+                &lt;/span>
+                &lt;span>members&lt;/span>
+              &lt;/div>
+              &lt;div className="community-stats-item">
+                &lt;span className="online-members">
+                  {divideBigNumber(postRelatedCommunityData.online_members)}
+                &lt;/span>
+                &lt;span>online&lt;/span>
+              &lt;/div>
+            &lt;/div>
+            &lt;div className="community-description-text">
+              &lt;p>{postRelatedCommunityData.description}&lt;/p>
+            &lt;/div>
+            &lt;div className="community-view-button">
+              &lt;a
+                href="#"
+                className="view-community"
+              >
+                view community
+              &lt;/a>
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+        &lt;span className="posted-by">Posted by&lt;/span>
+        &lt;div
+          className="post-user-info"
+          onMouseOver={handleHoverOnUsername}
+          onMouseOut={handleHoverOutUsername}
+          onFocus={handleHoverOnUsername}
+          onBlur={handleHoverOutUsername}
+        >
+          &lt;a href="#">{getPostedBy()}&lt;/a>
+          &lt;div
+            className="user-information"
+            id={'user-information-post-' + postId}
+          >
+            &lt;div className="user-information-header">
+              &lt;div className="user-logo-2">
+                &lt;img
+                  src={Logo}
+                  alt="User logo"
+                />
+              &lt;/div>
+              &lt;p className="user-name-2">
+                &lt;a href="#">{postRelatedUserData.name}&lt;/a>
+                &lt;p>
+                  {getPostedBy()}
+                  &lt;span className="user-joined-from">
+                    {postRelatedUserData.joined_at}
+                  &lt;/span>
+                &lt;/p>
+              &lt;/p>
+            &lt;/div>
+            &lt;div className="user-stats">
+              &lt;div className="user-stats-item">
+                &lt;span className="karma-count">
+                  {divideBigNumber(postRelatedUserData.post_karma)}
+                &lt;/span>
+                &lt;span>post karma&lt;/span>
+              &lt;/div>
+              &lt;div className="user-stats-item">
+                &lt;span className="karma-commented">
+                  {divideBigNumber(postRelatedUserData.comment_karam)}
+                &lt;/span>
+                &lt;span>comment karma&lt;/span>
+              &lt;/div>
+            &lt;/div>
+            &lt;div className="user-stats">
+              &lt;div className="user-stats-item">
+                &lt;span className="awardee-karma">
+                  {divideBigNumber(postRelatedUserData.awardee_karam)}
+                &lt;/span>
+                &lt;span>awardee karma&lt;/span>
+              &lt;/div>
+              &lt;div className="user-stats-item">
+                &lt;span className="awarder-karma">
+                  {divideBigNumber(postRelatedUserData.awarded_karma)}
+                &lt;/span>
+                &lt;span>awarder karma&lt;/span>
+              &lt;/div>
+            &lt;/div>
+
+            &lt;div className="follow-user-button">
+              &lt;a
+                href="#"
+                className="view-community"
+              >
+                follow
+              &lt;/a>
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+        &lt;span className="post-time">{getPostedAt()}&lt;/span>
+      &lt;/div>
+      &lt;button
+        type="button"
+        className="join-community"
+      >
+        Join
+      &lt;/button>
+    &lt;/div>
+  );
+}
+
+export default memo(PostInfo);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Oct 31 2022 19:13:40 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

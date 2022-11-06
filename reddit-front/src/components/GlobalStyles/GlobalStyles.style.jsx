@@ -39,13 +39,13 @@ const UserAggrementDiv = styled('div')(
   }
 );
 
-const DotDiv = styled('div')(
+const DotDiv = styled('div')(({ len }) => (
   {
     position: 'relative',
     '& .Dot': {
       position: 'absolute',
       top: '2rem',
-      left: '8rem',
+      left: `${len}rem`,
       width: '.6rem',
       height: '.6rem',
       borderRadius: '3px',
@@ -57,7 +57,7 @@ const DotDiv = styled('div')(
       }
     }
   }
-);
+));
 
 const StyledFooter = styled('footer')(
   {
@@ -79,15 +79,15 @@ const StyledFooter = styled('footer')(
       fontSize: '1.2rem',
       fontWeight: '400',
       lineHeight: '1.8rem',
-      marginTop: '.8rem'
+      marginTop: '1.2rem'
     },
 
     '& #BottomLink': {
       fontFamily: "'IBM Plex Sans',sans-serif",
       fontSize: '1.2rem',
-      fontWeight: '900',
+      fontWeight: '700',
       letterSpacing: '.5px',
-      lineHeight: '2.4rem',
+      lineHeight: '3.2rem',
       textTransform: 'uppercase'
     }
   }

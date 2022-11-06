@@ -1,0 +1,199 @@
+.post-interactions {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  overflow-y: visible;
+  margin-top: 1rem;
+}
+.post-interactions .post-interaction-content {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.6rem;
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  padding: 0 8px 0 4px;
+  flex-grow: 1;
+  margin-bottom: 5px;
+}
+
+.post-interactions .post-comment,
+.post-interactions .post-share,
+.post-interactions .post-save,
+.post-interactions .post-unsave {
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  border-radius: 2px;
+  line-height: 1.6rem;
+  box-sizing: border-box;
+  color: #949494;
+  word-break: normal;
+  position: relative;
+  padding-left: 8px;
+  left: -8px;
+}
+.post-interactions .post-more-interactions {
+  z-index: 1000;
+}
+
+.post-interactions .post-hide button,
+.post-interactions .post-more-interactions button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 4px;
+  margin-top: 3px;
+}
+.post-interactions .post-hide {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.post-interactions .post-more-interactions {
+  position: relative;
+}
+.interactions-dropdown {
+  position: absolute;
+  top: 3.8rem;
+  left: 0px;
+  width: 27rem;
+  border-radius: 5px;
+  display: none;
+  visibility: hidden;
+  background-color: white;
+  border: 1px solid #ccc;
+}
+
+.post-more-interactions .is-visible,
+.post-share .is-visible {
+  display: block;
+  visibility: visible;
+}
+
+.interactions-dropdown .hide-button {
+  display: inline-block;
+  width: 95%;
+  color: black;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 6px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.post-comment .comments-count,
+.post-share span {
+  display: inline-block;
+  line-height: 1;
+  text-transform: capitalize;
+  vertical-align: middle;
+  padding: 6px 4px 8px 4px;
+  font-size: 14px;
+}
+
+.post-interactions .post-unsave span,
+.post-interactions .post-save span,
+.post-interactions .post-hide span,
+.post-interactions .post-share-2 span,
+.post-interactions .post-save-2 span,
+.post-interactions .post-unsave-2 span {
+  display: inline-block;
+  text-transform: capitalize;
+  vertical-align: middle;
+  font-size: 1.4rem;
+  margin-left: 5px;
+  font-weight: 700;
+  padding: 2px 4px;
+}
+.post-interactions .post-share-2 span,
+.post-interactions .post-save-2 span,
+.post-interactions .post-unsave-2 span {
+  padding-bottom: 8px;
+}
+.post-interactions .post-share-2 svg,
+.post-interactions .post-save-2 svg,
+.post-interactions .post-unsave-2 svg {
+  margin-top: 5px;
+}
+
+.post-interactions .post-hide:hover,
+.post-interactions .post-share:hover,
+.post-interactions .post-comment:hover,
+.post-interactions .post-save:hover,
+.post-interactions .post-unsave:hover,
+.post-interactions .post-more-interactions:hover,
+.post-interactions .post-share-2:hover,
+.post-interactions .post-unsave-2:hover,
+.post-interactions .post-save-2:hover {
+  background-color: #e8e8e8ed;
+}
+.post-interactions .post-hide a,
+.post-interactions .post-share a,
+.post-interactions .post-share-2,
+.post-interactions .post-save-2,
+.post-interactions .post-unsave-2 {
+  display: inline-block;
+  text-align: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding: 1rem 5px;
+  color: #bfc0c1;
+}
+.post-interactions .post-hide span {
+  margin-bottom: 0;
+}
+.post-interactions .post-hide a:hover,
+.post-interactions .post-share a:hover,
+.post-interactions .post-save a:hover,
+.post-interactions .post-share-2:hover,
+.post-interactions .post-unsave-2:hover,
+.post-interactions .post-save-2:hover {
+  color: black;
+}
+
+.post-interactions .is-voting-visible {
+  display: block;
+  visibility: visible;
+}
+#small-voting {
+  display: none;
+  visibility: hidden;
+}
+
+.post-interactions .post-save-2,
+.post-interactions .post-unsave-2,
+.post-interactions .post-share-2 {
+  display: none;
+  visibility: hidden;
+}
+
+@media (max-width: 640px) {
+  .post-interactions .interactions-dropdown {
+    width: 150px;
+  }
+  .post-interactions .post-save-2,
+  .post-interactions .post-unsave-2,
+  .post-interactions .post-share-2 {
+    display: block;
+    visibility: visible;
+  }
+  .post-interactions .post-share,
+  .post-interactions .post-save,
+  .post-interactions .post-unsave {
+    display: none;
+    visibility: hidden;
+  }
+  .post-interactions .post-more-interactions button {
+    padding-top: 0.8rem;
+  }
+}
+@media (max-width: 420px) {
+  .post-interactions .post-more-interactions button {
+    padding-top: 0.8rem;
+  }
+}

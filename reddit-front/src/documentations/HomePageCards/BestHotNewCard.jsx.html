@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: BestHotNewCard.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: BestHotNewCard.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable eqeqeq */
+import Box from '@mui/material/Box';
+import { BsThreeDots } from 'react-icons/bs';
+import { IoMdRocket } from 'react-icons/io';
+import { HiOutlineChevronDown } from 'react-icons/hi';
+import { HiOutlineArrowTrendingUp } from 'react-icons/hi2';
+import { AiOutlineToTop, AiOutlineStar, AiOutlineFire } from 'react-icons/ai';
+import { useState } from 'react';
+import Menu from '@mui/material/Menu';
+import {
+  StyledButton,
+  CreatePostCardRoot,
+  StyledBox,
+  StyledMenuItem
+} from './HomePageCards.style';
+/**
+ * @typedef {PropType} states
+ * @property {object} anchorEl
+ * @property {string} clickedItem Today Button Menu Clicked Item
+ * @property {Number} clickedButton
+ * @property {Boolean} open
+ */
+/**
+ * this function returns Best Hot New Top Card In the Home Screen
+ * @param {PropType} states
+ */
+
+export default function BestHotNewCard() {
+  const [clickedButton, setClickedButton] = useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [clickedItem, setClickedItem] = useState('Today');
+  const open = Boolean(anchorEl);
+  /**
+   * opens the Rising Menu */
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  /**
+   * closes the Rising Menu */
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const [anchorElTodayMenu, setAnchorElTodayMenu] = useState(null);
+  const openTodayMenu = Boolean(anchorElTodayMenu);
+  /**
+   * opens the Today Menu */
+  const handleClickTodayMenu = (event) => {
+    setAnchorElTodayMenu(event.currentTarget);
+  };
+  /**
+   * closes the Today Menu */
+  const handleCloseTodayMenu = (clicked) => {
+    if (clicked == null) { console.log(' Error'); }
+    if (clicked != null) {
+      setClickedItem(clicked);
+      console.log('No Error');
+    }
+    setAnchorElTodayMenu(null);
+  };
+  /**
+   * handels clicks on buttons */
+  const buttonClickedHandler = (clicked) => {
+    setClickedButton(clicked);
+  };
+
+  return (
+    &lt;CreatePostCardRoot>
+
+      &lt;StyledBox sx={{ justifyContent: 'flex-start' }}>
+        &lt;StyledButton
+          sx={{
+            color: clickedButton == 0 ? '#1976d2 !important' : '#9DA0A1',
+            backgroundColor:
+              clickedButton == 0 ? '#F7f8f9 !important' : '#ffffff'
+          }}
+          variant="text"
+          onClick={() => buttonClickedHandler(0)}
+        >
+          &lt;IoMdRocket
+            size={28}
+            color={clickedButton == 0 ? '#1976d2 ' : '#9DA0A1'}
+          />
+          &amp;nbsp;Best
+        &lt;/StyledButton>
+        &lt;StyledButton
+          sx={{
+            color: clickedButton == 1 ? '#1976d2 !important' : '#9DA0A1',
+            backgroundColor:
+              clickedButton == 1 ? '#F7f8f9 !important' : '#ffffff'
+          }}
+          variant="text"
+          onClick={() => buttonClickedHandler(1)}
+        >
+          &lt;AiOutlineFire
+            size={28}
+            color={clickedButton == 1 ? '#1976d2 ' : '#9DA0A1'}
+          />
+          &amp;nbsp;Hot
+        &lt;/StyledButton>
+        &lt;StyledButton
+          sx={{
+            color: clickedButton == 2 ? '#1976d2 !important' : '#9DA0A1',
+            backgroundColor:
+              clickedButton == 2 ? '#F7f8f9 !important' : '#ffffff'
+          }}
+          variant="text"
+          onClick={() => buttonClickedHandler(2)}
+        >
+          &lt;AiOutlineStar
+            size={28}
+            color={clickedButton == 2 ? '#1976d2 ' : '#9DA0A1'}
+          />
+          &amp;nbsp;New
+        &lt;/StyledButton>
+        &lt;StyledButton
+          sx={{
+            color: clickedButton == 3 ? '#1976d2 !important' : '#9DA0A1',
+            backgroundColor:
+              clickedButton == 3 ? '#F7f8f9 !important' : '#ffffff'
+          }}
+          variant="text"
+          onClick={() => buttonClickedHandler(3)}
+        >
+          &lt;AiOutlineToTop
+            size={28}
+            color={clickedButton == 3 ? '#1976d2 ' : '#9DA0A1'}
+          />
+          &amp;nbsp;Top
+        &lt;/StyledButton>
+        {clickedButton == 3 ? (
+          &lt;>
+            &lt;StyledButton
+              sx={{
+                color: '#1976d2 !important',
+                backgroundColor: '#F7f8f9 !important'
+              }}
+              variant="text"
+              id="basic-buttonTodayMenu"
+              aria-controls={openTodayMenu ? 'basic-menuTodayMenu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={openTodayMenu ? 'true' : undefined}
+              onClick={handleClickTodayMenu}
+              data-testid="today_button"
+            >
+            &amp;nbsp;
+              {clickedItem}
+              &lt;HiOutlineChevronDown
+                size={24}
+                color="#1976d2 "
+              />
+            &lt;/StyledButton>
+            &lt;Menu
+              id="basic-menuTodayMenu"
+              anchorEl={anchorElTodayMenu}
+              open={openTodayMenu}
+              onClose={handleCloseTodayMenu}
+              MenuListProps={{
+                'aria-labelledby': 'basic-buttonTodayMenu'
+              }}
+            >
+              &lt;Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                &lt;StyledMenuItem onClick={() => handleCloseTodayMenu('Now')}>
+                  Now
+                &lt;/StyledMenuItem>
+                &lt;StyledMenuItem data-testid="today_menu_item" onClick={() => handleCloseTodayMenu('Today')}>
+                  Today
+                &lt;/StyledMenuItem>
+                &lt;StyledMenuItem onClick={() => handleCloseTodayMenu('This Week')}>
+                  This Week
+                &lt;/StyledMenuItem>
+                &lt;StyledMenuItem onClick={() => handleCloseTodayMenu('This Month')}>
+                  This Month
+                &lt;/StyledMenuItem>
+                &lt;StyledMenuItem onClick={() => handleCloseTodayMenu('This Year')}>
+                  This Year
+                &lt;/StyledMenuItem>
+                &lt;StyledMenuItem onClick={() => handleCloseTodayMenu('All Time')}>
+                  All Time
+                &lt;/StyledMenuItem>
+              &lt;/Box>
+            &lt;/Menu>
+          &lt;/>
+
+        ) : null}
+
+        &lt;StyledButton
+          variant="text"
+          id="basic-button"
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+          data-testid="rising_button"
+        >
+          &lt;BsThreeDots size={24} color="#9DA0A1" />
+        &lt;/StyledButton>
+        &lt;Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button'
+          }}
+        >
+          &lt;StyledMenuItem onClick={handleClose} data-testid="rising">
+            &lt;HiOutlineArrowTrendingUp size={25} />
+            {' '}
+&amp;nbsp; Rising
+          &lt;/StyledMenuItem>
+        &lt;/Menu>
+      &lt;/StyledBox>
+    &lt;/CreatePostCardRoot>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CreatePostCardRoot">CreatePostCardRoot</a></li><li><a href="global.html#OverButton">OverButton</a></li><li><a href="global.html#Root">Root</a></li><li><a href="global.html#RoundedButton">RoundedButton</a></li><li><a href="global.html#StyledBox">StyledBox</a></li><li><a href="global.html#StyledButton">StyledButton</a></li><li><a href="global.html#StyledColBox">StyledColBox</a></li><li><a href="global.html#StyledLink">StyledLink</a></li><li><a href="global.html#StyledMenuItem">StyledMenuItem</a></li><li><a href="global.html#StyledRowBox">StyledRowBox</a></li><li><a href="global.html#StyledTextField">StyledTextField</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Nov 04 2022 19:47:51 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

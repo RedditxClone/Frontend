@@ -1,0 +1,69 @@
+div.voting-container {
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: 0;
+  padding: 8px 4px 8px 0;
+  background-color: #f8f9fa;
+  text-align: center;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+div.voting-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.voting-container .up-vote-icon,
+.voting-container .down-vote-icon {
+  display: inline-block;
+  height: 100%;
+  font-size: 16px;
+  line-height: 24px;
+  color: #878a8c;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.1s ease-in;
+  width: 24px;
+  height: 24px;
+}
+.voting-container .up-vote-icon:hover,
+.voting-container .down-vote-icon:hover {
+  background-color: #dae0e6;
+}
+.voting-container .up-vote-icon:hover.up-vote-icon svg {
+  fill: #ff6830 !important;
+}
+.voting-container .down-vote-icon:hover.down-vote-icon svg {
+  fill: #0272c4 !important;
+}
+.up-vote-icon svg,
+.down-vote-icon svg {
+  transition: all 0.1s ease-in;
+}
+
+.voting-container .votes-count {
+  display: inline-block;
+  color: #1a1a1b;
+  margin: 4px 0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+  width: 40px;
+}
+
+@media (max-width: 970px) {
+  div.voting-container {
+    width: 8%;
+  }
+}
+
+@media (max-width: 640px) {
+  div.voting-container {
+    display: none;
+    visibility: hidden;
+  }
+}
