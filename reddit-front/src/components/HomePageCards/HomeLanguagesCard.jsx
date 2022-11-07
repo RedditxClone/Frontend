@@ -1,10 +1,9 @@
 /* eslint-disable max-len */
-import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import StyledHorizontalLine from '../../utilities/StyledHorizontalLine/StyledHorizontalLine';
 import {
-  StyledLink, StyledRowBox, StyledColBox, Root
+  StyledLink, StyledRowBox, StyledColBox, Root, StyledCard
 } from './HomePageCards.style';
 /**
  * this function returns Langues and policy Card ,the one that is displayed in the home screen
@@ -12,7 +11,7 @@ import {
 export default function HomeLanguagesCard() {
   return (
     <Root>
-      <Card sx={{ padding: '1rem', maxWidth: 345 }}>
+      <StyledCard elevation={0}>
         <CardContent
           sx={{
             padding: '0',
@@ -79,7 +78,7 @@ export default function HomeLanguagesCard() {
           </Typography>
 
         </CardContent>
-      </Card>
+      </StyledCard>
     </Root>
   );
 }
