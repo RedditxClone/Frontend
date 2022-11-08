@@ -45,6 +45,7 @@ const AlphaStyledDiv = styled('div')(
     backgroundColor: '#FFFFFF',
     border: '1px solid #ccc',
     borderRadius: '4px',
+    marginTop: '20px',
     fontFamily: 'inherit',
     '#AlphaCardTitle': {
       fontSize: '14px',
@@ -68,4 +69,16 @@ const AlphaStyledDiv = styled('div')(
     }
   }
 );
-export { AlphaStyledDiv, StyledCategoryiesBody, CategoryHeader };
+const StyledSideCards = styled('div')(
+  {
+    marginLeft: '24px',
+    display: 'flex',
+    flexDirection: 'column'
+  }
+);
+export {
+  AlphaStyledDiv,
+  StyledCategoryiesBody,
+  CategoryHeader,
+  StyledSideCards
+};

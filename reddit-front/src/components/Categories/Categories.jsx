@@ -1,10 +1,17 @@
 // import React from 'react'
 import { useState } from 'react';
 import SideList from '../SideList/SideList';
-import { StyledCategoryiesBody, CategoryHeader } from './Categories.style';
+import { StyledCategoryiesBody, CategoryHeader, StyledSideCards } from './Categories.style';
 import AlphabeticCard from './AlphabeticCard';
+import CategoriesCard from './CategoriesCard';
+import HomeCommunitiesCard from '../HomePageCards/HomeCommunitiesCard';
 
-export default function CategoriesPage() {
+export default function CategoriesPage({
+  communities,
+  buttonText,
+  buttons,
+  pic
+}) {
   const [button, buttonState] = useState({
     title: 'Show More',
     showMore: false,
@@ -40,7 +47,21 @@ export default function CategoriesPage() {
       </CategoryHeader>
       <StyledCategoryiesBody>
         <SideList arr={button.listItems} listHeader="Categories" buttonTitle={button.title} click={buttonHandler}> </SideList>
-        <AlphabeticCard />
+        <CategoriesCard
+          communities={communities}
+          topText="Sports"
+        />
+        <StyledSideCards>
+          <HomeCommunitiesCard
+            buttons1={buttons}
+            buttons2={buttons}
+            pic={pic}
+            communities={communities}
+            homePageCard={false}
+            buttonText={buttonText}
+          />
+          <AlphabeticCard />
+        </StyledSideCards>
       </StyledCategoryiesBody>
     </div>
   );
