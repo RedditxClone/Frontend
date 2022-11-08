@@ -2,6 +2,8 @@
 import HomeCommunitiesCard from "./components/HomePageCards/HomeCommunitiesCard";
 import pic from "./assets/Images/1166721.jpg";
 import HomeCreatePostCard from "./components/HomePageCards/HomeCreatePostCard";
+import CategoriesPage from "./components/Categories/Categories";
+import { BrowserRouter, Route } from 'react-router-dom';
 const communities = [
   {
     name: "My Community",
@@ -45,14 +47,15 @@ const buttonText = "See All Health&Fit";
 function App() {
   // return <HomeCreatePostCard />
   return (
-    <HomeCommunitiesCard
-      buttons1={buttons1}
-      buttons2={buttons1}
-      pic={pic}
-      communities={communities}
-      homePageCard={false}
-      buttonText={buttonText}
-    />
+    // <HomeCommunitiesCard
+    //   buttons1={buttons1}
+    //   buttons2={buttons1}
+    //   pic={pic}
+    //   communities={communities}
+    //   homePageCard={false}
+    //   buttonText={buttonText}
+    // />
+    <CategoriesPage/>
   );
 }
 
