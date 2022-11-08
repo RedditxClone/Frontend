@@ -2,6 +2,8 @@
 import HomeCommunitiesCard from "./components/HomePageCards/HomeCommunitiesCard";
 import pic from "./assets/Images/1166721.jpg";
 import HomeCreatePostCard from "./components/HomePageCards/HomeCreatePostCard";
+import CreatePostCard from "./components/HomePageCards/CreatePostCard";
+import BestHotNewCard from "./components/HomePageCards/BestHotNewCard";
 const communities = [
   {
     name: "My Community",
@@ -43,17 +45,17 @@ const communities = [
 const buttons1 = ["Top", "Gaming", "Near You"];
 const buttonText = "See All Health&Fit";
 function App() {
-  // return <HomeCreatePostCard />
-  return (
-    <HomeCommunitiesCard
-      buttons1={buttons1}
-      buttons2={buttons1}
-      pic={pic}
-      communities={communities}
-      homePageCard={false}
-      buttonText={buttonText}
-    />
-  );
+  return <BestHotNewCard />
+  // return (
+  //   <HomeCommunitiesCard
+  //     buttons1={buttons1}
+  //     buttons2={buttons1}
+  //     pic={pic}
+  //     communities={communities}
+  //     homePageCard={false}
+  //     buttonText={buttonText}
+  //   />
+  // );
 }
 
 export default App;

@@ -120,7 +120,7 @@ export const OverButton = styled(Button)({
  */
 
 export const StyledButton = styled(Button)({
-  fontSize: '1.6rem',
+  fontSize: '1.4rem',
   borderRadius: '20px',
   margin: '0.2rem',
   borderColor: '#DAE0E6',
@@ -129,7 +129,8 @@ export const StyledButton = styled(Button)({
   ':hover': {
     backgroundColor: '#EDEDED',
     cursor: 'pointer'
-  }
+  },
+  lineHeight: '17px'
 });
 
 /**
@@ -176,4 +177,24 @@ export const CreatePostCardRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     width: '95%'
   }
+}));
+
+export const CreatePostCardButtonsRoot = styled('div')(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    display: 'none'
+  },
+  [theme.breakpoints.up('sm')]: {
+    display: 'block'
+  }
+
+}));
+
+export const CreatePostCardOneButtonRoot = styled('div')(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    display: 'block'
+  },
+  [theme.breakpoints.up('sm')]: {
+    display: 'none'
+  }
+
 }));
