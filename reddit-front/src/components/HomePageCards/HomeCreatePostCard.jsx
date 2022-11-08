@@ -14,7 +14,7 @@ import StyledHorizontalLine from '../../utilities/StyledHorizontalLine/StyledHor
 export default function HomeCreatePostCard() {
   return (
     <Root>
-      <StyledCard elevation={0}>
+      <StyledCard sx={{ maxWidth: 345 }} elevation={0}>
 
         <CardMedia
           component="img"

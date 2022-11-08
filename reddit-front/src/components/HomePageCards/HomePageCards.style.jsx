@@ -159,7 +159,7 @@ export const LargeRoundedButton = styled(RoundedButton)({
 });
 
 export const StyledCard = styled(Card)({
-  padding: '0', maxWidth: 345, border: '1px solid #1a1a1b12', borderRadius: '5px'
+  padding: '0', border: '1px solid #1a1a1b12', borderRadius: '5px'
 });
 /**
  * Responsively changing the width of the Create Post Card
