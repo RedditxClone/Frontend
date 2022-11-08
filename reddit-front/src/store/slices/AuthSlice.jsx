@@ -4,32 +4,45 @@ const INITIAL_STATE = {
   user: {},
   isAuth: false,
   isLoading: false,
-  error: '',
+  error: null,
   mess: ''
 };
 
-export const signUp = createAsyncThunk('user/signup', async (body) => {
-  const res = await fetch('/auth/api/signup', {
-    method: 'post',
-    body: JSON.stringify(body),
-    headers: {
-      'content-type': 'application/json'
+export const SignUp = createAsyncThunk(
+  'user/signup',
+  async (user, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await fetch('/auth/api/signup', {
+        method: 'post',
+        body: JSON.stringify(user),
+        headers: {
+          'content-type': 'application/json'
+        }
+      });
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.message);
     }
-  });
-  const json = await res.json();
-  return json;
-});
+  }
+);
 
-export const signIn = createAsyncThunk('user/signin', async (body) => {
-  const res = await fetch('/auth/api/signin', {
-    method: 'post',
-    body: JSON.stringify(body),
-    headers: {
-      'content-type': 'application/json'
-    }
-  });
-  const json = await res.json();
-  return json;
+export const LogIn = createAsyncThunk('user/login', async (user, thunkAPI) => {
+  const { rejectWithValue } = thunkAPI;
+  try {
+    const res = await fetch('/auth/api/login', {
+      method: 'post',
+      body: JSON.stringify(user),
+      headers: {
+        'content-type': 'application/json'
+      }
+    });
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
 });
 
 export const forgetUserName = createAsyncThunk(
@@ -82,18 +95,35 @@ const AuthSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {},
   extraReducers: {
-    [signUpUser.fulfilled]: (state, action) => {
+    [SignUp.pending]: (state) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [SignUp.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isAuth = false;
+      state.error = action.payload;
+    },
+    [SignUp.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.user = action.payload;
       state.isAuth = true;
+      state.error = null;
     },
-    [signUpUser.rejected]: (state, action) => {
+    [LogIn.pending]: (state) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [LogIn.rejected]: (state, action) => {
       state.isLoading = false;
       state.isAuth = false;
-      state.error = action.payload.error.message;
+      state.error = action.payload;
     },
-    [signUpUser.pending]: (state) => {
-      state.isLoading = true;
+    [LogIn.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.user = action.payload;
+      state.isAuth = true;
+      state.error = null;
     }
   }
 });

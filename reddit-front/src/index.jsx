@@ -1,12 +1,60 @@
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Store } from './store/Store';
-import App from './App';
 import './index.css';
+
+// Components
+import HomePage from './pages/HomePage/HomePage';
+import Login from './pages/Login/Login';
+import DefaultUserPage from './pages/DefaultUserPage/DefaultUserPage';
+import SignUp from './pages/SignUp/SignUp';
+import ForgetUserName from './pages/ForgetUserName/ForgetUserName';
+import ForgetUserPassword from './pages/ForgetUserPassword/ForgetUserPassword';
+import ResetPassword from './pages/ResetPassword/ResetPassword';
+import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
+
+// Routes
+const routes = createBrowserRouter([
+  {
+    path: '/',
+    element: <HomePage />
+  },
+  {
+    path: '/user/',
+    element: <DefaultUserPage />,
+    children: [
+      {
+        path: 'login',
+        element: <Login />
+      },
+      {
+        path: 'signup',
+        element: <SignUp />
+      },
+      {
+        path: 'forgetuname',
+        element: <ForgetUserName />
+      },
+      {
+        path: 'forgetupassword',
+        element: <ForgetUserPassword />
+      },
+      {
+        path: 'resetupassword',
+        element: <ResetPassword />
+      }
+    ]
+  },
+  {
+    path: '/chooseuname',
+    element: <ChooseUserName />
+  }
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={Store}>
-    <App />
+    <RouterProvider router={routes} />
   </Provider>
 );

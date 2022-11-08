@@ -39,6 +39,7 @@ const UserAggrementDiv = styled('div')({
 
 const DotDiv = styled('div')(({ len }) => ({
   position: 'relative',
+  marginBottom: '1.5rem',
   '& .Dot': {
     position: 'absolute',
     top: '2rem',
