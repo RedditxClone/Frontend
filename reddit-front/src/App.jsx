@@ -59,7 +59,7 @@ const buttonText = "See All Health&Fit";
 function App() {
   // return <HomeCreatePostCard />
   return (
-    <CategoriesPage communities={communities} buttonText={buttonText} buttons={buttons1} pic={pic}/>
+    <CategoriesPage buttonText={buttonText} buttons={buttons1} pic={pic}/>
   );
   // return <HomeCommunitiesCard 
   // pic={pic}

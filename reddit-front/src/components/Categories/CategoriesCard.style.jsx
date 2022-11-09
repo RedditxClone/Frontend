@@ -13,7 +13,8 @@ export const CategoriesCardBar = styled(Box)({
               display: "flex",
               justifyContent: "space-between",
               border:' 2px solid #Edeff1',
-              top:'0px',
+              top:'110px',
               zIndex:'2',
-              width:'calc(59% - 2px)'
+              width:'calc(48.3% - 2px)',
+              // flexGrow: '2'
   });

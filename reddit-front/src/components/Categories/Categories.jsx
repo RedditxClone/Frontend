@@ -1,9 +1,10 @@
 // import React from 'react'
 import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import SideList from '../SideList/SideList';
 import { StyledCategoryiesBody, CategoryHeader, StyledSideCards } from './Categories.style';
-import AlphabeticCard from './AlphabeticCard';
-import CategoriesCard from './CategoriesCard';
+// import AlphabeticCard from './AlphabeticCard';
+// import CategoriesCard from './CategoriesCard';
 import HomeCommunitiesCard from '../HomePageCards/HomeCommunitiesCard';
 
 export default function CategoriesPage({
@@ -15,8 +16,9 @@ export default function CategoriesPage({
   const [button, buttonState] = useState({
     title: 'Show More',
     showMore: false,
-    listItems: ['Moderating', 'All Communities', 'Near You', 'Sports', 'Gamimg', 'News', 'Tv', 'Aww', 'Memes', 'Pics & Gifs', 'Travel', 'Tech']
+    listItems: ['Moderating', 'All Communities', 'Near You', 'Sports', 'Gamimg', 'News', 'TV', 'Aww', 'Memes', 'Pics & Gifs', 'Travel', 'Tech']
   });
+  const listLinks = ['moderating', '/', 'near-you', 'sports', 'gaming', 'news', 'tv', 'aww', 'memes', 'pics_and_gifs', 'travel', 'tech', 'music', 'art_and_design', 'beauty', 'books_and_writing', 'crypto', 'discussion', 'e3', 'fashion', 'finance_and_business', 'food', 'health_and_fitness', 'learning', 'mindblowing', 'outdoors', 'parenting', 'photography', 'relationships', 'science', 'videos', 'vroom', 'wholesome'];
   const buttonHandler = () => {
     let showedList = ['Moderating', 'All Communities', 'Near You', 'Sports', 'Gamimg', 'News', 'Tv', 'Aww', 'Memes', 'Pics & Gifs', 'Travel', 'Tech'];
     if (button.showMore) {
@@ -46,11 +48,8 @@ export default function CategoriesPage({
         </span>
       </CategoryHeader>
       <StyledCategoryiesBody>
-        <SideList arr={button.listItems} listHeader="Categories" buttonTitle={button.title} click={buttonHandler}> </SideList>
-        <CategoriesCard
-          communities={communities}
-          topText="Sports"
-        />
+        <SideList arr={button.listItems} links={listLinks} listHeader="Categories" buttonTitle={button.title} click={buttonHandler}> </SideList>
+        <Outlet />
         <StyledSideCards>
           <HomeCommunitiesCard
             buttons1={buttons}
@@ -60,7 +59,7 @@ export default function CategoriesPage({
             homePageCard={false}
             buttonText={buttonText}
           />
-          <AlphabeticCard />
+          {/* <AlphabeticCard /> */}
         </StyledSideCards>
       </StyledCategoryiesBody>
     </div>
