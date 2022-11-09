@@ -56,8 +56,8 @@ const communities = [
   }
 ];
 
-const buttons1 = ['Top', 'Gaming', 'Near You'];
-const buttonText = 'See All Health&Fit';
+const buttons1 = ['Top', 'Food', 'Near You'];
+const buttonText = 'Food';
 
 const routes = createBrowserRouter([
   {
