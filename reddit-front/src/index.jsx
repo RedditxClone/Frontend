@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import CategoriesPage from './components/Categories/Categories';
 import CategoriesCard from './components/Categories/CategoriesCard';
 import pic from './assets/Images/1166721.jpg';
+// import CommunityHoverCard from './components/Categories/CommunityHoverCard';
 // import { Store } from './store/Store';
 // import App from './App';
 import './index.css';
@@ -16,7 +17,10 @@ const communities = [
     goingDown: false,
     rank: 1,
     joined: false,
-    userCommunity: false
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
   },
   {
     name: 'My Community',
@@ -25,7 +29,10 @@ const communities = [
     goingDown: true,
     rank: 1,
     joined: false,
-    userCommunity: true
+    userCommunity: true,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
   },
   {
     name: 'My Community',
@@ -34,7 +41,10 @@ const communities = [
     goingDown: true,
     rank: 1,
     joined: false,
-    userCommunity: true
+    userCommunity: true,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
   },
   {
     name: 'My Community',
@@ -43,7 +53,10 @@ const communities = [
     goingDown: false,
     rank: 1,
     joined: false,
-    userCommunity: false
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
   },
   {
     name: 'My Community',
@@ -52,7 +65,10 @@ const communities = [
     goingDown: false,
     rank: 1,
     joined: false,
-    userCommunity: false
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
   }
 ];
 
@@ -75,6 +91,7 @@ const routes = createBrowserRouter([
       {
         index: true,
         element: (
+          // <CommunityHoverCard community={communities[0]} />
           <CategoriesCard
             communities={communities}
             topText=" Communities"

@@ -22,7 +22,7 @@ import {
 } from "../HomePageCards/HomePageCards.style";
 import { CategoriesCardBar } from "./CategoriesCard.style";
 import { useState } from "react";
-
+import CommunityHoverCard from './CommunityHoverCard';
 export const CategorieRoot = styled('div')(({ theme }) => ({
     
     [theme.breakpoints.down('lg')]: {
@@ -109,6 +109,7 @@ export default function CategoriesCard({
                     ) : null}
                     <ListItemAvatar sx={{ paddingLeft: "0.5rem" }}>
                       <Avatar alt={community.name} src={community.picture} />
+                      {/* <span style={{display:'none',position:'relative',width:'100px',height:'100px','&:hover':{display:'block'}}}><CommunityHoverCard community={communities[0]}/></span> */}
                     </ListItemAvatar>
                     <ListItemText
                       sx={{
