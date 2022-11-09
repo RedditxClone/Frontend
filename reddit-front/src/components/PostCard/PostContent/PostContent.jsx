@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable prefer-const */
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
@@ -7,7 +9,9 @@
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
 import PostInteractions from '../PostInteractions/PostInteractions';
+import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
+import { divideBigNumber } from '../../../utilities/Helpers';
 import Logo from './test.png';
 /**
  * @typedef PropType
@@ -17,6 +21,8 @@ import Logo from './test.png';
  * @property {string} title
  * @property {string} flair_name
  * @property {mixed} content
+ * @property {bool} isCommunityPost
+ * @property {bool} isModeratorMode
  */
 
 /**
@@ -34,34 +40,7 @@ import Logo from './test.png';
 function PostContent(props) {
   let postContent = null;
   let slideIndex = 0;
-
-  const showSlides = () => {
-    const slides = document.getElementsByClassName('my-slides');
-    const slidesLength = slides.length;
-    if (slideIndex === slidesLength) {
-      slideIndex = 0;
-    }
-    if (slideIndex < 0) {
-      slideIndex = slidesLength - 1;
-    }
-
-    let i;
-    for (i = 0; i < slidesLength; i += 1) {
-      slides[i].style.display = 'none';
-    }
-    if (slides[slideIndex] != null) {
-      slides[slideIndex].style.display = 'block';
-    }
-  };
-
-  const nextSlide = () => {
-    slideIndex += 1;
-    showSlides();
-  };
-  const prevSlide = () => {
-    slideIndex -= 1;
-    showSlides();
-  };
+  const [modAction, setModAction] = useState(0);
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
   const getPostContent = function () {
@@ -107,12 +86,12 @@ function PostContent(props) {
               </button>
             </>
           );
-          showSlides(1);
+          // showSlides();
         } else {
           postContent = (
             <div className="post-image">
               <img
-                src={Img2}
+                src={Logo}
                 alt="post image"
               />
             </div>
@@ -144,13 +123,58 @@ function PostContent(props) {
     return postContent;
   };
 
+  /* show the image slider if the post has multiple images */
+  const showSlides = () => {
+    let slides = document.querySelectorAll('.my-slides');
+
+    const slidesLength = slides.length;
+    if (slideIndex === slidesLength) {
+      slideIndex = 0;
+    }
+    if (slideIndex < 0) {
+      slideIndex = slidesLength - 1;
+    }
+
+    let i;
+    for (i = 0; i < slidesLength; i += 1) {
+      slides.item(i).style.display = 'none';
+    }
+    if (slides[slideIndex] != null) {
+      slides.item(slideIndex).style.display = 'block';
+    }
+  };
+
+  const nextSlide = () => {
+    slideIndex += 1;
+    showSlides();
+  };
+
+  const prevSlide = () => {
+    slideIndex -= 1;
+    showSlides();
+  };
+
   // Returning the result
   return (
     <div
       className="post-content"
       data-testid="test-post-content"
     >
+      {/* Post info -> community, username, time */}
+      <PostInfo
+        communityName={props.postContentData.community_name}
+        communityId={props.postContentData.community_id}
+        userId={props.postContentData.user_id}
+        postedBy={props.postContentData.posted_by}
+        postedAt={props.postContentData.posted_at}
+        postId={props.postContentData.id}
+        isCommunityPost={props.isCommunityPost}
+        isPostFullDetailsMode={props.isPostFullDetailsMode}
+        modAction={modAction}
+      />
       {props.children}
+
+      {/* Post title  */}
       <div
         className="post-title-container"
         data-testid="test-post-title"
@@ -174,17 +198,25 @@ function PostContent(props) {
           </a>
         </div>
       </div>
+
+      {/* post content  */}
       <div className="post-main-content">
-        <div className="post-content-core">{getPostContent()}</div>
+        <div className="post-content-core">
+          {getPostContent()}
+          {showSlides()}
+        </div>
       </div>
+
+      {/* post interactions -> comment, save, hide, ..  */}
       <PostInteractions
         setHidePost={props.setHidePost}
-        commentsCount={props.divideBigNumber(
-          props.postContentData.comments_count
-        )}
+        commentsCount={divideBigNumber(props.postContentData.comments_count)}
         votesCount={props.postContentData.votes}
-        divideBigNumber={props.divideBigNumber}
         postId={props.postContentData.id}
+        isCommunityPost={props.isCommunityPost}
+        changeModAction={props.changeModAction}
+        setModAction={setModAction}
+        isModeratorMode={props.isModeratorMode}
       />
     </div>
   );

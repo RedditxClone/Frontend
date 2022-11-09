@@ -7,7 +7,8 @@ export const subredditTheme = createTheme({
       xs: 0,
       sm: 600,
       md: 970,
-      lg: 1200,
+      md_2: 1030,
+      lg: 1225,
       xl: 1536
     }
   }
@@ -25,4 +26,17 @@ export const CardsContainer = styled(Box)({
   flexDirection: 'row',
   justifyContent: 'center',
   margin: '0 auto'
+});
+
+/**
+ * @param {Box} - the default Box
+ * @return {PostsContainer} - The styled Container
+ */
+export const PostsContainer = styled(Box)({
+  width: '55%',
+  padding: 0,
+  marginTop: '1rem',
+  [subredditTheme.breakpoints.down('md')]: {
+    width: '100%'
+  }
 });

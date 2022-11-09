@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { Box, styled } from '@mui/material';
+import { Box, styled, Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 /**
@@ -74,4 +74,49 @@ export const SingleNotificationTypeContainer = styled(Box)({
   fill: '#878A8C',
   fontSize: '15px',
   textTransform: 'capitalize'
+});
+
+/**
+ * @param {Box} - the default Box
+ * @return {TitleLogoContainer} - The styled container
+ */
+export const TitleLogoContainer = styled(Box)({
+  boxSizing: 'border-box',
+  justifyContent: 'flex-start',
+  display: 'flex',
+  flex: 1,
+  paddingLeft: '1.6rem',
+  marginTop: '2.6rem',
+  position: 'relative',
+  width: '500px'
+});
+
+/**
+ * @param {h2} - the default h2
+ * @return {SubTitle} - The styled sub title
+ */
+export const SubTitle = styled('h2')({
+  fontSize: 14,
+  fontWeight: 500,
+  lineHeight: '1.8rem',
+  color: '#7c7c7c',
+  margin: 0,
+  padding: 0
+});
+
+/**
+ * @param {Button} - the default Button
+ * @return {JoinButton} - The styled Button
+ */
+export const JoinButton = styled(Button)({
+  fontFamily: 'Noto Sans,Arial,sans-serif',
+  fontSize: '1.4rem',
+  fontWeight: 700,
+  letterSpacing: 'unset',
+  minHeigh: '3.2rem',
+  minWidth: '3.2rem',
+  padding: '4px 16px',
+  borderRadius: '9999px',
+  width: '100%',
+  boxSizing: 'border-box'
 });

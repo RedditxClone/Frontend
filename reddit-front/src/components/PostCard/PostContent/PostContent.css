@@ -1,7 +1,7 @@
 .post-content {
   padding-top: 1rem;
   background-color: white;
-  width: 60rem;
+  width: 92%;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
@@ -23,13 +23,12 @@
 
 .post-content .flair {
   display: inline-flex;
-  margin: 0;
   padding: 0;
   border: 0;
   vertical-align: text-top;
   background-color: gray;
   border-radius: 10px;
-  margin: 2px 0 0 5px;
+  margin: 5px 0 0 5px;
   transform: translateY(-8px);
 }
 .flair:hover {
@@ -67,6 +66,12 @@
   height: auto;
 }
 .post-content .post-content-core .my-slides {
+  display: none;
+}
+.post-content .post-content-core .my-slides:first-of-type {
+  display: block;
+}
+.post-content .post-content-core .my-slides {
   transition: left 0.25s;
 }
 
@@ -97,7 +102,7 @@
   right: 1rem;
 }
 .post-content-core .prev {
-  left: 1rem;
+  left: 3.5rem;
 }
 .post-content .post-content-video {
   background-color: black;
@@ -106,9 +111,9 @@
   display: block;
 }
 
-@media (max-width: 970px) {
-  .post-content {
-    width: 93%;
+@media (max-width: 1300px) {
+  .post-content-core .prev {
+    left: 2rem;
   }
 }
 
@@ -119,11 +124,17 @@
   .post-content-core .next {
     right: 3rem;
   }
+
+  .post-content {
+    width: 100%;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
 }
 
 @media (max-width: 780px) {
   .post-content-core .prev {
-    left: 3.2rem;
+    left: 2.2rem;
   }
   .post-content-core .next {
     right: 2rem;
@@ -135,7 +146,7 @@
     left: -2.2rem;
   }
   .post-content-core .next {
-    right: 4.4rem;
+    right: 1.4rem;
   }
 }
 
@@ -148,6 +159,6 @@
   .post-content-core .next {
     width: 4rem;
     height: 4rem;
-    right: 3.7rem;
+    right: 1.4rem;
   }
 }

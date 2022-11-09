@@ -3,7 +3,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable prefer-const */
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Switch from '@mui/material/Switch';
@@ -40,12 +40,8 @@ import {
  *
  */
 
-export default function AboutCard({
-  baseColor,
-  highlightColor,
-  isModeratorMode
-}) {
-  // For testing purposes
+function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
+  // For testing
   const subTopicsList = [
     'first',
     'second',
@@ -230,7 +226,12 @@ export default function AboutCard({
             Created Oct 11, 2022
           </Typography>
         </CommunityCreatedDate>
-        <StyledHorizontalLine />
+        <StyledHorizontalLine
+          marginTop="1.5"
+          marginBottom="1.5"
+          marginLeft="0"
+          marginRight="0"
+        />
 
         <Box
           className="members-count"
@@ -297,7 +298,12 @@ export default function AboutCard({
           </OnlineMembersBox>
         </Box>
 
-        <StyledHorizontalLine />
+        <StyledHorizontalLine
+          marginTop="1.5"
+          marginBottom="1.5"
+          marginLeft="0"
+          marginRight="0"
+        />
 
         {/* Community Topics  */}
         {isModeratorMode ? (
@@ -310,7 +316,12 @@ export default function AboutCard({
               trackUserChosenSubTopic={trackUserChosenSubTopic}
               trackUserRemovedSubTopic={trackUserRemovedSubTopic}
             />
-            <StyledHorizontalLine />
+            <StyledHorizontalLine
+              marginTop="1.5"
+              marginBottom="1.5"
+              marginLeft="0"
+              marginRight="0"
+            />
           </>
         ) : null}
 
@@ -323,7 +334,12 @@ export default function AboutCard({
             Create post
           </CreatePostButton>
         </Box>
-        <StyledHorizontalLine />
+        <StyledHorizontalLine
+          marginTop="1.5"
+          marginBottom="1.5"
+          marginLeft="0"
+          marginRight="0"
+        />
 
         {/* Community options  */}
         <Box
@@ -371,3 +387,5 @@ export default function AboutCard({
     </AboutCardContainer>
   );
 }
+
+export default memo(AboutCard);

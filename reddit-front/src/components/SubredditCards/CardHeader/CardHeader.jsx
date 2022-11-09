@@ -1,14 +1,16 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-vars */
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Link } from '@mui/material';
 import { BsShield } from 'react-icons/bs';
 import Typography from '@mui/material/Typography';
 import {
   CardsHeaderContainer,
   DropDownMenuContainer,
-  DropDownMenuItem
+  DropDownMenuItem,
+  ModToolsButton
 } from './CardHeader.Style';
 
 /**
@@ -24,12 +26,7 @@ import {
  *
  */
 
-export default function CardHeader({
-  title,
-  baseColor,
-  hasDropDownMenu,
-  isModeratorMode
-}) {
+function CardHeader({ title, baseColor, hasDropDownMenu, isModeratorMode }) {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
   return (
@@ -37,6 +34,7 @@ export default function CardHeader({
       data-testid="card-header-container"
       sx={{ backgroundColor: baseColor, border: `1px solid ${baseColor}` }}
     >
+      {/* The header title  */}
       <Typography
         variant="h2"
         style={{
@@ -48,24 +46,9 @@ export default function CardHeader({
         {title}
       </Typography>
 
+      {/* Mod tools button  */}
       {isModeratorMode ? (
-        <Link
-          sx={{
-            padding: '4px',
-            display: 'flex',
-            alignItems: 'center',
-            position: 'relative',
-            right: '-6.5rem',
-            textDecoration: 'none',
-            color: 'black',
-            textTransform: 'uppercase',
-            cursor: 'pointer',
-            fontWeight: '600',
-            '&:hover': {
-              backgroundColor: '#1a1a1b1a'
-            }
-          }}
-        >
+        <ModToolsButton>
           <BsShield
             fontSize="2rem"
             style={{
@@ -73,7 +56,7 @@ export default function CardHeader({
             }}
           />
           <span>Mod Tools</span>
-        </Link>
+        </ModToolsButton>
       ) : null}
 
       {hasDropDownMenu ? (
@@ -135,3 +118,5 @@ export default function CardHeader({
     </CardsHeaderContainer>
   );
 }
+
+export default memo(CardHeader);

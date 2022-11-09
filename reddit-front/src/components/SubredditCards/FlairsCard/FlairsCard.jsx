@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import { memo } from 'react';
 import {
   FlairsContainer,
   FlairItemContainer,
@@ -15,7 +16,7 @@ import CardHeader from '../CardHeader/CardHeader';
  * This Component for the flairs Card.
  *
  */
-export default function FlairsCard({ baseColor }) {
+function FlairsCard({ baseColor }) {
   return (
     <FlairsContainer
       className="filter-by-flair"
@@ -45,16 +46,16 @@ export default function FlairsCard({ baseColor }) {
                 <FlairItem>first</FlairItem>
               </FlairItemContainer>
               <FlairItemContainer>
-                <FlairItem>tessdfsdft</FlairItem>
+                <FlairItem>second</FlairItem>
               </FlairItemContainer>
               <FlairItemContainer>
-                <FlairItem>tesdfsdfsdfsdfst</FlairItem>
+                <FlairItem>third</FlairItem>
               </FlairItemContainer>
               <FlairItemContainer>
-                <FlairItem>test</FlairItem>
+                <FlairItem>fourth</FlairItem>
               </FlairItemContainer>
               <FlairItemContainer>
-                <FlairItem>teffffsdsdfsdfsdfsdfsdfsdfdsfsdfdst</FlairItem>
+                <FlairItem>fifth</FlairItem>
               </FlairItemContainer>
             </ul>
           </Box>
@@ -63,3 +64,5 @@ export default function FlairsCard({ baseColor }) {
     </FlairsContainer>
   );
 }
+
+export default memo(FlairsCard);

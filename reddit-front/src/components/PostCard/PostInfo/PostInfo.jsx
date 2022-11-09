@@ -6,10 +6,15 @@
 import './PostInfo.css';
 import { memo, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
+import { FcApproval } from 'react-icons/fc';
+import { RiSpamLine } from 'react-icons/ri';
+import { CiNoWaitingSign } from 'react-icons/ci';
+import { divideBigNumber } from '../../../utilities/Helpers';
 import {
   getPostRelatedCommunityInfo,
   getPostRelatedUserInfo
-} from '../../../store/slices/PostSlice';
+} from '../../../redux/slices/PostSlice';
 import Logo from './test.png';
 
 /**
@@ -20,7 +25,9 @@ import Logo from './test.png';
  * @property {string} communityName
  * @property {string} postedBy
  * @property {timestamp} postedAt
- * @property {function} divideBigNumber
+ * @property {boolean} isCommunityPost
+ * @property {boolean} isPostFullDetailsMode
+ * @property {integer} modAction  // 0: none, 1: approved, 2: spammed, 3: removed
  */
 
 /**
@@ -36,10 +43,13 @@ function PostInfo({
   userId,
   postedBy,
   postedAt,
-  divideBigNumber,
-  postId
+  postId,
+  isCommunityPost,
+  isPostFullDetailsMode,
+  modAction
 }) {
   const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
+  const [isPostFollowed, setIsPostFollowed] = useState(false);
   const { postRelatedCommunityData, postRelatedUserData } = useSelector(
     (state) => state.post
   );
@@ -106,12 +116,18 @@ function PostInfo({
     return postedAt ? postedAt.concat(' ago') : 'posted_time';
   };
 
+  /* This function handles the follow button */
+  const handleFollowPost = function () {
+    setIsPostFollowed(!isPostFollowed);
+  };
+
   // Returning the result
   return (
     <div
       className="post-info"
       data-testid="test-post-info"
     >
+      {/* Community logo on the post card  */}
       <div
         className="community-logo"
         data-testid="test-post-logo"
@@ -123,6 +139,7 @@ function PostInfo({
           />
         </a>
       </div>
+      {/* post info details -> username, time, community name */}
       <div className="post-info-details">
         <div
           className="community-name"
@@ -245,13 +262,68 @@ function PostInfo({
           </div>
         </div>
         <span className="post-time">{getPostedAt()}</span>
+        <div className="mod-action-icon">
+          {modAction === 1 ? (
+            <>
+              <FcApproval style={{ margin: '6px 0 0 5px' }} />
+              <span className="post-approved-by">
+                Approved by mustafa-hamzawy at Wed,Nov 09, 2022 4:18:33 PM UTC
+              </span>
+            </>
+          ) : null}
+
+          {modAction === 2 ? (
+            <>
+              <RiSpamLine style={{ color: 'red', margin: '6px 0 0 5px' }} />
+              <span
+                className="post-spammed-by"
+                style={{ width: '45rem' }}
+              >
+                Removed as spam by mustafa-hamzawy at Wed,Nov 09, 2022 4:18:33
+                PM UTC
+              </span>
+            </>
+          ) : null}
+
+          {modAction === 3 ? (
+            <>
+              <CiNoWaitingSign
+                style={{ color: 'red', margin: '6px 0 0 5px' }}
+              />
+              <span className="post-removed-by">
+                Removed by mustafa-hamzawy at Wed,Nov 09, 2022 4:18:33 PM UTC
+              </span>
+            </>
+          ) : null}
+        </div>
       </div>
-      <button
-        type="button"
-        className="join-community"
-      >
-        Join
-      </button>
+
+      {/* showing join button if the user is not showing the subreddit page  */}
+      {!isCommunityPost ? (
+        <button
+          type="button"
+          className="join-community"
+        >
+          Join
+        </button>
+      ) : null}
+
+      {/* showing follow button in the full details mode of the post  */}
+      {isPostFullDetailsMode ? (
+        <a onClick={handleFollowPost}>
+          {isPostFollowed ? (
+            <IoIosNotifications
+              color="#787c7e"
+              fontSize="2.4rem"
+            />
+          ) : (
+            <IoMdNotificationsOutline
+              color="#787c7e"
+              fontSize="2.4rem"
+            />
+          )}
+        </a>
+      ) : null}
     </div>
   );
 }

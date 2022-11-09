@@ -2,7 +2,7 @@
 import { useState, memo } from 'react';
 import './Voting.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
-
+import { divideBigNumber } from '../../../utilities/Helpers';
 /**
  * @typedef PropType
  * @property {number} votesCount
@@ -15,7 +15,7 @@ import { BiUpvote, BiDownvote } from 'react-icons/bi';
  *
  */
 
-function Voting({ votesCount, divideBigNumber }) {
+function Voting({ votesCount }) {
   const [votingCounter, setVotingCounter] = useState(votesCount);
   const [votesCountColor, setVotesCountColor] = useState('black');
   // voting states : 0 -> not voted, 1 -> up, -1 -> down

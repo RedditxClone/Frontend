@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Box from '@mui/material/Box';
-import { SideBarContainer } from './SubredditSideBar.Style';
+import { memo } from 'react';
+import { SideBarContainer, SideBarContent } from './SubredditSideBar.Style';
 import AboutCard from '../AboutCard/AboutCard';
 import RulesCard from '../RulesCard/RulesCard';
 import FlairsCard from '../FlairsCard/FlairsCard';
@@ -18,22 +18,10 @@ import ModeratorsCard from '../ModeratorsCard/ModeratorsCard';
  *
  */
 
-export default function SubredditSideBar({
-  baseColor,
-  highlightColor,
-  isModeratorMode
-}) {
+function SubredditSideBar({ baseColor, highlightColor, isModeratorMode }) {
   return (
-    <Box
-      sx={{
-        marginLeft: '2.4rem',
-        marginTop: 0,
-        flex: '0 0 31.2rem',
-        width: '31.2rem',
-        display: { xs: 'none', sm: 'block' }
-      }}
-    >
-      <SideBarContainer>
+    <SideBarContainer>
+      <SideBarContent>
         <AboutCard
           baseColor={baseColor}
           highlightColor={highlightColor}
@@ -46,7 +34,9 @@ export default function SubredditSideBar({
           baseColor={baseColor}
           highlightColor={highlightColor}
         />
-      </SideBarContainer>
-    </Box>
+      </SideBarContent>
+    </SideBarContainer>
   );
 }
+
+export default memo(SubredditSideBar);
