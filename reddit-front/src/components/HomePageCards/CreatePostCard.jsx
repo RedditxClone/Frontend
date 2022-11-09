@@ -10,7 +10,7 @@ import {
 /**
  * this function returns Create Post Card , the one that is displayed in the home screen
  */
-export default function CreatePostCard() {
+function CreatePostCard() {
   return (
     <CreatePostCardRoot>
       <StyledBox>
@@ -53,3 +53,4 @@ export default function CreatePostCard() {
     </CreatePostCardRoot>
   );
 }
+export default (CreatePostCard);

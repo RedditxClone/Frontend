@@ -61,14 +61,7 @@ function App() {
   return (
     <CategoriesPage buttonText={buttonText} buttons={buttons1} pic={pic}/>
   );
-  // return <HomeCommunitiesCard 
-  // pic={pic}
-  // communities={communities}
-  // buttons1={['top','gaming']}
   
-  // homePageCard={true}
-  
-  // />
 }
 
 export default App;

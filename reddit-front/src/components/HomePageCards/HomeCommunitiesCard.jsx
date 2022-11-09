@@ -21,7 +21,7 @@ import {
 } from "./HomePageCards.style";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import {NavLink as NavLinkBase} from "react-router-dom";
+import { NavLink as NavLinkBase } from "react-router-dom";
 /**
  * @typedef {PropType} cardData
  * @property {object} pic the cover of the communities card that is in the home page
@@ -34,8 +34,8 @@ import {NavLink as NavLinkBase} from "react-router-dom";
  * this function returns the communities card shown in the home screen
  * @param {PropType} cardData
  */
-const NavLink=styled(NavLinkBase)({
-  textDecoration:'none'
+const NavLink = styled(NavLinkBase)({
+  textDecoration: "none"
 });
 export default function HomeCommunitiesCard({
   pic,
@@ -46,6 +46,9 @@ export default function HomeCommunitiesCard({
   buttonText,
   handleClick
 }) {
+  let activeStyle = {
+    color: "black"
+  };
   const [cardCommunities, setCardCommunities] = useState(communities);
   const joinButtonClickHandler = (clicked, index) => {
     const newCommunities = [...cardCommunities];
@@ -54,41 +57,24 @@ export default function HomeCommunitiesCard({
     setCardCommunities(communities);
   };
   const buttonTextToLinkMap = (text) => {
-    if (text === "Near You") return "near-you";
-    if (text === "Sports") return "sports";
-    if (text === "Gaming") return "gaming";
-    if (text === "News") return "news";
-    if (text === "TV") return "tv";
-    if (text === "Aww") return "aww";
-    if (text === "Memes") return "memes";
-    if (text === "Pics & Gifs") return "pics_and_gifs";
-    if (text === "Travel") return "travel";
-    if (text === "Tech") return "tech";
-    if (text === "Music") return "music";
-    if (text === "Art & Design") return "art_and_design";
-    if (text === "Beauty") return "beauty";
-    if (text === "Books & Writing") return "books_and_writing";
-    if (text === "Crypto") return "crypto";
-    if (text === "Discussion") return "discussion";
-    if (text === "E3") return "e3";
-    if (text === "Finance & Business") return "finance_and_business";
-    if (text === "Food") return "food";
-    if (text === "Health & Fitness") {
-      
-      return "health_and_fitness";
+   const newText=text.toLowerCase();
+   let link;
+    if(text.includes('&'))
+    {
+     link=newText.replaceAll(' ','_') ;
+     link=link.replaceAll('&','and') ;
+     
     }
-    if (text === "Learning") return "learning";
-    if (text === "Mindblowing") return "mindblowing";
-    if (text === "Outdoors") return "outdoors";
-    if (text === "Parenting") return "parenting";
-    if (text === "Photography") return "photography";
-    if (text === "Relationships") return "relationships";
-    if (text === "Science") return "science";
-    if (text === "Videos") return "videos";
-    if (text === "Vroom") return "vroom";
-    if (text === "Wholesome") return "wholesome";
+    else if(text.includes(' ')&& !text.includes('&'))
+    {
+      link=newText.replaceAll(' ','-') ;
+    }
+    else{
+      link=newText;
+    }
+    return link;
   };
-  
+
   return (
     <Root>
       <StyledCard sx={{ width: 310, marginBottom: '2rem'}} elevation={0}>
@@ -110,90 +96,98 @@ export default function HomeCommunitiesCard({
           <List
             sx={{
               width: "100%",
-              bgcolor: "background.paper"
+              bgcolor: "background.paper",
+              padding:'0'
             }}
           >
             {communities.map((community, index) => (
               <Box key={index}>
-                <ListItem alignItems="flex-start">
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <ListItemText
-                      sx={{
-                        "& span": {
-                          fontSize: "1.6rem",
-                          paddingRight: "1rem",
-                          marginTop: "1rem"
-                        }
-                      }}
-                      primary={index + 1}
-                    />
-                    {community.growing == true ? (
-                      <Box sx={{ marginTop: "1rem" }}>
-                        <MdKeyboardArrowUp size={23} color="#46d15f" />
-                      </Box>
-                    ) : null}
-                    {community.goingDown == true ? (
-                      <Box sx={{ marginTop: "1rem" }}>
-                        <MdKeyboardArrowDown size={23} color="#EA0027" />
-                      </Box>
-                    ) : null}
-                    {community.goingDown == false &&
-                    community.growing == false ? (
-                      <div style={{ width: "2.2rem" }}></div>
-                    ) : null}
-                    <ListItemAvatar sx={{ paddingLeft: "0.5rem" }}>
-                      <Avatar alt={community.name} src={community.picture} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      sx={{
-                        "& span": {
-                          fontSize: "1.6rem"
-                        }
-                      }}
-                      primary={community.name}
-                    />
-                    {homePageCard == true &&
-                    !community.userCommunity &&
-                    community.joined == false ? (
-                      <RoundedButton
+                <NavLink
+                  style={({ isActive }) => (isActive ? activeStyle : activeStyle)}
+                  to="/food"
+                  
+                >
+                  <ListItem alignItems="flex-start" sx={{padding:'4px 16px'}}>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <ListItemText
                         sx={{
-                          marginLeft: "3rem",
-                          fontSize: "1.3rem",
-                          padding: "2px 7px",
-                          ":hover": {
-                            backgroundColor: "#1484D6"
+                          "& span": {
+                            fontSize: "1.6rem",
+                            paddingRight: "1rem",
+                            marginTop: "1rem"
                           }
                         }}
-                        variant="contained"
-                        disableElevation
-                        onClick={() => joinButtonClickHandler(true, index)}
-                      >
-                        join
-                      </RoundedButton>
-                    ) : homePageCard == true &&
+                        primary={index + 1}
+                      />
+                      {community.growing == true ? (
+                        <Box sx={{ marginTop: "1rem" }}>
+                          <MdKeyboardArrowUp size={23} color="#46d15f" />
+                        </Box>
+                      ) : null}
+                      {community.goingDown == true ? (
+                        <Box sx={{ marginTop: "1rem" }}>
+                          <MdKeyboardArrowDown size={23} color="#EA0027" />
+                        </Box>
+                      ) : null}
+                      {community.goingDown == false &&
+                      community.growing == false ? (
+                        <div style={{ width: "2.2rem" }}></div>
+                      ) : null}
+                      <ListItemAvatar sx={{ paddingLeft: "0.5rem" }}>
+                        <Avatar alt={community.name} src={community.picture} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        sx={{
+                          "& span": {
+                            fontSize: "1.6rem",
+                            marginTop:'1rem'
+                          }
+                        }}
+                        primary={community.name}
+                      />
+                      {homePageCard == true &&
                       !community.userCommunity &&
-                      community.joined == true ? (
-                      <RoundedButton
-                        sx={{
-                          marginLeft: "3rem",
-                          fontSize: "1.3rem",
-                          padding: "2px 7px",
-                          "&:hover span": {
-                            display: "none"
-                          },
-                          "&:hover:before": {
-                            content: `'Leave'`
-                          }
-                        }}
-                        variant="outlined"
-                        disableElevation
-                        onClick={() => joinButtonClickHandler(false, index)}
-                      >
-                        <span>joined</span>
-                      </RoundedButton>
-                    ) : null}
-                  </Box>
-                </ListItem>
+                      community.joined == false ? (
+                        <RoundedButton
+                          sx={{
+                            marginLeft: "3rem",
+                            fontSize: "1.3rem",
+                            padding: "2px 7px",
+                            ":hover": {
+                              backgroundColor: "#1484D6"
+                            }
+                          }}
+                          variant="contained"
+                          disableElevation
+                          onClick={() => joinButtonClickHandler(true, index)}
+                        >
+                          join
+                        </RoundedButton>
+                      ) : homePageCard == true &&
+                        !community.userCommunity &&
+                        community.joined == true ? (
+                        <RoundedButton
+                          sx={{
+                            marginLeft: "3rem",
+                            fontSize: "1.3rem",
+                            padding: "2px 7px",
+                            "&:hover span": {
+                              display: "none"
+                            },
+                            "&:hover:before": {
+                              content: `'Leave'`
+                            }
+                          }}
+                          variant="outlined"
+                          disableElevation
+                          onClick={() => joinButtonClickHandler(false, index)}
+                        >
+                          <span>joined</span>
+                        </RoundedButton>
+                      ) : null}
+                    </Box>
+                  </ListItem>
+                </NavLink>
                 {index < communities.length - 1 ? (
                   <Divider variant="fullwidth" component="li" />
                 ) : null}
@@ -203,7 +197,7 @@ export default function HomeCommunitiesCard({
           {homePageCard == true ? (
             <LargeRoundedButton
               sx={{
-                margin: "0 0 1.5rem 1.5rem",
+                margin: "1rem 0 1.5rem 1.5rem",
                 "&:hover": {
                   backgroundColor: "#1484D6"
                 }
@@ -215,20 +209,16 @@ export default function HomeCommunitiesCard({
             </LargeRoundedButton>
           ) : (
             <NavLink to={`${buttonTextToLinkMap(buttonText)}`}>
-            <LargeRoundedButton
-              sx={{
-                margin: "0 0 1.5rem 1.5rem",
-                textDecoration:'none'
-                
-              }}
-              variant="outlined"
-              disableElevation
-              
-            >
-              
-               See All {buttonText}
-             
-            </LargeRoundedButton>
+              <LargeRoundedButton
+                sx={{
+                  margin: "1rem 0 1.5rem 1.5rem",
+                  textDecoration: "none"
+                }}
+                variant="outlined"
+                disableElevation
+              >
+                See All {buttonText}
+              </LargeRoundedButton>
             </NavLink>
           )}
           {buttons2 != null && homePageCard == true ? (
