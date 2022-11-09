@@ -59,7 +59,6 @@ export default function SideList({
               },
               '&:focus': {
                 backgroundColor: '#F6F7F8',
-                borderLeft: '6px solid var(--newCommunityTheme-button)',
                 color: '#F6F7F8'
               }
             }}

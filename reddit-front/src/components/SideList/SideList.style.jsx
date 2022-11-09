@@ -17,7 +17,7 @@ const NavLink = styled(NavLinkBase)({
   color: '#1c1c1c',
   fontFamily: "'IBM Plex Sans',sans-serif",
   width: '200px',
-  //   height: '36px',
+  height: '36px',
   '& #SideBorder': {
     position: 'absolute',
     // left: `${len}rem`,
@@ -31,10 +31,15 @@ const NavLink = styled(NavLinkBase)({
     backgroundColor: 'red',
     fontSize: '12.5px',
     fontWeight: '700',
-    lineHeight: '16px'
-    // '& #SideBorder': {
-    //   display: 'inline-block'
-    // }
+    lineHeight: '16px',
+    '& #SideBorder': {
+      display: 'inline'
+    }
+  },
+  '&:focus': {
+    '& #SideBorder': {
+      display: 'inline'
+    }
   }
 });
 

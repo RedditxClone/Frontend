@@ -1,8 +1,8 @@
 import ReactDOM from 'react-dom/client';
 // import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import CategoriesPage from './components/Categories/Categories';
-import CategoriesCard from './components/Categories/CategoriesCard';
+import CategoriesPage from './pages/CategoriesPage/CategoriesPage';
+import CategoriesCard from './components/CategoriesCard/CategoriesCard';
 import pic from './assets/Images/1166721.jpg';
 // import { Store } from './store/Store';
 // import App from './App';

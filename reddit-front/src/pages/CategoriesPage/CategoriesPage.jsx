@@ -1,17 +1,17 @@
 // import React from 'react'
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import SideList from '../SideList/SideList';
+import SideList from '../../components/SideList/SideList';
 import {
   StyledCategoryiesBody,
   CategoryHeader,
   StyledSideCards,
   ColoredBody,
   SideDiv
-} from './Categories.style';
-import AlphabeticCard from './AlphabeticCard';
+} from './CategoriesPage.style';
+import AlphabeticCard from '../../components/CategoriesCard/AlphabeticCard';
 // import CategoriesCard from './CategoriesCard';
-import HomeCommunitiesCard from '../HomePageCards/HomeCommunitiesCard';
+import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesCard';
 
 export default function CategoriesPage({
   communities,
@@ -154,6 +154,15 @@ export default function CategoriesPage({
 
         <Outlet />
         <StyledSideCards>
+          <HomeCommunitiesCard
+            buttons1={buttons}
+            buttons2={buttons}
+            pic={pic}
+            communities={communities}
+            homePageCard={false}
+            buttonText={buttonText}
+            handleClick={getClick}
+          />
           <HomeCommunitiesCard
             buttons1={buttons}
             buttons2={buttons}

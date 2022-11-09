@@ -1,5 +1,5 @@
 // import React from 'react';
-import { AlphaStyledDiv } from './Categories.style';
+import { AlphaStyledDiv } from '../../pages/CategoriesPage/CategoriesPage.style';
 
 export default function AlphabeticCard() {
   return (

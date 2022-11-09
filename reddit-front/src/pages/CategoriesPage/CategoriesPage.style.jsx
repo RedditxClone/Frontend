@@ -50,7 +50,6 @@ const AlphaStyledDiv = styled('div')(
     backgroundColor: '#FFFFFF',
     border: '1px solid #ccc',
     borderRadius: '4px',
-    marginTop: '2rem',
     fontFamily: 'inherit',
     '#AlphaCardTitle': {
       fontSize: '1.4rem',
@@ -78,7 +77,11 @@ const StyledSideCards = styled('div')(
   {
     marginLeft: '2.4rem',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    flex: '1 1 1 85%',
+    '& HomeCommunitiesCard': {
+      marginBottom: '1rem'
+    }
   }
 );
 const SideDiv = styled('div')(({ theme }) => ({

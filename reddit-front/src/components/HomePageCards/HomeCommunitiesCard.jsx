@@ -91,7 +91,7 @@ export default function HomeCommunitiesCard({
   
   return (
     <Root>
-      <StyledCard sx={{ width: 310 }} elevation={0}>
+      <StyledCard sx={{ width: 310, marginBottom: '2rem'}} elevation={0}>
         <CardMedia component="img" height="70" image={pic} alt="green iguana" />
         <CardContent
           sx={{
