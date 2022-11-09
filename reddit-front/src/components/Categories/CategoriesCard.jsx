@@ -48,7 +48,7 @@ export default function CategoriesCard({
   }
   return (
     
-      <StyledCard sx={{ maxWidth: '59%' }} elevation={0}>
+      <StyledCard sx={{ width: '50%' }} elevation={0}>
         <CardContent
           sx={{
             padding: "0",

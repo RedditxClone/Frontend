@@ -2,9 +2,8 @@
 import HomeCommunitiesCard from "./components/HomePageCards/HomeCommunitiesCard";
 import pic from "./assets/Images/1166721.jpg";
 import HomeCreatePostCard from "./components/HomePageCards/HomeCreatePostCard";
-import CategoriesCard from "./components/Categories/CategoriesCard";
-import CommunityHoverCard from "./components/Categories/CommunityHoverCard";
-
+import CategoriesPage from "./components/Categories/Categories";
+import { BrowserRouter, Route } from 'react-router-dom';
 const communities = [
   {
     name: "My Community",
@@ -56,18 +55,11 @@ const communities = [
 ];
 
 const buttons1 = ["Top", "Gaming", "Near You"];
-const buttonText = "See All Health&Fit";
+const buttonText = "Health & Fit";
 function App() {
   // return <HomeCreatePostCard />
   return (
-    <CategoriesCard
-      
-   
-      communities={communities}
-      
-      topText={'Sports'}
-    />
-    // <CommunityHoverCard community={communities[0]} />
+    <CategoriesPage buttonText={buttonText} buttons={buttons1} pic={pic}/>
   );
   
 }
