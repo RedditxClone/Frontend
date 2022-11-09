@@ -122,7 +122,7 @@ export default function HomeCommunitiesCard({
                   to="/food"
                   
                 >
-                  <ListItem alignItems="flex-start">
+                  <ListItem alignItems="flex-start" sx={{padding:'4px 16px'}}>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                       <ListItemText
                         sx={{
