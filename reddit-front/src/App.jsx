@@ -3,6 +3,7 @@ import HomeCommunitiesCard from "./components/HomePageCards/HomeCommunitiesCard"
 import pic from "./assets/Images/1166721.jpg";
 import HomeCreatePostCard from "./components/HomePageCards/HomeCreatePostCard";
 import CategoriesCard from "./components/Categories/CategoriesCard";
+import CommunityHoverCard from "./components/Categories/CommunityHoverCard";
 
 const communities = [
   {
@@ -66,15 +67,9 @@ function App() {
       
       topText={'Sports'}
     />
+    // <CommunityHoverCard community={communities[0]} />
   );
-  // return <HomeCommunitiesCard 
-  // pic={pic}
-  // communities={communities}
-  // buttons1={['top','gaming']}
   
-  // homePageCard={true}
-  
-  // />
 }
 
 export default App;
