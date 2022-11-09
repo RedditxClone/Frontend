@@ -2,6 +2,7 @@
 import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import InfoButton from '../../components/InfoButton/InfoButton';
 import {
@@ -17,6 +18,7 @@ import Recaptcha from '../../components/Recaptcha/Recaptcha';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import useInput from '../../hooks/use-input';
 import { checkEmail } from '../../utilities/Helpers';
+import { forgetPassword } from '../../store/slices/AuthSlice';
 
 export default function ForgetUserPassword() {
   const {
@@ -36,6 +38,13 @@ export default function ForgetUserPassword() {
   } = useInput((value) => checkEmail(value));
   const [recaptcha, setRecaptcha] = useState(false);
   const formIsValid = recaptcha && !errorEmail && !errorUserName;
+  const dispatch = useDispatch();
+  const { error, msg } = useSelector((state) => state.auth);
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    dispatch(forgetPassword({ username: userName, email }));
+  };
 
   const outLined = true;
   const blen = 15;
@@ -53,10 +62,7 @@ export default function ForgetUserPassword() {
           to reset your password.
         </p>
       </DescriptionDiv>
-      <form
-        action="/forgetuserpassword"
-        method="post"
-      >
+      <form onSubmit={onSubmitHandler}>
         <DotDiv>
           <LoginInputField
             label="username"
@@ -94,10 +100,18 @@ export default function ForgetUserPassword() {
           len={blen}
           align="center"
           hlen={lhlen}
+          type="submit"
           disabled={!formIsValid}
         >
           RESET PASSWORD
         </InfoButton>
+        {msg.length > 0 && (
+          <p style={{ color: '#24a0ed' }}>
+            Thanks! If your Reddit username and email address match, you will
+            get an email with a link to reset your password shortly.
+          </p>
+        )}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <ForgetFooterDiv>
           <p>
             <Link

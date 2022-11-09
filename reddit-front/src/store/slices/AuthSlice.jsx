@@ -1,26 +1,85 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const INITIAL_STATE = {
   user: {},
   isAuth: false,
-  isLoading: false,
+  isLoaisLoadingding: false,
   error: null,
-  mess: ''
+  msg: ''
 };
 
-export const SignUp = createAsyncThunk(
+export const signUp = createAsyncThunk(
   'user/signup',
   async (user, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await fetch('/auth/api/signup', {
-        method: 'post',
-        body: JSON.stringify(user),
-        headers: {
-          'content-type': 'application/json'
-        }
+      const res = await axios.post('http://localhost:3033/api/auth/signup', {
+        email: user.email,
+        username: user.username,
+        password: user.password
       });
-      const data = await res.json();
+
+      const { data } = res;
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const login = createAsyncThunk('user/login', async (user, thunkAPI) => {
+  const { rejectWithValue } = thunkAPI;
+  try {
+    const res = await axios.post('http://localhost:3033/api/auth/login', {
+      username: user.username,
+      password: user.password
+    });
+
+    const { data } = res;
+
+    return data;
+  } catch (err) {
+    return rejectWithValue(err.response.data.message);
+  }
+});
+
+export const forgetUserName = createAsyncThunk(
+  'user/forgetusername',
+  async (user, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await axios.post(
+        'http://localhost:3033/api/auth/forget-username',
+        {
+          emai: user.email
+        }
+      );
+
+      const { data } = res;
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const forgetPassword = createAsyncThunk(
+  'user/forgetpassword',
+  async (user, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await axios.post(
+        'http://localhost:3033/api/auth/forget-password',
+        {
+          emai: user.email,
+          username: user.username
+        }
+      );
+
+      const { data } = res;
+
       return data;
     } catch (err) {
       return rejectWithValue(err.message);
@@ -28,65 +87,24 @@ export const SignUp = createAsyncThunk(
   }
 );
 
-export const LogIn = createAsyncThunk('user/login', async (user, thunkAPI) => {
-  const { rejectWithValue } = thunkAPI;
-  try {
-    const res = await fetch('/auth/api/login', {
-      method: 'post',
-      body: JSON.stringify(user),
-      headers: {
-        'content-type': 'application/json'
-      }
-    });
-    const data = await res.json();
-    return data;
-  } catch (err) {
-    return rejectWithValue(err.message);
-  }
-});
+export const resetPassword = createAsyncThunk(
+  'user/resetpassword',
+  async (user, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await axios.post(
+        'http://localhost:3033/api/auth/change-forgetten-password',
+        {
+          password: user.password
+        }
+      );
 
-export const forgetUserName = createAsyncThunk(
-  'user/forgetusername',
-  async (body) => {
-    const res = await fetch('/api/auth/forget-username', {
-      method: 'post',
-      body: JSON.stringify(body),
-      headers: {
-        'content-type': 'application/json'
-      }
-    });
-    const json = await res.json();
-    return json;
-  }
-);
+      const { data } = res;
 
-export const forgetPassword = createAsyncThunk(
-  'user/forgetpassword',
-  async (body) => {
-    const res = await fetch('/api/auth/forget-password', {
-      method: 'post',
-      body: JSON.stringify(body),
-      headers: {
-        'content-type': 'application/json'
-      }
-    });
-    const json = await res.json();
-    return json;
-  }
-);
-
-export const changePassword = createAsyncThunk(
-  'user/changepassword',
-  async (body) => {
-    const res = await fetch('/api/auth/change-password', {
-      method: 'patch',
-      body: JSON.stringify(body),
-      headers: {
-        'content-type': 'application/json'
-      }
-    });
-    const json = await res.json();
-    return json;
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
   }
 );
 
@@ -95,34 +113,78 @@ const AuthSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {},
   extraReducers: {
-    [SignUp.pending]: (state) => {
+    /** Sign up */
+    [signUp.pending]: (state) => {
       state.isLoading = true;
       state.error = null;
     },
-    [SignUp.rejected]: (state, action) => {
+    [signUp.rejected]: (state, action) => {
       state.isLoading = false;
       state.isAuth = false;
       state.error = action.payload;
     },
-    [SignUp.fulfilled]: (state, action) => {
+    [signUp.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.user = action.payload;
       state.isAuth = true;
       state.error = null;
     },
-    [LogIn.pending]: (state) => {
+    /** Login */
+    [login.pending]: (state) => {
       state.isLoading = true;
       state.error = null;
     },
-    [LogIn.rejected]: (state, action) => {
+    [login.rejected]: (state, action) => {
       state.isLoading = false;
       state.isAuth = false;
       state.error = action.payload;
     },
-    [LogIn.fulfilled]: (state, action) => {
+    [login.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.user = action.payload;
       state.isAuth = true;
+      state.error = null;
+    },
+    /** Forget username */
+    [forgetUserName.pending]: (state) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [forgetUserName.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    [forgetUserName.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.msg = action.payload;
+      state.error = null;
+    },
+    /** Forget Password */
+    [forgetPassword.pending]: (state) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [forgetPassword.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    [forgetPassword.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.msg = action.payload;
+      state.error = null;
+    },
+    /** Change forgetten password */
+    [resetPassword.pending]: (state) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [resetPassword.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    [resetPassword.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.msg = action.payload;
       state.error = null;
     }
   }

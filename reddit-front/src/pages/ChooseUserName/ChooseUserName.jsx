@@ -1,7 +1,7 @@
-import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { SignUp } from '../../store/slices/AuthSlice';
+import { signUp } from '../../store/slices/AuthSlice';
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import { DotDiv } from '../../components/GlobalStyles/GlobalStyles.style';
 import Recaptcha from '../../components/Recaptcha/Recaptcha';
@@ -47,13 +47,14 @@ export default function ChooseUserName() {
 
   const formIsValid = !errorPassword && !errorUserName && recaptcha;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { state } = useLocation();
+  const { isAuth } = useSelector((st) => st.auth);
   const { email } = state;
-  const onSubmitHandler = (event) => {
+  if (isAuth) navigate('/');
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
-    if (formIsValid) {
-      dispatch(SignUp({ email, username: userName, password }));
-    }
+    dispatch(signUp({ email, username: userName, password }));
     resetUserName();
     resetPassword();
   };

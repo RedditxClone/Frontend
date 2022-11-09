@@ -7,7 +7,7 @@ const StyledTextField = styled(TextField)({
       outline: 0,
       border: '1px solid rgba(0,0,0,.1)',
       borderRadius: '4px',
-      width: '350px'
+      width: '280px'
     },
     fontSize: '1.5rem'
   }

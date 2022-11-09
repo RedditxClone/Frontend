@@ -3,8 +3,8 @@
 import { Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { LogIn } from '../../store/slices/AuthSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../../store/slices/AuthSlice';
 import InfoButton from '../../components/InfoButton/InfoButton';
 import {
   DividerDiv,
@@ -39,18 +39,21 @@ export default function Login() {
     inputBlurHandler: onBlurPasswordInput,
     isTouched: touchedPasswordInput,
     hasError: errorPassword
-  } = useInput((value) => value.length > 8);
+  } = useInput((value) => value.length >= 8);
+
   const [recaptcha, setRecaptcha] = useState(false);
 
   const formIsValid = !errorPassword && !errorUserName && recaptcha;
 
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector((state) => state.auth);
-  const onSubmitHandler = (event) => {
+  const navigate = useNavigate();
+  const { isLoading, error, isAuth } = useSelector((state) => state.auth);
+  if (isAuth) {
+    navigate('/');
+  }
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
-    if (!errorPassword && !errorUserName) {
-      dispatch(LogIn({ username: userName, password }));
-    }
+    dispatch(login({ username: userName, password }));
   };
 
   const outLined = true;

@@ -2,6 +2,7 @@ import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
+import { useDispatch, useSelector } from 'react-redux';
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import {
   ContentDiv,
@@ -17,6 +18,7 @@ import useInput from '../../hooks/use-input';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import Recaptcha from '../../components/Recaptcha/Recaptcha';
 import { checkEmail } from '../../utilities/Helpers';
+import { forgetUserName } from '../../store/slices/AuthSlice';
 
 export default function ForgetUserName() {
   const {
@@ -27,6 +29,13 @@ export default function ForgetUserName() {
     hasError: errorEmail
   } = useInput((value) => checkEmail(value));
 
+  const dispatch = useDispatch();
+  const { error, msg } = useSelector((state) => state.auth);
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    dispatch(forgetUserName({ email }));
+  };
   const [recaptcha, setRecaptcha] = useState(false);
   const formIsValid = recaptcha && !errorEmail;
   const outLined = true;
@@ -49,10 +58,7 @@ export default function ForgetUserName() {
           account, and we&#8217;ll send you an email with your username.
         </p>
       </DescriptionDiv>
-      <form
-        action="/forgetusername"
-        method="post"
-      >
+      <form onSubmit={onSubmitHandler}>
         <DotDiv len={dlen}>
           <LoginInputField
             value={email}
@@ -75,9 +81,17 @@ export default function ForgetUserName() {
           align="center"
           hlen={lhlen}
           disabled={!formIsValid}
+          type="submit"
         >
           EMAIL ME
         </InfoButton>
+        {msg.length > 0 && (
+          <p style={{ color: '#24a0ed' }}>
+            Thanks! If your Reddit username and email address match, you will
+            get an email with a link to reset your password shortly.
+          </p>
+        )}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <ForgetFooterDiv>
           <p id="Forget">
             Don&#8217;t have an email or need assistance logging in?
