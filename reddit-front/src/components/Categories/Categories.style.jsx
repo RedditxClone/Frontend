@@ -1,11 +1,16 @@
 import { styled } from '@mui/material';
 
+const ColoredBody = styled('html')(
+  {
+    backgroundColor: '#dae0e6'
+  }
+);
 const StyledCategoryiesBody = styled('div')(
   {
     fontFamily: "'IBM Plex Sans',Ariel,sans-serif",
-    backgroundColor: '#dae0e6',
     display: 'flex',
-    padding: '20px 24px',
+    backgroundColor: '#dae0e6',
+    padding: '2rem 2.4rem',
     flexDirection: 'row',
     justifyContent: 'center'
   }
@@ -13,8 +18,8 @@ const StyledCategoryiesBody = styled('div')(
 
 const CategoryHeader = styled('div')(
   {
-    height: '96px',
-    padding: '0 80px',
+    height: '9.6rem',
+    padding: '0 8rem',
     display: 'flex',
     flex: '1 1 100%',
     flexDirection: 'column',
@@ -22,17 +27,17 @@ const CategoryHeader = styled('div')(
     backgroundColor: '#FFFFFF',
     '& h1': {
       color: '#1c1c1c',
-      paddingBottom: '6px',
-      fontSize: '22px',
+      paddingBottom: '0.6rem',
+      fontSize: '2.2rem',
       fontWeight: '500',
-      lineHeight: '26px',
+      lineHeight: '2.6rem',
       margin: '0'
     },
     '& span': {
       fontFamily: "'Noto Sans',Arial,sans-serif",
-      fontSize: '12px',
+      fontSize: '1.2rem',
       fontWeight: '400',
-      lineHeight: '16px',
+      lineHeight: '1.6rem',
       color: '#7c7c7c'
     }
   }
@@ -40,45 +45,53 @@ const CategoryHeader = styled('div')(
 
 const AlphaStyledDiv = styled('div')(
   {
-    width: '310px',
-    height: '90px',
+    width: '31rem',
+    height: '9rem',
     backgroundColor: '#FFFFFF',
     border: '1px solid #ccc',
     borderRadius: '4px',
-    marginTop: '20px',
+    marginTop: '2rem',
     fontFamily: 'inherit',
     '#AlphaCardTitle': {
-      fontSize: '14px',
+      fontSize: '1.4rem',
       fontWeight: '500',
-      lineHeight: '18px',
+      lineHeight: '1.8rem',
       fontFamily: 'inherit',
-      padding: '12px 12px 0',
+      padding: '1.2rem 1.2rem 0',
       color: '#1A1A1B'
     },
     '#AlphaCardLetter': {
-      padding: '12px'
+      padding: '1.2rem'
     },
     '& a': {
       color: '#0079D3',
       display: 'inline-block',
-      marginRight: '8px',
+      marginRight: '0.8rem',
       textDecoration: 'none',
-      fontSize: '14px',
+      fontSize: '1.4rem',
       fontWeight: '500',
-      lineHeight: '18px'
+      lineHeight: '1.8rem'
     }
   }
 );
 const StyledSideCards = styled('div')(
   {
-    marginLeft: '24px',
+    marginLeft: '2.4rem',
     display: 'flex',
     flexDirection: 'column'
   }
 );
+const SideDiv = styled('div')(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    display: 'none'
+  }
+
+}));
 export {
+  ColoredBody,
   AlphaStyledDiv,
   StyledCategoryiesBody,
   CategoryHeader,
-  StyledSideCards
+  StyledSideCards,
+  SideDiv
 };

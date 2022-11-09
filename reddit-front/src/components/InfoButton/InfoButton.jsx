@@ -9,7 +9,7 @@ import StyledButton from './InfoButton.style';
  * @param {object} children to set the height of the button
  * @returns {React.Component} styled button
  */
-export default function InfoButton({
+function InfoButton({
   len,
   outlined,
   align,
@@ -39,3 +39,4 @@ export default function InfoButton({
 //     </StyledButton>
 //   );
 // }
+export default InfoButton;

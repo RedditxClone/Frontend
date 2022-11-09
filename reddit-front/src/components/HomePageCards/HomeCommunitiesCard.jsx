@@ -39,7 +39,8 @@ export default function HomeCommunitiesCard({
   buttons1,
   buttons2,
   homePageCard,
-  buttonText
+  buttonText,
+  handleClick
 }) {
   
   const [cardCommunities,setCardCommunities]=useState(communities);
