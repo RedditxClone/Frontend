@@ -56,38 +56,22 @@ export default function HomeCommunitiesCard({
     setCardCommunities(communities);
   };
   const buttonTextToLinkMap = (text) => {
-    if (text === "Near You") return "near-you";
-    if (text === "Sports") return "sports";
-    if (text === "Gaming") return "gaming";
-    if (text === "News") return "news";
-    if (text === "TV") return "tv";
-    if (text === "Aww") return "aww";
-    if (text === "Memes") return "memes";
-    if (text === "Pics & Gifs") return "pics_and_gifs";
-    if (text === "Travel") return "travel";
-    if (text === "Tech") return "tech";
-    if (text === "Music") return "music";
-    if (text === "Art & Design") return "art_and_design";
-    if (text === "Beauty") return "beauty";
-    if (text === "Books & Writing") return "books_and_writing";
-    if (text === "Crypto") return "crypto";
-    if (text === "Discussion") return "discussion";
-    if (text === "E3") return "e3";
-    if (text === "Finance & Business") return "finance_and_business";
-    if (text === "Food") return "food";
-    if (text === "Health & Fitness") {
-      return "health_and_fitness";
+   const newText=text.toLowerCase();
+   let link;
+    if(text.includes('&'))
+    {
+     link=newText.replaceAll(' ','_') ;
+     link=link.replaceAll('&','and') ;
+     
     }
-    if (text === "Learning") return "learning";
-    if (text === "Mindblowing") return "mindblowing";
-    if (text === "Outdoors") return "outdoors";
-    if (text === "Parenting") return "parenting";
-    if (text === "Photography") return "photography";
-    if (text === "Relationships") return "relationships";
-    if (text === "Science") return "science";
-    if (text === "Videos") return "videos";
-    if (text === "Vroom") return "vroom";
-    if (text === "Wholesome") return "wholesome";
+    else if(text.includes(' ')&& !text.includes('&'))
+    {
+      link=newText.replaceAll(' ','-') ;
+    }
+    else{
+      link=newText;
+    }
+    return link;
   };
 
   return (
@@ -212,7 +196,7 @@ export default function HomeCommunitiesCard({
           {homePageCard == true ? (
             <LargeRoundedButton
               sx={{
-                margin: "0 0 1.5rem 1.5rem",
+                margin: "1rem 0 1.5rem 1.5rem",
                 "&:hover": {
                   backgroundColor: "#1484D6"
                 }
@@ -226,7 +210,7 @@ export default function HomeCommunitiesCard({
             <NavLink to={`${buttonTextToLinkMap(buttonText)}`}>
               <LargeRoundedButton
                 sx={{
-                  margin: "0 0 1.5rem 1.5rem",
+                  margin: "1rem 0 1.5rem 1.5rem",
                   textDecoration: "none"
                 }}
                 variant="outlined"
