@@ -9,7 +9,7 @@ import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import { autocompleteClasses, Box } from "@mui/material";
+import { autocompleteClasses, Box, styled } from "@mui/material";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import {
@@ -20,7 +20,8 @@ import {
   StyledCard
 } from "./HomePageCards.style";
 import { useState } from "react";
-
+import { Navigate, useNavigate } from "react-router-dom";
+import {NavLink as NavLinkBase} from "react-router-dom";
 /**
  * @typedef {PropType} cardData
  * @property {object} pic the cover of the communities card that is in the home page
@@ -33,6 +34,9 @@ import { useState } from "react";
  * this function returns the communities card shown in the home screen
  * @param {PropType} cardData
  */
+const NavLink=styled(NavLinkBase)({
+  textDecoration:'none'
+});
 export default function HomeCommunitiesCard({
   pic,
   communities,
@@ -41,18 +45,52 @@ export default function HomeCommunitiesCard({
   homePageCard,
   buttonText
 }) {
-  
-  const [cardCommunities,setCardCommunities]=useState(communities);
-  const joinButtonClickHandler = (clicked,index) => {
-    const newCommunities=[...cardCommunities];
-    newCommunities[index].joined=clicked;
-    communities=[...newCommunities];
+  const [cardCommunities, setCardCommunities] = useState(communities);
+  const joinButtonClickHandler = (clicked, index) => {
+    const newCommunities = [...cardCommunities];
+    newCommunities[index].joined = clicked;
+    communities = [...newCommunities];
     setCardCommunities(communities);
-    
   };
+  const buttonTextToLinkMap = (text) => {
+    if (text === "Near You") return "near-you";
+    if (text === "Sports") return "sports";
+    if (text === "Gaming") return "gaming";
+    if (text === "News") return "news";
+    if (text === "TV") return "tv";
+    if (text === "Aww") return "aww";
+    if (text === "Memes") return "memes";
+    if (text === "Pics & Gifs") return "pics_and_gifs";
+    if (text === "Travel") return "travel";
+    if (text === "Tech") return "tech";
+    if (text === "Music") return "music";
+    if (text === "Art & Design") return "art_and_design";
+    if (text === "Beauty") return "beauty";
+    if (text === "Books & Writing") return "books_and_writing";
+    if (text === "Crypto") return "crypto";
+    if (text === "Discussion") return "discussion";
+    if (text === "E3") return "e3";
+    if (text === "Finance & Business") return "finance_and_business";
+    if (text === "Food") return "food";
+    if (text === "Health & Fitness") {
+      
+      return "health_and_fitness";
+    }
+    if (text === "Learning") return "learning";
+    if (text === "Mindblowing") return "mindblowing";
+    if (text === "Outdoors") return "outdoors";
+    if (text === "Parenting") return "parenting";
+    if (text === "Photography") return "photography";
+    if (text === "Relationships") return "relationships";
+    if (text === "Science") return "science";
+    if (text === "Videos") return "videos";
+    if (text === "Vroom") return "vroom";
+    if (text === "Wholesome") return "wholesome";
+  };
+  
   return (
     <Root>
-      <StyledCard sx={{ width: 310 }} elevation={0} >
+      <StyledCard sx={{ width: 310 }} elevation={0}>
         <CardMedia component="img" height="70" image={pic} alt="green iguana" />
         <CardContent
           sx={{
@@ -113,45 +151,51 @@ export default function HomeCommunitiesCard({
                       }}
                       primary={community.name}
                     />
-                    {(homePageCard == true&& !community.userCommunity && community.joined==false) ? (
+                    {homePageCard == true &&
+                    !community.userCommunity &&
+                    community.joined == false ? (
                       <RoundedButton
-                      sx={{
-                        marginLeft: "3rem",
-                        fontSize: "1.3rem",
-                        padding: "2px 7px",
-                        ":hover": {
-                          backgroundColor: "#1484D6"
-                        }
-                      }}
-                      variant="contained"
-                      disableElevation
-                      onClick={()=>joinButtonClickHandler(true,index)}
-                    >
-                      join
-                    </RoundedButton>
-                    ) : (homePageCard == true&& !community.userCommunity && community.joined==true ) ?(<RoundedButton
-                      sx={{
-                        marginLeft: "3rem",
-                        fontSize: "1.3rem",
-                        padding: "2px 7px",
-                        '&:hover span':{
-                          display:'none'
-                         },
-                        '&:hover:before':{
-                         content:`'Leave'`
-                        }
-                      }}
-                      variant="outlined"
-                      disableElevation
-                      onClick={()=>joinButtonClickHandler(false,index)}
-                    >
-                     <span>joined</span> 
-                    </RoundedButton>):null}
+                        sx={{
+                          marginLeft: "3rem",
+                          fontSize: "1.3rem",
+                          padding: "2px 7px",
+                          ":hover": {
+                            backgroundColor: "#1484D6"
+                          }
+                        }}
+                        variant="contained"
+                        disableElevation
+                        onClick={() => joinButtonClickHandler(true, index)}
+                      >
+                        join
+                      </RoundedButton>
+                    ) : homePageCard == true &&
+                      !community.userCommunity &&
+                      community.joined == true ? (
+                      <RoundedButton
+                        sx={{
+                          marginLeft: "3rem",
+                          fontSize: "1.3rem",
+                          padding: "2px 7px",
+                          "&:hover span": {
+                            display: "none"
+                          },
+                          "&:hover:before": {
+                            content: `'Leave'`
+                          }
+                        }}
+                        variant="outlined"
+                        disableElevation
+                        onClick={() => joinButtonClickHandler(false, index)}
+                      >
+                        <span>joined</span>
+                      </RoundedButton>
+                    ) : null}
                   </Box>
                 </ListItem>
                 {index < communities.length - 1 ? (
                   <Divider variant="fullwidth" component="li" />
-                ) :null}
+                ) : null}
               </Box>
             ))}
           </List>
@@ -169,17 +213,24 @@ export default function HomeCommunitiesCard({
               View All
             </LargeRoundedButton>
           ) : (
+            <NavLink to={`${buttonTextToLinkMap(buttonText)}`}>
             <LargeRoundedButton
               sx={{
-                margin: "0 0 1.5rem 1.5rem"
+                margin: "0 0 1.5rem 1.5rem",
+                textDecoration:'none'
+                
               }}
               variant="outlined"
               disableElevation
+              
             >
-              {buttonText}
+              
+               See All {buttonText}
+             
             </LargeRoundedButton>
+            </NavLink>
           )}
-          {buttons2 != null ? (
+          {buttons2 != null && homePageCard == true ? (
             <Box
               sx={{
                 display: "flex",
@@ -194,7 +245,7 @@ export default function HomeCommunitiesCard({
                     marginTop: "3rem",
                     marginRight: "0.3rem",
                     fontSize: "1.2rem",
-                   minWidth:'auto',
+                    minWidth: "auto",
                     // padding: "4px auto",
                     backgroundColor: "#EDEDED",
                     color: "#1484D6",

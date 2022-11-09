@@ -55,7 +55,7 @@ const communities = [
 ];
 
 const buttons1 = ["Top", "Gaming", "Near You"];
-const buttonText = "See All Health&Fit";
+const buttonText = "Health & Fit";
 function App() {
   // return <HomeCreatePostCard />
   return (
