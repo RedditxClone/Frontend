@@ -1,0 +1,23 @@
+.safety .parent-div,.privacy .parent-div,.advanced-security .parent-div {
+    display: flex;
+    flex-flow: nowrap;
+    margin-bottom: 0;
+}
+
+.safety .child-div,.privacy .child-div,.advanced-security .child-div {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+    align-items: flex-start;
+}
+
+.safety .child-b,.privacy .child-b,.advanced-security .child-b {
+    justify-content: flex-end;
+    display: flex;
+    flex-grow: 1;
+}
+
+.privacy p {
+    margin-top:0px;
+    margin-bottom: 33px;
+}
