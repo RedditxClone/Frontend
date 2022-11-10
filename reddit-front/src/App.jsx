@@ -2,8 +2,9 @@
 import HomeCommunitiesCard from "./components/HomePageCards/HomeCommunitiesCard";
 import pic from "./assets/Images/1166721.jpg";
 import HomeCreatePostCard from "./components/HomePageCards/HomeCreatePostCard";
-import CategoriesPage from "./components/Categories/Categories";
+//import CategoriesPage from "./components/Categories/Categories";
 import { BrowserRouter, Route } from 'react-router-dom';
+import AlphabeticCategoriesPage from "./pages/AlphabeticCategoriesPage/AlphabeticCategoriesPage";
 const communities = [
   {
     name: "My Community",
@@ -59,7 +60,8 @@ const buttonText = "Health & Fit";
 function App() {
   // return <HomeCreatePostCard />
   return (
-    <CategoriesPage buttonText={buttonText} buttons={buttons1} pic={pic}/>
+    // <CategoriesPage buttonText={buttonText} buttons={buttons1} pic={pic}/>
+    <AlphabeticCategoriesPage/>
   );
   
 }

@@ -13,13 +13,20 @@ import AlphabeticCard from '../../components/CategoriesCard/AlphabeticCard';
 // import CategoriesCard from './CategoriesCard';
 import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesCard';
 
-export default function CategoriesPage({
+/**
+ * @description This component is resposinble for showing Top communities
+ * @param {string} buttonText to set title of the button at the end of card
+ * @param {object} pic the cover of the communities card that is in the home page
+ * @param {Array} communities the communities that shall be shown in the card
+ * @param {Array} buttons the buttons shown over the cover of the communities card cover
+ * @returns {React.Component} styled page contain Top communities with different communities
+ */
+function CategoriesPage({
   communities,
   buttonText,
   buttons,
   pic
 }) {
-  let navClass = null;
   const [button, buttonState] = useState({
     title: 'Show More',
     showMore: false,
@@ -128,9 +135,6 @@ export default function CategoriesPage({
       });
     }
   };
-  const getClick = (act) => {
-    navClass = act;
-  };
   return (
     <ColoredBody>
       <CategoryHeader>
@@ -148,35 +152,38 @@ export default function CategoriesPage({
             listHeader="Categories"
             buttonTitle={button.title}
             click={buttonHandler}
-            navClass={navClass}
+            data-testid="SideList"
           />
         </SideDiv>
 
         <Outlet />
         <StyledSideCards>
           <HomeCommunitiesCard
+            data-testid="HomeCard"
             buttons1={buttons}
             buttons2={buttons}
             pic={pic}
             communities={communities}
             homePageCard={false}
             buttonText={buttonText}
-            handleClick={getClick}
           />
           <HomeCommunitiesCard
+            data-testid="HomeCard"
             buttons1={buttons}
             buttons2={buttons}
             pic={pic}
             communities={communities}
             homePageCard={false}
             buttonText={buttonText}
-            handleClick={getClick}
           />
           <SideDiv>
-            <AlphabeticCard />
+            <AlphabeticCard
+              data-testid="AlpaCard"
+            />
           </SideDiv>
         </StyledSideCards>
       </StyledCategoryiesBody>
     </ColoredBody>
   );
 }
+export default CategoriesPage;

@@ -8,7 +8,21 @@ import pic from './assets/Images/1166721.jpg';
 // import { Store } from './store/Store';
 // import App from './App';
 import './index.css';
+import AlphabeticCategoriesPage from './pages/AlphabeticCategoriesPage/AlphabeticCategoriesPage';
+import LetterCategory from './pages/AlphabeticCategoriesPage/LetterCategory';
 
+const links = [
+  '/subreddit/a-1',
+  '/subreddit/b-1',
+  '/subreddit/c-1',
+  '/subreddit/d-1'
+];
+const arr = [
+  '/subreddit/a-1',
+  '/subreddit/b-1',
+  '/subreddit/c-1',
+  '/subreddit/d-1'
+];
 const communities = [
   {
     name: 'My Community',
@@ -383,6 +397,273 @@ const routes = createBrowserRouter([
           <CategoriesCard
             communities={communities}
             topText="Wholesome"
+          />
+        )
+      }
+    ]
+  },
+  {
+    path: '/subreddit',
+    element: <AlphabeticCategoriesPage />,
+    // errorElement: <ErrorPage />,
+    children: [
+      {
+        path: 'a-1',
+        element: (
+          <LetterCategory
+            letter="A"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'b-1',
+        element: (
+          <LetterCategory
+            letter="B"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'c-1',
+        element: (
+          <LetterCategory
+            letter="C"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'd-1',
+        element: (
+          <LetterCategory
+            letter="D"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'e-1',
+        element: (
+          <LetterCategory
+            letter="E"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'f-1',
+        element: (
+          <LetterCategory
+            letter="F"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'g-1',
+        element: (
+          <LetterCategory
+            letter="G"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'h-1',
+        element: (
+          <LetterCategory
+            letter="H"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'i-1',
+        element: (
+          <LetterCategory
+            letter="I"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'j-1',
+        element: (
+          <LetterCategory
+            letter="J"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'k-1',
+        element: (
+          <LetterCategory
+            letter="K"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'l-1',
+        element: (
+          <LetterCategory
+            letter="L"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'm-1',
+        element: (
+          <LetterCategory
+            letter="M"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'n-1',
+        element: (
+          <LetterCategory
+            letter="N"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'p-1',
+        element: (
+          <LetterCategory
+            letter="P"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'q-1',
+        element: (
+          <LetterCategory
+            letter="Q"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'r-1',
+        element: (
+          <LetterCategory
+            letter="R"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 's-1',
+        element: (
+          <LetterCategory
+            letter="S"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 't-1',
+        element: (
+          <LetterCategory
+            letter="T"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'u-1',
+        element: (
+          <LetterCategory
+            letter="U"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'v-1',
+        element: (
+          <LetterCategory
+            letter="V"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'w-1',
+        element: (
+          <LetterCategory
+            letter="W"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'x-1',
+        element: (
+          <LetterCategory
+            letter="X"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'y-1',
+        element: (
+          <LetterCategory
+            letter="Y"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: 'z-1',
+        element: (
+          <LetterCategory
+            letter="Z"
+            links={links}
+            arr={arr}
+          />
+        )
+      },
+      {
+        path: '0-1',
+        element: (
+          <LetterCategory
+            letter="#"
+            links={links}
+            arr={arr}
           />
         )
       }

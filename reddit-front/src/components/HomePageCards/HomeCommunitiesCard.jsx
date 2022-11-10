@@ -43,8 +43,7 @@ export default function HomeCommunitiesCard({
   buttons1,
   buttons2,
   homePageCard,
-  buttonText,
-  handleClick
+  buttonText
 }) {
   let activeStyle = {
     color: "black"
