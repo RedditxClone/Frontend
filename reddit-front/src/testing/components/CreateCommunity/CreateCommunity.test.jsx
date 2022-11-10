@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import CreateCommunity from '../../../components/createCommunity/CreateCommunity';
+import CreateCommunity from '../../../components/CreateCommunity/CreateCommunity';
 
 describe('Test for Create Community Card', () => {
   it('Test for rendering the card', () => {

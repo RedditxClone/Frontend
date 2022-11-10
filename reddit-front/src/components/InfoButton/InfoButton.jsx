@@ -7,6 +7,8 @@ import StyledButton from './InfoButton.style';
  * @param {string} align to know how to align label of the button
  * @param {number} hlen to set the height of the button
  * @param {object} children to set the height of the button
+ * @param {string} type the type of the button
+ * @param {boolean} disabled to make the button disabled or enabled
  * @returns {React.Component} styled button
  */
 export default function InfoButton({
@@ -14,7 +16,9 @@ export default function InfoButton({
   outlined,
   align,
   hlen,
-  children
+  children,
+  type,
+  disabled
 }) {
   return (
     <StyledButton
@@ -22,6 +26,8 @@ export default function InfoButton({
       len={len}
       align={align}
       hlen={hlen}
+      type={type}
+      disabled={disabled}
     >
       {children}
     </StyledButton>

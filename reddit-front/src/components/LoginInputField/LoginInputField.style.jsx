@@ -1,14 +1,13 @@
 import { styled, TextField } from '@mui/material';
 
 const StyledTextField = styled(TextField)({
-  marginBottom: '18px',
   display: 'block',
   '& .MuiOutlinedInput-root': {
     ' & fieldset': {
       outline: 0,
       border: '1px solid rgba(0,0,0,.1)',
       borderRadius: '4px',
-      width: '26rem'
+      width: '280px'
     },
     fontSize: '1.5rem'
   }

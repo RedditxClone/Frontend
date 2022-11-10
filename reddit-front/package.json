@@ -11,6 +11,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.1.3",
     "jsdoc": "^3.6.11",
     "npm": "^8.18.0",
     "react": "^18.2.0",
@@ -57,7 +58,8 @@
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
     "jsdoc": "^3.6.11",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "react-google-recaptcha": "^2.1.0"
   },
   "description": "- Create your branches from the developement branch as a source branch\r - The components should have extension **.jsx**\r - Do not forget documentations for each component\r - For Icons: use [react icons](https://react-icons.github.io/react-icons)\r - For Documentations: use [JSDoc](https://jsdoc.app/)\r - For The pages components, store the code in the pages directory\r - For the reusable and repeatable components, store them in utilities\r - **Do not forget Testing**",
   "main": "index.js",

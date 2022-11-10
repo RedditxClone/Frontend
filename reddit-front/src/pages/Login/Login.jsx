@@ -1,6 +1,10 @@
+/* eslint-disable operator-linebreak */
+// import { Link, useHistory } from 'react-router-dom';
 import { Typography } from '@mui/material';
-// import InfoInput from '../../components/InfoInput/InfoInput';
-import SideImage from '../../components/SideImage/SideImage';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../../store/slices/AuthSlice';
 import InfoButton from '../../components/InfoButton/InfoButton';
 import {
   DividerDiv,
@@ -9,15 +13,60 @@ import {
   ImgDiv
 } from './Login.style';
 import {
-  AllDiv,
   ContentDiv,
   UserAggrementDiv,
   DotDiv,
-  StyledFooter
+  StyledFooter,
+  LinkWithMargin,
+  AllDiv
 } from '../../components/GlobalStyles/GlobalStyles.style';
-import LoginInputField from '../../components/loginInputField/LoginInputFiled';
+import LoginInputField from '../../components/LoginInputField/LoginInputField';
+import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
+import useInput from '../../hooks/use-input';
+import Recaptcha from '../../components/Recaptcha/Recaptcha';
+import SideImage from '../../components/SideImage/SideImage';
 
 export default function Login() {
+  const {
+    value: userName,
+    valueChangeHandler: onChangeUserNameInputHandler,
+    inputBlurHandler: onBlurUserNameInput,
+    inputFocusHandler: onFocusUserNameInput,
+    isTouched: touchedUserNameInput,
+    reset: resetUserNameInput,
+    hasError: errorUserName
+  } = useInput((value) => value.length >= 3 && value.length <= 20);
+
+  const {
+    value: password,
+    valueChangeHandler: onChangePasswordInputHandler,
+    inputBlurHandler: onBlurPasswordInput,
+    inputFocusHandler: onFocusPasswordInput,
+    isTouched: touchedPasswordInput,
+    reset: resetPasswordInput,
+    hasError: errorPassword
+  } = useInput((value) => value.length >= 8);
+
+  const [recaptcha, setRecaptcha] = useState(false);
+
+  const formIsValid = !errorPassword && !errorUserName && recaptcha;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isLoading, error, isAuth } = useSelector((state) => state.auth);
+  if (isAuth) {
+    navigate('/home');
+  }
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+    dispatch(login({ username: userName, password }));
+  };
+
+  const resetInputs = () => {
+    resetPasswordInput();
+    resetUserNameInput();
+  };
+
   const outLined = true;
   const len = 28;
   const lhlen = 3;
@@ -26,24 +75,20 @@ export default function Login() {
     <AllDiv>
       <SideImage />
       <ContentDiv>
-        <Typography variant="h1">Log in</Typography>
+        <Typography variant="h3">Log in</Typography>
         <UserAggrementDiv>
           <p>
             By continuing, you agree to our
-            <a href="https://www.redditinc.com/policies/user-agreement">
+            <LinkWithMargin href="https://www.redditinc.com/policies/user-agreement">
               User Agreement
-            </a>
+            </LinkWithMargin>
             and
-            <a href="https://www.reddit.com/policies/privacy-policy">
+            <LinkWithMargin href="https://www.reddit.com/policies/privacy-policy">
               Privacy Policy
-            </a>
-            .
+            </LinkWithMargin>
           </p>
         </UserAggrementDiv>
-        <form
-          action="/login"
-          method="post"
-        >
+        <form onSubmit={onSubmitHandler}>
           <div className="AnotherWayToLogin">
             <ContainerDiv>
               <InfoButton
@@ -88,36 +133,81 @@ export default function Login() {
             <span className="DividerLine"> </span>
           </DividerDiv>
           <DotDiv>
-            <LoginInputField label="username" />
+            <LoginInputField
+              label="username"
+              error={errorUserName}
+              onChange={onChangeUserNameInputHandler}
+              onBlur={onBlurUserNameInput}
+              onFocus={onFocusUserNameInput}
+              value={userName}
+            />
             <span className="Dot"> </span>
+            {errorUserName && (
+              <ErrorMessage>
+                Username must be between 3 and 20 characters
+              </ErrorMessage>
+            )}
+            {error && (
+              <ErrorMessage>Incorrect username or password</ErrorMessage>
+            )}
           </DotDiv>
           <DotDiv>
-            <LoginInputField label="password" />
+            <LoginInputField
+              label="password"
+              error={errorPassword}
+              onChange={onChangePasswordInputHandler}
+              onBlur={onBlurPasswordInput}
+              onFocus={onFocusPasswordInput}
+              value={password}
+              type="password"
+              disabled={!formIsValid}
+            />
             <span className="Dot"> </span>
+            {errorPassword && <ErrorMessage> Invalid Password</ErrorMessage>}
           </DotDiv>
+          {!errorUserName &&
+            !errorPassword &&
+            touchedPasswordInput &&
+            touchedUserNameInput && <Recaptcha setRecaptcha={setRecaptcha} />}
           <InfoButton
             outlined={!outLined}
             len={len}
             align="center"
             hlen={lhlen}
+            loading={isLoading}
+            type="submit"
+            disabled={!formIsValid}
           >
             LOG IN
           </InfoButton>
           <StyledFooter>
             <p id="forget">
               Forgot your
-              <a href=" "> username </a>
+              <Link
+                to="/forgetuname"
+                onClick={resetInputs}
+              >
+                {' '}
+                username
+              </Link>
               or
-              <a href=" "> password </a>
+              <Link
+                to="/forgetupassword"
+                onClick={resetInputs}
+              >
+                {' '}
+                password
+              </Link>
             </p>
             <p id="Newto">
               New to Reddit?
-              <a
-                href=" "
+              <Link
+                to="/signup"
                 id="BottomLink"
+                onClick={resetInputs}
               >
                 SIGN UP
-              </a>
+              </Link>
             </p>
           </StyledFooter>
         </form>
