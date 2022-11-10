@@ -1,6 +1,8 @@
+/* eslint-disable operator-linebreak */
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { signUp } from '../../store/slices/AuthSlice';
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import { DotDiv } from '../../components/GlobalStyles/GlobalStyles.style';
@@ -16,47 +18,68 @@ export default function ChooseUserName() {
     value: userName,
     valueChangeHandler: onChangeUserNameInputHandler,
     inputBlurHandler: onBlurUserNameInput,
+    inputFocusHandler: onFocusUserNameInput,
     isTouched: touchedUserNameInput,
     reset: resetUserName,
     hasError: errorUserName
-  } = useInput((value) => value.length > 3 && value.length < 20);
+  } = useInput((value) => value.length >= 3 && value.length <= 20);
 
   const {
     value: password,
     valueChangeHandler: onChangePasswordInputHandler,
     inputBlurHandler: onBlurPasswordInput,
+    inputFocusHandler: onFocusPasswordInput,
     reset: resetPassword,
     hasError: errorPassword
   } = useInput((value) => value.length > 8);
   const [recaptcha, setRecaptcha] = useState(false);
+  const [takenUserName, setTakenUserName] = useState(false);
+
   // To check if the username available or not
-  // useEffect(() => {
-  //   const timeToReadName = setTimeout(async () => {
-  //     try {
-  //       const response = await fetch('', {
-  //         method: 'post',
-  //         body: JSON.stringify(userName)
-  //       });
-  //     } catch (err) {}
-  //   }, 2500);
+  useEffect(() => {
+    const timeToReadName = setTimeout(async () => {
+      try {
+        const res = await axios.post(
+          'http://localhost:3033/api/user/check-available-username',
+          {
+            username: userName
+          }
+        );
+        if (res.status >= 200 && res.status < 300) {
+          setTakenUserName(false);
+        } else {
+          setTakenUserName(true);
+        }
+      } catch (err) {
+        setTakenUserName(true);
+      }
+    }, 1500);
 
-  //   return () => {
-  //     clearTimeout(timeToReadName);
-  //   };
-  // }, userName);
+    return () => {
+      clearTimeout(timeToReadName);
+    };
+  }, [userName]);
 
-  const formIsValid = !errorPassword && !errorUserName && recaptcha;
+  const formIsValid =
+    !takenUserName && !errorPassword && !errorUserName && recaptcha;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
   const { isAuth } = useSelector((st) => st.auth);
   const { email } = state;
-  if (isAuth) navigate('/');
+  const resetInputs = () => {
+    resetPassword();
+    resetUserName();
+  };
+  if (isAuth) {
+    navigate('/home');
+    resetInputs();
+  }
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     dispatch(signUp({ email, username: userName, password }));
-    resetUserName();
-    resetPassword();
+    resetInputs();
   };
 
   const outLined = true;
@@ -94,6 +117,7 @@ export default function ChooseUserName() {
                 error={errorUserName}
                 onChange={onChangeUserNameInputHandler}
                 onBlur={onBlurUserNameInput}
+                onFocus={onFocusUserNameInput}
                 value={userName}
               />
               <span className="Dot"> </span>
@@ -101,6 +125,9 @@ export default function ChooseUserName() {
                 <ErrorMessage>
                   Username must be between 3 and 20 characters
                 </ErrorMessage>
+              )}
+              {takenUserName && (
+                <ErrorMessage>That username is already taken</ErrorMessage>
               )}
             </DotDiv>
             <DotDiv>
@@ -110,6 +137,7 @@ export default function ChooseUserName() {
                 onChange={onChangePasswordInputHandler}
                 onBlur={onBlurPasswordInput}
                 value={password}
+                onFocus={onFocusPasswordInput}
                 type="password"
               />
               <span className="Dot"> </span>
@@ -127,7 +155,12 @@ export default function ChooseUserName() {
               alignItems: 'center'
             }}
           >
-            <BackLink to="/user/signup">Back</BackLink>
+            <BackLink
+              onClick={resetInputs}
+              to="/signup"
+            >
+              Back
+            </BackLink>
             <InfoButton
               outlined={!outLined}
               len={len}

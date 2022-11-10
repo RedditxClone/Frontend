@@ -10,8 +10,12 @@ export default function useInput(validateFn) {
     setHasError(!validateFn(enteredValue));
   };
 
-  const inputBlurHandler = () => {
+  const inputFocusHandler = () => {
     setIsTouched(true);
+    setHasError(!validateFn(enteredValue));
+  };
+
+  const inputBlurHandler = () => {
     setHasError(!validateFn(enteredValue));
   };
 
@@ -25,6 +29,7 @@ export default function useInput(validateFn) {
     valueChangeHandler,
     isTouched,
     inputBlurHandler,
+    inputFocusHandler,
     reset,
     hasError
   };

@@ -1,12 +1,14 @@
+/* eslint-disable operator-linebreak */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const INITIAL_STATE = {
   user: {},
   isAuth: false,
-  isLoaisLoadingding: false,
+  isLoading: false,
   error: null,
-  msg: ''
+  fulfilled: false,
+  msg: null
 };
 
 export const signUp = createAsyncThunk(
@@ -111,12 +113,21 @@ export const resetPassword = createAsyncThunk(
 const AuthSlice = createSlice({
   name: 'user',
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    resetRequest(state) {
+      state.error = null;
+      state.msg = null;
+      state.isAuth = false;
+      state.isLoading = false;
+      fulfilled = false;
+    }
+  },
   extraReducers: {
     /** Sign up */
     [signUp.pending]: (state) => {
       state.isLoading = true;
       state.error = null;
+      state.fulfilled = false;
     },
     [signUp.rejected]: (state, action) => {
       state.isLoading = false;
@@ -133,59 +144,69 @@ const AuthSlice = createSlice({
     [login.pending]: (state) => {
       state.isLoading = true;
       state.error = null;
+      state.fulfilled = false;
     },
     [login.rejected]: (state, action) => {
       state.isLoading = false;
       state.isAuth = false;
+      state.fulfilled = false;
       state.error = action.payload;
     },
     [login.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.user = action.payload;
       state.isAuth = true;
+      state.fulfilled = true;
       state.error = null;
     },
     /** Forget username */
     [forgetUserName.pending]: (state) => {
       state.isLoading = true;
       state.error = null;
+      state.fulfilled = false;
     },
     [forgetUserName.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+      state.fulfilled = false;
     },
-    [forgetUserName.fulfilled]: (state, action) => {
+    [forgetUserName.fulfilled]: (state) => {
       state.isLoading = false;
-      state.msg = action.payload;
+      state.fulfilled = true;
       state.error = null;
     },
     /** Forget Password */
     [forgetPassword.pending]: (state) => {
       state.isLoading = true;
       state.error = null;
+      state.fulfilled = false;
     },
     [forgetPassword.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+      state.fulfilled = false;
     },
-    [forgetPassword.fulfilled]: (state, action) => {
+    [forgetPassword.fulfilled]: (state) => {
       state.isLoading = false;
-      state.msg = action.payload;
+      state.fulfilled = true;
       state.error = null;
     },
     /** Change forgetten password */
     [resetPassword.pending]: (state) => {
       state.isLoading = true;
       state.error = null;
+      state.fulfilled = false;
     },
     [resetPassword.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+      state.fulfilled = false;
     },
     [resetPassword.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.msg = action.payload;
       state.error = null;
+      state.fulfilled = true;
     }
   }
 });
