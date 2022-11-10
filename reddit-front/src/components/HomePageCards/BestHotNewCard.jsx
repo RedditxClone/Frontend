@@ -13,19 +13,13 @@ import {
   StyledBox,
   StyledMenuItem
 } from './HomePageCards.style';
+
 /**
- * @typedef {PropType} states
- * @property {object} anchorEl
- * @property {string} clickedItem Today Button Menu Clicked Item
- * @property {Number} clickedButton
- * @property {Boolean} open
- */
-/**
- * this function returns Best Hot New Top Card In the Home Screen
- * @param {PropType} states
+ * @description This component is resposinble to render the Best Hot New Top Card In the Home Screen
+ * @returns the card with the Best Hot New Top Card
  */
 
-export default function BestHotNewCard() {
+function BestHotNewCard() {
   const [clickedButton, setClickedButton] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [clickedItem, setClickedItem] = useState('Today');
@@ -36,19 +30,19 @@ export default function BestHotNewCard() {
     setAnchorEl(event.currentTarget);
   };
   /**
-   * closes the Rising Menu */
+   * @description closes the Rising Menu */
   const handleClose = () => {
     setAnchorEl(null);
   };
   const [anchorElTodayMenu, setAnchorElTodayMenu] = useState(null);
   const openTodayMenu = Boolean(anchorElTodayMenu);
   /**
-   * opens the Today Menu */
+   * @description  opens the Today Menu */
   const handleClickTodayMenu = (event) => {
     setAnchorElTodayMenu(event.currentTarget);
   };
   /**
-   * closes the Today Menu */
+   * @description  closes the Today Menu */
   const handleCloseTodayMenu = (clicked) => {
     if (clicked == null) { console.log(' Error'); }
     if (clicked != null) {
@@ -58,7 +52,7 @@ export default function BestHotNewCard() {
     setAnchorElTodayMenu(null);
   };
   /**
-   * handels clicks on buttons */
+   * @description  handels clicks on buttons */
   const buttonClickedHandler = (clicked) => {
     setClickedButton(clicked);
   };
@@ -213,3 +207,4 @@ export default function BestHotNewCard() {
     </CreatePostCardRoot>
   );
 }
+export default (BestHotNewCard);

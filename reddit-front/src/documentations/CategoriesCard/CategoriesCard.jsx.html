@@ -1,4 +1,32 @@
-/* eslint-disable react/no-unescaped-entities */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CategoriesCard.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CategoriesCard.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-param-reassign */
@@ -38,7 +66,7 @@ function CategoriesCard({ communities, topText }) {
   };
   /**
    * @description this function handles the click on the join button
-   * @pr {boolean} clicked represents whether the button is clicked or not
+   * @param {boolean} clicked represents whether the button is clicked or not
    * @param {int} index represents the index of the community that the user wants to join
    */
   const joinButtonClickHandler = (clicked, index) => {
@@ -48,27 +76,27 @@ function CategoriesCard({ communities, topText }) {
     setCardCommunities(communities);
   };
   return (
-    <StyledCard sx={{ width: '50%' }} elevation={0}>
-      <CardContent
+    &lt;StyledCard sx={{ width: '50%' }} elevation={0}>
+      &lt;CardContent
         sx={{
           padding: '0',
-          '&:last-child': {
+          '&amp;:last-child': {
             paddingBottom: '0.7rem'
           }
         }}
       >
-        <CategoriesCardBar data-testid="categories_card_bar">
-          <Typography variant="h5">
+        &lt;CategoriesCardBar data-testid="categories_card_bar">
+          &lt;Typography variant="h5">
             Today's Top Growing in
             {' '}
             {topText}
-          </Typography>
-          <Typography variant="h5" sx={{ color: '#7C7C7c' }}>
+          &lt;/Typography>
+          &lt;Typography variant="h5" sx={{ color: '#7C7C7c' }}>
             Rank Change
-          </Typography>
-        </CategoriesCardBar>
+          &lt;/Typography>
+        &lt;/CategoriesCardBar>
 
-        <List
+        &lt;List
           sx={{
             width: '100%',
             bgcolor: 'background.paper',
@@ -77,12 +105,12 @@ function CategoriesCard({ communities, topText }) {
           }}
         >
           {communities.map((community, index) => (
-            <Box sx={{ width: '100%' }}>
-              <NavLink
+            &lt;Box sx={{ width: '100%' }}>
+              &lt;NavLink
                 style={({ isActive }) => (isActive ? activeStyle : activeStyle)}
                 to="/food"
               >
-                <ListItem
+                &lt;ListItem
                   key={index}
                   alignItems="flex-start"
                   sx={{
@@ -94,7 +122,7 @@ function CategoriesCard({ communities, topText }) {
                   }}
                   data-testid="communities_items"
                 >
-                  <Box
+                  &lt;Box
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
@@ -102,10 +130,10 @@ function CategoriesCard({ communities, topText }) {
                       width: '100%'
                     }}
                   >
-                    <Box sx={{ display: 'flex' }}>
-                      <ListItemText
+                    &lt;Box sx={{ display: 'flex' }}>
+                      &lt;ListItemText
                         sx={{
-                          '& span': {
+                          '&amp; span': {
                             fontSize: '1.6rem',
                             paddingRight: '1rem',
                             marginTop: '1rem',
@@ -116,33 +144,33 @@ function CategoriesCard({ communities, topText }) {
                         primary={index + 1}
                       />
                       {community.growing == true ? (
-                        <Box sx={{ marginTop: '1rem', padding: '0.5rem' }}>
-                          <MdKeyboardArrowUp size={23} color="#46d15f" />
-                        </Box>
+                        &lt;Box sx={{ marginTop: '1rem', padding: '0.5rem' }}>
+                          &lt;MdKeyboardArrowUp size={23} color="#46d15f" />
+                        &lt;/Box>
                       ) : null}
                       {community.goingDown == true ? (
-                        <Box sx={{ marginTop: '1rem', padding: '0.5rem' }}>
-                          <MdKeyboardArrowDown size={23} color="#EA0027" />
-                        </Box>
+                        &lt;Box sx={{ marginTop: '1rem', padding: '0.5rem' }}>
+                          &lt;MdKeyboardArrowDown size={23} color="#EA0027" />
+                        &lt;/Box>
                       ) : null}
                       {community.goingDown == false
-                    && community.growing == false ? (
-                      <div style={{ width: '3rem' }} />
+                    &amp;&amp; community.growing == false ? (
+                      &lt;div style={{ width: '3rem' }} />
                         ) : null}
-                      <ListItemAvatar sx={{ paddingLeft: '0.5rem' }}>
-                        <Avatar alt={community.name} src={community.picture} />
-                      </ListItemAvatar>
-                      <div style={{
-                        '& :hover': {
-                          '& .comm_card': {
+                      &lt;ListItemAvatar sx={{ paddingLeft: '0.5rem' }}>
+                        &lt;Avatar alt={community.name} src={community.picture} />
+                      &lt;/ListItemAvatar>
+                      &lt;div style={{
+                        '&amp; :hover': {
+                          '&amp; .comm_card': {
                             display: 'block'
                           }
                         }
                       }}
                       >
-                        <ListItemText
+                        &lt;ListItemText
                           sx={{
-                            '& span': {
+                            '&amp; span': {
                               fontSize: '1.6rem',
                               marginTop: '1.7rem',
                               lineHeight: '2rem'
@@ -150,7 +178,7 @@ function CategoriesCard({ communities, topText }) {
                           }}
                           primary={community.name}
                         >
-                          <div
+                          &lt;div
                             className="comm_card"
                             style={{
 
@@ -160,14 +188,14 @@ function CategoriesCard({ communities, topText }) {
                               display: 'none'
                             }}
                           >
-                            <CommunityHoverCard community={communities[0]} />
-                          </div>
-                        </ListItemText>
-                      </div>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      {!community.userCommunity && community.joined == false ? (
-                        <RoundedButton
+                            &lt;CommunityHoverCard community={communities[0]} />
+                          &lt;/div>
+                        &lt;/ListItemText>
+                      &lt;/div>
+                    &lt;/Box>
+                    &lt;Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      {!community.userCommunity &amp;&amp; community.joined == false ? (
+                        &lt;RoundedButton
                           sx={{
                             marginLeft: '3rem',
                             fontSize: '1.3rem',
@@ -181,17 +209,17 @@ function CategoriesCard({ communities, topText }) {
                           onClick={() => joinButtonClickHandler(true, index)}
                         >
                           join
-                        </RoundedButton>
-                      ) : !community.userCommunity && community.joined == true ? (
-                        <RoundedButton
+                        &lt;/RoundedButton>
+                      ) : !community.userCommunity &amp;&amp; community.joined == true ? (
+                        &lt;RoundedButton
                           sx={{
                             marginLeft: '3rem',
                             fontSize: '1.3rem',
                             padding: '2px 7px',
-                            '&:hover span': {
+                            '&amp;:hover span': {
                               display: 'none'
                             },
-                            '&:hover:before': {
+                            '&amp;:hover:before': {
                               content: '\'Leave\''
                             }
                           }}
@@ -199,12 +227,12 @@ function CategoriesCard({ communities, topText }) {
                           disableElevation
                           onClick={() => joinButtonClickHandler(false, index)}
                         >
-                          <span>joined</span>
-                        </RoundedButton>
+                          &lt;span>joined&lt;/span>
+                        &lt;/RoundedButton>
                       ) : null}
-                      <ListItemText
+                      &lt;ListItemText
                         sx={{
-                          '& span': {
+                          '&amp; span': {
                             fontSize: '1.6rem',
                             padding: '1rem 1rem',
                             marginTop: '1rem',
@@ -214,18 +242,41 @@ function CategoriesCard({ communities, topText }) {
                         }}
                         primary={community.rank}
                       />
-                    </Box>
-                  </Box>
-                </ListItem>
-              </NavLink>
-              {index < communities.length - 1 ? (
-                <Divider variant="fullwidth" component="li" />
+                    &lt;/Box>
+                  &lt;/Box>
+                &lt;/ListItem>
+              &lt;/NavLink>
+              {index &lt; communities.length - 1 ? (
+                &lt;Divider variant="fullwidth" component="li" />
               ) : null}
-            </Box>
+            &lt;/Box>
           ))}
-        </List>
-      </CardContent>
-    </StyledCard>
+        &lt;/List>
+      &lt;/CardContent>
+    &lt;/StyledCard>
   );
 }
 export default (CategoriesCard);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CategoriesCard">CategoriesCard</a></li><li><a href="global.html#CategoriesCardBar">CategoriesCardBar</a></li><li><a href="global.html#CommunityHoverCard">CommunityHoverCard</a></li><li><a href="global.html#NavLink">NavLink</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 20:59:57 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

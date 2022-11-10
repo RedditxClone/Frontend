@@ -1,4 +1,3 @@
-/* eslint-disable */
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
@@ -7,7 +6,14 @@ import Typography from '@mui/material/Typography';
 import { LargeRoundedButton } from '../HomePageCards/HomePageCards.style';
 import { NavLink } from './CategoriesCard.style';
 
-export default function CommunityHoverCard({ community }) {
+/**
+ * @description This component is resposinble to render the Community Hover Card
+ * @param {object} community that is the community that we will display its
+ * info in the card
+ * @returns the card that is displayed when hovering on the community name
+ */
+
+function CommunityHoverCard({ community }) {
   const activeStyle = {
     color: 'black'
   };
@@ -15,7 +21,7 @@ export default function CommunityHoverCard({ community }) {
     <Card sx={{ width: 350, padding: '0.7rem', lineHeight: '17px' }}>
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar data-testid='community_avatar' alt={community.name} src={community.picture} />
+          <Avatar data-testid="community_avatar" alt={community.name} src={community.picture} />
           <NavLink
             style={({ isActive }) => (isActive ? activeStyle : activeStyle)}
             to="/food"
@@ -86,3 +92,4 @@ export default function CommunityHoverCard({ community }) {
     </Card>
   );
 }
+export default (CommunityHoverCard);

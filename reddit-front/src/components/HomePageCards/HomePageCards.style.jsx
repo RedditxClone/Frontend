@@ -6,11 +6,13 @@ import { Card, styled } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 /**
- * Global style for Home Page Cards
+ * @description Global style for Home Page Cards
  */
 
 /**
- * Responsively showing cards or not
+ * @description Responsively showing cards or not
+ * @param {div} div - the default div
+ * @return {div} - The styled div
  */
 
 export const Root = styled('div')(({ theme }) => ({
@@ -20,7 +22,7 @@ export const Root = styled('div')(({ theme }) => ({
 }));
 
 /**
- * Modify the style of the default link
+ * @description Modify the style of the default link
  * @param {Link} Link - the default link
  * @return {Link} - The styled link
  */
@@ -32,7 +34,7 @@ export const StyledLink = styled(Link)({
 });
 
 /**
- * Modify the style of the default Box to use it to display a row
+ * @description Modify the style of the default Box to use it to display a row
  * @param {Box} Box - the default Box
  * @return {Box} - The styled Box
  */
@@ -43,7 +45,7 @@ export const StyledRowBox = styled(Box)({
 });
 
 /**
- * Modify the style of the default Box to use it to display a column
+ * @description Modify the style of the default Box to use it to display a column
  * @param {Box} Box - the default Box
  * @return {Box} - The styled Box
  */
@@ -54,7 +56,7 @@ export const StyledColBox = styled(Box)({
   alignItems: 'flex-start'
 });
 /**
- * Modify the style of the default Box
+ * @description Modify the style of the default Box
  * @param {Box} Box - the default Box
  * @return {Box} - The styled Box
  */
@@ -71,7 +73,7 @@ export const StyledBox = styled(Box)({
   margin: '2rem'
 });
 /**
- * Modify the style of the default TextField
+ * @description Modify the style of the default TextField
  * @param {TextField} TextField - the default TextField
  * @return {TextField} - The styled TextField
  */
@@ -89,7 +91,7 @@ export const StyledTextField = styled(TextField)({
 });
 
 /**
- * Modify the style of the default Button to be rounded
+ * @description Modify the style of the default Button to be rounded
  * @param {Button} Button - the default Button
  * @return {Button} - The styled Button
  */
@@ -102,7 +104,7 @@ export const RoundedButton = styled(Button)(() => ({
 }));
 
 /**
- * Modify the style of the default Button
+ * @description Modify the style of the default Button
  * @param {Button} Button - the default Button
  * @return {Button} - The styled Button
  */
@@ -114,7 +116,7 @@ export const OverButton = styled(Button)({
 });
 
 /**
- * Modify the style of the default Button
+ * @description Modify the style of the default Button
  * @param {Button} Button - the default Button
  * @return {Button} - The styled Button
  */
@@ -133,7 +135,7 @@ export const StyledButton = styled(Button)({
 });
 
 /**
- * Modify the style of the default MenuItem
+ * @description Modify the style of the default MenuItem
  * @param {MenuItem} MenuItem - the default MenuItem
  * @return {MenuItem} - The styled MenuItem
  */
@@ -144,6 +146,12 @@ export const StyledMenuItem = styled(MenuItem)({
   fontSize: '1.6rem',
   '&li:hover': { backgroundColor: 'blue' }
 });
+
+/**
+ * @description Modify the style of the Rounded Button
+ * @param {RoundedButton} RoundedButton
+ * @return {RoundedButton}
+ */
 
 export const LargeRoundedButton = styled(RoundedButton)({
   alignSelf: 'center',
@@ -158,11 +166,18 @@ export const LargeRoundedButton = styled(RoundedButton)({
   }
 });
 
+/**
+ * @description Modify the style of the default Card
+ * @param {Card} Card - the default Card
+ * @return {Card} - The styled Card
+ */
+
 export const StyledCard = styled(Card)({
   padding: '0', border: '1px solid #1a1a1b12', borderRadius: '5px'
 });
+
 /**
- * Responsively changing the width of the Create Post Card
+ * @description Responsively changing the width of the Create Post Card
  * and Best Hot New Card that is displayed in the home screen
  */
 

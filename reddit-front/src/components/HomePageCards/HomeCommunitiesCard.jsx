@@ -10,12 +10,9 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import { Box, styled } from '@mui/material';
+import { Box } from '@mui/material';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
-
 import { useState } from 'react';
-import { NavLink as NavLinkBase } from 'react-router-dom';
-
 import {
   RoundedButton,
   OverButton,
@@ -23,22 +20,21 @@ import {
   LargeRoundedButton,
   StyledCard
 } from './HomePageCards.style';
+import { NavLink } from '../CategoriesCard/CategoriesCard.style';
 /**
- * @typedef {PropType} cardData
- * @property {object} pic the cover of the communities card that is in the home page
- * @property {Array} communities the communities that shall be shown in the card
- * @property {Array} buttons1 the buttons shown over the cover of the communities card cover
- * @property {Array} buttons2 the buttons shown under the cover of the communities card cover
- *
+ * @description This component is resposinble to render the
+ * communities card
+ * @param {object} pic the cover of the communities card that is in the home page
+ * @param {Array} communities the communities that shall be shown in the card
+ * @param {Array} buttons1 the buttons shown over the cover of the communities card cover
+ * @param {Array} buttons2 the buttons shown at the end of the communities card
+ * @param {boolean} homePageCard this variable informs wheter the card will be rendered in the home
+ * page or in another page like categories page cause if it will be rendered in the home page ,
+ * there will be no buttons at the end if the card and also the text on the large button at the
+ * end of the card will be View all Always
+ * @param {string} buttonText the text shown on the large button at the end of the card
  */
-/**
- * this function returns the communities card shown in the home screen
- * @param {PropType} cardData
- */
-const NavLink = styled(NavLinkBase)({
-  textDecoration: 'none'
-});
-export default function HomeCommunitiesCard({
+function HomeCommunitiesCard({
   pic,
   communities,
   buttons1,
@@ -50,12 +46,22 @@ export default function HomeCommunitiesCard({
     color: 'black'
   };
   const [cardCommunities, setCardCommunities] = useState(communities);
+  /**
+   * @description this function handles the click on the join button
+   * @param {boolean} clicked represents whether the button is clicked or not
+   * @param {int} index represents the index of the community that the user wants to join
+   */
   const joinButtonClickHandler = (clicked, index) => {
     const newCommunities = [...cardCommunities];
     newCommunities[index].joined = clicked;
     communities = [...newCommunities];
     setCardCommunities(communities);
   };
+  /**
+   * @description this function maps the text shown over the large button
+   * at the end of the card to the right link (text changeable so link is changeble).
+   * @param {string} text represents whether the button is clicked or not
+   */
   const buttonTextToLinkMap = (text) => {
     const newText = text.toLowerCase();
     let link;
@@ -257,3 +263,4 @@ export default function HomeCommunitiesCard({
     </Root>
   );
 }
+export default (HomeCommunitiesCard);
