@@ -23,14 +23,32 @@ export const getPostInsights = createAsyncThunk(
   }
 );
 
-export const removePost = createAsyncThunk(
-  'posts/remove',
+export const deletePost = createAsyncThunk(
+  'posts/delete',
   async (postId, thunkAPI) => {
     const { rejectedWithValue } = thunkAPI;
 
     try {
       const request = await axios
         .delete(`api/post/${postId}`)
+        .then(async (result) => {
+          resultData = await result.data;
+        });
+      return resultData;
+    } catch (exception) {
+      return rejectedWithValue(exception.message);
+    }
+  }
+);
+
+export const removePost = createAsyncThunk(
+  'posts/remove',
+  async (info, thunkAPI) => {
+    const { rejectedWithValue } = thunkAPI;
+    const { removedPostId, body } = info;
+    try {
+      const request = await axios
+        .post(`api/post/${postId}`, message)
         .then(async (result) => {
           resultData = await result.data;
         });
@@ -187,13 +205,12 @@ export const markPostAsNSFW = createAsyncThunk(
 
 export const spamPost = createAsyncThunk(
   'post/spam',
-  async (info, thunkAPI) => {
-    const { postId, message } = info;
+  async (postId, thunkAPI) => {
     const { rejectedWithValue } = thunkAPI;
 
     try {
       const request = await axios
-        .post(`api/post/${postId}/spam`, message)
+        .post(`api/post/${postId}/spam`)
         .then(async (result) => {
           resultData = await result.data;
         });
@@ -226,12 +243,11 @@ export const sendPostReplies = createAsyncThunk(
 export const votePost = createAsyncThunk(
   'post/vote',
   async (info, thunkAPI) => {
-    const { postId, cotesCount } = info;
+    const { id, body } = info;
     const { rejectedWithValue } = thunkAPI;
-
     try {
       const request = await axios
-        .post(`api/post/${postId}/vote`, body)
+        .post(`api/post/${id}/vote`, body)
         .then(async (result) => {
           resultData = await result.data;
         });

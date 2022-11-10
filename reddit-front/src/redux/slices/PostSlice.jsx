@@ -92,10 +92,10 @@ const PostSlice = createSlice({
   extraReducers: {
     // Getting the posts data
     [getPosts.pending]: (state) => {
-      state.isLoading = true;
+      state.isPostsLoading = true;
     },
     [getPosts.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.isPostsLoading = false;
       state.posts = action.payload;
     },
     [getPosts.rejected]: (state) => {
