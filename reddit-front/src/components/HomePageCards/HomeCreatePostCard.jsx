@@ -1,9 +1,8 @@
-import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { RoundedButton, Root } from './HomePageCards.style';
+import { Root, LargeRoundedButton, StyledCard } from './HomePageCards.style';
 import redditimage from '../../assets/snoo-small.png';
 import redditCover from '../../assets/2y2pftyz87981.png';
 import StyledHorizontalLine from '../../utilities/StyledHorizontalLine/StyledHorizontalLine';
@@ -15,7 +14,7 @@ import StyledHorizontalLine from '../../utilities/StyledHorizontalLine/StyledHor
 export default function HomeCreatePostCard() {
   return (
     <Root>
-      <Card sx={{ padding: '0', maxWidth: 345 }}>
+      <StyledCard elevation={0}>
 
         <CardMedia
           component="img"
@@ -83,16 +82,12 @@ export default function HomeCreatePostCard() {
               />
             </Typography>
 
-            <RoundedButton
+            <LargeRoundedButton
               sx={{
                 margin: '1.5rem',
-                alignSelf: 'center',
-                width: '90%',
-                fontSize: '1.3rem',
-                padding: '4px 7px',
                 marginBottom: '0.5rem',
                 marginTop: '0.5rem',
-                ':hover': {
+                '&:hover': {
                   backgroundColor: '#1484D6'
                 }
               }}
@@ -100,27 +95,20 @@ export default function HomeCreatePostCard() {
               disableElevation
             >
               View All
-            </RoundedButton>
+            </LargeRoundedButton>
 
-            <RoundedButton
+            <LargeRoundedButton
               sx={{
-                margin: '0.5rem 1.5rem',
-                alignSelf: 'center',
-                width: '90%',
-                fontSize: '1.3rem',
-                padding: '4px 7px',
-                ':hover': {
-                  backgroundColor: '#F5FaFd'
-                }
+                margin: '0.5rem 1.5rem'
               }}
               variant="outlined"
               disableElevation
             >
               Create Community
-            </RoundedButton>
+            </LargeRoundedButton>
           </Box>
         </CardContent>
-      </Card>
+      </StyledCard>
     </Root>
 
   );

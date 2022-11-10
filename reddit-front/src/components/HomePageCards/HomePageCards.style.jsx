@@ -2,7 +2,7 @@
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import { styled } from '@mui/material';
+import { Card, styled } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 /**
@@ -143,6 +143,23 @@ export const StyledMenuItem = styled(MenuItem)({
   padding: '0.5rem',
   fontSize: '1.6rem',
   '&li:hover': { backgroundColor: 'blue' }
+});
+
+export const LargeRoundedButton = styled(RoundedButton)({
+  alignSelf: 'center',
+  width: '90%',
+  fontSize: '1.3rem',
+  padding: '4px 7px',
+  '&:hover': {
+    backgroundColor: '#F5FAFD'
+  },
+  '&:active': {
+    backgroundColor: '#F5FAFD'
+  }
+});
+
+export const StyledCard = styled(Card)({
+  padding: '0', maxWidth: 345, border: '1px solid #1a1a1b12', borderRadius: '5px'
 });
 /**
  * Responsively changing the width of the Create Post Card
