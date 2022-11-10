@@ -43,8 +43,7 @@ export default function HomeCommunitiesCard({
   buttons1,
   buttons2,
   homePageCard,
-  buttonText,
-  handleClick
+  buttonText
 }) {
   let activeStyle = {
     color: "black"
@@ -78,7 +77,7 @@ export default function HomeCommunitiesCard({
   return (
     <Root>
       <StyledCard sx={{ width: 310, marginBottom: '2rem'}} elevation={0}>
-        <CardMedia component="img" height="70" image={pic} alt="green iguana" />
+        <CardMedia data-testid='communities_card_media' component="img" height="70" image={pic} alt="green iguana" />
         <CardContent
           sx={{
             padding: "0",
@@ -89,7 +88,7 @@ export default function HomeCommunitiesCard({
         >
           <Box sx={{ display: "flex", marginTop: "-3.4rem" }}>
             {buttons1.map((button) => (
-              <OverButton key={button}>{button}</OverButton>
+              <OverButton data-testid='over_media_button' key={button}>{button}</OverButton>
             ))}
           </Box>
 
@@ -107,7 +106,7 @@ export default function HomeCommunitiesCard({
                   to="/food"
                   
                 >
-                  <ListItem alignItems="flex-start" sx={{padding:'4px 16px'}}>
+                  <ListItem data-testid='communities_items' alignItems="flex-start" sx={{padding:'4px 16px'}}>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                       <ListItemText
                         sx={{
@@ -248,6 +247,7 @@ export default function HomeCommunitiesCard({
                   variant="contained"
                   disableElevation
                   key={button}
+                  data-testid='under_community_button'
                 >
                   {button}
                 </RoundedButton>

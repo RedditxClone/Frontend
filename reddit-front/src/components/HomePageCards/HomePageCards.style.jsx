@@ -14,7 +14,7 @@ import TextField from '@mui/material/TextField';
  */
 
 export const Root = styled('div')(({ theme }) => ({
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down('lg')]: {
     display: 'none'
   }
 }));

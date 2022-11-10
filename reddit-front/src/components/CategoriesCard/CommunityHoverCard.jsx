@@ -7,8 +7,10 @@ import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { LargeRoundedButton } from "../HomePageCards/HomePageCards.style";
+
 export default function CommunityHoverCard({ community }) {
   return (
+    
     <Card sx={{ width: 350, padding: "0.7rem", lineHeight: "17px" }}>
       <CardContent>
         <Box sx={{ display: "flex", alignItems: "center" }}>

@@ -37,7 +37,7 @@ const NavLink = styled(NavLinkBase)({
   textDecoration: "none"
 });
 
-export default function CategoriesCard({ pic, communities, topText }) {
+export default function CategoriesCard({ communities, topText }) {
   const [cardCommunities, setCardCommunities] = useState(communities);
   let activeStyle = {
     color: "black"
@@ -58,7 +58,7 @@ export default function CategoriesCard({ pic, communities, topText }) {
           }
         }}
       >
-        <CategoriesCardBar>
+        <CategoriesCardBar data-testid='categories_card_bar'>
           <Typography variant="h5">Today's Top Growing in {topText}</Typography>
           <Typography variant="h5" sx={{ color: "#7C7C7c" }}>
             Rank Change
@@ -90,6 +90,7 @@ export default function CategoriesCard({ pic, communities, topText }) {
                   display: "flex",
                   alignItems: "center"
                 }}
+                data-testid='communities_items'
               >
                 <Box
                   sx={{
