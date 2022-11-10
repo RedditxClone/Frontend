@@ -16,7 +16,10 @@ import NavLink from './SideList.style';
  * @returns {React.Component} styled sideList
  */
 function SideList({
-  arr, buttonTitle, click, links
+  arr,
+  buttonTitle,
+  click,
+  links
 }) {
   const listArray = arr;
 
@@ -83,6 +86,7 @@ function SideList({
         }}
       >
         <ListItemButton
+          data-testid="SideListButton"
           onClick={click}
           sx={{
             height: '30px',
