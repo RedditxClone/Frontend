@@ -76,6 +76,16 @@ function RulesCard({ baseColor }) {
         ) : null}
 
         <StyledHorizontalLine />
+
+        <RuleContainer
+          className="RuleContainer"
+          onClick={() => {
+            setShowDescription(!showDescription);
+          }}
+        >
+          <RuleNumber className="rule-number">2.</RuleNumber>
+          <RuleTitle className="rule-title">test title again</RuleTitle>
+        </RuleContainer>
       </Box>
     </RulesCardContainer>
   );

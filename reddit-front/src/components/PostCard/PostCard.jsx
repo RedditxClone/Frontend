@@ -48,7 +48,10 @@ export default function PostCard({
       data-testid="test-post-card"
     >
       <PostContainer>
-        <Voting votesCount={postData.votes} />
+        <Voting
+          votesCount={postData.votes}
+          postId={postData.id}
+        />
         <PostContent
           setHidePost={setHidePost}
           postContentData={postData}

@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useState, memo } from 'react';
+import { useDispatch } from 'react-redux';
 import './Voting.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { divideBigNumber } from '../../../utilities/Helpers';
+import { votePost } from '../../../redux/slices/PostInteractionsSlice';
+
 /**
  * @typedef PropType
  * @property {number} votesCount
@@ -15,7 +18,7 @@ import { divideBigNumber } from '../../../utilities/Helpers';
  *
  */
 
-function Voting({ votesCount }) {
+function Voting({ votesCount, postId }) {
   const [votingCounter, setVotingCounter] = useState(votesCount);
   const [votesCountColor, setVotesCountColor] = useState('black');
   // voting states : 0 -> not voted, 1 -> up, -1 -> down
@@ -24,6 +27,7 @@ function Voting({ votesCount }) {
     up: '#c0c2c4',
     down: '#c0c2c4'
   });
+  const dispatch = useDispatch();
 
   const handleUpVoting = () => {
     switch (votingCurrentState) {
@@ -57,6 +61,10 @@ function Voting({ votesCount }) {
       default:
         break;
     }
+
+    // dispatching the action
+    const info = { body: { dir: votingCounter }, id: postId };
+    dispatch(votePost(info));
   };
 
   const handleDownVoting = () => {
@@ -91,6 +99,10 @@ function Voting({ votesCount }) {
       default:
         break;
     }
+
+    // dispatching the action
+    const info = { body: { dir: votingCounter }, id: postId };
+    dispatch(votePost(info));
   };
 
   // Returning the result

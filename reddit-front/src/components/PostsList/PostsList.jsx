@@ -32,7 +32,7 @@ export default function PostsList({ isCommunityPost, isModeratorMode }) {
     dispatch(getPosts());
   }, [dispatch]);
 
-  const { posts, isLoading, requestIsRejected } = useSelector(
+  const { posts, isPostsLoading, requestIsRejected } = useSelector(
     (state) => state.post
   );
 
@@ -53,7 +53,7 @@ export default function PostsList({ isCommunityPost, isModeratorMode }) {
   // Returning the result
   return (
     <div>
-      {isLoading && !requestIsRejected ? (
+      {isPostsLoading && !requestIsRejected ? (
         <Box sx={{ display: 'flex' }}>
           <CircularProgress />
         </Box>

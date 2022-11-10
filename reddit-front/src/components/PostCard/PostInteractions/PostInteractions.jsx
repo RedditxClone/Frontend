@@ -7,6 +7,12 @@
 /* eslint-disable react/prop-types */
 import { useState, memo } from 'react';
 import './PostInteractions.css';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch } from 'react-redux';
 import { GoComment } from 'react-icons/go';
 import { ImCheckboxChecked } from 'react-icons/im';
@@ -45,6 +51,7 @@ import {
  * @property {function} setHidePost
  * @property {number} commentsCount
  * @property {number} votesCount
+ * @property {number} postId
  * @property {bool} isCommunityPost
  * @property {function} setModAction
  * @property {bool} isModeratorMode
@@ -76,11 +83,17 @@ function PostInteractions({
   const [markedAsOC, setMarkedAsOC] = useState(false);
   const [markedAsNSFW, setMarkedAsNSFW] = useState(false);
   const [markedAsSpoiler, setMarkedAsSpoiler] = useState(false);
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
 
   // Handler Methods
   const handleSavePost = () => {
-    setSaveState((prevSaveState) => !prevSaveState);
-    dispatch(savePost(postId));
+    if (!saveState) {
+      setSaveState(true);
+      dispatch(savePost(postId));
+    } else {
+      setSaveState(false);
+      dispatch(unSavePost(postId));
+    }
   };
 
   /* This function shows the dropdown for more interactions on the post */
@@ -118,17 +131,20 @@ function PostInteractions({
     setIsSpammed(false);
     document.getElementById(`post-spam-${id}`).style.color = '#949494';
     document.getElementById(`post-spam-2-${id}`).style.color = '#949494';
+    // dispatch(unspamPost(postId));
 
     // cancelling removing
     setIsRemoved(false);
     document.getElementById(`post-remove-${id}`).style.color = '#949494';
     document.getElementById(`post-remove-2-${id}`).style.color = '#949494';
+    // dispatch(unremovePost(postId));
 
     // approving post
     setIsApproved(true);
     document.getElementById(`post-approve-${id}`).style.color = '#94E044';
     document.getElementById(`post-approve-2-${id}`).style.color = '#94E044';
     setModAction(1);
+    // dispatch(approvePost(postId));
   };
 
   const handleSpamButton = (id) => {
@@ -136,18 +152,20 @@ function PostInteractions({
     setIsApproved(false);
     document.getElementById(`post-approve-${id}`).style.color = '#949494';
     document.getElementById(`post-approve-2-${id}`).style.color = '#949494';
+    // dispatch(unapprovePost(id));
 
     // cancelling removing
     setIsRemoved(false);
     document.getElementById(`post-remove-${id}`).style.color = '#949494';
     document.getElementById(`post-remove-2-${id}`).style.color = '#949494';
+    // dispatch(unremovePost(id));
 
     // spamming post
     setIsSpammed(true);
     document.getElementById(`post-spam-${id}`).style.color = 'red';
     document.getElementById(`post-spam-2-${id}`).style.color = 'red';
     setModAction(2);
-    // dispatch(hidePost(id));
+    // dispatch(spamPost(id));
   };
 
   const handleRemoveButton = (id) => {
@@ -155,11 +173,13 @@ function PostInteractions({
     setIsSpammed(false);
     document.getElementById(`post-spam-${id}`).style.color = '#949494';
     document.getElementById(`post-spam-2-${id}`).style.color = '#949494';
+    // dispatch(unspamPost(id));
 
     // cancelling approving
     setIsApproved(false);
     document.getElementById(`post-approve-${id}`).style.color = '#949494';
     document.getElementById(`post-approve-2-${id}`).style.color = '#949494';
+    // dispatch(unremovePost(id));
 
     // removing post
     setIsRemoved(true);
@@ -169,31 +189,69 @@ function PostInteractions({
     // dispatch(removePost(id));
   };
 
+  const handleDeletePost = () => {
+    setOpenConfirmationDialog(false);
+    // dispatch(deletePost(postId));
+  };
+
   const handleStickyButton = () => {
-    setIsSticky(!isSticky);
+    if (!isSticky) {
+      setIsSticky(true);
+      // dispatch(stickyPost(id));
+    } else {
+      setIsSticky(false);
+      // dispatch(unstickyPost(id));
+    }
   };
 
   const handleDistinguishAsMod = () => {
-    setDistinguishAsMode(!distinguishAsMode);
+    if (!distinguishAsMode) {
+      setDistinguishAsMode(true);
+      setDistinguishAsMode(!distinguishAsMode);
+    } else {
+      setDistinguishAsMode(false);
+      // setDistinguishAsMode(!undistinguishAsMode);
+    }
   };
 
   const handleLockComments = () => {
-    setLockComments(!lockComments);
-    // dispatch(hidePost(postId));
+    if (!lockComments) {
+      setLockComments(true);
+      // dispatch(lockPost(postId));
+    } else {
+      setLockComments(false);
+      // dispatch(unlockPost(postId));
+    }
   };
 
   const handleMarkAsOCButton = () => {
-    setMarkedAsOC(!markedAsOC);
+    if (!markedAsOC) {
+      setMarkedAsOC(true);
+      // dispatch(markPostAsOC(postId));
+    } else {
+      setMarkedAsOC(false);
+      // dispatch(unmarkPostAsOC(postId));
+    }
   };
 
   const handleMarkAsNSFW = () => {
-    setMarkedAsNSFW(!markedAsNSFW);
-    // dispatch(markPostAsNSFW(postId));
+    if (!markedAsNSFW) {
+      setMarkedAsNSFW(true);
+      // dispatch(markPostAsNSFW(postId));
+    } else {
+      setMarkedAsNSFW(false);
+      // dispatch(unmarkPostAsNSFW(postId));
+    }
   };
 
   const handleMarkAsSpoiler = () => {
-    setMarkedAsSpoiler(!markedAsSpoiler);
-    // dispatch(spoilPost(postId));
+    if (!markedAsSpoiler) {
+      setMarkedAsSpoiler(true);
+      // dispatch(spoilPost(postId));
+    } else {
+      setMarkedAsSpoiler(false);
+      // dispatch(unSpoilPost(postId));
+    }
   };
 
   const getCommentsCount = function () {
@@ -201,6 +259,15 @@ function PostInteractions({
       return commentsCount ? commentsCount.concat(' Comments') : 'No Comments';
     }
     return commentsCount;
+  };
+
+  const handleOpenConfirmDialog = () => {
+    handleClickMoreInteractions(); // to close the dropdown menu
+    setOpenConfirmationDialog(true);
+  };
+
+  const handleCloseConfirmDialog = () => {
+    setOpenConfirmationDialog(false);
   };
 
   // Returning the result
@@ -214,6 +281,7 @@ function PostInteractions({
         <SmallScreenVoting
           votesCount={votesCount}
           divideBigNumber={divideBigNumber}
+          postId={postId}
         />
         {/* comments  */}
         <a className="post-comment">
@@ -423,10 +491,7 @@ function PostInteractions({
               {isCommunityPost && isModeratorMode ? (
                 <>
                   {/* // edit */}
-                  <div
-                    className="drop-down-item"
-                    onClick={handleHideButton}
-                  >
+                  <div className="drop-down-item">
                     <a>
                       <VscEdit fontSize="25px" />
                       <span> Edit</span>
@@ -435,18 +500,94 @@ function PostInteractions({
                   {/*  Delete */}
                   <div
                     className="drop-down-item"
-                    onClick={handleHideButton}
+                    onClick={handleOpenConfirmDialog}
                   >
                     <a>
                       <AiOutlineDelete fontSize="25px" />
                       <span> Delete</span>
                     </a>
                   </div>
-                  {/*  Add To Collection */}
-                  <div
-                    className="drop-down-item"
-                    onClick={handleHideButton}
+                  <Dialog
+                    open={openConfirmationDialog}
+                    onClose={handleCloseConfirmDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
                   >
+                    <DialogTitle
+                      id="alert-dialog-title"
+                      sx={{ fontSize: '18px' }}
+                    >
+                      Delete post?
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText
+                        id="alert-dialog-description"
+                        sx={{ fontSize: '15px' }}
+                      >
+                        Are you sure you want to delete your post? You can not
+                        undo this.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        onClick={handleCloseConfirmDialog}
+                        sx={{
+                          fontSize: '15px',
+                          border: '1px solid #0079d3',
+                          color: '#0079d3',
+                          fontFamily: 'Noto Sans, Arial, sans serif',
+                          fontWeight: '700',
+                          lineHeight: '1.6rem',
+                          letterSpacing: '1.5',
+                          minHeight: '2.4rem',
+                          minWidth: '4rem',
+                          padding: '1rem 2rem',
+                          marginLeft: '1rem',
+                          alignItems: 'center',
+                          borderRadius: '999.9rem',
+                          boxSizing: 'border-box',
+                          cursor: 'pointer',
+                          textTransform: 'Capitalize',
+                          '&:hover': {
+                            borderColor: '#7c7c7c',
+                            color: '#7c7c7c'
+                          }
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={handleDeletePost}
+                        autoFocus
+                        sx={{
+                          fontSize: '15px',
+                          border: 'none',
+                          backgroundColor: '#0079d3',
+                          color: 'white',
+                          fontFamily: 'Noto Sans, Arial, sansserif',
+                          fontWeight: '700',
+                          lineHeight: '1.6rem',
+                          letterSpacing: '1.5',
+                          minHeight: '2.4rem',
+                          minWidth: '4rem',
+                          padding: '1rem 2rem',
+                          marginLeft: '1rem',
+                          alignItems: 'center',
+                          borderRadius: '999.9rem',
+                          boxSizing: 'border-box',
+                          cursor: 'pointer',
+                          textTransform: 'Capitalize',
+                          '&:hover': {
+                            backgroundColor: '#f75b5b'
+                          }
+                        }}
+                      >
+                        Delete Post
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                  {/*  Add To Collection */}
+                  <div className="drop-down-item">
                     <a>
                       <BiAddToQueue fontSize="25px" />
                       <span> add to collection</span>

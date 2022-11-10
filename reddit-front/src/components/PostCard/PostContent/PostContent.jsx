@@ -15,19 +15,11 @@ import { divideBigNumber } from '../../../utilities/Helpers';
 import Logo from './test.png';
 /**
  * @typedef PropType
- * @property {number} comments_count
+ * @property {bool} setHidePost
  * @property {object} postContentData
- * @property {string} post_type
- * @property {string} title
- * @property {string} flair_name
- * @property {mixed} content
  * @property {bool} isCommunityPost
+ * @property {bool} isPostFullDetailsMode
  * @property {bool} isModeratorMode
- */
-
-/**
- *
- * @param {PropType}  props
  */
 
 /**
@@ -37,15 +29,21 @@ import Logo from './test.png';
  * the method 'showSlides' to render a slideshow for the images
  *
  */
-function PostContent(props) {
+function PostContent({
+  setHidePost,
+  postContentData,
+  isCommunityPost,
+  isPostFullDetailsMode,
+  isModeratorMode
+}) {
   let postContent = null;
   let slideIndex = 0;
   const [modAction, setModAction] = useState(0);
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
   const getPostContent = function () {
-    const contentType = props.postContentData.post_type;
-    const mediaCount = props.postContentData.media_count;
+    const contentType = postContentData.post_type;
+    const mediaCount = postContentData.media_count;
 
     switch (contentType) {
       case 'img':
@@ -114,7 +112,7 @@ function PostContent(props) {
         );
         break;
       case 'text':
-        postContent = <p>{props.postContentData.content}</p>;
+        postContent = <p>{postContentData.content}</p>;
         break;
       default:
         break;
@@ -162,17 +160,16 @@ function PostContent(props) {
     >
       {/* Post info -> community, username, time */}
       <PostInfo
-        communityName={props.postContentData.community_name}
-        communityId={props.postContentData.community_id}
-        userId={props.postContentData.user_id}
-        postedBy={props.postContentData.posted_by}
-        postedAt={props.postContentData.posted_at}
-        postId={props.postContentData.id}
-        isCommunityPost={props.isCommunityPost}
-        isPostFullDetailsMode={props.isPostFullDetailsMode}
+        communityName={postContentData.community_name}
+        communityId={postContentData.community_id}
+        userId={postContentData.user_id}
+        postedBy={postContentData.posted_by}
+        postedAt={postContentData.posted_at}
+        postId={postContentData.id}
+        isCommunityPost={isCommunityPost}
+        isPostFullDetailsMode={isPostFullDetailsMode}
         modAction={modAction}
       />
-      {props.children}
 
       {/* Post title  */}
       <div
@@ -184,9 +181,7 @@ function PostContent(props) {
             className="post-link"
             href="#"
           >
-            <h3 className="post-title-heading">
-              {props.postContentData.title}
-            </h3>
+            <h3 className="post-title-heading">{postContentData.title}</h3>
           </a>
         </div>
         <div className="flair">
@@ -194,7 +189,7 @@ function PostContent(props) {
             href="#"
             className="flair-link"
           >
-            {props.postContentData.flair_name}
+            {postContentData.flair_name}
           </a>
         </div>
       </div>
@@ -209,14 +204,14 @@ function PostContent(props) {
 
       {/* post interactions -> comment, save, hide, ..  */}
       <PostInteractions
-        setHidePost={props.setHidePost}
-        commentsCount={divideBigNumber(props.postContentData.comments_count)}
-        votesCount={props.postContentData.votes}
-        postId={props.postContentData.id}
-        isCommunityPost={props.isCommunityPost}
-        changeModAction={props.changeModAction}
+        setHidePost={setHidePost}
+        commentsCount={divideBigNumber(postContentData.comments_count)}
+        votesCount={postContentData.votes}
+        postId={postContentData.id}
+        isCommunityPost={isCommunityPost}
+        changeModAction={setModAction}
         setModAction={setModAction}
-        isModeratorMode={props.isModeratorMode}
+        isModeratorMode={isModeratorMode}
       />
     </div>
   );

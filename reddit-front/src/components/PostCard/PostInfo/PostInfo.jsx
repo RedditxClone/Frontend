@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable object-curly-newline */
 /* eslint-disable prefer-template */
 /* eslint-disable consistent-return */
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import './PostInfo.css';
+
 import { memo, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
@@ -16,6 +18,7 @@ import {
   getPostRelatedUserInfo
 } from '../../../redux/slices/PostSlice';
 import Logo from './test.png';
+import RemovalReasonDialog from './RemovalReasonDialog';
 
 /**
  * @typedef PropType
@@ -53,6 +56,7 @@ function PostInfo({
   const { postRelatedCommunityData, postRelatedUserData } = useSelector(
     (state) => state.post
   );
+  const [openRemovalDialog, setOpenRemovalDialog] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -119,6 +123,14 @@ function PostInfo({
   /* This function handles the follow button */
   const handleFollowPost = function () {
     setIsPostFollowed(!isPostFollowed);
+  };
+
+  const handleOpenRemovalDialog = () => {
+    setOpenRemovalDialog(true);
+  };
+
+  const handleCloseRemovalDialog = () => {
+    setOpenRemovalDialog(false);
   };
 
   // Returning the result
@@ -261,7 +273,10 @@ function PostInfo({
             </div>
           </div>
         </div>
-        <span className="post-time">{getPostedAt()}</span>
+        <span className="post-time">
+          {/* {getPostedAt()} */}
+          39 minutes ago
+        </span>
         <div className="mod-action-icon">
           {modAction === 1 ? (
             <>
@@ -296,8 +311,22 @@ function PostInfo({
             </>
           ) : null}
         </div>
+        {modAction === 3 ? (
+          <span
+            className="removal-reason"
+            onClick={handleOpenRemovalDialog}
+          >
+            Add a removal reason
+          </span>
+        ) : null}
       </div>
 
+      {/* Add removal reason card  */}
+      <RemovalReasonDialog
+        open={openRemovalDialog}
+        handleClose={handleCloseRemovalDialog}
+        postId={postId}
+      />
       {/* showing join button if the user is not showing the subreddit page  */}
       {!isCommunityPost ? (
         <button
