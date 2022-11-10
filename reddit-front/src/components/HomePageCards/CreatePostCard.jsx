@@ -8,7 +8,8 @@ import {
 } from './HomePageCards.style';
 
 /**
- * this function returns Create Post Card , the one that is displayed in the home screen
+ * @description This component is resposinble to render the
+ * Create Post Card , the one that is displayed in the home screen
  */
 function CreatePostCard() {
   return (

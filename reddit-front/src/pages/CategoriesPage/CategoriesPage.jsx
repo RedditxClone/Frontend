@@ -12,6 +12,7 @@ import {
 import AlphabeticCard from '../../components/CategoriesCard/AlphabeticCard';
 // import CategoriesCard from './CategoriesCard';
 import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesCard';
+// import CommunityHoverCard from '../../components/CategoriesCard/CommunityHoverCard';
 
 /**
  * @description This component is resposinble for showing Top communities
@@ -138,8 +139,8 @@ function CategoriesPage({
   return (
     <ColoredBody>
       <CategoryHeader>
-        <h1>Today&#8217;s Top Growing Communities</h1>
-        <span>
+        <h1 data-testid="CategoryPageTitle">Today&#8217;s Top Growing Communities</h1>
+        <span data-testid="CategoryPageDescription">
           Browse Reddit&#8217;s top growing communities. Find the top
           communities in your favorite category.
         </span>
@@ -176,6 +177,7 @@ function CategoriesPage({
             homePageCard={false}
             buttonText={buttonText}
           />
+          {/* <CommunityHoverCard community={communities[0]} /> */}
           <SideDiv>
             <AlphabeticCard
               data-testid="AlpaCard"

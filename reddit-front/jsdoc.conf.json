@@ -1,6 +1,10 @@
 {
   "source": {
+<<<<<<< HEAD
     "include": ["src/components/InfoInput/"],
+=======
+    "include": ["src/components/HomePageCards/"],
+>>>>>>> 1281a1dcb7a87ed7a3a131d30ab679bfb392578d
     "includePattern": ".jsx$",
     "excludePattern": "(node_modules/|docs)"
   },
@@ -11,7 +15,11 @@
   },
   "opts": {
     "recurse": true,
+<<<<<<< HEAD
     "destination": "src/documentations/InfoInput",
+=======
+    "destination": "src/documentations/HomePageCards",
+>>>>>>> 1281a1dcb7a87ed7a3a131d30ab679bfb392578d
     "readme": "README.md"
   }
 }

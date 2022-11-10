@@ -26,42 +26,43 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable react/no-array-index-key */
-/* eslint-disable */
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import { autocompleteClasses, Box } from "@mui/material";
-import { MdKeyboardArrowDown } from "react-icons/md";
-import { MdKeyboardArrowUp } from "react-icons/md";
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-nested-ternary */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-param-reassign */
+/* eslint-disable eqeqeq */
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import { Box } from '@mui/material';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import { useState } from 'react';
 import {
   RoundedButton,
   OverButton,
   Root,
   LargeRoundedButton,
   StyledCard
-} from "./HomePageCards.style";
-import { useState } from "react";
-
+} from './HomePageCards.style';
+import { NavLink } from '../CategoriesCard/CategoriesCard.style';
 /**
- * @typedef {PropType} cardData
- * @property {object} pic the cover of the communities card that is in the home page
- * @property {Array} communities the communities that shall be shown in the card
- * @property {Array} buttons1 the buttons shown over the cover of the communities card cover
- * @property {Array} buttons2 the buttons shown under the cover of the communities card cover
- *
+ * @description This component is resposinble to render the
+ * communities card
+ * @param {object} pic the cover of the communities card that is in the home page
+ * @param {Array} communities the communities that shall be shown in the card
+ * @param {Array} buttons1 the buttons shown over the cover of the communities card cover
+ * @param {Array} buttons2 the buttons shown at the end of the communities card
+ * @param {boolean} homePageCard this variable informs wheter the card will be rendered in the home
+ * page or in another page like categories page cause if it will be rendered in the home page ,
+ * there will be no buttons at the end if the card and also the text on the large button at the
+ * end of the card will be View all Always
+ * @param {string} buttonText the text shown on the large button at the end of the card
  */
-/**
- * this function returns the communities card shown in the home screen
- * @param {PropType} cardData
- */
-export default function HomeCommunitiesCard({
+function HomeCommunitiesCard({
   pic,
   communities,
   buttons1,
@@ -69,126 +70,165 @@ export default function HomeCommunitiesCard({
   homePageCard,
   buttonText
 }) {
-  
-  const [cardCommunities,setCardCommunities]=useState(communities);
-  const joinButtonClickHandler = (clicked,index) => {
-    const newCommunities=[...cardCommunities];
-    newCommunities[index].joined=clicked;
-    communities=[...newCommunities];
-    setCardCommunities(communities);
-    
+  const activeStyle = {
+    color: 'black'
   };
+  const [cardCommunities, setCardCommunities] = useState(communities);
+  /**
+   * @description this function handles the click on the join button
+   * @param {boolean} clicked represents whether the button is clicked or not
+   * @param {int} index represents the index of the community that the user wants to join
+   */
+  const joinButtonClickHandler = (clicked, index) => {
+    const newCommunities = [...cardCommunities];
+    newCommunities[index].joined = clicked;
+    communities = [...newCommunities];
+    setCardCommunities(communities);
+  };
+  /**
+   * @description this function maps the text shown over the large button
+   * at the end of the card to the right link (text changeable so link is changeble).
+   * @param {string} text represents whether the button is clicked or not
+   */
+  const buttonTextToLinkMap = (text) => {
+    const newText = text.toLowerCase();
+    let link;
+    if (text.includes('&amp;')) {
+      link = newText.replaceAll(' ', '_');
+      link = link.replaceAll('&amp;', 'and');
+    } else if (text.includes(' ') &amp;&amp; !text.includes('&amp;')) {
+      link = newText.replaceAll(' ', '-');
+    } else {
+      link = newText;
+    }
+    return link;
+  };
+
   return (
     &lt;Root>
-      &lt;StyledCard sx={{ maxWidth: 345 }} elevation={0} >
-        &lt;CardMedia component="img" height="70" image={pic} alt="green iguana" />
+      &lt;StyledCard sx={{ width: 310, marginBottom: '2rem' }} elevation={0}>
+        &lt;CardMedia data-testid="communities_card_media" component="img" height="70" image={pic} alt="green iguana" />
         &lt;CardContent
           sx={{
-            padding: "0",
-            "&amp;:last-child": {
-              paddingBottom: "0.7rem"
+            padding: '0',
+            '&amp;:last-child': {
+              paddingBottom: '0.7rem'
             }
           }}
         >
-          &lt;Box sx={{ display: "flex", marginTop: "-3.4rem" }}>
+          &lt;Box sx={{ display: 'flex', marginTop: '-3.4rem' }}>
             {buttons1.map((button) => (
-              &lt;OverButton key={button}>{button}&lt;/OverButton>
+              &lt;OverButton data-testid="over_media_button" key={button}>{button}&lt;/OverButton>
             ))}
           &lt;/Box>
 
           &lt;List
             sx={{
-              width: "100%",
-              bgcolor: "background.paper"
+              width: '100%',
+              bgcolor: 'background.paper',
+              padding: '0'
             }}
           >
             {communities.map((community, index) => (
               &lt;Box key={index}>
-                &lt;ListItem alignItems="flex-start">
-                  &lt;Box sx={{ display: "flex", alignItems: "center" }}>
-                    &lt;ListItemText
-                      sx={{
-                        "&amp; span": {
-                          fontSize: "1.6rem",
-                          paddingRight: "1rem",
-                          marginTop: "1rem"
-                        }
-                      }}
-                      primary={index + 1}
-                    />
-                    {community.growing == true ? (
-                      &lt;Box sx={{ marginTop: "1rem" }}>
-                        &lt;MdKeyboardArrowUp size={23} color="#46d15f" />
-                      &lt;/Box>
-                    ) : null}
-                    {community.goingDown == true ? (
-                      &lt;Box sx={{ marginTop: "1rem" }}>
-                        &lt;MdKeyboardArrowDown size={23} color="#EA0027" />
-                      &lt;/Box>
-                    ) : null}
-                    {community.goingDown == false &amp;&amp;
-                    community.growing == false ? (
-                      &lt;div style={{ width: "2.2rem" }}>&lt;/div>
-                    ) : null}
-                    &lt;ListItemAvatar sx={{ paddingLeft: "0.5rem" }}>
-                      &lt;Avatar alt={community.name} src={community.picture} />
-                    &lt;/ListItemAvatar>
-                    &lt;ListItemText
-                      sx={{
-                        "&amp; span": {
-                          fontSize: "1.6rem"
-                        }
-                      }}
-                      primary={community.name}
-                    />
-                    {(homePageCard == true&amp;&amp; !community.userCommunity &amp;&amp; community.joined==false) ? (
-                      &lt;RoundedButton
-                      sx={{
-                        marginLeft: "3rem",
-                        fontSize: "1.3rem",
-                        padding: "2px 7px",
-                        ":hover": {
-                          backgroundColor: "#1484D6"
-                        }
-                      }}
-                      variant="contained"
-                      disableElevation
-                      onClick={()=>joinButtonClickHandler(true,index)}
-                    >
-                      join
-                    &lt;/RoundedButton>
-                    ) : (homePageCard == true&amp;&amp; !community.userCommunity &amp;&amp; community.joined==true ) ?(&lt;RoundedButton
-                      sx={{
-                        marginLeft: "3rem",
-                        fontSize: "1.3rem",
-                        padding: "2px 7px",
-                        '&amp;:hover span':{
-                          display:'none'
-                         },
-                        '&amp;:hover:before':{
-                         content:`'Leave'`
-                        }
-                      }}
-                      variant="outlined"
-                      disableElevation
-                      onClick={()=>joinButtonClickHandler(false,index)}
-                    >
-                     &lt;span>joined&lt;/span> 
-                    &lt;/RoundedButton>):null}
-                  &lt;/Box>
-                &lt;/ListItem>
+                &lt;NavLink
+                  style={({ isActive }) => (isActive ? activeStyle : activeStyle)}
+                  to="/food"
+
+                >
+                  &lt;ListItem data-testid="communities_items" alignItems="flex-start" sx={{ padding: '4px 16px' }}>
+                    &lt;Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      &lt;ListItemText
+                        sx={{
+                          '&amp; span': {
+                            fontSize: '1.6rem',
+                            paddingRight: '1rem',
+                            marginTop: '1rem'
+                          }
+                        }}
+                        primary={index + 1}
+                      />
+                      {community.growing == true ? (
+                        &lt;Box sx={{ marginTop: '1rem' }}>
+                          &lt;MdKeyboardArrowUp size={23} color="#46d15f" />
+                        &lt;/Box>
+                      ) : null}
+                      {community.goingDown == true ? (
+                        &lt;Box sx={{ marginTop: '1rem' }}>
+                          &lt;MdKeyboardArrowDown size={23} color="#EA0027" />
+                        &lt;/Box>
+                      ) : null}
+                      {community.goingDown == false
+                      &amp;&amp; community.growing == false ? (
+                        &lt;div style={{ width: '2.2rem' }} />
+                        ) : null}
+                      &lt;ListItemAvatar sx={{ paddingLeft: '0.5rem' }}>
+                        &lt;Avatar alt={community.name} src={community.picture} />
+                      &lt;/ListItemAvatar>
+                      &lt;ListItemText
+                        sx={{
+                          '&amp; span': {
+                            fontSize: '1.6rem',
+                            marginTop: '1rem'
+                          }
+                        }}
+                        primary={community.name}
+                      />
+                      {homePageCard == true
+                      &amp;&amp; !community.userCommunity
+                      &amp;&amp; community.joined == false ? (
+                        &lt;RoundedButton
+                          sx={{
+                            marginLeft: '3rem',
+                            fontSize: '1.3rem',
+                            padding: '2px 7px',
+                            ':hover': {
+                              backgroundColor: '#1484D6'
+                            }
+                          }}
+                          variant="contained"
+                          disableElevation
+                          onClick={() => joinButtonClickHandler(true, index)}
+                        >
+                          join
+                        &lt;/RoundedButton>
+                        ) : homePageCard == true
+                        &amp;&amp; !community.userCommunity
+                        &amp;&amp; community.joined == true ? (
+                          &lt;RoundedButton
+                            sx={{
+                              marginLeft: '3rem',
+                              fontSize: '1.3rem',
+                              padding: '2px 7px',
+                              '&amp;:hover span': {
+                                display: 'none'
+                              },
+                              '&amp;:hover:before': {
+                                content: '\'Leave\''
+                              }
+                            }}
+                            variant="outlined"
+                            disableElevation
+                            onClick={() => joinButtonClickHandler(false, index)}
+                          >
+                            &lt;span>joined&lt;/span>
+                          &lt;/RoundedButton>
+                          ) : null}
+                    &lt;/Box>
+                  &lt;/ListItem>
+                &lt;/NavLink>
                 {index &lt; communities.length - 1 ? (
                   &lt;Divider variant="fullwidth" component="li" />
-                ) :null}
+                ) : null}
               &lt;/Box>
             ))}
           &lt;/List>
           {homePageCard == true ? (
             &lt;LargeRoundedButton
               sx={{
-                margin: "0 0 1.5rem 1.5rem",
-                "&amp;:hover": {
-                  backgroundColor: "#1484D6"
+                margin: '1rem 0 1.5rem 1.5rem',
+                '&amp;:hover': {
+                  backgroundColor: '#1484D6'
                 }
               }}
               variant="contained"
@@ -197,43 +237,49 @@ export default function HomeCommunitiesCard({
               View All
             &lt;/LargeRoundedButton>
           ) : (
-            &lt;LargeRoundedButton
-              sx={{
-                margin: "0 0 1.5rem 1.5rem"
-              }}
-              variant="outlined"
-              disableElevation
-            >
-              {buttonText}
-            &lt;/LargeRoundedButton>
+            &lt;NavLink to={`${buttonTextToLinkMap(buttonText)}`}>
+              &lt;LargeRoundedButton
+                sx={{
+                  margin: '1rem 0 1.5rem 1.5rem',
+                  textDecoration: 'none'
+                }}
+                variant="outlined"
+                disableElevation
+              >
+                See All
+                {' '}
+                {buttonText}
+              &lt;/LargeRoundedButton>
+            &lt;/NavLink>
           )}
-          {buttons2 != null ? (
+          {buttons2 != null &amp;&amp; homePageCard == true ? (
             &lt;Box
               sx={{
-                display: "flex",
-                marginTop: "-3.4rem",
-                justifyContent: "flex-start",
-                marginLeft: "0.8rem"
+                display: 'flex',
+                marginTop: '-3.4rem',
+                justifyContent: 'flex-start',
+                marginLeft: '0.8rem'
               }}
             >
               {buttons2.map((button) => (
                 &lt;RoundedButton
                   sx={{
-                    marginTop: "3rem",
-                    marginRight: "0.3rem",
-                    fontSize: "1.2rem",
-                   minWidth:'auto',
+                    marginTop: '3rem',
+                    marginRight: '0.3rem',
+                    fontSize: '1.2rem',
+                    minWidth: 'auto',
                     // padding: "4px auto",
-                    backgroundColor: "#EDEDED",
-                    color: "#1484D6",
-                    alignSelf: "flex-start",
-                    ":hover": {
-                      backgroundColor: "#E3EDF6"
+                    backgroundColor: '#EDEDED',
+                    color: '#1484D6',
+                    alignSelf: 'flex-start',
+                    ':hover': {
+                      backgroundColor: '#E3EDF6'
                     }
                   }}
                   variant="contained"
                   disableElevation
                   key={button}
+                  data-testid="under_community_button"
                 >
                   {button}
                 &lt;/RoundedButton>
@@ -245,6 +291,7 @@ export default function HomeCommunitiesCard({
     &lt;/Root>
   );
 }
+export default (HomeCommunitiesCard);
 </code></pre>
         </article>
     </section>
@@ -255,13 +302,13 @@ export default function HomeCommunitiesCard({
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CreatePostCard">CreatePostCard</a></li><li><a href="global.html#CreatePostCardRoot">CreatePostCardRoot</a></li><li><a href="global.html#OverButton">OverButton</a></li><li><a href="global.html#Root">Root</a></li><li><a href="global.html#RoundedButton">RoundedButton</a></li><li><a href="global.html#StyledBox">StyledBox</a></li><li><a href="global.html#StyledButton">StyledButton</a></li><li><a href="global.html#StyledColBox">StyledColBox</a></li><li><a href="global.html#StyledLink">StyledLink</a></li><li><a href="global.html#StyledMenuItem">StyledMenuItem</a></li><li><a href="global.html#StyledRowBox">StyledRowBox</a></li><li><a href="global.html#StyledTextField">StyledTextField</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BestHotNewCard">BestHotNewCard</a></li><li><a href="global.html#CreatePostCard">CreatePostCard</a></li><li><a href="global.html#CreatePostCardRoot">CreatePostCardRoot</a></li><li><a href="global.html#HomeCommunitiesCard">HomeCommunitiesCard</a></li><li><a href="global.html#HomeCreatePostCard">HomeCreatePostCard</a></li><li><a href="global.html#HomeLanguagesCard">HomeLanguagesCard</a></li><li><a href="global.html#LargeRoundedButton">LargeRoundedButton</a></li><li><a href="global.html#OverButton">OverButton</a></li><li><a href="global.html#Root">Root</a></li><li><a href="global.html#RoundedButton">RoundedButton</a></li><li><a href="global.html#StyledBox">StyledBox</a></li><li><a href="global.html#StyledButton">StyledButton</a></li><li><a href="global.html#StyledCard">StyledCard</a></li><li><a href="global.html#StyledColBox">StyledColBox</a></li><li><a href="global.html#StyledLink">StyledLink</a></li><li><a href="global.html#StyledMenuItem">StyledMenuItem</a></li><li><a href="global.html#StyledRowBox">StyledRowBox</a></li><li><a href="global.html#StyledTextField">StyledTextField</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Nov 09 2022 08:57:44 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 21:05:57 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

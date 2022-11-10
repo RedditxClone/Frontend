@@ -8,10 +8,11 @@ import redditCover from '../../assets/2y2pftyz87981.png';
 import StyledHorizontalLine from '../../utilities/StyledHorizontalLine/StyledHorizontalLine';
 
 /**
- * this function returns Create Post Card ,the one that is displayed after the communities card
+ * @description This component is resposinble to render the
+ * Create Post Card ,the one that is displayed after the communities card
  */
 
-export default function HomeCreatePostCard() {
+function HomeCreatePostCard() {
   return (
     <Root>
       <StyledCard sx={{ maxWidth: 345 }} elevation={0}>
@@ -113,3 +114,4 @@ export default function HomeCreatePostCard() {
 
   );
 }
+export default (HomeCreatePostCard);

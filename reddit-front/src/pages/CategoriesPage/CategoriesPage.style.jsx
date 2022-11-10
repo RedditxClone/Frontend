@@ -57,13 +57,13 @@ const AlphaStyledDiv = styled('div')(
       lineHeight: '1.8rem',
       fontFamily: 'inherit',
       padding: '1.2rem 1.2rem 0',
-      color: '#1A1A1B'
+      color: 'var(--newRedditTheme-titleText)'
     },
     '#AlphaCardLetter': {
       padding: '1.2rem'
     },
     '& a': {
-      color: '#0079D3',
+      color: 'var(--newRedditTheme-linkText)',
       display: 'inline-block',
       marginRight: '0.8rem',
       textDecoration: 'none',

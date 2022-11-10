@@ -19,20 +19,8 @@ const AlphabeticHeader = styled('div')(({ theme }) => ({
     fontSize: '2.2rem',
     fontWeight: '500',
     lineHeight: '2.6rem',
-    color: '#1A1A1B',
+    color: 'var(--newRedditTheme-titleText)',
     margin: '0'
-  },
-  '& a': {
-    color: '#0079D3',
-    display: 'inline-block',
-    marginRight: '0.8rem',
-    textDecoration: 'none',
-    fontSize: '1.4rem',
-    fontWeight: '500',
-    lineHeight: '1.8rem',
-    '&.active': {
-      color: '#1A1A1B'
-    }
   },
   '& div': {
     margin: '0.8rem 0 0.4rem 0'
@@ -70,7 +58,7 @@ const NavCategoriesContainer = styled('div')(
 
 const NavLink = styled(NavLinkBase)(({ theme }) => ({
 
-  color: '#0079D3',
+  color: 'var(--newRedditTheme-linkText)',
   display: 'inline-block',
   marginRight: '0.8rem',
   textDecoration: 'none',
@@ -78,7 +66,7 @@ const NavLink = styled(NavLinkBase)(({ theme }) => ({
   fontWeight: '500',
   lineHeight: '1.8rem',
   '&.active': {
-    color: '#1A1A1B'
+    color: 'var(--newRedditTheme-titleText)'
   },
   [theme.breakpoints.down('sm')]: {
     margin: '2rem'
@@ -98,7 +86,7 @@ const SubRedditNavLink = styled(NavLinkBase)({
   overflow: 'hidden',
   padding: '0 0.8rem',
   '&.active': {
-    color: '#1A1A1B'
+    color: 'var(--newRedditTheme-titleText)'
   }
 });
 
