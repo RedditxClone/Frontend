@@ -13,8 +13,8 @@ import { useState } from 'react';
 
 import { list } from '../../../utilities/CountriesList';
 // import countryList from 'react-select-country-list';
-import Box1 from '../ActionComponents.jsx/Box1';
-import Box2 from '../ActionComponents.jsx/Box2';
+import Box1 from '../ActionComponents/Box1';
+import Box2 from '../ActionComponents/Box2';
 // import CompSelectLan from './CompSelectLan/CompSelectLan';
 
 export default function AccountPreference() {
