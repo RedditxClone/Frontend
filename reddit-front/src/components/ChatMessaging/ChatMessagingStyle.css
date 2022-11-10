@@ -1,0 +1,97 @@
+
+.chat-messaging {
+    max-width: 688px;
+    padding-bottom: 18px;
+    min-height: calc(100vh - 88px);
+    margin-left: 160px;
+    line-height: 1;
+    font-family: Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    margin-top: 0px
+}
+
+.chat-messaging .h2 {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #1c1c1c;
+    padding: 40px 0px;
+    margin-bottom: 0;
+    margin-top: 0px
+}
+
+.chat-messaging .parent-div, .parent-div-first,.parent-div-last {
+    display: flex;
+    flex-flow: nowrap;
+    margin-bottom: 0;
+}
+
+.chat-messaging .parent-div-first {
+    margin-bottom: 15px;
+}
+
+.chat-messaging .child-div {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+    align-items: flex-start;
+}
+
+.chat-messaging .child-b {
+    justify-content: flex-end;
+    display: flex;
+    flex-grow: 1;
+}
+
+.chat-messaging .p-1 {
+    font-weight: 400;
+    color: #7c7c7c;
+    font-size: 12px;
+    line-height: 16px;
+    margin-bottom: 32px;
+    margin-top: 0px;
+}
+
+.chat-messaging .p-2 {
+    font-weight: 400;
+    color: #7c7c7c;
+    font-size: 12px;
+    line-height: 16px;
+    margin-bottom: 64px;
+    margin-top: 0px;
+}
+
+.chat-messaging .p{
+    font-weight: 400;
+    color: #7c7c7c;
+    font-size: 12px;
+    line-height: 16px;
+    margin-bottom: 44px;
+    margin-top: 0px;
+}
+
+.chat-messaging .h3 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #1c1c1c;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 4px;
+    margin-top: 0;
+}
+
+.chat-messaging .parent-div-last {
+    margin-bottom: 20px;
+}
+
+.chat-messaging .child-b Button {
+    font-family: Arial,sans-serif;
+    font-weight: 700;
+    letter-spacing: unset;
+    line-height: 17px;
+    text-transform: unset;
+    min-height: 32px;
+    padding: 4px 16px;
+    border-radius: 50px;
+}
