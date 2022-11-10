@@ -8,8 +8,8 @@ import { Button, Box } from '@mui/material';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import './DeleteAccount.css';
 import { useState } from 'react';
-import Box4 from '../ActionComponents.jsx/Box4';
-import Box5 from '../ActionComponents.jsx/Box5';
+import Box4 from '../ActionComponents/Box4';
+import Box5 from '../ActionComponents/Box5';
 
 export default function DeleteAccount() {
   const [isDelete, setIsDelete] = useState(false);
