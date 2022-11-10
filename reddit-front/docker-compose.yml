@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  frontend:
+    container_name: front
+    build:
+      context: .
+      dockerfile: devops.Dockerfile
+    networks:
+      - proxy-network
+    restart: always
+    
+networks:
+  proxy-network:
+    external: true
