@@ -3,7 +3,7 @@
 import { Switch, Box } from '@mui/material';
 import './BetaTestsStyle.css';
 import { useState } from 'react';
-import Box3 from '../ActionComponents.jsx/Box3';
+import Box3 from '../ActionComponents/Box3';
 
 export default function BetaTests() {
   const [isToggled, setIsToggled] = useState(false);
