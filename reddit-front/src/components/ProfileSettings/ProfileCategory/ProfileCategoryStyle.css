@@ -1,0 +1,24 @@
+
+.profile-category .parent-div {
+    display: flex;
+    flex-flow: nowrap;
+    margin-bottom: 32px;
+}
+
+.profile-category .child-div {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-items: flex-start;
+}
+
+.profile-category .p {
+    width: 92%;
+}
+
+.profile-category .child-b {
+    justify-content: flex-end;
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+}
