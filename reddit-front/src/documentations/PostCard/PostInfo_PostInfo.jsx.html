@@ -26,19 +26,27 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable object-curly-newline */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
+/* eslint-disable object-curly-newline */
 /* eslint-disable prefer-template */
 /* eslint-disable consistent-return */
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import './PostInfo.css';
+
 import { memo, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
+import { FcApproval } from 'react-icons/fc';
+import { RiSpamLine } from 'react-icons/ri';
+import { CiNoWaitingSign } from 'react-icons/ci';
+import { divideBigNumber } from '../../../utilities/Helpers';
 import {
   getPostRelatedCommunityInfo,
   getPostRelatedUserInfo
-} from '../../../store/slices/PostSlice';
+} from '../../../redux/slices/PostSlice';
 import Logo from './test.png';
+import RemovalReasonDialog from './RemovalReasonDialog';
 
 /**
  * @typedef PropType
@@ -48,7 +56,9 @@ import Logo from './test.png';
  * @property {string} communityName
  * @property {string} postedBy
  * @property {timestamp} postedAt
- * @property {function} divideBigNumber
+ * @property {boolean} isCommunityPost
+ * @property {boolean} isPostFullDetailsMode
+ * @property {integer} modAction  // 0: none, 1: approved, 2: spammed, 3: removed
  */
 
 /**
@@ -64,13 +74,17 @@ function PostInfo({
   userId,
   postedBy,
   postedAt,
-  divideBigNumber,
-  postId
+  postId,
+  isCommunityPost,
+  isPostFullDetailsMode,
+  modAction
 }) {
   const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
+  const [isPostFollowed, setIsPostFollowed] = useState(false);
   const { postRelatedCommunityData, postRelatedUserData } = useSelector(
     (state) => state.post
   );
+  const [openRemovalDialog, setOpenRemovalDialog] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -134,12 +148,26 @@ function PostInfo({
     return postedAt ? postedAt.concat(' ago') : 'posted_time';
   };
 
+  /* This function handles the follow button */
+  const handleFollowPost = function () {
+    setIsPostFollowed(!isPostFollowed);
+  };
+
+  const handleOpenRemovalDialog = () => {
+    setOpenRemovalDialog(true);
+  };
+
+  const handleCloseRemovalDialog = () => {
+    setOpenRemovalDialog(false);
+  };
+
   // Returning the result
   return (
     &lt;div
       className="post-info"
       data-testid="test-post-info"
     >
+      {/* Community logo on the post card  */}
       &lt;div
         className="community-logo"
         data-testid="test-post-logo"
@@ -151,6 +179,7 @@ function PostInfo({
           />
         &lt;/a>
       &lt;/div>
+      {/* post info details -> username, time, community name */}
       &lt;div className="post-info-details">
         &lt;div
           className="community-name"
@@ -272,14 +301,86 @@ function PostInfo({
             &lt;/div>
           &lt;/div>
         &lt;/div>
-        &lt;span className="post-time">{getPostedAt()}&lt;/span>
+        &lt;span className="post-time">
+          {/* {getPostedAt()} */}
+          39 minutes ago
+        &lt;/span>
+        &lt;div className="mod-action-icon">
+          {modAction === 1 ? (
+            &lt;>
+              &lt;FcApproval style={{ margin: '6px 0 0 5px' }} />
+              &lt;span className="post-approved-by">
+                Approved by mustafa-hamzawy at Wed,Nov 09, 2022 4:18:33 PM UTC
+              &lt;/span>
+            &lt;/>
+          ) : null}
+
+          {modAction === 2 ? (
+            &lt;>
+              &lt;RiSpamLine style={{ color: 'red', margin: '6px 0 0 5px' }} />
+              &lt;span
+                className="post-spammed-by"
+                style={{ width: '45rem' }}
+              >
+                Removed as spam by mustafa-hamzawy at Wed,Nov 09, 2022 4:18:33
+                PM UTC
+              &lt;/span>
+            &lt;/>
+          ) : null}
+
+          {modAction === 3 ? (
+            &lt;>
+              &lt;CiNoWaitingSign
+                style={{ color: 'red', margin: '6px 0 0 5px' }}
+              />
+              &lt;span className="post-removed-by">
+                Removed by mustafa-hamzawy at Wed,Nov 09, 2022 4:18:33 PM UTC
+              &lt;/span>
+            &lt;/>
+          ) : null}
+        &lt;/div>
+        {modAction === 3 ? (
+          &lt;span
+            className="removal-reason"
+            onClick={handleOpenRemovalDialog}
+          >
+            Add a removal reason
+          &lt;/span>
+        ) : null}
       &lt;/div>
-      &lt;button
-        type="button"
-        className="join-community"
-      >
-        Join
-      &lt;/button>
+
+      {/* Add removal reason card  */}
+      &lt;RemovalReasonDialog
+        open={openRemovalDialog}
+        handleClose={handleCloseRemovalDialog}
+        postId={postId}
+      />
+      {/* showing join button if the user is not showing the subreddit page  */}
+      {!isCommunityPost ? (
+        &lt;button
+          type="button"
+          className="join-community"
+        >
+          Join
+        &lt;/button>
+      ) : null}
+
+      {/* showing follow button in the full details mode of the post  */}
+      {isPostFullDetailsMode ? (
+        &lt;a onClick={handleFollowPost}>
+          {isPostFollowed ? (
+            &lt;IoIosNotifications
+              color="#787c7e"
+              fontSize="2.4rem"
+            />
+          ) : (
+            &lt;IoMdNotificationsOutline
+              color="#787c7e"
+              fontSize="2.4rem"
+            />
+          )}
+        &lt;/a>
+      ) : null}
     &lt;/div>
   );
 }
@@ -301,7 +402,7 @@ export default memo(PostInfo);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Oct 31 2022 19:13:40 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 22:12:20 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

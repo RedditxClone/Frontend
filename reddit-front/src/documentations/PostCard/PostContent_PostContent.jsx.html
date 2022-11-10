@@ -26,7 +26,9 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable jsx-a11y/media-has-caption */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-use-before-define */
+/* eslint-disable prefer-const */
+/* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/prop-types */
@@ -35,23 +37,17 @@
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
 import PostInteractions from '../PostInteractions/PostInteractions';
+import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
+import { divideBigNumber } from '../../../utilities/Helpers';
 import Logo from './test.png';
-import Img2 from './test2.jpg';
-import Img3 from './test3.jpg';
 /**
  * @typedef PropType
- * @property {number} comments_count
+ * @property {bool} setHidePost
  * @property {object} postContentData
- * @property {string} post_type
- * @property {string} title
- * @property {string} flair_name
- * @property {mixed} content
- */
-
-/**
- *
- * @param {PropType}  props
+ * @property {bool} isCommunityPost
+ * @property {bool} isPostFullDetailsMode
+ * @property {bool} isModeratorMode
  */
 
 /**
@@ -61,42 +57,21 @@ import Img3 from './test3.jpg';
  * the method 'showSlides' to render a slideshow for the images
  *
  */
-function PostContent(props) {
+function PostContent({
+  setHidePost,
+  postContentData,
+  isCommunityPost,
+  isPostFullDetailsMode,
+  isModeratorMode
+}) {
   let postContent = null;
   let slideIndex = 0;
-
-  const showSlides = () => {
-    const slides = document.getElementsByClassName('my-slides');
-    const slidesLength = slides.length;
-    if (slideIndex === slidesLength) {
-      slideIndex = 0;
-    }
-    if (slideIndex &lt; 0) {
-      slideIndex = slidesLength - 1;
-    }
-
-    let i;
-    for (i = 0; i &lt; slidesLength; i += 1) {
-      slides[i].style.display = 'none';
-    }
-    if (slides[slideIndex] != null) {
-      slides[slideIndex].style.display = 'block';
-    }
-  };
-
-  const nextSlide = () => {
-    slideIndex += 1;
-    showSlides();
-  };
-  const prevSlide = () => {
-    slideIndex -= 1;
-    showSlides();
-  };
+  const [modAction, setModAction] = useState(0);
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
   const getPostContent = function () {
-    const contentType = props.postContentData.post_type;
-    const mediaCount = props.postContentData.media_count;
+    const contentType = postContentData.post_type;
+    const mediaCount = postContentData.media_count;
 
     switch (contentType) {
       case 'img':
@@ -111,13 +86,13 @@ function PostContent(props) {
               &lt;/div>
               &lt;div className="my-slides fade">
                 &lt;img
-                  src={Img2}
+                  src={Logo}
                   alt="post image"
                 />
               &lt;/div>
               &lt;div className="my-slides fade">
                 &lt;img
-                  src={Img3}
+                  src={Logo}
                   alt="post image"
                 />
               &lt;/div>
@@ -137,12 +112,12 @@ function PostContent(props) {
               &lt;/button>
             &lt;/>
           );
-          showSlides(1);
+          // showSlides();
         } else {
           postContent = (
             &lt;div className="post-image">
               &lt;img
-                src={Img2}
+                src={Logo}
                 alt="post image"
               />
             &lt;/div>
@@ -165,7 +140,7 @@ function PostContent(props) {
         );
         break;
       case 'text':
-        postContent = &lt;p>{props.postContentData.content}&lt;/p>;
+        postContent = &lt;p>{postContentData.content}&lt;/p>;
         break;
       default:
         break;
@@ -174,13 +149,57 @@ function PostContent(props) {
     return postContent;
   };
 
+  /* show the image slider if the post has multiple images */
+  const showSlides = () => {
+    let slides = document.querySelectorAll('.my-slides');
+
+    const slidesLength = slides.length;
+    if (slideIndex === slidesLength) {
+      slideIndex = 0;
+    }
+    if (slideIndex &lt; 0) {
+      slideIndex = slidesLength - 1;
+    }
+
+    let i;
+    for (i = 0; i &lt; slidesLength; i += 1) {
+      slides.item(i).style.display = 'none';
+    }
+    if (slides[slideIndex] != null) {
+      slides.item(slideIndex).style.display = 'block';
+    }
+  };
+
+  const nextSlide = () => {
+    slideIndex += 1;
+    showSlides();
+  };
+
+  const prevSlide = () => {
+    slideIndex -= 1;
+    showSlides();
+  };
+
   // Returning the result
   return (
     &lt;div
       className="post-content"
       data-testid="test-post-content"
     >
-      {props.children}
+      {/* Post info -> community, username, time */}
+      &lt;PostInfo
+        communityName={postContentData.community_name}
+        communityId={postContentData.community_id}
+        userId={postContentData.user_id}
+        postedBy={postContentData.posted_by}
+        postedAt={postContentData.posted_at}
+        postId={postContentData.id}
+        isCommunityPost={isCommunityPost}
+        isPostFullDetailsMode={isPostFullDetailsMode}
+        modAction={modAction}
+      />
+
+      {/* Post title  */}
       &lt;div
         className="post-title-container"
         data-testid="test-post-title"
@@ -190,9 +209,7 @@ function PostContent(props) {
             className="post-link"
             href="#"
           >
-            &lt;h3 className="post-title-heading">
-              {props.postContentData.title}
-            &lt;/h3>
+            &lt;h3 className="post-title-heading">{postContentData.title}&lt;/h3>
           &lt;/a>
         &lt;/div>
         &lt;div className="flair">
@@ -200,21 +217,29 @@ function PostContent(props) {
             href="#"
             className="flair-link"
           >
-            {props.postContentData.flair_name}
+            {postContentData.flair_name}
           &lt;/a>
         &lt;/div>
       &lt;/div>
+
+      {/* post content  */}
       &lt;div className="post-main-content">
-        &lt;div className="post-content-core">{getPostContent()}&lt;/div>
+        &lt;div className="post-content-core">
+          {getPostContent()}
+          {showSlides()}
+        &lt;/div>
       &lt;/div>
+
+      {/* post interactions -> comment, save, hide, ..  */}
       &lt;PostInteractions
-        setHidePost={props.setHidePost}
-        commentsCount={props.divideBigNumber(
-          props.postContentData.comments_count
-        )}
-        votesCount={props.postContentData.votes}
-        divideBigNumber={props.divideBigNumber}
-        postId={props.postContentData.id}
+        setHidePost={setHidePost}
+        commentsCount={divideBigNumber(postContentData.comments_count)}
+        votesCount={postContentData.votes}
+        postId={postContentData.id}
+        isCommunityPost={isCommunityPost}
+        changeModAction={setModAction}
+        setModAction={setModAction}
+        isModeratorMode={isModeratorMode}
       />
     &lt;/div>
   );
@@ -237,7 +262,7 @@ export default memo(PostContent);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Oct 31 2022 19:13:40 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 22:12:20 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

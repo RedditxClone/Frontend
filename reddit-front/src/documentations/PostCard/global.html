@@ -159,7 +159,7 @@ the method 'showSlides' to render a slideshow for the images</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostContent_PostContent.jsx.html">PostContent/PostContent.jsx</a>, <a href="PostContent_PostContent.jsx.html#line36">line 36</a>
+        <a href="PostContent_PostContent.jsx.html">PostContent/PostContent.jsx</a>, <a href="PostContent_PostContent.jsx.html#line32">line 32</a>
     </li></ul></dd>
     
 
@@ -249,7 +249,7 @@ Using Redux here for fetching the data of the username and the community.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostInfo_PostInfo.jsx.html">PostInfo/PostInfo.jsx</a>, <a href="PostInfo_PostInfo.jsx.html#line33">line 33</a>
+        <a href="PostInfo_PostInfo.jsx.html">PostInfo/PostInfo.jsx</a>, <a href="PostInfo_PostInfo.jsx.html#line43">line 43</a>
     </li></ul></dd>
     
 
@@ -338,7 +338,7 @@ It just listens to the user interaction and handles it.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostInteractions_PostInteractions.jsx.html">PostInteractions/PostInteractions.jsx</a>, <a href="PostInteractions_PostInteractions.jsx.html#line28">line 28</a>
+        <a href="PostInteractions_PostInteractions.jsx.html">PostInteractions/PostInteractions.jsx</a>, <a href="PostInteractions_PostInteractions.jsx.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -427,7 +427,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Voting_Voting.jsx.html">Voting/Voting.jsx</a>, <a href="Voting_Voting.jsx.html#line18">line 18</a>
+        <a href="Voting_Voting.jsx.html">Voting/Voting.jsx</a>, <a href="Voting_Voting.jsx.html#line21">line 21</a>
     </li></ul></dd>
     
 
@@ -695,7 +695,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostCard.jsx.html">PostCard.jsx</a>, <a href="PostCard.jsx.html#line10">line 10</a>
+        <a href="PostCard.jsx.html">PostCard.jsx</a>, <a href="PostCard.jsx.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -750,13 +750,13 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>comments_count</code></td>
+                <td class="name"><code>setHidePost</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">bool</span>
 
 
             
@@ -796,13 +796,13 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>post_type</code></td>
+                <td class="name"><code>isCommunityPost</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">bool</span>
 
 
             
@@ -819,13 +819,13 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>title</code></td>
+                <td class="name"><code>isPostFullDetailsMode</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">bool</span>
 
 
             
@@ -842,36 +842,13 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>flair_name</code></td>
+                <td class="name"><code>isModeratorMode</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>content</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">mixed</span>
+<span class="param-type">bool</span>
 
 
             
@@ -920,7 +897,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostContent_PostContent.jsx.html">PostContent/PostContent.jsx</a>, <a href="PostContent_PostContent.jsx.html#line14">line 14</a>
+        <a href="PostContent_PostContent.jsx.html">PostContent/PostContent.jsx</a>, <a href="PostContent_PostContent.jsx.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -1113,13 +1090,13 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>divideBigNumber</code></td>
+                <td class="name"><code>isCommunityPost</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -1130,6 +1107,52 @@ It contains two methods for handling the up &amp; down voting.</p>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isPostFullDetailsMode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>modAction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>// 0: none, 1: approved, 2: spammed, 3: removed</p></td>
         </tr>
 
     
@@ -1168,7 +1191,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostInfo_PostInfo.jsx.html">PostInfo/PostInfo.jsx</a>, <a href="PostInfo_PostInfo.jsx.html#line15">line 15</a>
+        <a href="PostInfo_PostInfo.jsx.html">PostInfo/PostInfo.jsx</a>, <a href="PostInfo_PostInfo.jsx.html#line23">line 23</a>
     </li></ul></dd>
     
 
@@ -1269,7 +1292,76 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>divideBigNumber</code></td>
+                <td class="name"><code>votesCount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>postId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isCommunityPost</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setModAction</code></td>
             
 
             <td class="type">
@@ -1292,13 +1384,13 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>votesCount</code></td>
+                <td class="name"><code>isModeratorMode</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">bool</span>
 
 
             
@@ -1347,7 +1439,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostInteractions_PostInteractions.jsx.html">PostInteractions/PostInteractions.jsx</a>, <a href="PostInteractions_PostInteractions.jsx.html#line14">line 14</a>
+        <a href="PostInteractions_PostInteractions.jsx.html">PostInteractions/PostInteractions.jsx</a>, <a href="PostInteractions_PostInteractions.jsx.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -1480,7 +1572,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Voting_SmallScreenVoting_SmallScreenVoting.jsx.html">Voting/SmallScreenVoting/SmallScreenVoting.jsx</a>, <a href="Voting_SmallScreenVoting_SmallScreenVoting.jsx.html#line6">line 6</a>
+        <a href="Voting_SmallScreenVoting_SmallScreenVoting.jsx.html">Voting/SmallScreenVoting/SmallScreenVoting.jsx</a>, <a href="Voting_SmallScreenVoting_SmallScreenVoting.jsx.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -1613,7 +1705,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Voting_Voting.jsx.html">Voting/Voting.jsx</a>, <a href="Voting_Voting.jsx.html#line6">line 6</a>
+        <a href="Voting_Voting.jsx.html">Voting/Voting.jsx</a>, <a href="Voting_Voting.jsx.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -1649,7 +1741,7 @@ It contains two methods for handling the up &amp; down voting.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Oct 31 2022 19:13:40 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 22:12:20 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
