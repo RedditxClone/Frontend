@@ -1,8 +1,8 @@
-/* eslint-disable */
 import { fireEvent, render, screen } from '@testing-library/react';
-import pic from '../../../assets/Images/1166721.jpg';
 import { BrowserRouter } from 'react-router-dom';
+import pic from '../../../assets/Images/1166721.jpg';
 import CategoriesCard from '../../../components/CategoriesCard/CategoriesCard';
+
 const communities = [
   {
     name: 'My Community',
@@ -67,32 +67,33 @@ const communities = [
 ];
 
 const topText = 'Near You';
-const MockCategorisCard =()=>{
+function MockCategorisCard() {
   return (
     <BrowserRouter>
-    <CategoriesCard   communities={communities}
-     topText={topText} 
-    />
+      <CategoriesCard
+        communities={communities}
+        topText={topText}
+      />
     </BrowserRouter>
   );
-};
+}
 
-describe('Test for Home Communities  Card', () => {
-    it('Test for rendering the card', () => {
-      render(<MockCategorisCard />);
-  
-      const cardBar=screen.getByTestId('categories_card_bar');
-      expect(cardBar).toBeInTheDocument();
-      const communitiesItems = screen.getAllByTestId('communities_items');
-      expect(communitiesItems).toHaveLength(5);
-      const joinButton = screen.getAllByText('join');
-      expect(joinButton).toHaveLength(3);
-      fireEvent.click(joinButton[0]);
-      const joinedButton = screen.getByText('joined');
-      expect(joinedButton).toBeInTheDocument();
-     
-      
-      
-  
-    });
+describe('Test for Categories Card', () => {
+  it('Test for rendering the card', () => {
+    render(<MockCategorisCard />);
+
+    const cardBar = screen.getByTestId('categories_card_bar');
+    expect(cardBar).toBeInTheDocument();
+    const communitiesItems = screen.getAllByTestId('communities_items');
+    expect(communitiesItems).toHaveLength(5);
   });
+  it('Test for hitting the join button', () => {
+    render(<MockCategorisCard />);
+
+    const joinButton = screen.getAllByText('join');
+    expect(joinButton).toHaveLength(3);
+    fireEvent.click(joinButton[0]);
+    const joinedButton = screen.getByText('joined');
+    expect(joinedButton).toBeInTheDocument();
+  });
+});

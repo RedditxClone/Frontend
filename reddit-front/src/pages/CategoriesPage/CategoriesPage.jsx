@@ -12,6 +12,7 @@ import {
 import AlphabeticCard from '../../components/CategoriesCard/AlphabeticCard';
 // import CategoriesCard from './CategoriesCard';
 import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesCard';
+// import CommunityHoverCard from '../../components/CategoriesCard/CommunityHoverCard';
 
 export default function CategoriesPage({
   communities,
@@ -172,6 +173,7 @@ export default function CategoriesPage({
             buttonText={buttonText}
             handleClick={getClick}
           />
+          {/* <CommunityHoverCard community={communities[0]} /> */}
           <SideDiv>
             <AlphabeticCard />
           </SideDiv>
