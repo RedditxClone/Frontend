@@ -6,7 +6,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Box, Typography, Link } from '@mui/material';
 import { BsInfoCircle, BsPencil } from 'react-icons/bs';
 import { AiOutlineDown } from 'react-icons/ai';
@@ -42,7 +42,7 @@ import {
  *
  */
 
-export default function CommunityTopics({
+function CommunityTopics({
   highlightColor,
   baseColor,
   subTopicsList,
@@ -470,3 +470,5 @@ export default function CommunityTopics({
     </Box>
   );
 }
+
+export default memo(CommunityTopics);

@@ -1,6 +1,5 @@
 /* eslint-disable import/prefer-default-export */
 import { Box, styled } from '@mui/material';
-
 /**
  * @param {Box} - the default Box
  * @return {BackgroundImage} - The styled Background Image Container

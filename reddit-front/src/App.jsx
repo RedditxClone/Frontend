@@ -1,7 +1,8 @@
+/* eslint-disable */
+import SubredditCards from './components/SubredditCards/SubredditCards';
 
-import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
 function App() {
-  return <ChooseUserName />;
+  return <SubredditCards />;
 }
 
 export default App;

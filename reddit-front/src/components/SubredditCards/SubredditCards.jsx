@@ -1,9 +1,15 @@
+/* eslint-disable react/jsx-boolean-value */
 /* eslint-disable prefer-const */
 import { ThemeProvider, Box } from '@mui/material';
 import SubredditBackground from './SubredditBackground/SubredditBackground';
 import SubredditInfo from './SubredditInfo/SubredditInfo';
 import SubredditSideBar from './SubredditSideBar/SubredditSideBar';
-import { CardsContainer, subredditTheme } from './SubredditCards.Style';
+import {
+  CardsContainer,
+  PostsContainer,
+  subredditTheme
+} from './SubredditCards.Style';
+import PostsList from '../PostsList/PostsList';
 /**
  * This Component for the Community Cards.
  *
@@ -12,7 +18,7 @@ import { CardsContainer, subredditTheme } from './SubredditCards.Style';
 export default function SubredditCards() {
   let baseColor = 'lime';
   let color = '#ccc';
-  let isModeratorMode = false;
+  let isModeratorMode = true;
   return (
     <ThemeProvider theme={subredditTheme}>
       <Box
@@ -20,7 +26,8 @@ export default function SubredditCards() {
         className="container"
         component="div"
         sx={{
-          width: '100%'
+          width: '100%',
+          justifyContent: 'flex-start'
         }}
       >
         <SubredditBackground
@@ -32,15 +39,12 @@ export default function SubredditCards() {
           baseColor="lime"
         />
         <CardsContainer style={{ backgroundColor: color }}>
-          <Box
-            sx={{
-              width: '64rem',
-              margin: 0,
-              padding: 0
-            }}
-          >
-            posts
-          </Box>
+          <PostsContainer>
+            <PostsList
+              isCommunityPost={true}
+              isModeratorMode={isModeratorMode}
+            />
+          </PostsContainer>
           <SubredditSideBar
             baseColor={baseColor}
             highlightColor="red"

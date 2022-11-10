@@ -196,5 +196,6 @@ export const EditCommunityActionsContainer = styled(Link)({
   padding: '5px 5px',
   cursor: 'pointer',
   width: '100%',
-  backgroundColor: '#F6F7F8'
+  backgroundColor: '#F6F7F8',
+  textDecoration: 'none'
 });

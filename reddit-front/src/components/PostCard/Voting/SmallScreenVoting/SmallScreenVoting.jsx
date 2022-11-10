@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import './SmallScreenVoting.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
+import { votePost } from '../../../../redux/slices/PostInteractionsSlice';
 
 /**
  * @typedef PropType
@@ -15,7 +17,11 @@ import { BiUpvote, BiDownvote } from 'react-icons/bi';
  *
  */
 
-export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
+export default function SmallScreenVoting({
+  votesCount,
+  divideBigNumber,
+  postId
+}) {
   const [votingCounter, setVotingCounter] = useState(votesCount);
   // voting status : 0 -> no voted, 1 -> up, -1 -> down
   const [votingCurrentState, setVotingCurrentState] = useState(0);
@@ -23,6 +29,7 @@ export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
     up: '#c0c2c4',
     down: '#c0c2c4'
   });
+  const dispatch = useDispatch();
 
   const handleUpVoting = () => {
     switch (votingCurrentState) {
@@ -53,6 +60,10 @@ export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
       default:
         break;
     }
+
+    // dispatching the action
+    const info = { body: { dir: votingCounter }, id: postId };
+    dispatch(votePost(info));
   };
 
   const handleDownVoting = () => {
@@ -84,6 +95,10 @@ export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
       default:
         break;
     }
+
+    // dispatching the action
+    const info = { body: { dir: votingCounter }, id: postId };
+    dispatch(votePost(info));
   };
 
   // Returning the result

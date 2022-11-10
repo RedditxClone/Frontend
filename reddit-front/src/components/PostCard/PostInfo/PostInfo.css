@@ -323,11 +323,49 @@ a {
   opacity: 0.9;
 }
 
+.mod-action-icon {
+  position: relative;
+  cursor: default;
+}
+.mod-action-icon:hover .post-approved-by,
+.mod-action-icon:hover .post-spammed-by,
+.mod-action-icon:hover .post-removed-by {
+  display: block;
+  visibility: visible;
+}
+.mod-action-icon .post-approved-by,
+.mod-action-icon .post-removed-by,
+.mod-action-icon .post-spammed-by {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  font-weight: 600;
+  position: absolute;
+  top: -3rem;
+  left: -18rem;
+  width: 40rem;
+  display: none;
+  visibility: hidden;
+}
+
+.post-info-details .removal-reason {
+  color: red;
+  margin-left: 5px;
+  margin-top: 2px;
+}
+
 @media (max-width: 640px) {
   .post-info .user-information {
     width: 20rem;
   }
   .user-stats .user-stats-item {
     padding-right: 5%;
+  }
+
+  .mod-action-icon .post-approved-by,
+  .mod-action-icon .post-removed-by,
+  .mod-action-icon .post-spammed-by {
+    left: -28rem;
   }
 }

@@ -2,7 +2,7 @@
 /* eslint-disable indent */
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
 import {
   MdOutlineNotificationsActive,
@@ -15,7 +15,10 @@ import {
   ButtonsContainer,
   SubredditTitle,
   NotificationTypesContainer,
-  SingleNotificationTypeContainer
+  SingleNotificationTypeContainer,
+  TitleLogoContainer,
+  SubTitle,
+  JoinButton
 } from './SubredditName.Style';
 
 /**
@@ -28,61 +31,31 @@ import {
  *
  */
 
-export default function SubredditName({ highlightColor }) {
+function SubredditName({ highlightColor }) {
   const [joined, setJoined] = useState(false);
   const [activeNotificationType, setActiveNotificationType] = useState(1);
   const [showNotificationsTypeList, setShowNotificationsTypeList] =
     useState(false);
 
   return (
-    <Box
-      data-testid="subreddit-title-logo-container"
-      sx={{
-        boxSizing: 'border-box',
-        alignItems: 'flex-start',
-        display: 'flex',
-        flex: 1,
-        paddingLeft: '1.6rem',
-        marginTop: '2.6rem',
-        justifyContent: 'space-between',
-        position: 'relative',
-        width: 'calc(100% - 8rem)'
-      }}
-    >
+    <TitleLogoContainer data-testid="subreddit-title-logo-container">
+      {/* Subreddit Name  */}
       <StyledSubredditName>
-        <SubredditTitle variant="h1">AyahEveryDay</SubredditTitle>
-        <h2
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            lineHeight: '1.8rem',
-            color: '#7c7c7c',
-            margin: 0,
-            padding: 0
-          }}
-        >
-          r/AyahEveryDay
-        </h2>
+        <SubredditTitle variant="h1">Real Madrid CF</SubredditTitle>
+        <SubTitle>r/realmadrid</SubTitle>
       </StyledSubredditName>
+
+      {/* Buttons -> Join, Notifications  */}
       <ButtonsContainer>
+        {/* Join Button  */}
         <Box sx={{ width: '9.6rem' }}>
-          <Button
+          <JoinButton
             data-testid="join-community-button"
             size="medium"
             sx={{
-              width: '100%',
               border: `1px solid ${highlightColor}`,
               color: joined ? highlightColor : 'white',
               fill: highlightColor,
-              fontFamily: 'Noto Sans,Arial,sans-serif',
-              fontSize: '1.4rem',
-              fontWeight: 700,
-              letterSpacing: 'unset',
-              minHeigh: '3.2rem',
-              minWidth: '3.2rem',
-              padding: '4px 16px',
-              borderRadius: '9999px',
-              boxSizing: 'border-box',
               backgroundColor: joined ? 'transparent' : highlightColor,
               '&:hover': {
                 opacity: joined ? '1' : '.9',
@@ -105,9 +78,9 @@ export default function SubredditName({ highlightColor }) {
             }}
           >
             {joined ? 'Joined' : 'Join'}
-          </Button>
+          </JoinButton>
         </Box>
-
+        {/* Notifications Button  */}
         <Box sx={{ position: 'relative' }}>
           <Button
             data-testid="notify-button"
@@ -245,6 +218,8 @@ export default function SubredditName({ highlightColor }) {
           </Button>
         </Box>
       </ButtonsContainer>
-    </Box>
+    </TitleLogoContainer>
   );
 }
+
+export default memo(SubredditName);

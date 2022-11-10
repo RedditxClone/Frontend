@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Box from '@mui/material/Box';
+import { memo } from 'react';
 import Link from '@mui/material/Link';
 import { AiOutlineMail } from 'react-icons/ai';
 import {
@@ -20,17 +21,20 @@ import CardHeader from '../CardHeader/CardHeader';
  *
  */
 
-export default function ModeratorsCard({ highlightColor, baseColor }) {
+function ModeratorsCard({ highlightColor, baseColor }) {
   return (
     <ModeratorsContainer
       className="moderators"
       data-testid="moderators-card"
     >
+      {/* Card Header  */}
       <CardHeader
         title="Moderators"
         baseColor={baseColor}
         hasDropDownMenu={false}
       />
+
+      {/* Card Body  */}
       <Box sx={{ padding: '12px' }}>
         <MessageModsButton
           data-testid="msg-mods-button"
@@ -46,6 +50,8 @@ export default function ModeratorsCard({ highlightColor, baseColor }) {
           />
           Message the mods
         </MessageModsButton>
+
+        {/* List of the moderators  */}
         <Box className="moderator-name">
           <ModeratorUsername style={{ color: highlightColor }}>
             u/test_user
@@ -56,6 +62,8 @@ export default function ModeratorsCard({ highlightColor, baseColor }) {
             u/test_user
           </ModeratorUsername>
         </Box>
+
+        {/* The view all button  */}
         <Box
           className="view-all-moderators"
           sx={{
@@ -85,3 +93,5 @@ export default function ModeratorsCard({ highlightColor, baseColor }) {
     </ModeratorsContainer>
   );
 }
+
+export default memo(ModeratorsCard);

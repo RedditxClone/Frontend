@@ -1,5 +1,5 @@
 import { Typography, Box } from '@mui/material';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { AiOutlineDown } from 'react-icons/ai';
 import CardHeader from '../CardHeader/CardHeader';
 import {
@@ -7,7 +7,8 @@ import {
   RuleContainer,
   RuleTitle,
   ShowRuleDescription,
-  RuleDescription
+  RuleDescription,
+  RuleNumber
 } from './RulesCard.Style';
 import StyledHorizontalLine from '../../../utilities/StyledHorizontalLine/StyledHorizontalLine';
 
@@ -21,7 +22,7 @@ import StyledHorizontalLine from '../../../utilities/StyledHorizontalLine/Styled
  *
  */
 
-export default function RulesCard({ baseColor }) {
+function RulesCard({ baseColor }) {
   // eslint-disable-next-line prefer-const
   let isRuleHasDescription = true;
   const [showDescription, setShowDescription] = useState(false);
@@ -31,29 +32,22 @@ export default function RulesCard({ baseColor }) {
       className="community-rules"
       data-testid="community-rules-card"
     >
+      {/* Card Header  */}
       <CardHeader
         title="r/AyahEveryDay Rules"
         baseColor={baseColor}
         hasDropDownMenu={false}
       />
+      {/* Card Body  */}
       <Box sx={{ padding: '12px' }}>
+        {/* The list of rules  */}
         <RuleContainer
           className="RuleContainer"
           onClick={() => {
             setShowDescription(!showDescription);
           }}
         >
-          <Box
-            className="rule-number"
-            sx={{
-              flex: '0 0',
-              margin: 0,
-              padding: '0 6px 0 0',
-              fontSize: '1.5rem'
-            }}
-          >
-            1.
-          </Box>
+          <RuleNumber className="rule-number">1.</RuleNumber>
           <RuleTitle className="rule-title">test title</RuleTitle>
           {isRuleHasDescription ? (
             <ShowRuleDescription className="show-rule-description">
@@ -82,7 +76,19 @@ export default function RulesCard({ baseColor }) {
         ) : null}
 
         <StyledHorizontalLine />
+
+        <RuleContainer
+          className="RuleContainer"
+          onClick={() => {
+            setShowDescription(!showDescription);
+          }}
+        >
+          <RuleNumber className="rule-number">2.</RuleNumber>
+          <RuleTitle className="rule-title">test title again</RuleTitle>
+        </RuleContainer>
       </Box>
     </RulesCardContainer>
   );
 }
+
+export default memo(RulesCard);

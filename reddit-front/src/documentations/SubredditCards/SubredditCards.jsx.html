@@ -26,13 +26,18 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable prefer-const */
-import Box from '@mui/material/Box';
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable prefer-const */
+import { ThemeProvider, Box } from '@mui/material';
 import SubredditBackground from './SubredditBackground/SubredditBackground';
 import SubredditInfo from './SubredditInfo/SubredditInfo';
 import SubredditSideBar from './SubredditSideBar/SubredditSideBar';
-import { CardsContainer } from './SubredditCards.Style';
-
+import {
+  CardsContainer,
+  PostsContainer,
+  subredditTheme
+} from './SubredditCards.Style';
+import PostsList from '../PostsList/PostsList';
 /**
  * This Component for the Community Cards.
  *
@@ -41,41 +46,41 @@ import { CardsContainer } from './SubredditCards.Style';
 export default function SubredditCards() {
   let baseColor = 'lime';
   let color = '#ccc';
-  let isModeratorMode = false;
+  let isModeratorMode = true;
   return (
-    &lt;Box
-      data-testid="subreddit-cards"
-      className="container"
-      component="div"
-      sx={{
-        width: '100%'
-      }}
-    >
-      &lt;SubredditBackground
-        baseColor="green"
-        highlightColor="red"
-      />
-      &lt;SubredditInfo
-        color="red"
-        baseColor="lime"
-      />
-      &lt;CardsContainer style={{ backgroundColor: color }}>
-        &lt;Box
-          sx={{
-            width: '64rem',
-            margin: 0,
-            padding: 0
-          }}
-        >
-          posts
-        &lt;/Box>
-        &lt;SubredditSideBar
-          baseColor={baseColor}
+    &lt;ThemeProvider theme={subredditTheme}>
+      &lt;Box
+        data-testid="subreddit-cards"
+        className="container"
+        component="div"
+        sx={{
+          width: '100%',
+          justifyContent: 'flex-start'
+        }}
+      >
+        &lt;SubredditBackground
+          baseColor="green"
           highlightColor="red"
-          isModeratorMode={isModeratorMode}
         />
-      &lt;/CardsContainer>
-    &lt;/Box>
+        &lt;SubredditInfo
+          color="red"
+          baseColor="lime"
+        />
+        &lt;CardsContainer style={{ backgroundColor: color }}>
+          &lt;PostsContainer>
+            &lt;PostsList
+              isCommunityPost={true}
+              isModeratorMode={isModeratorMode}
+            />
+          &lt;/PostsContainer>
+          &lt;SubredditSideBar
+            baseColor={baseColor}
+            highlightColor="red"
+            isModeratorMode={isModeratorMode}
+          />
+        &lt;/CardsContainer>
+      &lt;/Box>
+    &lt;/ThemeProvider>
   );
 }
 </code></pre>
@@ -88,13 +93,13 @@ export default function SubredditCards() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#BackgroundImage">BackgroundImage</a></li><li><a href="global.html#ButtonsContainer">ButtonsContainer</a></li><li><a href="global.html#CancelSaveContainer">CancelSaveContainer</a></li><li><a href="global.html#CardsContainer">CardsContainer</a></li><li><a href="global.html#CardsHeaderContainer">CardsHeaderContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#DropDownMenuContainer">DropDownMenuContainer</a></li><li><a href="global.html#DropDownMenuItem">DropDownMenuItem</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#FlairItem">FlairItem</a></li><li><a href="global.html#FlairItemContainer">FlairItemContainer</a></li><li><a href="global.html#FlairsContainer">FlairsContainer</a></li><li><a href="global.html#HeadingContainer">HeadingContainer</a></li><li><a href="global.html#LogoNameContainer">LogoNameContainer</a></li><li><a href="global.html#LogoNameContent">LogoNameContent</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#MessageModsButton">MessageModsButton</a></li><li><a href="global.html#ModeratorsContainer">ModeratorsContainer</a></li><li><a href="global.html#ModeratorUsername">ModeratorUsername</a></li><li><a href="global.html#NotificationTypesContainer">NotificationTypesContainer</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PopupInfo">PopupInfo</a></li><li><a href="global.html#RuleContainer">RuleContainer</a></li><li><a href="global.html#RuleDescription">RuleDescription</a></li><li><a href="global.html#RulesCardContainer">RulesCardContainer</a></li><li><a href="global.html#RuleTitle">RuleTitle</a></li><li><a href="global.html#SelectList">SelectList</a></li><li><a href="global.html#SelectListOption">SelectListOption</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#ShowRuleDescription">ShowRuleDescription</a></li><li><a href="global.html#SideBarContainer">SideBarContainer</a></li><li><a href="global.html#SingleNotificationTypeContainer">SingleNotificationTypeContainer</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledSubredditName">StyledSubredditName</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#StylesSpan">StylesSpan</a></li><li><a href="global.html#SubredditTitle">SubredditTitle</a></li><li><a href="global.html#SubTopic">SubTopic</a></li><li><a href="global.html#SubTopicsContainer">SubTopicsContainer</a></li><li><a href="global.html#SuggestedSubTopic">SuggestedSubTopic</a></li><li><a href="global.html#SuggestedSubTopicsContainer">SuggestedSubTopicsContainer</a></li><li><a href="global.html#TopicDropdownList">TopicDropdownList</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCard">AboutCard</a></li><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#BackgroundImage">BackgroundImage</a></li><li><a href="global.html#ButtonsContainer">ButtonsContainer</a></li><li><a href="global.html#CancelSaveContainer">CancelSaveContainer</a></li><li><a href="global.html#CardHeader">CardHeader</a></li><li><a href="global.html#CardsContainer">CardsContainer</a></li><li><a href="global.html#CardsHeaderContainer">CardsHeaderContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CommunityTopics">CommunityTopics</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#DropDownMenuContainer">DropDownMenuContainer</a></li><li><a href="global.html#DropDownMenuItem">DropDownMenuItem</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#FlairItem">FlairItem</a></li><li><a href="global.html#FlairItemContainer">FlairItemContainer</a></li><li><a href="global.html#FlairsCard">FlairsCard</a></li><li><a href="global.html#FlairsContainer">FlairsContainer</a></li><li><a href="global.html#HeadingContainer">HeadingContainer</a></li><li><a href="global.html#JoinButton">JoinButton</a></li><li><a href="global.html#LogoImg">LogoImg</a></li><li><a href="global.html#LogoNameContainer">LogoNameContainer</a></li><li><a href="global.html#LogoNameContent">LogoNameContent</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#MessageModsButton">MessageModsButton</a></li><li><a href="global.html#ModeratorsCard">ModeratorsCard</a></li><li><a href="global.html#ModeratorsContainer">ModeratorsContainer</a></li><li><a href="global.html#ModeratorUsername">ModeratorUsername</a></li><li><a href="global.html#ModToolsButton">ModToolsButton</a></li><li><a href="global.html#NotificationTypesContainer">NotificationTypesContainer</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PopupInfo">PopupInfo</a></li><li><a href="global.html#PostsContainer">PostsContainer</a></li><li><a href="global.html#RuleContainer">RuleContainer</a></li><li><a href="global.html#RuleDescription">RuleDescription</a></li><li><a href="global.html#RuleNumber">RuleNumber</a></li><li><a href="global.html#RulesCard">RulesCard</a></li><li><a href="global.html#RulesCardContainer">RulesCardContainer</a></li><li><a href="global.html#RuleTitle">RuleTitle</a></li><li><a href="global.html#SelectList">SelectList</a></li><li><a href="global.html#SelectListOption">SelectListOption</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#ShowRuleDescription">ShowRuleDescription</a></li><li><a href="global.html#SideBarContainer">SideBarContainer</a></li><li><a href="global.html#SideBarContent">SideBarContent</a></li><li><a href="global.html#SingleNotificationTypeContainer">SingleNotificationTypeContainer</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledSubredditName">StyledSubredditName</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#StylesSpan">StylesSpan</a></li><li><a href="global.html#SubredditInfo">SubredditInfo</a></li><li><a href="global.html#SubredditName">SubredditName</a></li><li><a href="global.html#SubredditSideBar">SubredditSideBar</a></li><li><a href="global.html#SubredditTitle">SubredditTitle</a></li><li><a href="global.html#SubTitle">SubTitle</a></li><li><a href="global.html#SubTopic">SubTopic</a></li><li><a href="global.html#SubTopicsContainer">SubTopicsContainer</a></li><li><a href="global.html#SuggestedSubTopic">SuggestedSubTopic</a></li><li><a href="global.html#SuggestedSubTopicsContainer">SuggestedSubTopicsContainer</a></li><li><a href="global.html#TitleLogoContainer">TitleLogoContainer</a></li><li><a href="global.html#TopicDropdownList">TopicDropdownList</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 03 2022 19:22:30 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 22:13:08 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

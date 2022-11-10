@@ -1,8 +1,13 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-unused-vars */
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import SubredditName from '../SubredditName/SubredditName';
-import { LogoNameContainer, LogoNameContent } from './SubredditInfo.Style';
+import {
+  LogoNameContainer,
+  LogoNameContent,
+  LogoImg
+} from './SubredditInfo.Style';
 
 /**
  * @typedef PropType
@@ -15,8 +20,11 @@ import { LogoNameContainer, LogoNameContent } from './SubredditInfo.Style';
  *
  */
 
-export default function SubredditInfo({ color, baseColor }) {
-  const [hasLogo, setHasLogo] = useState(false);
+function SubredditInfo({ color, baseColor }) {
+  const [hasLogo, setHasLogo] = useState(true);
+  const SubredditLogo = (
+    <LogoImg src="https://styles.redditmedia.com/t5_2rr0e/styles/communityIcon_ylhgbe8ngx481.jpg?width=256&format=pjpg&s=fb6c14e5b6e326a13bdff84d7e0aac38511df59c" />
+  );
   return (
     <Box
       component="div"
@@ -28,7 +36,9 @@ export default function SubredditInfo({ color, baseColor }) {
     >
       <LogoNameContainer>
         <LogoNameContent>
-          {hasLogo ? null : (
+          {hasLogo ? (
+            SubredditLogo
+          ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -52,3 +62,5 @@ export default function SubredditInfo({ color, baseColor }) {
     </Box>
   );
 }
+
+export default memo(SubredditInfo);
