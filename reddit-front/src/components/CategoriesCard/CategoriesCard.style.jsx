@@ -11,12 +11,14 @@ export const CategoriesCardBar = styled(Box)({
   backgroundColor: '#F6F7F8',
   padding: ' 1.4rem',
   position: 'fixed',
+  // position: 'sticky',
   display: 'flex',
   justifyContent: 'space-between',
   border: ' 2px solid #Edeff1',
   top: '110px',
   zIndex: '2',
   width: 'calc(48.3% - 2px)'
+  // width: '100%'
   // flexGrow: '2'
 });
 

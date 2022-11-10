@@ -18,6 +18,7 @@ const theme = createTheme(
     }
   }
 );
+
 theme.typography.h1 = {
   fontSize: '18px',
   fontWeight: '500',
