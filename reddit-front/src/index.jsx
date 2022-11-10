@@ -5,6 +5,7 @@ import { Store } from './store/Store';
 import './index.css';
 
 // Components
+import DefaultUserPage from './pages/DefaultUserPage/DefaultUserPage';
 import HomePage from './pages/HomePage/HomePage';
 import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
@@ -18,7 +19,7 @@ import ErrorPage from './pages/ErrorPage/ErrorPage';
 const routes = createBrowserRouter([
   {
     path: '/',
-    element: <Login />,
+    element: <DefaultUserPage />,
     errorElement: <ErrorPage />,
     children: [
       {

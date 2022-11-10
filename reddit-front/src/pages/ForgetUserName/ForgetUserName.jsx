@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import {
-  AllDiv,
   ContentDiv,
   DotDiv
 } from '../../components/GlobalStyles/GlobalStyles.style';
@@ -23,7 +22,6 @@ import ErrorMessage, {
 import Recaptcha from '../../components/Recaptcha/Recaptcha';
 import { checkEmail } from '../../utilities/Helpers';
 import { forgetUserName, AuthActions } from '../../store/slices/AuthSlice';
-import SideImage from '../../components/SideImage/SideImage';
 
 export default function ForgetUserName() {
   const {
@@ -54,92 +52,89 @@ export default function ForgetUserName() {
   const dlen = 10;
   const lhlen = 3;
   return (
-    <AllDiv>
-      <SideImage />
-      <ContentDiv>
-        <RedditImageDiv />
-        <Typography
-          id="ForgetUserNameTitle"
-          variant="h4"
+    <ContentDiv>
+      <RedditImageDiv />
+      <Typography
+        id="ForgetUserNameTitle"
+        variant="h4"
+      >
+        Recover your username
+      </Typography>
+      <DescriptionDiv>
+        <p>
+          Tell us the email address associated with your Reddit
+          <br />
+          account, and we&#8217;ll send you an email with your username.
+        </p>
+      </DescriptionDiv>
+      <form onSubmit={onSubmitHandler}>
+        <DotDiv len={dlen}>
+          <LoginInputField
+            value={email}
+            onChange={onChangeEmailHandler}
+            onBlur={onBlurEmailHandler}
+            onFocus={onFocusEmailHandler}
+            error={errorEmail}
+            label="Email address"
+          />
+          <span className="Dot"> </span>
+          {errorEmail && (
+            <ErrorMessage>Please fix your email to continue</ErrorMessage>
+          )}
+        </DotDiv>
+        {!errorEmail && touchedEmailInput && (
+          <Recaptcha setRecaptcha={setRecaptcha} />
+        )}
+        <InfoButton
+          outlined={!outLined}
+          len={blen}
+          align="center"
+          hlen={lhlen}
+          disabled={!formIsValid}
+          type="submit"
         >
-          Recover your username
-        </Typography>
-        <DescriptionDiv>
-          <p>
-            Tell us the email address associated with your Reddit
-            <br />
-            account, and we&#8217;ll send you an email with your username.
-          </p>
-        </DescriptionDiv>
-        <form onSubmit={onSubmitHandler}>
-          <DotDiv len={dlen}>
-            <LoginInputField
-              value={email}
-              onChange={onChangeEmailHandler}
-              onBlur={onBlurEmailHandler}
-              onFocus={onFocusEmailHandler}
-              error={errorEmail}
-              label="Email address"
-            />
-            <span className="Dot"> </span>
-            {errorEmail && (
-              <ErrorMessage>Please fix your email to continue</ErrorMessage>
-            )}
-          </DotDiv>
-          {!errorEmail && touchedEmailInput && (
-            <Recaptcha setRecaptcha={setRecaptcha} />
-          )}
-          <InfoButton
-            outlined={!outLined}
-            len={blen}
-            align="center"
-            hlen={lhlen}
-            disabled={!formIsValid}
-            type="submit"
-          >
-            EMAIL ME
-          </InfoButton>
-          {fulfilled && (
-            <FulfilledMessage msg="Thanks! If your Reddit username and email address match, you will get an email with a link to reset your password shortly." />
-          )}
-          {error && (
-            <ErrorResponse
-              msg="
+          EMAIL ME
+        </InfoButton>
+        {fulfilled && (
+          <FulfilledMessage msg="Thanks! If your Reddit username and email address match, you will get an email with a link to reset your password shortly." />
+        )}
+        {error && (
+          <ErrorResponse
+            msg="
 Looks like you've been doing that a lot. Take a break for 8 minutes before trying again. "
-            />
-          )}
-          <ForgetFooterDiv>
-            <p id="Forget">
-              Don&#8217;t have an email or need assistance logging in?
-              <a
-                className="BottomLink"
-                href="https://reddithelp.com/hc/en-us/sections/360008917491-Account-Security"
-              >
-                {' '}
-                GET HELP
-              </a>
-            </p>
-            <p>
-              <Link
-                onClick={resetRequest}
-                className="BottomLink"
-                to="/login"
-              >
-                LOG IN
-                <div> .</div>
-              </Link>
-              <Link
-                onClick={resetRequest}
-                className="BottomLink"
-                to="/signup"
-              >
-                {' '}
-                SIGN UP
-              </Link>
-            </p>
-          </ForgetFooterDiv>
-        </form>
-      </ContentDiv>
-    </AllDiv>
+          />
+        )}
+        <ForgetFooterDiv>
+          <p id="Forget">
+            Don&#8217;t have an email or need assistance logging in?
+            <a
+              className="BottomLink"
+              href="https://reddithelp.com/hc/en-us/sections/360008917491-Account-Security"
+            >
+              {' '}
+              GET HELP
+            </a>
+          </p>
+          <p>
+            <Link
+              onClick={resetRequest}
+              className="BottomLink"
+              to="/login"
+            >
+              LOG IN
+              <div> .</div>
+            </Link>
+            <Link
+              onClick={resetRequest}
+              className="BottomLink"
+              to="/signup"
+            >
+              {' '}
+              SIGN UP
+            </Link>
+          </p>
+        </ForgetFooterDiv>
+      </form>
+    </ContentDiv>
   );
 }
