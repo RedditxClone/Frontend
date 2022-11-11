@@ -13,6 +13,7 @@ import ErrorMessage, {
 import InfoButton from '../../components/InfoButton/InfoButton';
 import useInput from '../../hooks/use-input';
 
+const SERVER_NAME = process.env.BASE_URL;
 /**
  * This component returns a page that appears after entering your email in signup
  * It has two input fields one for username
@@ -48,7 +49,7 @@ function ChooseUserName() {
     const timeToReadName = setTimeout(async () => {
       try {
         const res = await axios.post(
-          'http://localhost:3033/api/user/check-available-username',
+          `${SERVER_NAME}/api/user/check-available-username`,
           {
             username: userName
           }

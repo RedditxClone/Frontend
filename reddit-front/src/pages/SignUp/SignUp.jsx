@@ -20,7 +20,6 @@ import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import { checkEmail } from '../../utilities/Helpers';
 import useInput from '../../hooks/use-input';
-import Recaptcha from '../../components/Recaptcha/Recaptcha';
 
 /**
  * This component returns a signup page contains:
@@ -39,11 +38,9 @@ function SignUp() {
     isTouched: touchedEmailInput,
     hasError: errorEmail
   } = useInput((value) => checkEmail(value));
-  const [recaptcha, setRecaptcha] = useState(false);
   const [signUpWithGoggle, setSignUpWithGoggle] = useState(false);
   const [signUpWithFacebook, setSignUpWithFacebook] = useState(false);
-  const formIsValid =
-    (recaptcha && !errorEmail) || signUpWithGoggle || signUpWithFacebook;
+  const formIsValid = !errorEmail || signUpWithGoggle || signUpWithFacebook;
 
   const navigate = useNavigate();
 
@@ -148,9 +145,7 @@ function SignUp() {
             <ErrorMessage>Please fix your email to continue</ErrorMessage>
           )}
         </DotDiv>
-        {!errorEmail && touchedEmailInput && (
-          <Recaptcha setRecaptcha={setRecaptcha} />
-        )}
+
         <InfoButton
           outlined={!outLined}
           len={len}
