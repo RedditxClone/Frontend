@@ -10,13 +10,7 @@ import FacebookLogin from 'react-facebook-login';
 import { GrFacebook } from 'react-icons/gr';
 import { login } from '../../store/slices/AuthSlice';
 import InfoButton from '../../components/InfoButton/InfoButton';
-
-import {
-  DividerDiv
-  // ContainerDiv
-  // ButtonImageDiv,
-  // ImgDiv
-} from './Login.style';
+import { DividerDiv } from './Login.style';
 import {
   ContentDiv,
   UserAggrementDiv,
@@ -29,7 +23,18 @@ import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import useInput from '../../hooks/use-input';
 import Recaptcha from '../../components/Recaptcha/Recaptcha';
 
-export default function Login() {
+/**
+ * This component returns a login page contains:
+ * 1- two inputs for username and password
+ * 2- two buttons for continue with google or facebook
+ * 3- submit button
+ * @returns {React.Component}
+ */
+
+function Login() {
+  /**
+   * use the custom-hook useInput to handle username input
+   */
   const {
     value: userName,
     valueChangeHandler: onChangeUserNameInputHandler,
@@ -40,6 +45,9 @@ export default function Login() {
     hasError: errorUserName
   } = useInput((value) => value.length >= 3 && value.length <= 20);
 
+  /**
+   * use the custom-hook useInput to handle password input
+   */
   const {
     value: password,
     valueChangeHandler: onChangePasswordInputHandler,
@@ -53,6 +61,7 @@ export default function Login() {
   const [recaptcha, setRecaptcha] = useState(false);
   const [loginWithFacebook, setLoginWithFacebook] = useState(false);
   const [loginWithGoogle, setLoginWithGoogle] = useState(false);
+  /** To check if the form is valid or not */
   const formIsValid =
     (!errorPassword && !errorUserName && recaptcha) ||
     loginWithGoogle ||
@@ -61,6 +70,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading, error, isAuth } = useSelector((state) => state.auth);
+  /** If the authentication changes, run the useEffect to redirect to the home page  */
   useEffect(() => {
     if (isAuth) {
       navigate('/home');
@@ -71,6 +81,9 @@ export default function Login() {
     dispatch(login({ username: userName, password }));
   };
 
+  /**
+   * Reset the inputs of the form
+   */
   const resetInputs = () => {
     resetPasswordInput();
     resetUserNameInput();
@@ -85,6 +98,10 @@ export default function Login() {
     setLoginWithFacebook(true);
   };
 
+  /**
+   *
+   * @param {Object} response - response from Google API for being registered with google email
+   */
   const handleCallBackResponse = (response) => {
     const userObject = jwt_decode(response.credential);
 
@@ -92,6 +109,8 @@ export default function Login() {
     console.log(userObject);
     setLoginWithGoogle(true);
   };
+
+  /** Render the Google button only once the page is first renedered */
   useEffect(() => {
     google.accounts.id.initialize({
       client_id:
@@ -232,3 +251,5 @@ export default function Login() {
     </ContentDiv>
   );
 }
+
+export default Login;

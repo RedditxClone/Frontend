@@ -20,7 +20,13 @@ import Recaptcha from '../../components/Recaptcha/Recaptcha';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import { resetPassword } from '../../store/slices/AuthSlice';
 
-export default function ForgetUserPassword() {
+/**
+ * This component returns a Reset password page contains:
+ * 1- two inputs for password and verify password
+ * 2- submit button
+ * @returns {React.Component}
+ */
+function ResetPassword() {
   const {
     value: newPassword,
     valueChangeHandler: onChangeNewPasswordInputHandler,
@@ -169,3 +175,4 @@ export default function ForgetUserPassword() {
     </ContentDiv>
   );
 }
+export default ResetPassword;

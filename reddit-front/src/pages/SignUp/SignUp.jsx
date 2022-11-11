@@ -7,7 +7,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { GrFacebook } from 'react-icons/gr';
 import FacebookLogin from 'react-facebook-login';
-
 import InfoButton from '../../components/InfoButton/InfoButton';
 import { DividerDiv } from './SignUp.style';
 import {
@@ -20,11 +19,18 @@ import {
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import { checkEmail } from '../../utilities/Helpers';
-
 import useInput from '../../hooks/use-input';
 import Recaptcha from '../../components/Recaptcha/Recaptcha';
 
-export default function SignUp() {
+/**
+ * This component returns a signup page contains:
+ * 1- one input for Email
+ * 2- two buttons for continue with google or facebook
+ * 3- Continue button to redirect you to choose your username and password
+ * @returns {React.Component}
+ */
+
+function SignUp() {
   const {
     value: email,
     valueChangeHandler: onChangeEmailHandler,
@@ -170,3 +176,4 @@ export default function SignUp() {
     </ContentDiv>
   );
 }
+export default SignUp;

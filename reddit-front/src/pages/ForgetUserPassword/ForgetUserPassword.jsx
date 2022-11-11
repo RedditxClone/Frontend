@@ -23,7 +23,14 @@ import useInput from '../../hooks/use-input';
 import { checkEmail } from '../../utilities/Helpers';
 import { forgetPassword, AuthActions } from '../../store/slices/AuthSlice';
 
-export default function ForgetUserPassword() {
+/**
+ * This component returns a Forget Password page contains:
+ * 1- two inputs for username and Email address
+ * 2- reset button
+ * @returns {React.Component}
+ */
+
+function ForgetUserPassword() {
   const {
     value: userName,
     valueChangeHandler: onChangeUserNameInputHandler,
@@ -166,3 +173,4 @@ Looks like you've been doing that a lot. Take a break for 8 minutes before tryin
     </ContentDiv>
   );
 }
+export default ForgetUserPassword;

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: SignUp.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: SignUp.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable operator-linebreak */
+/* eslint-disable camelcase */
+import { Typography } from '@mui/material';
+import jwt_decode from 'jwt-decode';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { GrFacebook } from 'react-icons/gr';
+import FacebookLogin from 'react-facebook-login';
+import InfoButton from '../../components/InfoButton/InfoButton';
+import { DividerDiv } from './SignUp.style';
+import {
+  ContentDiv,
+  UserAggrementDiv,
+  DotDiv,
+  StyledFooter,
+  LinkWithMargin
+} from '../../components/GlobalStyles/GlobalStyles.style';
+import LoginInputField from '../../components/LoginInputField/LoginInputField';
+import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
+import { checkEmail } from '../../utilities/Helpers';
+import useInput from '../../hooks/use-input';
+import Recaptcha from '../../components/Recaptcha/Recaptcha';
+
+/**
+ * This component returns a signup page contains:
+ * 1- one input for Email
+ * 2- two buttons for continue with google or facebook
+ * 3- Continue button to redirect you to choose your username and password
+ * @returns {React.Component}
+ */
+
+function SignUp() {
+  const {
+    value: email,
+    valueChangeHandler: onChangeEmailHandler,
+    inputBlurHandler: onBlurEmailHandler,
+    inputFocusHandler: onFocusEmailHandler,
+    isTouched: touchedEmailInput,
+    hasError: errorEmail
+  } = useInput((value) => checkEmail(value));
+  const [recaptcha, setRecaptcha] = useState(false);
+  const [signUpWithGoggle, setSignUpWithGoggle] = useState(false);
+  const [signUpWithFacebook, setSignUpWithFacebook] = useState(false);
+  const formIsValid =
+    (recaptcha &amp;&amp; !errorEmail) || signUpWithGoggle || signUpWithFacebook;
+
+  const navigate = useNavigate();
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    if (!errorEmail) {
+      navigate('/new/chooseuname', { state: { email } });
+    }
+  };
+
+  const facebookClicked = (data) => {
+    console.log(data);
+  };
+
+  const responseFacebook = (response) => {
+    console.log('response result: ', response);
+    setSignUpWithFacebook(true);
+  };
+
+  const handleCallBackResponse = (response) => {
+    const userObject = jwt_decode(response.credential);
+
+    /** Should be sent to API */
+    console.log(userObject);
+    setSignUpWithGoggle(true);
+  };
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id:
+        '543234829301-2pgqtk6133g5k2l6nbhbfn1dq21ffvi0.apps.googleusercontent.com',
+      callback: handleCallBackResponse
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById('signUpWithGoggle'),
+      {
+        theme: 'filled_blue',
+        size: 'large',
+        text: 'continue_with',
+        shape: 'recatangular',
+        width: '280px'
+      }
+    );
+  }, []);
+  const outLined = true;
+  const len = 28;
+  const lhlen = 3;
+  return (
+    &lt;ContentDiv>
+      &lt;Typography variant="h3">Sign up&lt;/Typography>
+      &lt;UserAggrementDiv>
+        &lt;p>
+          By continuing, you are setting up a Reddit
+          &lt;br />
+          account and agree to our
+          &lt;LinkWithMargin href="https://www.redditinc.com/policies/user-agreement">
+            User Agreement
+          &lt;/LinkWithMargin>
+          and
+          &lt;br />
+          &lt;LinkWithMargin href="https://www.reddit.com/policies/privacy-policy">
+            Privacy Policy
+          &lt;/LinkWithMargin>
+          .
+        &lt;/p>
+      &lt;/UserAggrementDiv>
+      &lt;form onSubmit={onSubmitHandler}>
+        &lt;div className="AnotherWayToSignUp">
+          &lt;div id="signUpWithGoggle" />
+          &lt;div style={{ marginTop: '1.2rem' }}>
+            &lt;FacebookLogin
+              appId="1156172054987935"
+              size="small"
+              fields="name,email,picture"
+              onClick={facebookClicked}
+              callback={responseFacebook}
+              icon={
+                &lt;span style={{ marginRight: '1rem' }}>
+                  &lt;GrFacebook />
+                &lt;/span>
+              }
+              textButton="CONTINUE WITH FACEBOOK"
+            />
+          &lt;/div>
+        &lt;/div>
+        &lt;DividerDiv>
+          &lt;span className="DividerLine"> &lt;/span>
+          &lt;span className="DividerText">OR&lt;/span>
+          &lt;span className="DividerLine"> &lt;/span>
+        &lt;/DividerDiv>
+        &lt;DotDiv>
+          &lt;LoginInputField
+            value={email}
+            onChange={onChangeEmailHandler}
+            onBlur={onBlurEmailHandler}
+            onFocus={onFocusEmailHandler}
+            error={errorEmail}
+            success={!errorEmail &amp;&amp; touchedEmailInput}
+            label="Email address"
+          />
+          {errorEmail &amp;&amp; (
+            &lt;ErrorMessage>Please fix your email to continue&lt;/ErrorMessage>
+          )}
+        &lt;/DotDiv>
+        {!errorEmail &amp;&amp; touchedEmailInput &amp;&amp; (
+          &lt;Recaptcha setRecaptcha={setRecaptcha} />
+        )}
+        &lt;InfoButton
+          outlined={!outLined}
+          len={len}
+          align="center"
+          hlen={lhlen}
+          type="submit"
+          disabled={!formIsValid}
+        >
+          CONTINUE
+        &lt;/InfoButton>
+        &lt;StyledFooter>
+          &lt;p id="Newto">
+            Already a redditor?
+            &lt;Link
+              to="/login"
+              id="BottomLink"
+            >
+              LOG IN
+            &lt;/Link>
+          &lt;/p>
+        &lt;/StyledFooter>
+      &lt;/form>
+    &lt;/ContentDiv>
+  );
+}
+export default SignUp;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#SignUp">SignUp</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Nov 11 2022 10:44:28 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

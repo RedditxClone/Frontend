@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ChooseUserName.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ChooseUserName.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable operator-linebreak */
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { signUp } from '../../store/slices/AuthSlice';
+import LoginInputField from '../../components/LoginInputField/LoginInputField';
+import { DotDiv } from '../../components/GlobalStyles/GlobalStyles.style';
+import Recaptcha from '../../components/Recaptcha/Recaptcha';
+import ErrorMessage, {
+  BackLink
+} from '../../utilities/CustomStyling/CustomStyling';
+import InfoButton from '../../components/InfoButton/InfoButton';
+import useInput from '../../hooks/use-input';
+
+/**
+ * This component returns a page that appears after entering your email in signup
+ * It has two input fields one for username
+ * It also check if the chosen usrename is valid or not
+ * Sign up button
+ * @returns {React.Component}
+ */
+function ChooseUserName() {
+  const {
+    value: userName,
+    valueChangeHandler: onChangeUserNameInputHandler,
+    inputBlurHandler: onBlurUserNameInput,
+    inputFocusHandler: onFocusUserNameInput,
+    isTouched: touchedUserNameInput,
+    reset: resetUserName,
+    hasError: errorUserName
+  } = useInput((value) => value.length >= 3 &amp;&amp; value.length &lt;= 20);
+
+  const {
+    value: password,
+    valueChangeHandler: onChangePasswordInputHandler,
+    isTouched: touchedPasswordInput,
+    inputBlurHandler: onBlurPasswordInput,
+    inputFocusHandler: onFocusPasswordInput,
+    reset: resetPassword,
+    hasError: errorPassword
+  } = useInput((value) => value.length > 8);
+  const [recaptcha, setRecaptcha] = useState(false);
+  const [takenUserName, setTakenUserName] = useState(false);
+
+  /** To check if the username available or not */
+  useEffect(() => {
+    const timeToReadName = setTimeout(async () => {
+      try {
+        const res = await axios.post(
+          'http://localhost:3033/api/user/check-available-username',
+          {
+            username: userName
+          }
+        );
+        if (res.status >= 200 &amp;&amp; res.status &lt; 300) {
+          setTakenUserName(false);
+        } else {
+          setTakenUserName(true);
+        }
+      } catch (err) {
+        setTakenUserName(true);
+      }
+    }, 1500);
+
+    return () => {
+      clearTimeout(timeToReadName);
+    };
+  }, [userName]);
+
+  const formIsValid =
+    !takenUserName &amp;&amp; !errorPassword &amp;&amp; !errorUserName &amp;&amp; recaptcha;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const { isAuth, isLoading } = useSelector((st) => st.auth);
+  const { email } = state;
+  const resetInputs = () => {
+    resetPassword();
+    resetUserName();
+  };
+  if (isAuth) {
+    navigate('/home');
+    resetInputs();
+  }
+
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+    dispatch(signUp({ email, username: userName, password }));
+    resetInputs();
+  };
+
+  const len = 15;
+  const lhlen = 3;
+  return (
+    &lt;div>
+      &lt;div
+        style={{
+          borderBottom: '1px solid hsla(195,2%,65%,.36)',
+          padding: '0 24px 24px',
+          fontSize: '14px'
+        }}
+      >
+        &lt;h3>Choose your username&lt;/h3>
+        &lt;span>
+          {' '}
+          Your username is how other community members will see you. This name
+          will be used to credit you for things you share on Reddit. What should
+          we call you?
+        &lt;/span>
+      &lt;/div>
+      &lt;div>
+        &lt;form onSubmit={onSubmitHandler}>
+          &lt;div
+            style={{
+              height: '75vh',
+              padding: '24px 24px 12px',
+              borderBottom: '1px solid hsla(195,2%,65%,.36)'
+            }}
+          >
+            &lt;DotDiv>
+              &lt;LoginInputField
+                label="CHOOSE A USERNAME"
+                error={errorUserName || takenUserName}
+                success={
+                  !errorUserName &amp;&amp; !takenUserName &amp;&amp; touchedUserNameInput
+                }
+                onChange={onChangeUserNameInputHandler}
+                onBlur={onBlurUserNameInput}
+                onFocus={onFocusUserNameInput}
+                value={userName}
+              />
+
+              {errorUserName &amp;&amp; (
+                &lt;ErrorMessage>
+                  Username must be between 3 and 20 characters
+                &lt;/ErrorMessage>
+              )}
+              {takenUserName &amp;&amp; (
+                &lt;ErrorMessage>That username is already taken&lt;/ErrorMessage>
+              )}
+            &lt;/DotDiv>
+            &lt;DotDiv>
+              &lt;LoginInputField
+                label="PASSWORD"
+                error={errorPassword}
+                success={!errorPassword &amp;&amp; touchedPasswordInput}
+                onChange={onChangePasswordInputHandler}
+                onBlur={onBlurPasswordInput}
+                value={password}
+                onFocus={onFocusPasswordInput}
+                type="password"
+              />
+              {errorPassword &amp;&amp; &lt;ErrorMessage> Invalid Password&lt;/ErrorMessage>}
+            &lt;/DotDiv>
+            {!errorUserName &amp;&amp; touchedUserNameInput &amp;&amp; (
+              &lt;Recaptcha setRecaptcha={setRecaptcha} />
+            )}
+          &lt;/div>
+          &lt;div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              padding: '0 24px 0 24px',
+              alignItems: 'center'
+            }}
+          >
+            &lt;BackLink
+              onClick={resetInputs}
+              to="/signup"
+            >
+              Back
+            &lt;/BackLink>
+            &lt;InfoButton
+              len={len}
+              hlen={lhlen}
+              type="submit"
+              loading={isLoading}
+              disabled={!formIsValid}
+            >
+              SIGN UP
+            &lt;/InfoButton>
+          &lt;/div>
+        &lt;/form>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+export default ChooseUserName;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ChooseUserName">ChooseUserName</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Nov 11 2022 10:45:05 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

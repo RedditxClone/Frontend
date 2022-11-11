@@ -2,6 +2,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+/**
+ * @typedef AuthState - This describes the current authentication state
+ * @property {objec} user - the current authenticated user with its
+ * data like username and email and photo
+ * @property {boolean} isAuth - To check if the current user is authenticated or not
+ * @property {boolean} isLoading - To indicate if the current request is still pending
+ * @property {string}  error - The error message that returns from rejected requests
+ * @property {string}  msg - The message returns with fulfilled requests
+ */
+
 const INITIAL_STATE = {
   user: {},
   isAuth: false,
@@ -11,6 +21,9 @@ const INITIAL_STATE = {
   msg: null
 };
 
+/**
+ * Send a post request to backend with the signup user data
+ */
 export const signUp = createAsyncThunk(
   'user/signup',
   async (user, thunkAPI) => {
@@ -30,6 +43,9 @@ export const signUp = createAsyncThunk(
   }
 );
 
+/**
+ * Send a post request to backend with the login user data
+ */
 export const login = createAsyncThunk('user/login', async (user, thunkAPI) => {
   const { rejectWithValue } = thunkAPI;
   try {
@@ -46,6 +62,9 @@ export const login = createAsyncThunk('user/login', async (user, thunkAPI) => {
   }
 });
 
+/**
+ * Send a request for backend with the signup user data
+ */
 export const forgetUserName = createAsyncThunk(
   'user/forgetusername',
   async (user, thunkAPI) => {
@@ -67,6 +86,9 @@ export const forgetUserName = createAsyncThunk(
   }
 );
 
+/**
+ * Send a post request for backend with the forget password data
+ */
 export const forgetPassword = createAsyncThunk(
   'user/forgetpassword',
   async (user, thunkAPI) => {
@@ -89,6 +111,9 @@ export const forgetPassword = createAsyncThunk(
   }
 );
 
+/**
+ * Send a request for backend with the reset password data
+ */
 export const resetPassword = createAsyncThunk(
   'user/resetpassword',
   async (user, thunkAPI) => {
@@ -114,6 +139,10 @@ const AuthSlice = createSlice({
   name: 'user',
   initialState: INITIAL_STATE,
   reducers: {
+    /**
+     * reset the authentication state
+     * @param {Object} state
+     */
     resetRequest(state) {
       state.error = null;
       state.msg = null;
@@ -121,6 +150,10 @@ const AuthSlice = createSlice({
       state.isLoading = false;
       fulfilled = false;
     },
+    /**
+     * End the current session for the current user
+     * @param {Object} state
+     */
     logOut(state) {
       state.user = {};
       state.isAuth = false;
