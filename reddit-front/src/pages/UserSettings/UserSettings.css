@@ -3,7 +3,7 @@
     line-height: 22px;
     font-family: Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
-    margin-left: 160px;
+    margin-left: 100px;
     margin-top: 48px;
     font-size: 18px;
     font-weight: 500;
@@ -11,7 +11,8 @@
 }
 
 .nav-bar {
-    margin-left: 160px;
+        margin-left: 100px;
+
     max-width: 1200px;
     border-bottom: 1px solid #EDEFF1;
 }

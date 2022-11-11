@@ -8,7 +8,7 @@ import Brightness5Icon from '@mui/icons-material/Brightness5';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import MenuIcon from '@mui/icons-material/Menu';
-import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
+import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignCenter';
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
 
 export default function ContentPreferences() {
