@@ -6,7 +6,6 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/material": "^5.10.10",
-    "@mui/styles": "^5.10.10",
     "@reduxjs/toolkit": "^1.8.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -20,11 +19,10 @@
     "react-facebook-login": "^4.1.1",
     "react-google-recaptcha": "^2.1.0",
     "react-icons": "^4.6.0",
-    "react-redux": "^8.0.4",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
-    "sass": "^1.55.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -32,8 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src/**/*.jsx && eslint ./src/*.jsx",
-    "docs": "jsdoc -c jsdoc.conf.json"
+    "lint": "eslint ./src/**/*.jsx && eslint ./src/*.jsx"
   },
   "browserslist": {
     "production": [
@@ -51,7 +48,6 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^8.26.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react": "^1.1.7",
     "eslint-plugin-import": "^2.26.0",
@@ -59,13 +55,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "jsdoc": "^3.6.11",
-    "prettier": "^2.7.1",
-    "react-google-recaptcha": "^2.1.0"
-  },
-  "description": "- Create your branches from the developement branch as a source branch\r - The components should have extension **.jsx**\r - Do not forget documentations for each component\r - For Icons: use [react icons](https://react-icons.github.io/react-icons)\r - For Documentations: use [JSDoc](https://jsdoc.app/)\r - For The pages components, store the code in the pages directory\r - For the reusable and repeatable components, store them in utilities\r - **Do not forget Testing**",
-  "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "prettier": "^2.7.1"
+  }
 }

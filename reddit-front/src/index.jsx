@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Store } from './store/Store';
 import './index.css';
-
 // Components
 import DefaultUserPage from './pages/DefaultUserPage/DefaultUserPage';
 import HomePage from './pages/HomePage/HomePage';
