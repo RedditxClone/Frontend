@@ -61,9 +61,11 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading, error, isAuth } = useSelector((state) => state.auth);
-  if (isAuth) {
-    navigate('/home');
-  }
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/home');
+    }
+  }, [isAuth]);
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     dispatch(login({ username: userName, password }));
@@ -109,7 +111,6 @@ export default function Login() {
     );
   }, []);
 
-  const outLined = true;
   const len = 28;
   const lhlen = 3;
   return (
@@ -154,13 +155,14 @@ export default function Login() {
         <DotDiv>
           <LoginInputField
             label="username"
+            id="username"
+            success={!errorUserName && touchedUserNameInput}
             error={errorUserName}
             onChange={onChangeUserNameInputHandler}
             onBlur={onBlurUserNameInput}
             onFocus={onFocusUserNameInput}
             value={userName}
           />
-          <span className="Dot"> </span>
           {errorUserName && (
             <ErrorMessage>
               Username must be between 3 and 20 characters
@@ -170,6 +172,8 @@ export default function Login() {
         </DotDiv>
         <DotDiv>
           <LoginInputField
+            id="password"
+            success={!errorPassword && touchedPasswordInput}
             label="password"
             error={errorPassword}
             onChange={onChangePasswordInputHandler}
@@ -179,7 +183,6 @@ export default function Login() {
             type="password"
             disabled={!formIsValid}
           />
-          <span className="Dot"> </span>
           {errorPassword && <ErrorMessage> Invalid Password</ErrorMessage>}
         </DotDiv>
         {!errorUserName &&
@@ -187,9 +190,7 @@ export default function Login() {
           touchedPasswordInput &&
           touchedUserNameInput && <Recaptcha setRecaptcha={setRecaptcha} />}
         <InfoButton
-          outlined={!outLined}
           len={len}
-          align="center"
           hlen={lhlen}
           loading={isLoading}
           type="submit"

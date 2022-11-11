@@ -7,7 +7,9 @@ export default function LoginInputField({
   onBlur,
   error,
   onChange,
-  value
+  value,
+  id,
+  success
 }) {
   return (
     <StyledTextField
@@ -18,6 +20,8 @@ export default function LoginInputField({
       onFocus={onFocus}
       error={error}
       onChange={onChange}
+      id={id}
+      success={success}
     />
   );
 }

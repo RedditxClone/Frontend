@@ -56,7 +56,7 @@ export default function ForgetUserPassword() {
   };
 
   const dispatch = useDispatch();
-  const { error, msg } = useSelector((state) => state.auth);
+  const { error, msg, isLoading } = useSelector((state) => state.auth);
   const formIsValid =
     !errorNewPassword && !errorVerifyPassword && recaptcha && checkedBox;
 
@@ -64,7 +64,6 @@ export default function ForgetUserPassword() {
     event.preventDefault();
     dispatch(resetPassword({ password: newPassword }));
   };
-  const outLined = true;
   const len = 38;
   const blen = 15;
   const dlen = 10.5;
@@ -85,12 +84,12 @@ export default function ForgetUserPassword() {
             label="new password"
             value={newPassword}
             error={errorNewPassword}
+            success={!errorNewPassword && touchedNewPasswordInput}
             onBlur={onBlurNewPasswordInput}
             onChange={onChangeNewPasswordInputHandler}
             onFocus={onFocusPasswordInput}
             len={len}
           />
-          <span className="Dot"> </span>
         </DotDiv>
         {errorNewPassword && (
           <ErrorMessage>Please Enter a valid Password</ErrorMessage>
@@ -102,12 +101,12 @@ export default function ForgetUserPassword() {
             label="verify password"
             len={len}
             error={errorVerifyPassword}
+            success={!errorVerifyPassword && touchedVerifyPasswordInput}
             value={verifyPassword}
             onFocus={onFocusVerifyPasswordInput}
             onBlur={onBlurVerifyPasswordInputHandler}
             onChange={onChangeVerifyPasswordInputHandler}
           />
-          <span className="Dot"> </span>
         </DotDiv>
         {errorVerifyPassword && (
           <ErrorMessage>No Matching with New password!</ErrorMessage>
@@ -136,12 +135,11 @@ export default function ForgetUserPassword() {
           !errorVerifyPassword &&
           checkedBox && <Recaptcha setRecaptcha={setRecaptcha} />}
         <InfoButton
-          outlined={!outLined}
           len={blen}
-          align="center"
           hlen={lhlen}
           disabled={!formIsValid}
           type="submit"
+          loading={isLoading}
         >
           SET PASSWORD
         </InfoButton>

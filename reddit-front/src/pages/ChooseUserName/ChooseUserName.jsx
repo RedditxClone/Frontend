@@ -27,6 +27,7 @@ export default function ChooseUserName() {
   const {
     value: password,
     valueChangeHandler: onChangePasswordInputHandler,
+    isTouched: touchedPasswordInput,
     inputBlurHandler: onBlurPasswordInput,
     inputFocusHandler: onFocusPasswordInput,
     reset: resetPassword,
@@ -65,7 +66,7 @@ export default function ChooseUserName() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { isAuth } = useSelector((st) => st.auth);
+  const { isAuth, isLoading } = useSelector((st) => st.auth);
   const { email } = state;
   const resetInputs = () => {
     resetPassword();
@@ -82,7 +83,6 @@ export default function ChooseUserName() {
     resetInputs();
   };
 
-  const outLined = true;
   const len = 15;
   const lhlen = 3;
   return (
@@ -114,13 +114,16 @@ export default function ChooseUserName() {
             <DotDiv>
               <LoginInputField
                 label="CHOOSE A USERNAME"
-                error={errorUserName}
+                error={errorUserName || takenUserName}
+                success={
+                  !errorUserName && !takenUserName && touchedUserNameInput
+                }
                 onChange={onChangeUserNameInputHandler}
                 onBlur={onBlurUserNameInput}
                 onFocus={onFocusUserNameInput}
                 value={userName}
               />
-              <span className="Dot"> </span>
+
               {errorUserName && (
                 <ErrorMessage>
                   Username must be between 3 and 20 characters
@@ -134,13 +137,13 @@ export default function ChooseUserName() {
               <LoginInputField
                 label="PASSWORD"
                 error={errorPassword}
+                success={!errorPassword && touchedPasswordInput}
                 onChange={onChangePasswordInputHandler}
                 onBlur={onBlurPasswordInput}
                 value={password}
                 onFocus={onFocusPasswordInput}
                 type="password"
               />
-              <span className="Dot"> </span>
               {errorPassword && <ErrorMessage> Invalid Password</ErrorMessage>}
             </DotDiv>
             {!errorUserName && touchedUserNameInput && (
@@ -162,11 +165,10 @@ export default function ChooseUserName() {
               Back
             </BackLink>
             <InfoButton
-              outlined={!outLined}
               len={len}
-              align="center"
               hlen={lhlen}
               type="submit"
+              loading={isLoading}
               disabled={!formIsValid}
             >
               SIGN UP

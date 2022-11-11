@@ -46,7 +46,7 @@ export default function ForgetUserPassword() {
   const [recaptcha, setRecaptcha] = useState(false);
   const formIsValid = recaptcha && !errorEmail && !errorUserName;
   const dispatch = useDispatch();
-  const { error, fulfilled } = useSelector((state) => state.auth);
+  const { error, fulfilled, isLoading } = useSelector((state) => state.auth);
   const resetRequest = () => {
     dispatch(AuthActions.resetRequest());
     resetEmailInput();
@@ -57,7 +57,6 @@ export default function ForgetUserPassword() {
     dispatch(forgetPassword({ username: userName, email }));
   };
 
-  const outLined = true;
   const blen = 15;
   const lhlen = 3;
   return (
@@ -78,12 +77,12 @@ export default function ForgetUserPassword() {
           <LoginInputField
             label="username"
             error={errorUserName}
+            success={!errorUserName && touchedUserNameInput}
             onChange={onChangeUserNameInputHandler}
             onBlur={onBlurUserNameInput}
             onFocus={onFocusUserNameInput}
             value={userName}
           />
-          <span className="Dot"> </span>
           {errorUserName && (
             <ErrorMessage>
               Username must be between 3 and 20 characters
@@ -97,9 +96,9 @@ export default function ForgetUserPassword() {
             onBlur={onBlurEmailHandler}
             onFocus={onFocusEmailHandler}
             error={errorEmail}
+            success={!errorEmail && touchedEmailInput}
             label="Email address"
           />
-          <span className="Dot"> </span>
           {errorEmail && (
             <ErrorMessage>Please fix your email to continue</ErrorMessage>
           )}
@@ -109,12 +108,11 @@ export default function ForgetUserPassword() {
           touchedEmailInput &&
           touchedUserNameInput && <Recaptcha setRecaptcha={setRecaptcha} />}
         <InfoButton
-          outlined={!outLined}
           len={blen}
-          align="center"
           hlen={lhlen}
           type="submit"
           disabled={!formIsValid}
+          loading={isLoading}
         >
           RESET PASSWORD
         </InfoButton>

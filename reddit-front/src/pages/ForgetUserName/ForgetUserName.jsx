@@ -35,7 +35,7 @@ export default function ForgetUserName() {
   } = useInput((value) => checkEmail(value));
 
   const dispatch = useDispatch();
-  const { error, fulfilled } = useSelector((state) => state.auth);
+  const { error, fulfilled, isLoading } = useSelector((state) => state.auth);
   const resetRequest = () => {
     dispatch(AuthActions.resetRequest());
     resetEmailInput();
@@ -47,7 +47,6 @@ export default function ForgetUserName() {
   };
   const [recaptcha, setRecaptcha] = useState(false);
   const formIsValid = recaptcha && !errorEmail;
-  const outLined = true;
   const blen = 15;
   const dlen = 10;
   const lhlen = 3;
@@ -75,9 +74,9 @@ export default function ForgetUserName() {
             onBlur={onBlurEmailHandler}
             onFocus={onFocusEmailHandler}
             error={errorEmail}
+            success={!errorEmail && touchedEmailInput}
             label="Email address"
           />
-          <span className="Dot"> </span>
           {errorEmail && (
             <ErrorMessage>Please fix your email to continue</ErrorMessage>
           )}
@@ -86,9 +85,8 @@ export default function ForgetUserName() {
           <Recaptcha setRecaptcha={setRecaptcha} />
         )}
         <InfoButton
-          outlined={!outLined}
+          loading={isLoading}
           len={blen}
-          align="center"
           hlen={lhlen}
           disabled={!formIsValid}
           type="submit"

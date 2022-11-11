@@ -120,6 +120,10 @@ const AuthSlice = createSlice({
       state.isAuth = false;
       state.isLoading = false;
       fulfilled = false;
+    },
+    logOut(state) {
+      state.user = {};
+      state.isAuth = false;
     }
   },
   extraReducers: {
