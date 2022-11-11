@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CategoriesPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CategoriesPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// import React from 'react'
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import SideList from '../../components/SideList/SideList';
+import {
+  StyledCategoryiesBody,
+  CategoryHeader,
+  StyledSideCards,
+  ColoredBody,
+  SideDiv
+} from './CategoriesPage.style';
+import AlphabeticCard from '../../components/CategoriesCard/AlphabeticCard';
+// import CategoriesCard from './CategoriesCard';
+import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesCard';
+// import CommunityHoverCard from '../../components/CategoriesCard/CommunityHoverCard';
+
+/**
+ * @description This component is resposinble for showing Top communities
+ * @param {string} buttonText to set title of the button at the end of card
+ * @param {object} pic the cover of the communities card that is in the home page
+ * @param {Array} communities the communities that shall be shown in the card
+ * @param {Array} buttons the buttons shown over the cover of the communities card cover
+ * @returns {React.Component} styled page contain Top communities with different communities
+ */
+function CategoriesPage({
+  communities,
+  buttonText,
+  buttons,
+  pic
+}) {
+  const [button, buttonState] = useState({
+    title: 'Show More',
+    showMore: false,
+    listItems: [
+      'Moderating',
+      'All Communities',
+      'Near You',
+      'Sports',
+      'Gamimg',
+      'News',
+      'TV',
+      'Aww',
+      'Memes',
+      'Pics &amp; Gifs',
+      'Travel',
+      'Tech'
+    ]
+  });
+  const listLinks = [
+    'moderating',
+    '/',
+    'near-you',
+    'sports',
+    'gaming',
+    'news',
+    'tv',
+    'aww',
+    'memes',
+    'pics_and_gifs',
+    'travel',
+    'tech',
+    'music',
+    'art_and_design',
+    'beauty',
+    'books_and_writing',
+    'crypto',
+    'discussion',
+    'e3',
+    'fashion',
+    'finance_and_business',
+    'food',
+    'health_and_fitness',
+    'learning',
+    'mindblowing',
+    'outdoors',
+    'parenting',
+    'photography',
+    'relationships',
+    'science',
+    'videos',
+    'vroom',
+    'wholesome'
+  ];
+  const buttonHandler = () => {
+    let showedList = [
+      'Moderating',
+      'All Communities',
+      'Near You',
+      'Sports',
+      'Gamimg',
+      'News',
+      'Tv',
+      'Aww',
+      'Memes',
+      'Pics &amp; Gifs',
+      'Travel',
+      'Tech'
+    ];
+    if (button.showMore) {
+      const showless = !button.showMore;
+      buttonState({
+        title: 'Show More',
+        showMore: showless,
+        listItems: showedList
+      });
+    } else {
+      const showmore = !button.showMore;
+      showedList = [
+        ...button.listItems,
+        'Music',
+        'Art &amp; Design',
+        'Beauty',
+        'Books &amp; Writing',
+        'Crypto',
+        'Discussion',
+        'E3',
+        'Fashion',
+        'Finance &amp; Business',
+        'Food',
+        'Health &amp; Fitness',
+        'Learning',
+        'Mindblowing',
+        'Outdoors',
+        'Parenting',
+        'Photography',
+        'Relationships',
+        'Science',
+        'Videos',
+        'Vroom',
+        'Wholesome'
+      ];
+      buttonState({
+        title: 'Show Less',
+        showMore: showmore,
+        listItems: showedList
+      });
+    }
+  };
+  return (
+    &lt;ColoredBody>
+      &lt;CategoryHeader>
+        &lt;h1 data-testid="CategoryPageTitle">Today&amp;#8217;s Top Growing Communities&lt;/h1>
+        &lt;span data-testid="CategoryPageDescription">
+          Browse Reddit&amp;#8217;s top growing communities. Find the top
+          communities in your favorite category.
+        &lt;/span>
+      &lt;/CategoryHeader>
+      &lt;StyledCategoryiesBody>
+        &lt;SideDiv>
+          &lt;SideList
+            arr={button.listItems}
+            links={listLinks}
+            listHeader="Categories"
+            buttonTitle={button.title}
+            click={buttonHandler}
+            data-testid="SideList"
+          />
+        &lt;/SideDiv>
+
+        &lt;Outlet />
+        &lt;StyledSideCards>
+          &lt;HomeCommunitiesCard
+            data-testid="HomeCard"
+            buttons1={buttons}
+            buttons2={buttons}
+            pic={pic}
+            communities={communities}
+            homePageCard={false}
+            buttonText={buttonText}
+          />
+          &lt;HomeCommunitiesCard
+            data-testid="HomeCard"
+            buttons1={buttons}
+            buttons2={buttons}
+            pic={pic}
+            communities={communities}
+            homePageCard={false}
+            buttonText={buttonText}
+          />
+          {/* &lt;CommunityHoverCard community={communities[0]} /> */}
+          &lt;SideDiv>
+            &lt;AlphabeticCard
+              data-testid="AlpaCard"
+            />
+          &lt;/SideDiv>
+        &lt;/StyledSideCards>
+      &lt;/StyledCategoryiesBody>
+    &lt;/ColoredBody>
+  );
+}
+export default CategoriesPage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CategoriesPage">CategoriesPage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Nov 11 2022 01:07:01 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

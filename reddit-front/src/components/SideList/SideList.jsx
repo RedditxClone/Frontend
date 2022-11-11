@@ -6,9 +6,20 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import NavLink from './SideList.style';
-
-export default function SideList({
-  arr, buttonTitle, click, links, navClass
+/**
+ * @description This component is resposinble for Categories List which is used to
+ *  go to subreddits with same category
+ * @param {Array} arr -contains names of items found in sidelist
+ * @param {string} buttonTitle title of list endbutton which changed by state outside this component
+ * @param {function} click to handle onClick of list endButton
+ * @param {Array} links to set destinations we will go when clicking on list item
+ * @returns {React.Component} styled sideList
+ */
+function SideList({
+  arr,
+  buttonTitle,
+  click,
+  links
 }) {
   const listArray = arr;
 
@@ -44,7 +55,7 @@ export default function SideList({
       />
 
       {listArray.map((text, index) => (
-        <NavLink to={`${links[index]}`} className={navClass}>
+        <NavLink to={`${links[index]}`}>
           <span id="SideBorder"> </span>
           <ListItem
             key={text}
@@ -63,24 +74,7 @@ export default function SideList({
               }
             }}
           >
-            {/* <ListItemButton
-            sx={{
-              '&:hover': {
-                backgroundColor: '#F6F7F8'
-              },
-              '&:focus': {
-                backgroundColor: '#F6F7F8',
-                borderLeft: '6px solid var(--newCommunityTheme-button)',
-                fontSize: '12px',
-                color: '#F6F7F8',
-                fontWeight: '500'
-              }
-            }}
-          > */}
-
             {text}
-            {/* </ListItemButton> */}
-
           </ListItem>
         </NavLink>
       ))}
@@ -92,6 +86,7 @@ export default function SideList({
         }}
       >
         <ListItemButton
+          data-testid="SideListButton"
           onClick={click}
           sx={{
             height: '30px',
@@ -121,3 +116,4 @@ export default function SideList({
     </List>
   );
 }
+export default SideList;

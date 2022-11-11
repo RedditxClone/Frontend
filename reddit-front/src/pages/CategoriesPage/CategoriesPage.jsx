@@ -12,13 +12,21 @@ import {
 import AlphabeticCard from '../../components/CategoriesCard/AlphabeticCard';
 import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesCard';
 
-export default function CategoriesPage({
+/**
+ * @description This component is resposinble for showing Top communities
+ * @param {string} buttonText to set title of the button at the end of card
+ * @param {object} pic the cover of the communities card that is in the home page
+ * @param {Array} communities the communities that shall be shown in the card
+ * @param {Array} buttons the buttons shown over the cover of the communities card cover
+ * @returns {React.Component} styled page contain Top communities with different communities
+ */
+function CategoriesPage({
+  communities,
   buttonText,
   buttons,
   pic,
   communitiesCardCommunities
 }) {
-  let navClass = null;
   const [button, buttonState] = useState({
     title: 'Show More',
     showMore: false,
@@ -127,14 +135,11 @@ export default function CategoriesPage({
       });
     }
   };
-  const getClick = (act) => {
-    navClass = act;
-  };
   return (
     <ColoredBody>
       <CategoryHeader>
-        <h1>Today&#8217;s Top Growing Communities</h1>
-        <span>
+        <h1 data-testid="CategoryPageTitle">Today&#8217;s Top Growing Communities</h1>
+        <span data-testid="CategoryPageDescription">
           Browse Reddit&#8217;s top growing communities. Find the top
           communities in your favorite category.
         </span>
@@ -147,36 +152,39 @@ export default function CategoriesPage({
             listHeader="Categories"
             buttonTitle={button.title}
             click={buttonHandler}
-            navClass={navClass}
+            data-testid="SideList"
           />
         </SideDiv>
 
         <Outlet />
         <StyledSideCards>
           <HomeCommunitiesCard
+            data-testid="HomeCard"
             buttons1={buttons}
             buttons2={buttons}
             pic={pic}
             communities={communitiesCardCommunities}
             homePageCard={false}
             buttonText={buttonText}
-            handleClick={getClick}
           />
           <HomeCommunitiesCard
+            data-testid="HomeCard"
             buttons1={buttons}
             buttons2={buttons}
             pic={pic}
             communities={communitiesCardCommunities}
             homePageCard={false}
             buttonText={buttonText}
-            handleClick={getClick}
           />
           {/* <CommunityHoverCard community={communities[0]} /> */}
           <SideDiv>
-            <AlphabeticCard />
+            <AlphabeticCard
+              data-testid="AlpaCard"
+            />
           </SideDiv>
         </StyledSideCards>
       </StyledCategoryiesBody>
     </ColoredBody>
   );
 }
+export default CategoriesPage;
