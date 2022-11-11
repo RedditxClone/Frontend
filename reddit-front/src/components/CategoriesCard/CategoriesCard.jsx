@@ -54,7 +54,9 @@ function CategoriesCard({ communities, topText }) {
           padding: '0',
           '&:last-child': {
             paddingBottom: '0.7rem'
-          }
+          },
+          position: 'absolute',
+          width: '48.35%'
         }}
       >
         <CategoriesCardBar data-testid="categories_card_bar">
@@ -72,8 +74,8 @@ function CategoriesCard({ communities, topText }) {
           sx={{
             width: '100%',
             bgcolor: 'background.paper',
-            paddingTop: '0',
-            marginTop: '4rem'
+            paddingTop: '0'
+
           }}
         >
           {communities.map((community, index) => (
@@ -135,7 +137,7 @@ function CategoriesCard({ communities, topText }) {
                       <div style={{
                         '& :hover': {
                           '& .comm_card': {
-                            display: 'block'
+                            display: 'inline'
                           }
                         }
                       }}
@@ -146,7 +148,8 @@ function CategoriesCard({ communities, topText }) {
                               fontSize: '1.6rem',
                               marginTop: '1.7rem',
                               lineHeight: '2rem'
-                            }
+                            },
+                            position: 'relative'
                           }}
                           primary={community.name}
                         >
@@ -154,7 +157,7 @@ function CategoriesCard({ communities, topText }) {
                             className="comm_card"
                             style={{
 
-                              position: 'relative',
+                              position: 'absolute',
                               width: '100px',
                               height: '100px',
                               display: 'none'

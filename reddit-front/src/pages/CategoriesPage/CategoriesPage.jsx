@@ -1,4 +1,4 @@
-// import React from 'react'
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import SideList from '../../components/SideList/SideList';
@@ -10,15 +10,13 @@ import {
   SideDiv
 } from './CategoriesPage.style';
 import AlphabeticCard from '../../components/CategoriesCard/AlphabeticCard';
-// import CategoriesCard from './CategoriesCard';
 import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesCard';
-// import CommunityHoverCard from '../../components/CategoriesCard/CommunityHoverCard';
 
 export default function CategoriesPage({
-  communities,
   buttonText,
   buttons,
-  pic
+  pic,
+  communitiesCardCommunities
 }) {
   let navClass = null;
   const [button, buttonState] = useState({
@@ -159,7 +157,7 @@ export default function CategoriesPage({
             buttons1={buttons}
             buttons2={buttons}
             pic={pic}
-            communities={communities}
+            communities={communitiesCardCommunities}
             homePageCard={false}
             buttonText={buttonText}
             handleClick={getClick}
@@ -168,7 +166,7 @@ export default function CategoriesPage({
             buttons1={buttons}
             buttons2={buttons}
             pic={pic}
-            communities={communities}
+            communities={communitiesCardCommunities}
             homePageCard={false}
             buttonText={buttonText}
             handleClick={getClick}
