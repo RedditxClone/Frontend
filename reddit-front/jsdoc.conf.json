@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["src"],
+    "include": ["src/components/Layout/Search/Search.jsx"],
     "includePattern": ".jsx$",
     "excludePattern": "(node_modules/|docs)"
   },
@@ -11,9 +11,7 @@
   },
   "opts": {
     "recurse": true,
-    "destination": "./documentations/",
-    "template": "./custom-template",
-    "tutorials": "./tutorials",
-    "readme": "./readme/readme.md"
+    "destination": "./src/documentations/NavBarComponents",
+    "readme": "README.md"
   }
 }
