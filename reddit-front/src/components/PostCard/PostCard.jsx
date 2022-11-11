@@ -31,7 +31,7 @@ import Voting from './Voting/Voting';
  *
  */
 
-export default function PostCard({
+function PostCard({
   postData,
   isCommunityPost,
   isPostFullDetailsMode,
@@ -63,3 +63,5 @@ export default function PostCard({
     </div>
   ) : null;
 }
+
+export default PostCard;

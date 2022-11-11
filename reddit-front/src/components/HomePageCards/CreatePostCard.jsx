@@ -20,7 +20,10 @@ export default function CreatePostCard() {
             marginTop: '6px'
           }}
         >
-          <SiReddit size={32} color="#9DA0A1" />
+          <SiReddit
+            size={32}
+            color="#9DA0A1"
+          />
         </Box>
         <StyledTextField
           placeholder="Create Post"
@@ -36,7 +39,10 @@ export default function CreatePostCard() {
             }
           }}
         >
-          <BsFillImageFill size={22} color="#9DA0A1" />
+          <BsFillImageFill
+            size={22}
+            color="#9DA0A1"
+          />
         </Box>
         <Box
           sx={{
@@ -47,7 +53,10 @@ export default function CreatePostCard() {
             }
           }}
         >
-          <BsLink45Deg size={22} color="#9DA0A1" />
+          <BsLink45Deg
+            size={22}
+            color="#9DA0A1"
+          />
         </Box>
       </StyledBox>
     </CreatePostCardRoot>

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable eqeqeq */
 import Box from '@mui/material/Box';
 import { BsThreeDots } from 'react-icons/bs';
@@ -50,7 +51,9 @@ export default function BestHotNewCard() {
   /**
    * closes the Today Menu */
   const handleCloseTodayMenu = (clicked) => {
-    if (clicked == null) { console.log(' Error'); }
+    if (clicked == null) {
+      console.log(' Error');
+    }
     if (clicked != null) {
       setClickedItem(clicked);
       console.log('No Error');
@@ -65,7 +68,6 @@ export default function BestHotNewCard() {
 
   return (
     <CreatePostCardRoot>
-
       <StyledBox sx={{ justifyContent: 'flex-start' }}>
         <StyledButton
           sx={{
@@ -142,7 +144,7 @@ export default function BestHotNewCard() {
               onClick={handleClickTodayMenu}
               data-testid="today_button"
             >
-            &nbsp;
+              &nbsp;
               {clickedItem}
               <HiOutlineChevronDown
                 size={24}
@@ -162,25 +164,35 @@ export default function BestHotNewCard() {
                 <StyledMenuItem onClick={() => handleCloseTodayMenu('Now')}>
                   Now
                 </StyledMenuItem>
-                <StyledMenuItem data-testid="today_menu_item" onClick={() => handleCloseTodayMenu('Today')}>
+                <StyledMenuItem
+                  data-testid="today_menu_item"
+                  onClick={() => handleCloseTodayMenu('Today')}
+                >
                   Today
                 </StyledMenuItem>
-                <StyledMenuItem onClick={() => handleCloseTodayMenu('This Week')}>
+                <StyledMenuItem
+                  onClick={() => handleCloseTodayMenu('This Week')}
+                >
                   This Week
                 </StyledMenuItem>
-                <StyledMenuItem onClick={() => handleCloseTodayMenu('This Month')}>
+                <StyledMenuItem
+                  onClick={() => handleCloseTodayMenu('This Month')}
+                >
                   This Month
                 </StyledMenuItem>
-                <StyledMenuItem onClick={() => handleCloseTodayMenu('This Year')}>
+                <StyledMenuItem
+                  onClick={() => handleCloseTodayMenu('This Year')}
+                >
                   This Year
                 </StyledMenuItem>
-                <StyledMenuItem onClick={() => handleCloseTodayMenu('All Time')}>
+                <StyledMenuItem
+                  onClick={() => handleCloseTodayMenu('All Time')}
+                >
                   All Time
                 </StyledMenuItem>
               </Box>
             </Menu>
           </>
-
         ) : null}
 
         <StyledButton
@@ -192,7 +204,10 @@ export default function BestHotNewCard() {
           onClick={handleClick}
           data-testid="rising_button"
         >
-          <BsThreeDots size={24} color="#9DA0A1" />
+          <BsThreeDots
+            size={24}
+            color="#9DA0A1"
+          />
         </StyledButton>
         <Menu
           id="basic-menu"
@@ -203,10 +218,11 @@ export default function BestHotNewCard() {
             'aria-labelledby': 'basic-button'
           }}
         >
-          <StyledMenuItem onClick={handleClose} data-testid="rising">
-            <HiOutlineArrowTrendingUp size={25} />
-            {' '}
-&nbsp; Rising
+          <StyledMenuItem
+            onClick={handleClose}
+            data-testid="rising"
+          >
+            <HiOutlineArrowTrendingUp size={25} /> &nbsp; Rising
           </StyledMenuItem>
         </Menu>
       </StyledBox>

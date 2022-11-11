@@ -23,7 +23,7 @@ import PostCard from '../PostCard/PostCard';
  *
  */
 
-export default function PostsList({ isCommunityPost, isModeratorMode }) {
+function PostsList({ isCommunityPost, isModeratorMode }) {
   const isPostFullDetailsMode = true;
   const dispatch = useDispatch();
 
@@ -66,3 +66,4 @@ export default function PostsList({ isCommunityPost, isModeratorMode }) {
     </div>
   );
 }
+export default PostsList;
