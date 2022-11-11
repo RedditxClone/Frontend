@@ -135,9 +135,9 @@ export default function SignUp() {
             onBlur={onBlurEmailHandler}
             onFocus={onFocusEmailHandler}
             error={errorEmail}
+            success={!errorEmail && touchedEmailInput}
             label="Email address"
           />
-          <span className="Dot"> </span>
           {errorEmail && (
             <ErrorMessage>Please fix your email to continue</ErrorMessage>
           )}

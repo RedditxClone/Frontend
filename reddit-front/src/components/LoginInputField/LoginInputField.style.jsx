@@ -1,39 +1,71 @@
-import { styled, TextField } from '@mui/material';
+/* eslint-disable quotes */
+import styled from '@emotion/styled';
 
-const StyledTextField = styled(TextField)({
+const StyledLabel = styled('label')({
+  position: 'absolute',
+  opacity: '0.6',
+  fontSize: '10px',
+  fontWeight: '600',
+  color: '#a5a4a4',
+  transition: 'all .2s ease-in-out',
+  pointerEvents: 'none',
   display: 'block',
-  '& .MuiOutlinedInput-root': {
-    ' & fieldset': {
-      outline: 0,
-      border: '1px solid rgba(0,0,0,.1)',
-      borderRadius: '4px',
-      width: '280px'
-    },
-    fontSize: '1.5rem'
-  }
-  //   '& .MuiOutlinedInput-root': {
-  //     ' & fieldset': {
-  //       border: '1px solid rgba(0,0,0,.1)',
-  //       borderRadius: '4px',
-  //       width: '26rem'
-  //     },
-  //     '&.Mui-focused fieldset': {
-  //       border: '1px solid rgba(0,0,0,.2)',
-  //       outline: '0'
-  //     }
-  //   },
-  //   '& label': {
-  //     fontSize: '1.2rem',
-  //     fontWeight: '500',
-  //     letterSpacing: '.5px',
-  //     color: '#a5a4a4',
-  //     textTransform: 'uppercase'
-  //   }
-
-  //   '&:hover label': {
-  //     transform: 'translate3d(0,-0.8rem,0) scale(.83333333)',
-  //     lineHeight: '1.4rem',
-  //     color: '#a5a4a4'
-  //   }
+  top: '50%',
+  left: '1rem',
+  transform: 'translateY(-50%)'
 });
+
+const StyledInput = styled('input')(({ color }) => ({
+  width: '100%',
+  position: 'relative',
+  padding: '1.5rem',
+  margin: '1.5rem 0',
+  border: `1px solid ${color}`,
+  borderRadius: '4px',
+  '&:focus': {
+    outline: `1px solid ${color}`
+  },
+  '&:hover+label, &:focus+label, &:valid+label': {
+    top: '0',
+    fontSize: '9px',
+    transform: 'translateY(20px)',
+    opacity: '1'
+  }
+}));
+
+function StyledTextField({
+  label,
+  type,
+  onFocus,
+  onBlur,
+  error,
+  success,
+  onChange,
+  value,
+  id
+}) {
+  let color;
+  if (error) {
+    color = '#d32f2f';
+  } else if (success) {
+    color = '#24a0ed';
+  } else {
+    color = 'rgba(0,0,0,.1)';
+  }
+  return (
+    <div style={{ position: 'relative', width: '28rem' }}>
+      <StyledInput
+        id={id}
+        type={type}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onChange={onChange}
+        value={value}
+        color={color}
+      />
+      <StyledLabel htmlFor={id}>{label}</StyledLabel>
+    </div>
+  );
+}
+
 export default StyledTextField;
