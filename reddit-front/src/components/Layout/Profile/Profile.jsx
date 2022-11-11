@@ -13,6 +13,7 @@ import { IoMdExit } from 'react-icons/io';
 // import { BiRadioCircle } from 'react-icons/bi';
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   StyledSelect,
   StyledButton,
@@ -25,6 +26,7 @@ import {
  * it returns profile box
  */
 function Profile() {
+  const { user } = useSelector((state) => state.auth);
   const [openexplore, setOpenExplore] = useState(false);
   const [opened, setOpened] = useState([
     false,
@@ -117,7 +119,7 @@ function Profile() {
           {/* <BiRadioCircle /> */}
           &nbsp;
           <StyledText sx={{ display: { xs: 'none', sm: 'block' }, p: '0' }}>
-            Nadaosman22
+            {user.username}
           </StyledText>
         </InputLabel>
         <StyledSelect

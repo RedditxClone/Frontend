@@ -1,9 +1,14 @@
+import { useNavigate } from 'react-router-dom';
 import { StyledButton, LogInBox } from '../AppBar/AppBar.Style';
 /**
  * description : this login box which appears in the navigation bar when u are not loggedin
  * it returns Login button
  */
-function LogIn({ clicked }) {
+function LogIn() {
+  const navigate = useNavigate();
+  const handleClickLogin = () => {
+    navigate('/login');
+  };
   return (
     <LogInBox>
       <StyledButton
@@ -16,7 +21,7 @@ function LogIn({ clicked }) {
           }
         }}
         variant="outlined"
-        onClick={clicked}
+        onClick={handleClickLogin}
       >
         Log In
       </StyledButton>

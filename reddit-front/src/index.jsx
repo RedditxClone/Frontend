@@ -13,6 +13,7 @@ import ForgetUserPassword from './pages/ForgetUserPassword/ForgetUserPassword';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
+import SubredditCards from './components/SubredditCards/SubredditCards';
 
 // Routes
 const routes = createBrowserRouter([
@@ -40,16 +41,20 @@ const routes = createBrowserRouter([
       {
         path: 'resetupassword',
         element: <ResetPassword />
-      },
-      {
-        path: 'home',
-        element: <HomePage />
       }
     ]
   },
   {
     path: '/new/chooseuname',
     element: <ChooseUserName />
+  },
+  {
+    path: '/home',
+    element: <HomePage />
+  },
+  {
+    path: '/subreddit',
+    element: <SubredditCards />
   }
 ]);
 

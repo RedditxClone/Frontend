@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { StyledToolBar } from './AppBar.Style';
 import Logo from '../Logo/Logo';
 import HomeBox from '../Home/Home';
@@ -15,22 +15,18 @@ import ProfileLogin from '../ProfileLogging/ProfileLogging';
  *it returns the navigation bar of the site
  */
 function AppBarReddit({ topid }) {
-  const [Logged, setLogged] = useState(false);
-
-  const handlerLogIn = () => {
-    setLogged((current) => !current);
-  };
+  const { isAuth } = useSelector((state) => state.auth);
 
   return (
     <StyledToolBar id={topid}>
       <Logo />
-      {Logged && <HomeBox />}
-      <SearchBox login={Logged} />
-      {Logged && <IconsBox />}
-      {Logged && <Profile />}
-      {!Logged && <SignUp />}
-      {!Logged && <LogIn clicked={() => handlerLogIn()} />}
-      {!Logged && <ProfileLogin clicked={() => handlerLogIn()} />}
+      {isAuth && <HomeBox />}
+      <SearchBox login={isAuth} />
+      {isAuth && <IconsBox />}
+      {isAuth && <Profile />}
+      {!isAuth && <SignUp />}
+      {!isAuth && <LogIn />}
+      {!isAuth && <ProfileLogin />}
     </StyledToolBar>
   );
 }

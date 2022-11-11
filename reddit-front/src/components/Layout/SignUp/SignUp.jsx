@@ -1,10 +1,15 @@
+import { useNavigate } from 'react-router-dom';
 import { StyledButton, SignInBox } from '../AppBar/AppBar.Style';
 
 /**
  * description : this Signup box which appears in the navigation bar when u are not loggedin
  * it returns SignUp button
  */
-function SignUp({ clicked }) {
+function SignUp() {
+  const navigate = useNavigate();
+  const onClickSignUp = () => {
+    navigate('/signup');
+  };
   return (
     <SignInBox>
       <StyledButton
@@ -17,7 +22,7 @@ function SignUp({ clicked }) {
           }
         }}
         variant="outlined"
-        onClick={clicked}
+        onClick={onClickSignUp}
       >
         Sign Up
       </StyledButton>
