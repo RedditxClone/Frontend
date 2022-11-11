@@ -16,12 +16,11 @@ import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesC
  * @description This component is resposinble for showing Top communities
  * @param {string} buttonText to set title of the button at the end of card
  * @param {object} pic the cover of the communities card that is in the home page
- * @param {Array} communities the communities that shall be shown in the card
+ * @param {Array} communitiesCardCommunities the communities that shall be shown in the small cards
  * @param {Array} buttons the buttons shown over the cover of the communities card cover
  * @returns {React.Component} styled page contain Top communities with different communities
  */
 function CategoriesPage({
-  communities,
   buttonText,
   buttons,
   pic,
