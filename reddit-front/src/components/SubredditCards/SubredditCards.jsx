@@ -4,12 +4,17 @@ import { ThemeProvider, Box } from '@mui/material';
 import SubredditBackground from './SubredditBackground/SubredditBackground';
 import SubredditInfo from './SubredditInfo/SubredditInfo';
 import SubredditSideBar from './SubredditSideBar/SubredditSideBar';
+import BestHotNewCard from '../HomePageCards/BestHotNewCard';
+import CreatePostCard from '../HomePageCards/CreatePostCard';
+import BackToTop from '../BackToTop/BackToTop';
+import AppBar from '../Layout/AppBar/AppBar';
 import {
   CardsContainer,
   PostsContainer,
   subredditTheme
 } from './SubredditCards.Style';
 import PostsList from '../PostsList/PostsList';
+
 /**
  * This Component for the Community Cards.
  *
@@ -21,7 +26,9 @@ export default function SubredditCards() {
   let isModeratorMode = true;
   return (
     <ThemeProvider theme={subredditTheme}>
+      <AppBar />
       <Box
+        id="subreddit"
         data-testid="subreddit-cards"
         className="container"
         component="div"
@@ -40,6 +47,8 @@ export default function SubredditCards() {
         />
         <CardsContainer style={{ backgroundColor: color }}>
           <PostsContainer>
+            <CreatePostCard />
+            <BestHotNewCard />
             <PostsList
               isCommunityPost={true}
               isModeratorMode={isModeratorMode}
@@ -50,6 +59,7 @@ export default function SubredditCards() {
             highlightColor="red"
             isModeratorMode={isModeratorMode}
           />
+          <BackToTop id="subreddit" />
         </CardsContainer>
       </Box>
     </ThemeProvider>

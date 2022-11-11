@@ -68,7 +68,7 @@ export const StyledBox = styled(Box)({
   borderRadius: '0.5rem',
   height: '5rem',
   justifyContent: 'center',
-  margin: '2rem'
+  margin: '2rem 0'
 });
 /**
  * Modify the style of the default TextField
@@ -159,7 +159,10 @@ export const LargeRoundedButton = styled(RoundedButton)({
 });
 
 export const StyledCard = styled(Card)({
-  padding: '0', maxWidth: 345, border: '1px solid #1a1a1b12', borderRadius: '5px'
+  padding: '0',
+  maxWidth: 345,
+  border: '1px solid #1a1a1b12',
+  borderRadius: '5px'
 });
 /**
  * Responsively changing the width of the Create Post Card
@@ -168,12 +171,12 @@ export const StyledCard = styled(Card)({
 
 export const CreatePostCardRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
-    width: '50%'
-  },
-  [theme.breakpoints.down('lg')]: {
-    width: '65%'
-  },
-  [theme.breakpoints.down('md')]: {
-    width: '95%'
+    width: '100%'
   }
+  // [theme.breakpoints.down('lg')]: {
+  //   width: '65%'
+  // },
+  // [theme.breakpoints.down('md')]: {
+  //   width: '95%'
+  // }
 }));

@@ -13,7 +13,7 @@ import Input from '@mui/material/Input';
 import { useDispatch } from 'react-redux';
 import { removePost } from '../../../redux/slices/PostInteractionsSlice';
 
-export default function RemovalReasonDialog({ open, handleClose, postId }) {
+function RemovalReasonDialog({ open, handleClose, postId }) {
   const maxRemovalReasonLength = 100;
   const [removalReason, setRemovalReason] = useState(0);
   const handleSelectChange = (event) => {
@@ -221,3 +221,4 @@ export default function RemovalReasonDialog({ open, handleClose, postId }) {
     </Dialog>
   );
 }
+export default RemovalReasonDialog;
