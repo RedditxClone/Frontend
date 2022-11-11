@@ -1,6 +1,6 @@
 import { styled } from '@mui/material';
 
-const ColoredBody = styled('body')(
+const ColoredBody = styled('html')(
   {
     backgroundColor: '#dae0e6'
   }
@@ -51,6 +51,7 @@ const AlphaStyledDiv = styled('div')(
     border: '1px solid #ccc',
     borderRadius: '4px',
     fontFamily: 'inherit',
+    position: 'sticky',
     '#AlphaCardTitle': {
       fontSize: '1.4rem',
       fontWeight: '500',

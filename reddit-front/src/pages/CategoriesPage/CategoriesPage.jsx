@@ -1,4 +1,4 @@
-// import React from 'react'
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import SideList from '../../components/SideList/SideList';
@@ -10,20 +10,21 @@ import {
   SideDiv
 } from './CategoriesPage.style';
 import AlphabeticCard from '../../components/CategoriesCard/AlphabeticCard';
-// import CategoriesCard from './CategoriesCard';
 import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesCard';
-// import CommunityHoverCard from '../../components/CategoriesCard/CommunityHoverCard';
 
 /**
  * @description This component is resposinble for showing Top communities
  * @param {string} buttonText to set title of the button at the end of card
  * @param {object} pic the cover of the communities card that is in the home page
- * @param {Array} communities the communities that shall be shown in the card
+ * @param {Array} communitiesCardCommunities the communities that shall be shown in the small cards
  * @param {Array} buttons the buttons shown over the cover of the communities card cover
  * @returns {React.Component} styled page contain Top communities with different communities
  */
 function CategoriesPage({
-  communities, buttonText, buttons, pic
+  buttonText,
+  buttons,
+  pic,
+  communitiesCardCommunities
 }) {
   let clickedCardButton = 'dummy';
 
@@ -200,7 +201,7 @@ function CategoriesPage({
             buttons1={buttons}
             buttons2={buttons}
             pic={pic}
-            communities={communities}
+            communities={communitiesCardCommunities}
             homePageCard={false}
             buttonText={buttonText}
             textChangedToLink={ClickedCardHandler}
@@ -210,7 +211,7 @@ function CategoriesPage({
             buttons1={buttons}
             buttons2={buttons}
             pic={pic}
-            communities={communities}
+            communities={communitiesCardCommunities}
             homePageCard={false}
             buttonText={buttonText}
             textChangedToLink={ClickedCardHandler}

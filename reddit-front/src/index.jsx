@@ -83,18 +83,186 @@ const communities = [
     noMembers: '1.6m',
     noOnlineMembers: '825',
     description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
   }
 ];
 
 const buttons1 = ['Top', 'Food', 'Near You'];
 const buttonText = 'Music';
-
+const communitiesCardCommunities = communities.slice(0, 5);
 const routes = createBrowserRouter([
   {
     path: '/',
     element: (
       <CategoriesPage
-        communities={communities}
+        communitiesCardCommunities={communitiesCardCommunities}
         buttonText={buttonText}
         buttons={buttons1}
         pic={pic}
