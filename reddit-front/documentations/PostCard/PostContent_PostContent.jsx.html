@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PostContent/PostContent.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PostContent/PostContent.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-use-before-define */
+/* eslint-disable prefer-const */
+/* eslint-disable jsx-a11y/media-has-caption */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
+/* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react/destructuring-assignment */
+import { useEffect, memo, useState } from 'react';
+import PostInteractions from '../PostInteractions/PostInteractions';
+import PostInfo from '../PostInfo/PostInfo';
+import './PostContent.css';
+import { divideBigNumber } from '../../../utilities/Helpers';
+import Logo from './test.png';
+/**
+ * @typedef PropType
+ * @property {bool} setHidePost
+ * @property {object} postContentData
+ * @property {bool} isCommunityPost
+ * @property {bool} isPostFullDetailsMode
+ * @property {bool} isModeratorMode
+ */
+
+/**
+ * This Component for the post content (images, videos, text, etc.)
+ * Calling the method 'getPostContent' to determine what is the type of the content.
+ * Checking for the content type, and seeing if it is more than one image, so we call
+ * the method 'showSlides' to render a slideshow for the images
+ *
+ */
+function PostContent({
+  setHidePost,
+  postContentData,
+  isCommunityPost,
+  isPostFullDetailsMode,
+  isModeratorMode
+}) {
+  let postContent = null;
+  let slideIndex = 0;
+  const [modAction, setModAction] = useState(0);
+
+  /* Gets the post type (img, video, ..), and returns the content as html component */
+  const getPostContent = function () {
+    const contentType = postContentData.post_type;
+    const mediaCount = postContentData.media_count;
+
+    switch (contentType) {
+      case 'img':
+        if (mediaCount > 1) {
+          postContent = (
+            &lt;>
+              &lt;div className="my-slides fade">
+                &lt;img
+                  src={Logo}
+                  alt="post image"
+                />
+              &lt;/div>
+              &lt;div className="my-slides fade">
+                &lt;img
+                  src={Logo}
+                  alt="post image"
+                />
+              &lt;/div>
+              &lt;div className="my-slides fade">
+                &lt;img
+                  src={Logo}
+                  alt="post image"
+                />
+              &lt;/div>
+              &lt;button
+                type="button"
+                className="prev"
+                onClick={prevSlide}
+              >
+                ❮
+              &lt;/button>
+              &lt;button
+                type="button"
+                className="next"
+                onClick={nextSlide}
+              >
+                ❯
+              &lt;/button>
+            &lt;/>
+          );
+          // showSlides();
+        } else {
+          postContent = (
+            &lt;div className="post-image">
+              &lt;img
+                src={Logo}
+                alt="post image"
+              />
+            &lt;/div>
+          );
+        }
+        break;
+      case 'video':
+        postContent = (
+          &lt;video
+            controls="true"
+            muted="false"
+            preload="auto"
+            className="post-content-video"
+          >
+            &lt;source
+              src=""
+              type="video/mp4"
+            />
+          &lt;/video>
+        );
+        break;
+      case 'text':
+        postContent = &lt;p>{postContentData.content}&lt;/p>;
+        break;
+      default:
+        break;
+    }
+
+    return postContent;
+  };
+
+  /* show the image slider if the post has multiple images */
+  const showSlides = () => {
+    let slides = document.querySelectorAll('.my-slides');
+
+    const slidesLength = slides.length;
+    if (slideIndex === slidesLength) {
+      slideIndex = 0;
+    }
+    if (slideIndex &lt; 0) {
+      slideIndex = slidesLength - 1;
+    }
+
+    let i;
+    for (i = 0; i &lt; slidesLength; i += 1) {
+      slides.item(i).style.display = 'none';
+    }
+    if (slides[slideIndex] != null) {
+      slides.item(slideIndex).style.display = 'block';
+    }
+  };
+
+  const nextSlide = () => {
+    slideIndex += 1;
+    showSlides();
+  };
+
+  const prevSlide = () => {
+    slideIndex -= 1;
+    showSlides();
+  };
+
+  // Returning the result
+  return (
+    &lt;div
+      className="post-content"
+      data-testid="test-post-content"
+    >
+      {/* Post info -> community, username, time */}
+      &lt;PostInfo
+        communityName={postContentData.community_name}
+        communityId={postContentData.community_id}
+        userId={postContentData.user_id}
+        postedBy={postContentData.posted_by}
+        postedAt={postContentData.posted_at}
+        postId={postContentData.id}
+        isCommunityPost={isCommunityPost}
+        isPostFullDetailsMode={isPostFullDetailsMode}
+        modAction={modAction}
+      />
+
+      {/* Post title  */}
+      &lt;div
+        className="post-title-container"
+        data-testid="test-post-title"
+      >
+        &lt;div className="post-title">
+          &lt;a
+            className="post-link"
+            href="#"
+          >
+            &lt;h3 className="post-title-heading">{postContentData.title}&lt;/h3>
+          &lt;/a>
+        &lt;/div>
+        &lt;div className="flair">
+          &lt;a
+            href="#"
+            className="flair-link"
+          >
+            {postContentData.flair_name}
+          &lt;/a>
+        &lt;/div>
+      &lt;/div>
+
+      {/* post content  */}
+      &lt;div className="post-main-content">
+        &lt;div className="post-content-core">
+          {getPostContent()}
+          {showSlides()}
+        &lt;/div>
+      &lt;/div>
+
+      {/* post interactions -> comment, save, hide, ..  */}
+      &lt;PostInteractions
+        setHidePost={setHidePost}
+        commentsCount={divideBigNumber(postContentData.comments_count)}
+        votesCount={postContentData.votes}
+        postId={postContentData.id}
+        isCommunityPost={isCommunityPost}
+        changeModAction={setModAction}
+        setModAction={setModAction}
+        isModeratorMode={isModeratorMode}
+      />
+    &lt;/div>
+  );
+}
+
+export default memo(PostContent);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 22:12:20 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

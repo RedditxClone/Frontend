@@ -1,8 +1,8 @@
-import './index.css';
-import CreateCommunity from './components/CreateCommunity/CreateCommunity';
+/* eslint-disable */
+import SubredditCards from './components/SubredditCards/SubredditCards';
 
 function App() {
-  return <CreateCommunity />;
+  return <SubredditCards />;
 }
 
 export default App;

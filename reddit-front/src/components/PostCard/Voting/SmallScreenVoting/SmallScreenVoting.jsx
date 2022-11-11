@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import './SmallScreenVoting.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
+import { votePost } from '../../../../redux/slices/PostInteractionsSlice';
 
 /**
  * @typedef PropType
@@ -9,7 +11,17 @@ import { BiUpvote, BiDownvote } from 'react-icons/bi';
  * @property {function} divideBigNumber
  */
 
-export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
+/**
+ * This Component is as same as the Voting Component but for the small screens ( for responsive )
+ * It contains two methods for handling the up & down voting.
+ *
+ */
+
+export default function SmallScreenVoting({
+  votesCount,
+  divideBigNumber,
+  postId
+}) {
   const [votingCounter, setVotingCounter] = useState(votesCount);
   // voting status : 0 -> no voted, 1 -> up, -1 -> down
   const [votingCurrentState, setVotingCurrentState] = useState(0);
@@ -17,6 +29,7 @@ export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
     up: '#c0c2c4',
     down: '#c0c2c4'
   });
+  const dispatch = useDispatch();
 
   const handleUpVoting = () => {
     switch (votingCurrentState) {
@@ -47,6 +60,10 @@ export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
       default:
         break;
     }
+
+    // dispatching the action
+    const info = { body: { dir: votingCounter }, id: postId };
+    dispatch(votePost(info));
   };
 
   const handleDownVoting = () => {
@@ -78,6 +95,10 @@ export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
       default:
         break;
     }
+
+    // dispatching the action
+    const info = { body: { dir: votingCounter }, id: postId };
+    dispatch(votePost(info));
   };
 
   // Returning the result
@@ -91,9 +112,9 @@ export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
             onClick={handleUpVoting}
           />
         </span>
-        <div className="votes-count">
+        <span className="votes-count">
           {votingCounter > 0 ? divideBigNumber(votingCounter) : 'Vote'}
-        </div>
+        </span>
         <span className="down-vote-icon">
           <BiDownvote
             color={votingCurrentColors.down}
