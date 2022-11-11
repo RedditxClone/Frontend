@@ -1,0 +1,113 @@
+.main-profile-info .h3, .images .h3, .profile-category .h3, .advanced .h3{
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #1c1c1c;
+    display: flex;
+    margin-bottom: 4px;
+    margin-top: 0;
+}
+
+.main-profile-info .main-h3 , .images .main-h3 , .profile-category .main-h3{
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    line-height: 12px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #EDEFF1;
+    color: #7c7c7c;
+    margin-bottom: 32px;
+    padding-bottom: 6px;
+}
+
+.main-profile-info .p, .images .p ,.profile-category .p {
+    font-weight: 400;
+    color: #7c7c7c;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0;
+}
+
+.main-profile-info Button {
+    font-weight: 500;
+    letter-spacing: unset;
+    line-height: 17px;
+    text-transform: unset;
+    min-height: 32px;
+    padding: 10px 16px;
+    border-radius: 50px;
+    background-color: #edeff1;
+    color:#1c1c1c;
+    box-shadow: none;
+}
+
+.main-profile-info Button:hover {
+    background-color: #edeff1;
+    color:#1c1c1c;
+    box-shadow: none;
+}
+
+.cont-2 {
+    margin-top: 4px;
+    margin-left: 0;
+}
+
+.main-profile-info .p1 {
+    margin-bottom : 12px;
+    font-weight: 400;
+    color: #7c7c7c;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.main-profile-info .p2,.last,.cont-1{
+    margin-bottom : 32px;
+}
+
+.main-profile-info .box{
+    margin-bottom: 8px;
+    border-radius: 4px;
+    padding: 12px 24px 4px 0;
+    margin-left: 0;
+}
+
+.input-1 {
+    background-color: #ffffff;
+    border: 1px solid #edeff1;
+    color: #1c1c1c;
+    box-sizing: border-box;
+    height: 48px;
+    border-radius: 4px;
+    padding: 12px 24px 4px 12px;
+    width: 103.6%;
+}
+
+.input-2 {
+    background-color: #ffffff;
+    border: 1px solid #edeff1;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #1c1c1c;
+    display: block;
+    width: 100% !important;
+    padding: 8px;
+    resize: both;
+}
+
+.input-2::placeholder {
+    opacity:0.4
+}
+
+.main-profile-info .p3, .images .p3{
+    margin-bottom:10px;
+    font-weight: 400;
+    color: #7c7c7c;
+    font-size: 12px;
+}
+
+.main-profile-info .p2 {
+    font-weight: 400;
+    color: #7c7c7c;
+    font-size: 12px;
+}
+
