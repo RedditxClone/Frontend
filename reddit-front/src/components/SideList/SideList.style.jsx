@@ -21,9 +21,10 @@ const NavLink = styled(NavLinkBase)({
   '& #SideBorder': {
     position: 'absolute',
     // left: `${len}rem`,
-    width: '.6rem',
+    width: '100%',
     height: '3.6rem',
-    backgroundColor: 'var(--newCommunityTheme-button)',
+    backgroundColor: '#F6F7F8',
+    borderLeft: '6px solid var(--newCommunityTheme-button)',
     display: 'none'
   },
   '&.active': {

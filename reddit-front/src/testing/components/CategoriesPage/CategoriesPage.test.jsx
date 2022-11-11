@@ -84,10 +84,10 @@ function MockCategorisPage() {
 }
 it('Test for rendering the title', () => {
   render(<MockCategorisPage />);
-  const titleElement = screen.getByText(
+  const titleElement = screen.getByTestId(
     'CategoryPageTitle'
   );
-  const pageDescription = screen.getByText(
+  const pageDescription = screen.getByTestId(
     'CategoryPageDescription'
   );
   expect(titleElement).toBeInTheDocument();

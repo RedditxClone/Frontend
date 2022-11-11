@@ -64,14 +64,7 @@ function SideList({
               height: '3.6rem',
               // width: '200px',
               alignItems: 'center',
-              padding: '1.6rem 1.6rem',
-              '&:hover': {
-                backgroundColor: '#F6F7F8'
-              },
-              '&:focus': {
-                backgroundColor: '#F6F7F8',
-                color: '#F6F7F8'
-              }
+              padding: '1.6rem 1.6rem'
             }}
           >
             {text}
