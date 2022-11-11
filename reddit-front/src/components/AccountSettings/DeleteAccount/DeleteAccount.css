@@ -1,0 +1,6 @@
+.del {
+    display: flex;
+    flex-flow: nowrap;
+    margin-bottom: 32px;
+    justify-content:flex-end;
+}
