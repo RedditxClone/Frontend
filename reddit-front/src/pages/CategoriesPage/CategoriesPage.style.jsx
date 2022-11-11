@@ -1,6 +1,6 @@
 import { styled } from '@mui/material';
 
-const ColoredBody = styled('html')(
+const ColoredBody = styled('body')(
   {
     backgroundColor: '#dae0e6'
   }

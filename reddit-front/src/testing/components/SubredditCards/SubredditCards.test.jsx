@@ -6,7 +6,8 @@
 // import FlairsCard from '../../../components/SubredditCards/FlairsCard/FlairsCard';
 // import RulesCard from '../../../components/SubredditCards/RulesCard/RulesCard';
 // import ModeratorsCard from '../../../components/SubredditCards/ModeratorsCard/ModeratorsCard';
-// import SubredditBackground from '../../../components/SubredditCards/SubredditBackground/SubredditBackground';
+// import SubredditBackground
+// from '../../../components/SubredditCards/SubredditBackground/SubredditBackground';
 // import SubredditName from '../../../components/SubredditCards/SubredditName/SubredditName';
 
 // describe('Test for Community Cards', () => {

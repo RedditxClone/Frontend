@@ -40,7 +40,8 @@ function HomeCommunitiesCard({
   buttons1,
   buttons2,
   homePageCard,
-  buttonText
+  buttonText,
+  textChangedToLink
 }) {
   const activeStyle = {
     color: 'black'
@@ -209,7 +210,7 @@ function HomeCommunitiesCard({
               View All
             </LargeRoundedButton>
           ) : (
-            <NavLink to={`${buttonTextToLinkMap(buttonText)}`}>
+            <NavLink to={`${buttonTextToLinkMap(buttonText)}`} onClick={() => textChangedToLink(buttonText)}>
               <LargeRoundedButton
                 sx={{
                   margin: '1rem 0 1.5rem 1.5rem',

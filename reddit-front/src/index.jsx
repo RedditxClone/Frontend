@@ -87,7 +87,7 @@ const communities = [
 ];
 
 const buttons1 = ['Top', 'Food', 'Near You'];
-const buttonText = 'Near You';
+const buttonText = 'Music';
 
 const routes = createBrowserRouter([
   {

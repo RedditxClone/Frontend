@@ -23,11 +23,10 @@ import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesC
  * @returns {React.Component} styled page contain Top communities with different communities
  */
 function CategoriesPage({
-  communities,
-  buttonText,
-  buttons,
-  pic
+  communities, buttonText, buttons, pic
 }) {
+  let clickedCardButton = 'dummy';
+
   const [button, buttonState] = useState({
     title: 'Show More',
     showMore: false,
@@ -81,8 +80,32 @@ function CategoriesPage({
     'vroom',
     'wholesome'
   ];
-  const buttonHandler = () => {
-    let showedList = [
+
+  const restOfListItems = [
+    'Music',
+    'Art & Design',
+    'Beauty',
+    'Books & Writing',
+    'Crypto',
+    'Discussion',
+    'E3',
+    'Fashion',
+    'Finance & Business',
+    'Food',
+    'Health & Fitness',
+    'Learning',
+    'Mindblowing',
+    'Outdoors',
+    'Parenting',
+    'Photography',
+    'Relationships',
+    'Science',
+    'Videos',
+    'Vroom',
+    'Wholesome'
+  ];
+  const showMoreHandler = () => {
+    const showedList = [
       'Moderating',
       'All Communities',
       'Near You',
@@ -96,16 +119,19 @@ function CategoriesPage({
       'Travel',
       'Tech'
     ];
-    if (button.showMore) {
-      const showless = !button.showMore;
-      buttonState({
-        title: 'Show More',
-        showMore: showless,
-        listItems: showedList
-      });
-    } else {
-      const showmore = !button.showMore;
-      showedList = [
+    const showless = !button.showMore;
+    buttonState({
+      title: 'Show More',
+      showMore: showless,
+      listItems: showedList
+    });
+  };
+  const showLessHandler = () => {
+    const showmore = !button.showMore;
+    buttonState({
+      title: 'Show Less',
+      showMore: showmore,
+      listItems: [
         ...button.listItems,
         'Music',
         'Art & Design',
@@ -128,18 +154,28 @@ function CategoriesPage({
         'Videos',
         'Vroom',
         'Wholesome'
-      ];
-      buttonState({
-        title: 'Show Less',
-        showMore: showmore,
-        listItems: showedList
-      });
+      ]
+    });
+  };
+  const buttonHandler = () => {
+    if (button.showMore) {
+      showMoreHandler();
+    } else {
+      showLessHandler();
+    }
+  };
+  const ClickedCardHandler = (text) => {
+    clickedCardButton = text;
+    if (restOfListItems.includes(clickedCardButton)) {
+      showLessHandler();
     }
   };
   return (
     <ColoredBody>
       <CategoryHeader>
-        <h1 data-testid="CategoryPageTitle">Today&#8217;s Top Growing Communities</h1>
+        <h1 data-testid="CategoryPageTitle">
+          Today&#8217;s Top Growing Communities
+        </h1>
         <span data-testid="CategoryPageDescription">
           Browse Reddit&#8217;s top growing communities. Find the top
           communities in your favorite category.
@@ -167,6 +203,7 @@ function CategoriesPage({
             communities={communities}
             homePageCard={false}
             buttonText={buttonText}
+            textChangedToLink={ClickedCardHandler}
           />
           <HomeCommunitiesCard
             data-testid="HomeCard"
@@ -176,12 +213,11 @@ function CategoriesPage({
             communities={communities}
             homePageCard={false}
             buttonText={buttonText}
+            textChangedToLink={ClickedCardHandler}
           />
           {/* <CommunityHoverCard community={communities[0]} /> */}
           <SideDiv>
-            <AlphabeticCard
-              data-testid="AlpaCard"
-            />
+            <AlphabeticCard data-testid="AlpaCard" />
           </SideDiv>
         </StyledSideCards>
       </StyledCategoryiesBody>
