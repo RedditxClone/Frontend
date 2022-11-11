@@ -23,7 +23,14 @@ import Recaptcha from '../../components/Recaptcha/Recaptcha';
 import { checkEmail } from '../../utilities/Helpers';
 import { forgetUserName, AuthActions } from '../../store/slices/AuthSlice';
 
-export default function ForgetUserName() {
+/**
+ * This component returns a forget username page contains:
+ * 1- one input for Email address
+ * 2- Email me button
+ * @returns {React.Component}
+ */
+
+function ForgetUserName() {
   const {
     value: email,
     valueChangeHandler: onChangeEmailHandler,
@@ -136,3 +143,4 @@ Looks like you've been doing that a lot. Take a break for 8 minutes before tryin
     </ContentDiv>
   );
 }
+export default ForgetUserName;

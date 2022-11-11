@@ -13,7 +13,14 @@ import ErrorMessage, {
 import InfoButton from '../../components/InfoButton/InfoButton';
 import useInput from '../../hooks/use-input';
 
-export default function ChooseUserName() {
+/**
+ * This component returns a page that appears after entering your email in signup
+ * It has two input fields one for username
+ * It also check if the chosen usrename is valid or not
+ * Sign up button
+ * @returns {React.Component}
+ */
+function ChooseUserName() {
   const {
     value: userName,
     valueChangeHandler: onChangeUserNameInputHandler,
@@ -36,7 +43,7 @@ export default function ChooseUserName() {
   const [recaptcha, setRecaptcha] = useState(false);
   const [takenUserName, setTakenUserName] = useState(false);
 
-  // To check if the username available or not
+  /** To check if the username available or not */
   useEffect(() => {
     const timeToReadName = setTimeout(async () => {
       try {
@@ -179,3 +186,5 @@ export default function ChooseUserName() {
     </div>
   );
 }
+
+export default ChooseUserName;

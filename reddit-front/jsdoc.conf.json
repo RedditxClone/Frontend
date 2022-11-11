@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["src/components/CreateCommunity/"],
+    "include": ["src/pages/ResetPassword/"],
     "includePattern": ".jsx$",
     "excludePattern": "(node_modules/|docs)"
   },
@@ -11,7 +11,7 @@
   },
   "opts": {
     "recurse": true,
-    "destination": "src/documentations/CreateCommunity",
+    "destination": "./documentations/pages/ResetPassword",
     "readme": "README.md"
   }
 }
