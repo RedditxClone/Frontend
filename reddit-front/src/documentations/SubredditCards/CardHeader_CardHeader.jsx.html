@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CardHeader/CardHeader.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CardHeader/CardHeader.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable object-curly-newline */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-unused-vars */
+import Box from '@mui/material/Box';
+import { useState, memo } from 'react';
+import { Link } from '@mui/material';
+import { BsShield } from 'react-icons/bs';
+import Typography from '@mui/material/Typography';
+import {
+  CardsHeaderContainer,
+  DropDownMenuContainer,
+  DropDownMenuItem,
+  ModToolsButton
+} from './CardHeader.Style';
+
+/**
+ * @typedef PropType
+ * @property {string} title
+ * @property {string} baseColor
+ * @property {boolean} hasDropDownMenu
+ * @property {boolean} isModeratorMode
+ */
+
+/**
+ * This Component for the Cards Header.
+ *
+ */
+
+function CardHeader({ title, baseColor, hasDropDownMenu, isModeratorMode }) {
+  const [isMenuOpened, setIsMenuOpened] = useState(false);
+
+  return (
+    &lt;CardsHeaderContainer
+      data-testid="card-header-container"
+      sx={{ backgroundColor: baseColor, border: `1px solid ${baseColor}` }}
+    >
+      {/* The header title  */}
+      &lt;Typography
+        variant="h2"
+        style={{
+          fontSize: '1.4rem',
+          fontWeight: 700,
+          color: 'white'
+        }}
+      >
+        {title}
+      &lt;/Typography>
+
+      {/* Mod tools button  */}
+      {isModeratorMode ? (
+        &lt;ModToolsButton>
+          &lt;BsShield
+            fontSize="2rem"
+            style={{
+              marginRight: '5px'
+            }}
+          />
+          &lt;span>Mod Tools&lt;/span>
+        &lt;/ModToolsButton>
+      ) : null}
+
+      {hasDropDownMenu ? (
+        &lt;Box
+          sx={{
+            margin: 'auto 0 auto auto',
+            verticalAlign: 'middle',
+            cursor: 'pointer',
+            borderRadius: '1px',
+            '&amp;:hover': {
+              backgroundColor: '#1a1a1b1a'
+            }
+          }}
+        >
+          &lt;button
+            type="button"
+            style={{
+              marginBottom: '1rem',
+              display: 'inline-block',
+              alignItems: 'center',
+              verticalAlign: 'middle',
+              cursor: 'pointer',
+              backgroundColor: 'transparent',
+              border: 'none',
+              fontWeight: 'bold',
+              position: 'relative'
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              setIsMenuOpened(!isMenuOpened);
+            }}
+          >
+            ...
+            {isMenuOpened ? (
+              &lt;DropDownMenuContainer>
+                &lt;DropDownMenuItem
+                  variant="h5"
+                  sx={{
+                    borderTopLeftRadius: '6px',
+                    borderTopRightRadius: '6px'
+                  }}
+                >
+                  add to custom feed
+                &lt;/DropDownMenuItem>
+                &lt;DropDownMenuItem
+                  variant="h5"
+                  sx={{
+                    borderBottomLeftRadius: '6px',
+                    borderBottomRightRadius: '6px'
+                  }}
+                >
+                  add to custom feed
+                &lt;/DropDownMenuItem>
+              &lt;/DropDownMenuContainer>
+            ) : null}
+          &lt;/button>
+        &lt;/Box>
+      ) : null}
+    &lt;/CardsHeaderContainer>
+  );
+}
+
+export default memo(CardHeader);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCard">AboutCard</a></li><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#BackgroundImage">BackgroundImage</a></li><li><a href="global.html#ButtonsContainer">ButtonsContainer</a></li><li><a href="global.html#CancelSaveContainer">CancelSaveContainer</a></li><li><a href="global.html#CardHeader">CardHeader</a></li><li><a href="global.html#CardsContainer">CardsContainer</a></li><li><a href="global.html#CardsHeaderContainer">CardsHeaderContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CommunityTopics">CommunityTopics</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#DropDownMenuContainer">DropDownMenuContainer</a></li><li><a href="global.html#DropDownMenuItem">DropDownMenuItem</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#FlairItem">FlairItem</a></li><li><a href="global.html#FlairItemContainer">FlairItemContainer</a></li><li><a href="global.html#FlairsCard">FlairsCard</a></li><li><a href="global.html#FlairsContainer">FlairsContainer</a></li><li><a href="global.html#HeadingContainer">HeadingContainer</a></li><li><a href="global.html#JoinButton">JoinButton</a></li><li><a href="global.html#LogoImg">LogoImg</a></li><li><a href="global.html#LogoNameContainer">LogoNameContainer</a></li><li><a href="global.html#LogoNameContent">LogoNameContent</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#MessageModsButton">MessageModsButton</a></li><li><a href="global.html#ModeratorsCard">ModeratorsCard</a></li><li><a href="global.html#ModeratorsContainer">ModeratorsContainer</a></li><li><a href="global.html#ModeratorUsername">ModeratorUsername</a></li><li><a href="global.html#ModToolsButton">ModToolsButton</a></li><li><a href="global.html#NotificationTypesContainer">NotificationTypesContainer</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PopupInfo">PopupInfo</a></li><li><a href="global.html#PostsContainer">PostsContainer</a></li><li><a href="global.html#RuleContainer">RuleContainer</a></li><li><a href="global.html#RuleDescription">RuleDescription</a></li><li><a href="global.html#RuleNumber">RuleNumber</a></li><li><a href="global.html#RulesCard">RulesCard</a></li><li><a href="global.html#RulesCardContainer">RulesCardContainer</a></li><li><a href="global.html#RuleTitle">RuleTitle</a></li><li><a href="global.html#SelectList">SelectList</a></li><li><a href="global.html#SelectListOption">SelectListOption</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#ShowRuleDescription">ShowRuleDescription</a></li><li><a href="global.html#SideBarContainer">SideBarContainer</a></li><li><a href="global.html#SideBarContent">SideBarContent</a></li><li><a href="global.html#SingleNotificationTypeContainer">SingleNotificationTypeContainer</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledSubredditName">StyledSubredditName</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#StylesSpan">StylesSpan</a></li><li><a href="global.html#SubredditInfo">SubredditInfo</a></li><li><a href="global.html#SubredditName">SubredditName</a></li><li><a href="global.html#SubredditSideBar">SubredditSideBar</a></li><li><a href="global.html#SubredditTitle">SubredditTitle</a></li><li><a href="global.html#SubTitle">SubTitle</a></li><li><a href="global.html#SubTopic">SubTopic</a></li><li><a href="global.html#SubTopicsContainer">SubTopicsContainer</a></li><li><a href="global.html#SuggestedSubTopic">SuggestedSubTopic</a></li><li><a href="global.html#SuggestedSubTopicsContainer">SuggestedSubTopicsContainer</a></li><li><a href="global.html#TitleLogoContainer">TitleLogoContainer</a></li><li><a href="global.html#TopicDropdownList">TopicDropdownList</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 22:13:08 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

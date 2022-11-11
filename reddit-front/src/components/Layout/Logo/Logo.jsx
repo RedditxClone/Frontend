@@ -1,4 +1,5 @@
 import { BsReddit } from 'react-icons/bs';
+import { styled } from '@mui/material';
 import { StyledLogo } from '../AppBar/AppBar.Style';
 import RedditLogo from '../../../utilities/RedditLogo/RedditLogo';
 
@@ -8,17 +9,43 @@ function Logo() {
    * Logo of reddit
    * it return the whole logo of reddit
    */
+  const Sec1 = styled('div')(({ theme }) => ({
+    color: '#FF4500',
+    alignItems: 'center',
+    [theme.breakpoints.up('xs')]: {
+      display: 'block',
+      fontSize: '2rem'
+    },
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+      fontSize: '2.5rem'
+    },
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
+      flexBasis: '35%',
+      fontSize: '2.5rem'
+    }
+  }));
+
+  const Sec2 = styled('div')(({ theme }) => ({
+    width: '4.5rem',
+    [theme.breakpoints.up('xs')]: {
+      display: 'none'
+    },
+    [theme.breakpoints.up('md')]: {
+      flexBasis: '65%',
+      display: 'block'
+    }
+  }));
+
   return (
     <StyledLogo>
-      <div style={{ flexBasis: '45%' }}>
-        <BsReddit
-          size="2.5rem"
-          color="#FF4500"
-        />
-      </div>
-      <div style={{ flexBasis: '65%' }}>
+      <Sec1 data-testid="redditimg">
+        <BsReddit />
+      </Sec1>
+      <Sec2 data-testid="redditword">
         <RedditLogo />
-      </div>
+      </Sec2>
     </StyledLogo>
   );
 }

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: HomeCreatePostCard.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: HomeCreatePostCard.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { RoundedButton, Root } from './HomePageCards.style';
+import redditimage from '../../assets/snoo-small.png';
+import redditCover from '../../assets/2y2pftyz87981.png';
+
+/**
+ * this function returns Create Post Card ,the one that is displayed after the communities card
+ */
+
+export default function HomeCreatePostCard() {
+  return (
+    &lt;Root>
+      &lt;Card sx={{ padding: '0', maxWidth: 345 }}>
+
+        &lt;CardMedia
+          component="img"
+          height="75"
+          image={redditCover}
+          alt="green iguana"
+        />
+        &lt;CardContent
+          sx={{
+            padding: '0'
+          }}
+        >
+          &lt;Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}
+          >
+            &lt;Box
+              sx={{
+
+                display: 'flex',
+                alignSelf: 'flex-start',
+                alignItems: 'center'
+              }}
+            >
+              &lt;img
+                src={redditimage}
+                style={{
+                  width: '4rem',
+                  height: '6.8rem',
+                  marginTop: '-2rem',
+                  alignSelf: 'flex-start',
+                  marginLeft: '1rem'
+                }}
+                alt="Reddit "
+              />
+              &lt;Typography
+                variant="h4"
+                sx={{
+                  color: '#1c1c1c',
+                  marginLeft: '1rem'
+                }}
+              >
+                Home
+              &lt;/Typography>
+            &lt;/Box>
+            &lt;Typography
+              variant="h5"
+              sx={{
+                color: '#1c1c1c',
+                marginLeft: '1.5rem'
+
+              }}
+            >
+              Your personal Reddit frontpage. Come here to check in with your
+              favorite communities.
+            &lt;/Typography>
+            &lt;Typography
+              variant="h5"
+              sx={{
+                color: '#f7f7f7',
+                marginLeft: '0.3rem',
+                marginBottom: '0.3rem'
+
+              }}
+            >
+              ــــــــــــــــــــــــــــــــــــــــــــ
+              ــــــــــــــــــــــــــــــــــــــــــــــــــــ
+            &lt;/Typography>
+            &lt;RoundedButton
+              sx={{
+                margin: '1.5rem',
+                alignSelf: 'center',
+                width: '90%',
+                fontSize: '1.3rem',
+                padding: '4px 7px',
+                marginBottom: '0.5rem',
+                marginTop: '0.5rem',
+                ':hover': {
+                  backgroundColor: '#1484D6'
+                }
+              }}
+              variant="contained"
+              disableElevation
+            >
+              View All
+            &lt;/RoundedButton>
+
+            &lt;RoundedButton
+              sx={{
+                margin: '0.5rem 1.5rem',
+                alignSelf: 'center',
+                width: '90%',
+                fontSize: '1.3rem',
+                padding: '4px 7px',
+                ':hover': {
+                  backgroundColor: '#F5FaFd'
+                }
+              }}
+              variant="outlined"
+              disableElevation
+            >
+              Create Community
+            &lt;/RoundedButton>
+          &lt;/Box>
+        &lt;/CardContent>
+      &lt;/Card>
+    &lt;/Root>
+
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CreatePostCardRoot">CreatePostCardRoot</a></li><li><a href="global.html#OverButton">OverButton</a></li><li><a href="global.html#Root">Root</a></li><li><a href="global.html#RoundedButton">RoundedButton</a></li><li><a href="global.html#StyledBox">StyledBox</a></li><li><a href="global.html#StyledButton">StyledButton</a></li><li><a href="global.html#StyledColBox">StyledColBox</a></li><li><a href="global.html#StyledLink">StyledLink</a></li><li><a href="global.html#StyledMenuItem">StyledMenuItem</a></li><li><a href="global.html#StyledRowBox">StyledRowBox</a></li><li><a href="global.html#StyledTextField">StyledTextField</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Nov 04 2022 19:47:51 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -13,7 +13,6 @@ import {
 } from '../AppBar/AppBar.Style';
 
 /**
- * @typedef {PropType} Side   Side object hat describes the status did u need the sidebar or not
  * @property {bool} showSideBar this property for showing SideBar or not it depends
  * @property {function} onClickSideIcon this fucntion is executed when u need to close SideDrawer (it is a handler in Home function)
  */
@@ -24,7 +23,7 @@ import {
  * and other
  * it return the Side Drawer
  */
-function SideDrawer(Side) {
+function SideDrawer({ showSideBar, onClickSideIcon }) {
   return (
     <Drawer
       BackdropProps={{ invisible: true }}
@@ -37,19 +36,19 @@ function SideDrawer(Side) {
         }
       }}
       MenuProps={{ PaperProps: { sx: { maxHeight: 200 } } }}
-      open={Side.showSideBar}
+      open={showSideBar}
     >
       <List>
-        <ListItem>
+        <ListItem data-testid="items">
           <IconButton
-            onClick={Side.onClickSideIcon}
+            onClick={onClickSideIcon}
             sx={{ ml: '170px' }}
           >
             {' '}
             <AiOutlineClose size="1.3rem" />
           </IconButton>
         </ListItem>
-        <ListItem>
+        <ListItem data-testid="items">
           <StyledInputBase
             placeholder="Filter"
             sx={{
@@ -61,112 +60,63 @@ function SideDrawer(Side) {
             }}
           />
         </ListItem>
-        <ListItem>
+        <ListItem data-testid="items">
           <StyledText sx={{ fontSize: '13px' }}>YOUR COUMMUNITIES</StyledText>
         </ListItem>
-        <ListItem>
+        <ListItem data-testid="items">
           <IoIosAdd
             color="#1A3043"
             size="1.5rem"
           />
-          <StyledButton sx={{ pr: '20px' }}>Create Community</StyledButton>
+          <StyledButton>Create Community</StyledButton>
         </ListItem>
-        <ListItem>
+        <ListItem data-testid="items">
           <StyledText sx={{ fontSize: '13px' }}>FEEDS</StyledText>
         </ListItem>
-        <ListItem>
+        <ListItem data-testid="items">
           <HiHome
             color="black"
             size="1.5rem"
           />
-          <StyledButton sx={{ pr: '100px' }}>Home</StyledButton>
+          <StyledButton>Home</StyledButton>
         </ListItem>
-        <ListItem>
+        <ListItem data-testid="items">
           <CgArrowTopRightO
             color="#1A3043"
             size="1.5rem"
           />
-          <StyledButton sx={{ pr: '90px' }}>Popular</StyledButton>
+          <StyledButton>Popular</StyledButton>
         </ListItem>
-        <ListItem>
+        <ListItem data-testid="items">
           <IoMdStats
             color="#1A3043"
             size="1.5rem"
           />
-          <StyledButton sx={{ pr: '120px' }}>All</StyledButton>
+          <StyledButton>All</StyledButton>
         </ListItem>
-        <ListItem>
+        <ListItem data-testid="items">
           <StyledText sx={{ fontSize: '13px' }}>OTHER</StyledText>
         </ListItem>
-        <ListItem>
+        <ListItem data-testid="items">
           <IoIosAdd
             color="#1A3043"
             size="1.5rem"
           />
-          <StyledButton sx={{ pr: '50px' }}>Create Posts</StyledButton>
+          <StyledButton>Create Posts</StyledButton>
         </ListItem>
-        <ListItem>
+        <ListItem data-testid="items">
           <HiOutlineBarsArrowUp
             color="#1A3043"
             size="1.5rem"
           />
-          <StyledButton sx={{ pr: '25px' }}>Top Communities</StyledButton>
+          <StyledButton>Top Communities</StyledButton>
         </ListItem>
-        <ListItem>
+        <ListItem data-testid="items">
           <IoIosNotificationsOutline
             color="#1A3043"
             size="1.5rem"
           />
-          <StyledButton sx={{ pr: '50px' }}>Notifications</StyledButton>
-        </ListItem>
-        <ListItem>
-          <IoIosNotificationsOutline
-            color="#1A3043"
-            size="1.5rem"
-          />
-          <StyledButton sx={{ pr: '50px' }}>Notifications</StyledButton>
-        </ListItem>
-        <ListItem>
-          <IoIosNotificationsOutline
-            color="#1A3043"
-            size="1.5rem"
-          />
-          <StyledButton sx={{ pr: '50px' }}>Notifications</StyledButton>
-        </ListItem>
-        <ListItem>
-          <IoIosNotificationsOutline
-            color="#1A3043"
-            size="1.5rem"
-          />
-          <StyledButton sx={{ pr: '50px' }}>Notifications</StyledButton>
-        </ListItem>
-        <ListItem>
-          <IoIosNotificationsOutline
-            color="#1A3043"
-            size="1.5rem"
-          />
-          <StyledButton sx={{ pr: '50px' }}>Notifications</StyledButton>
-        </ListItem>
-        <ListItem>
-          <IoIosNotificationsOutline
-            color="#1A3043"
-            size="1.5rem"
-          />
-          <StyledButton sx={{ pr: '50px' }}>Notifications</StyledButton>
-        </ListItem>
-        <ListItem>
-          <IoIosNotificationsOutline
-            color="#1A3043"
-            size="1.5rem"
-          />
-          <StyledButton sx={{ pr: '50px' }}>Notifications</StyledButton>
-        </ListItem>
-        <ListItem>
-          <IoIosNotificationsOutline
-            color="#1A3043"
-            size="1.5rem"
-          />
-          <StyledButton sx={{ pr: '50px' }}>Notifications</StyledButton>
+          <StyledButton>Notifications</StyledButton>
         </ListItem>
       </List>
     </Drawer>

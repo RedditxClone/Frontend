@@ -30,7 +30,7 @@ function AppBarReddit({ topid }) {
       {Logged && <Profile />}
       {!Logged && <SignUp />}
       {!Logged && <LogIn clicked={() => handlerLogIn()} />}
-      {!Logged && <ProfileLogin />}
+      {!Logged && <ProfileLogin clicked={() => handlerLogIn()} />}
     </StyledToolBar>
   );
 }

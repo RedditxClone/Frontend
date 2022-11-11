@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: HomeCommunitiesCard.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: HomeCommunitiesCard.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/no-array-index-key */
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import { Box } from '@mui/material';
+import { IoIosArrowUp } from 'react-icons/io';
+import { RoundedButton, OverButton, Root } from './HomePageCards.style';
+/**
+ * @typedef {PropType} cardData
+ * @property {object} pic the cover of the communities card that is in the home page
+ * @property {Array} communities the communities that shall be shown in the card
+ * @property {Array} buttons1 the buttons shown over the cover of the communities card cover
+ * @property {Array} buttons2 the buttons shown under the cover of the communities card cover
+ *
+ */
+/**
+ * this function returns the communities card shown in the home screen
+ * @param {PropType} cardData
+ */
+export default function HomeCommunitiesCard({
+  pic, communities, buttons1, buttons2
+}) {
+  return (
+    &lt;Root>
+      &lt;Card sx={{ padding: '0', maxWidth: 345 }}>
+        &lt;CardMedia component="img" height="75" image={pic} alt="green iguana" />
+        &lt;CardContent
+          sx={{
+            padding: '0'
+          }}
+        >
+          &lt;Box sx={{ display: 'flex', marginTop: '-3.4rem' }}>
+            {buttons1.map((button) => &lt;OverButton key={button}>{button}&lt;/OverButton>)}
+          &lt;/Box>
+
+          &lt;List
+            sx={{
+              width: '100%',
+              bgcolor: 'background.paper'
+            }}
+          >
+            {communities.map((community, index) => (
+              &lt;Box key={index}>
+                &lt;ListItem alignItems="flex-start">
+                  &lt;Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    &lt;ListItemText
+                      sx={{
+                        '&amp; span': {
+                          fontSize: '1.6rem',
+                          paddingRight: '1rem',
+                          marginTop: '1rem'
+                        }
+                      }}
+                      primary={index + 1}
+                    />
+                    &lt;Box sx={{ marginTop: '1rem' }}>
+                      &lt;IoIosArrowUp size={18} color="#46d15f" />
+                    &lt;/Box>
+                    &lt;ListItemAvatar sx={{ paddingLeft: '0.5rem' }}>
+                      &lt;Avatar alt={community.name} src={community.picture} />
+                    &lt;/ListItemAvatar>
+                    &lt;ListItemText
+                      sx={{
+                        '&amp; span': {
+                          fontSize: '1.6rem'
+                        }
+                      }}
+                      primary={community.name}
+                    />
+                    &lt;RoundedButton
+                      sx={{
+                        marginLeft: '3rem',
+                        fontSize: '1.3rem',
+                        padding: '2px 7px',
+                        ':hover': {
+                          backgroundColor: '#1484D6'
+                        }
+                      }}
+                      variant="contained"
+                      disableElevation
+                    >
+                      join
+                    &lt;/RoundedButton>
+                  &lt;/Box>
+                &lt;/ListItem>
+                {index &lt; communities.length - 1 ? (
+                  &lt;Divider variant="fullwidth" component="li" />
+                ) : null}
+              &lt;/Box>
+            ))}
+          &lt;/List>
+          &lt;RoundedButton
+            sx={{
+              margin: '0 0 1.5rem 1.5rem',
+              alignSelf: 'center',
+              width: '90%',
+              fontSize: '1.3rem',
+              padding: '4px 7px',
+              ':hover': {
+                backgroundColor: '#1484D6'
+              }
+            }}
+            variant="contained"
+            disableElevation
+          >
+            View All
+          &lt;/RoundedButton>
+          &lt;Box sx={{ display: 'flex', marginTop: '-3.4rem', justifyContent: 'flex-start' }}>
+            {buttons2.map((button) => (
+              &lt;RoundedButton
+                sx={{
+                  marginTop: '3rem',
+                  marginRight: '0.5rem',
+                  fontSize: '1.2rem',
+                  padding: '4px px',
+                  backgroundColor: '#EDEDED',
+                  color: '#1484D6',
+                  alignSelf: 'flex-start',
+                  ':hover': {
+                    backgroundColor: '#E3EDF6'
+                  }
+                }}
+                variant="contained"
+                disableElevation
+                key={button}
+              >
+                {button}
+              &lt;/RoundedButton>
+            ))}
+          &lt;/Box>
+        &lt;/CardContent>
+      &lt;/Card>
+    &lt;/Root>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CreatePostCardRoot">CreatePostCardRoot</a></li><li><a href="global.html#OverButton">OverButton</a></li><li><a href="global.html#Root">Root</a></li><li><a href="global.html#RoundedButton">RoundedButton</a></li><li><a href="global.html#StyledBox">StyledBox</a></li><li><a href="global.html#StyledButton">StyledButton</a></li><li><a href="global.html#StyledColBox">StyledColBox</a></li><li><a href="global.html#StyledLink">StyledLink</a></li><li><a href="global.html#StyledMenuItem">StyledMenuItem</a></li><li><a href="global.html#StyledRowBox">StyledRowBox</a></li><li><a href="global.html#StyledTextField">StyledTextField</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Nov 04 2022 19:47:51 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

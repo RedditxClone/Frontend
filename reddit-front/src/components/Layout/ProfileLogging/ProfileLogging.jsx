@@ -87,10 +87,13 @@ function ProfileLogin() {
           }}
           variant="standard"
           disableUnderline
+          data-testid="profileselect"
+          defaultValue="1"
         >
           <MenuItem
-            sx={{ gap: '8px' }}
+            style={{ gap: '8px' }}
             onClick={() => handleComClick()}
+            data-testid="elements"
           >
             <BsClock
               color="#1A3043"
@@ -105,9 +108,9 @@ function ProfileLogin() {
           </MenuItem>
           {/* here is the list of recent communities will handle when backend is done */}
           {opencommunity ? (
-            <menuItem>
-              <StyledButton sx={{ pr: '48px' }}>any community</StyledButton>
-            </menuItem>
+            <MenuItem data-testid="elements">
+              <StyledButton>any community</StyledButton>
+            </MenuItem>
           ) : null}
           <MenuItem onClick={() => handleSettingClick()}>
             <IoSettingsOutline size="2rem" />
@@ -120,7 +123,7 @@ function ProfileLogin() {
           </MenuItem>
           {/* here is the list of seetingse */}
           {opensettings ? (
-            <menuItem>
+            <MenuItem data-testid="elements">
               <StyledButton sx={{ pl: '40px' }}>
                 Dark Mode
                 <BsToggleOn
@@ -129,10 +132,10 @@ function ProfileLogin() {
                   style={{ paddingLeft: '80px' }}
                 />
               </StyledButton>
-            </menuItem>
+            </MenuItem>
           ) : null}
           <Divider />
-          <MenuItem>
+          <MenuItem data-testid="elements">
             <CgProfile
               size="1.5rem"
               color="#1A3043"

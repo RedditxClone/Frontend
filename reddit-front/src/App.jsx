@@ -1,24 +1,8 @@
-import AppBarReddit from './components/Layout/AppBar/AppBar';
-import BackTop from './components/BackToTop/BackToTop';
-// import ActionAreaCard from './components/Test/Test';
-import ActionMessage from './components/ActionMessage/ActionMessage';
+/* eslint-disable */
+import SubredditCards from './components/SubredditCards/SubredditCards';
 
 function App() {
-  return (
-    <div>
-      <AppBarReddit topid="navbar" />
-      {/* <ActionAreaCard />
-      <ActionAreaCard />
-      <ActionAreaCard />
-      <ActionAreaCard />
-      <ActionAreaCard /> */}
-      <ActionMessage
-        show="true"
-        message="Changes Saved"
-      />
-      <BackTop id="navbar" />
-    </div>
-  );
+  return <SubredditCards />;
 }
 
 export default App;

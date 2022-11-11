@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["src/components/Layout/Search/Search.jsx"],
+    "include": ["src/components/CreateCommunity/"],
     "includePattern": ".jsx$",
     "excludePattern": "(node_modules/|docs)"
   },
@@ -11,7 +11,7 @@
   },
   "opts": {
     "recurse": true,
-    "destination": "./src/documentations/NavBarComponents",
+    "destination": "src/documentations/CreateCommunity",
     "readme": "README.md"
   }
 }

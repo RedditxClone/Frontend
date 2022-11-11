@@ -1,0 +1,84 @@
+div.small-voting-container {
+  display: none;
+  visibility: hidden;
+}
+
+div.small-voting-container {
+  width: 40px;
+  left: 0;
+  padding: 8px 4px 8px 0;
+  background-color: #f8f9fa;
+  text-align: center;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+div.small-voting-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.small-voting-container .up-vote-icon,
+.small-voting-container .down-vote-icon {
+  display: inline-block;
+  height: 100%;
+  font-size: 16px;
+  line-height: 24px;
+  color: #878a8c;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.1s ease-in;
+  width: 24px;
+  height: 24px;
+}
+.small-voting-container .up-vote-icon:hover,
+.small-voting-container .down-vote-icon:hover {
+  background-color: #dae0e6;
+}
+.small-voting-container .up-vote-icon:hover.up-vote-icon svg {
+  fill: #ff6830 !important;
+}
+.small-voting-container .down-vote-icon:hover.down-vote-icon svg {
+  fill: #0272c4 !important;
+}
+.up-vote-icon svg,
+.down-vote-icon svg {
+  transition: all 0.1s ease-in;
+}
+
+.small-voting-container .votes-count {
+  display: inline-block;
+  color: #1a1a1b;
+  margin: 4px 0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+}
+
+@media (max-width: 970px) {
+  div.small-voting-container {
+    width: 25%;
+    margin-right: 1.5rem;
+  }
+  div.small-voting-container {
+    background-color: white;
+  }
+}
+
+@media (max-width: 640px) {
+  div.small-voting-container {
+    display: block;
+    visibility: visible;
+  }
+}
+
+@media (max-width: 450px) {
+  div.small-voting-container {
+    width: 30%;
+  }
+  div.small-voting-container {
+    background-color: white;
+  }
+}

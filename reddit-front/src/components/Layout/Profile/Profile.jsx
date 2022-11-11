@@ -1,27 +1,83 @@
 /* eslint-disable object-curly-newline */
-import { MenuItem, InputLabel, Divider, FormControl } from '@mui/material';
-import { BsToggleOn } from 'react-icons/bs';
+import {
+  MenuItem,
+  InputLabel,
+  Divider,
+  FormControl,
+  IconButton
+} from '@mui/material';
+import { BsToggleOn, BsPencil } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { AiOutlineEye, AiOutlineCopyrightCircle } from 'react-icons/ai';
 import { IoMdExit } from 'react-icons/io';
+// import { BiRadioCircle } from 'react-icons/bi';
+import { MdExpandLess, MdExpandMore } from 'react-icons/md';
+import { useState } from 'react';
 import {
   StyledSelect,
   StyledButton,
   StyledText,
   ProfileContainer
 } from '../AppBar/AppBar.Style';
-
 /**
  * description : this function describes the profile select in the nav bar in case u are loggedin
  *  which includes the settings and etc..
  * it returns profile box
  */
 function Profile() {
+  const [openexplore, setOpenExplore] = useState(false);
+  const [opened, setOpened] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ]);
+  const handleExploreClick = () => {
+    setOpenExplore((current) => !current);
+  };
+
+  const openCategoriesHandler = (index) => {
+    const CopyOpened = [...opened];
+    // console.log(CopyOpened);
+    let open = CopyOpened[index];
+    // console.log(open);
+    open = !open;
+    // console.log(open);
+    CopyOpened[index] = open;
+    // console.log(CopyOpened);
+    setOpened([CopyOpened]);
+  };
+
+  const CommCatogeries = [
+    'Gaming',
+    'Sports',
+    'Bussiness,Economics...',
+    'Crypto',
+    'Television',
+    'Celeberity',
+    'MoreTopics'
+  ];
+  const Catogeries = CommCatogeries.map((comm, index) => (
+    <MenuItem
+      onClick={() => openCategoriesHandler(index)}
+      key={comm}
+      data-testid="catogeries"
+    >
+      <StyledButton>{comm}</StyledButton>
+      {opened[index] ? (
+        <MdExpandLess size="2rem" />
+      ) : (
+        <MdExpandMore size="2rem" />
+      )}
+    </MenuItem>
+  ));
   return (
     <ProfileContainer>
       <FormControl
         sx={{
-          p: '0',
           height: '100%',
           width: '100%',
           m: '0',
@@ -29,20 +85,40 @@ function Profile() {
             formControl: {
               marginTop: '0px'
             }
-          }
+          },
+          '&.MuiFormLabel-root': { pb: '0' }
         }}
       >
         <InputLabel
           sx={{
             color: 'black',
-            height: '100%',
+            height: '50%',
+            display: 'flex',
+            flexDirection: 'row',
+            pt: '0.5rem',
+            mt: '-0.8rem',
+            alignItems: 'center',
             '&.Mui-focused': {
               color: 'black'
             }
+            // '&.MuiFormLabel-root': { pt: '1rem' }
           }}
           shrink={false}
         >
-          Name
+          <IconButton
+            sx={{
+              color: '#1A3043',
+              fontSize: '1.5rem',
+              '&.MuiButtonBase-root': { p: '0.5rem 0 0.5rem 0' }
+            }}
+          >
+            <CgProfile />
+          </IconButton>
+          {/* <BiRadioCircle /> */}
+          &nbsp;
+          <StyledText sx={{ display: { xs: 'none', sm: 'block' }, p: '0' }}>
+            Nadaosman22
+          </StyledText>
         </InputLabel>
         <StyledSelect
           sx={{
@@ -56,57 +132,102 @@ function Profile() {
           MenuProps={{ PaperProps: { sx: { maxHeight: 350 } } }}
           variant="standard"
           disableUnderline
+          data-testid="select"
         >
-          <MenuItem sx={{ gap: '8px' }}>
+          <MenuItem
+            sx={{ gap: '0.3rem' }}
+            data-testid="options"
+          >
             <CgProfile
               color="#1A3043"
               size="1.5rem"
             />
             <StyledText sx={{ width: '100%' }}>My Stuff</StyledText>
           </MenuItem>
-          <MenuItem sx={{ gap: '3px' }}>
-            <StyledButton sx={{ pl: '10px' }}> Online Status</StyledButton>
-            <BsToggleOn
-              color="#249FEC"
-              size="2rem"
-            />
+          <MenuItem data-testid="options">
+            <StyledButton> Online Status</StyledButton>
+            <IconButton
+              sx={{
+                color: '#249FEC',
+                fontSize: '1.8rem',
+                '&.MuiButtonBase-root': {
+                  padding: '0.2rem'
+                }
+              }}
+            >
+              <BsToggleOn />
+            </IconButton>
           </MenuItem>
-          <MenuItem>
-            <StyledButton sx={{ pr: '40px' }}>My Profile</StyledButton>
+          <MenuItem data-testid="options">
+            <StyledButton>My Profile</StyledButton>
           </MenuItem>
-          <MenuItem>
-            <StyledButton sx={{ pr: '20px' }}>User Settings</StyledButton>
+          <MenuItem data-testid="options">
+            <StyledButton>User Settings</StyledButton>
           </MenuItem>
           <Divider />
-          <MenuItem sx={{ gap: '5px' }}>
+          <MenuItem
+            sx={{ gap: '0.3rem' }}
+            data-testid="options"
+          >
             <AiOutlineEye
               color="#1A3043"
               size="1.5rem"
             />
             <StyledText>View Options</StyledText>
           </MenuItem>
-          <MenuItem sx={{ gap: '3px' }}>
-            <StyledButton sx={{ pl: '2px' }}>Dark Mode </StyledButton>
+          <MenuItem data-testid="options">
+            <StyledButton>Dark Mode </StyledButton>
             <BsToggleOn
               color="#249FEC"
               size="2rem"
             />
           </MenuItem>
           <Divider />
-          <MenuItem sx={{ gap: '5px' }}>
+          <MenuItem
+            sx={{ gap: '0.3rem' }}
+            data-testid="options"
+          >
             <AiOutlineCopyrightCircle
               color="#1A3043"
               size="1.5rem"
             />
             <StyledButton>Create community </StyledButton>
           </MenuItem>
+          <MenuItem
+            sx={{ gap: '8px' }}
+            onClick={() => handleExploreClick()}
+            data-testid="options"
+          >
+            <IconButton
+              sx={{
+                color: '#1A3043',
+                fontSize: '1.2rem',
+                '&.MuiButtonBase-root': {
+                  padding: '0.2rem'
+                }
+              }}
+            >
+              <BsPencil />
+            </IconButton>
+            <StyledButton>Explore</StyledButton>
+            {openexplore ? (
+              <MdExpandLess size="2rem" />
+            ) : (
+              <MdExpandMore size="2rem" />
+            )}
+          </MenuItem>
+          {openexplore ? Catogeries : null}
+          {/* here is the list of recent communities will handle when backend is done */}
           <Divider />
-          <MenuItem sx={{ gap: '5px' }}>
+          <MenuItem
+            sx={{ gap: '0.3rem' }}
+            data-testid="options"
+          >
             <IoMdExit
               color="#1A3043"
               size="1.5rem"
             />
-            <StyledButton sx={{ pr: '67px' }}>Log Out </StyledButton>
+            <StyledButton>Log Out </StyledButton>
           </MenuItem>
         </StyledSelect>
       </FormControl>

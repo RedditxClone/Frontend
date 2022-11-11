@@ -15,7 +15,8 @@ function IconsBox() {
             backgroundColor: '#DAE0E2',
             borderRadius: '3px'
           },
-          flex: '1'
+          display: { xs: 'none', sm: 'block' },
+          '&.MuiButtonBase-root': { p: '0.2rem' }
         }}
       >
         <CgArrowTopRightO
@@ -29,7 +30,8 @@ function IconsBox() {
             backgroundColor: '#DAE0E2',
             borderRadius: '3px'
           },
-          flex: '1'
+          display: { xs: 'block' },
+          '&.MuiButtonBase-root': { p: '0.2rem' }
         }}
       >
         <IoIosNotificationsOutline
@@ -43,7 +45,8 @@ function IconsBox() {
             backgroundColor: '#DAE0E2',
             borderRadius: '3px'
           },
-          flex: '1'
+          display: { xs: 'none', sm: 'block' },
+          '&.MuiButtonBase-root': { p: '0.2rem' }
         }}
       >
         <IoIosAdd

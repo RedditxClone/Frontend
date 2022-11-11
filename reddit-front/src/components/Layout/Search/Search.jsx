@@ -1,10 +1,6 @@
 import { AiOutlineSearch } from 'react-icons/ai';
-import {
-  StyledInputBase,
-  Search,
-  SearchContainer
-} from '../AppBar/AppBar.Style';
-
+import { styled } from '@mui/material';
+import { StyledInputBase, Search } from '../AppBar/AppBar.Style';
 /**
  * @description of the function :it describes the searchbar in the navigation bar as a box
  * @param {bool} login it describes the state at which the user is loggedin or not
@@ -13,20 +9,28 @@ import {
  */
 
 function SearchBox({ login }) {
+  const SearchContainer = styled('div')(({ theme }) => ({
+    [theme.breakpoints.up('xs')]: {
+      flexBasis: login ? '60%' : '75%'
+    },
+    [theme.breakpoints.up('sm')]: {
+      flexBasis: login ? '60%' : '65%'
+    },
+    [theme.breakpoints.up('md')]: {
+      marginLeft: login ? '5px' : '15px',
+      flexBasis: login ? '40%' : '65%'
+    }
+  }));
+
   return (
-    <SearchContainer
-      sx={{
-        marginLeft: login ? '5px' : '150px',
-        flexBasis: login ? '50%' : '55%'
-      }}
-    >
+    <SearchContainer>
       <Search>
         <div>&nbsp;</div>
         <AiOutlineSearch
           color="#8D9092"
           size="1.5rem"
         />
-        <StyledInputBase placeholder=" RedditSearch..." />
+        <StyledInputBase placeholder="RedditSearch..." />
       </Search>
     </SearchContainer>
   );

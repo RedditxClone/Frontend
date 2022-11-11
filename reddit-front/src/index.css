@@ -1,4 +1,23 @@
-body{
-    margin:0;
-    background-color:#DAE0E6 ;
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,400&family=Noto+Sans+JP:wght@100;300;400;500;700&family=Roboto:ital,wght@0,400;0,500;1,100;1,400&display=swap');
+
+:root {
+  --newCommunityTheme-line: #edeff1;
+  --newCommunityTheme-bodyText: #1c1c1c;
+  --newCommunityTheme-button: #0079d3;
+  --newCommunityTheme-body: #ffffff;
+  --newCommunityTheme-metaText: #7c7c7c;
+  --newCommunityTheme-monospaceColor: #ff006d;
+}
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 62.5%; /* to convert 1rem to 10px*/
+}
+
+body {
+  margin: 0;
+  color: #1a1a1b;
 }
