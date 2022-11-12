@@ -10,7 +10,7 @@ import './AccountPreferenceStyle.css';
 import { Button, Box, TextField, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useState } from 'react';
-
+import { useSelector } from 'react-redux';
 import { list } from '../../../utilities/CountriesList';
 // import countryList from 'react-select-country-list';
 import Box1 from '../ActionComponents/Box1';
@@ -32,6 +32,7 @@ export default function AccountPreference() {
     setLanguage(e.target.value);
   };
 
+  const { user } = useSelector((state) => state.auth);
   // const [country, setCountry] = useState('Egypt');
   // // const options = useMemo(() => countryList.getData(), []);
   // const handleChangeCountry = (e) => {
@@ -53,7 +54,7 @@ export default function AccountPreference() {
   // }, []);
 
   // const [email, setEmail] = useState('karim.moh2052@gamil.com');
-  const email = ' karim.moh2052@gamil.com ';
+
   // const { user } = useSelector((state) => state.auth);
 
   return (
@@ -64,7 +65,7 @@ export default function AccountPreference() {
         <div className="user-info">
           <div className="user">
             <h3 className="h3">Email address</h3>
-            <p className="p">{email}</p>
+            <p className="p">{user.email}</p>
           </div>
           <div className="cont">
             <Button
@@ -83,7 +84,7 @@ export default function AccountPreference() {
             {isShownContinue && (
               <Box2
                 setIsShownContinue={setIsShownContinue}
-                email={email}
+                email={user.email}
               />
             )}
           </div>

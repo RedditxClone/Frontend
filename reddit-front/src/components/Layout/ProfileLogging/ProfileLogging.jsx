@@ -6,6 +6,8 @@ import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { IoSettingsOutline } from 'react-icons/io5';
 // import { MdExpandMore } from 'react-icons/md';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   StyledSelect,
   StyledButton,
@@ -26,6 +28,8 @@ import {
 function ProfileLogin() {
   const [opencommunity, setOpencom] = useState(false);
   const [opensettings, setOpensett] = useState(false);
+  const navigate = useNavigate();
+  const { isAuth } = useSelector((state) => state.auth);
 
   /**
    * description : this handler for openCommunity in the profile box
@@ -36,6 +40,9 @@ function ProfileLogin() {
     setOpencom(!opencommunity);
   }
 
+  const clickSignUpHandler = () => {
+    navigate('/auth/login');
+  };
   /**
    * description : this handler for opensettings in the profile box
    * which controls it is opened or not
@@ -112,15 +119,19 @@ function ProfileLogin() {
               <StyledButton>any community</StyledButton>
             </MenuItem>
           ) : null}
-          <MenuItem onClick={() => handleSettingClick()}>
-            <IoSettingsOutline size="2rem" />
-            <StyledButton sx={{ pr: '95px', pl: '5px' }}>Settings</StyledButton>
-            {opensettings ? (
-              <MdExpandLess size="2.2rem" />
-            ) : (
-              <MdExpandMore size="2.2rem" />
-            )}
-          </MenuItem>
+          {isAuth && (
+            <MenuItem onClick={() => handleSettingClick()}>
+              <IoSettingsOutline size="2rem" />
+              <StyledButton sx={{ pr: '95px', pl: '5px' }}>
+                Settings
+              </StyledButton>
+              {opensettings ? (
+                <MdExpandLess size="2.2rem" />
+              ) : (
+                <MdExpandMore size="2.2rem" />
+              )}
+            </MenuItem>
+          )}
           {/* here is the list of seetingse */}
           {opensettings ? (
             <MenuItem data-testid="elements">
@@ -140,7 +151,12 @@ function ProfileLogin() {
               size="1.5rem"
               color="#1A3043"
             />
-            <StyledButton sx={{ pr: '50px' }}>Sign Up or Log In</StyledButton>
+            <StyledButton
+              sx={{ pr: '50px' }}
+              onClick={clickSignUpHandler}
+            >
+              Sign Up or Log In
+            </StyledButton>
           </MenuItem>
         </StyledSelect>
       </FormControl>
