@@ -146,7 +146,7 @@ export default function AccountPreference() {
                   paddingRight: '20px',
                   cursor: 'pointer',
                   color: '#0079d3',
-                  borderRadius: '25px',
+                  borderRadius: '25px'
                 }}
                 value={language}
                 onChange={handleChangeLanguage}
@@ -164,7 +164,7 @@ export default function AccountPreference() {
                 style={{
                   marginLeft: '-22px',
                   cursor: 'pointer',
-                  color: '#0079d3',
+                  color: '#0079d3'
                 }}
               />
             </Box>
@@ -194,7 +194,7 @@ export default function AccountPreference() {
                   paddingRight: '18px',
                   cursor: 'pointer',
                   color: '#0079d3',
-                  borderRadius: '25px',
+                  borderRadius: '25px'
                 }}
                 // value={country}
                 // onChange={handleChangeCountry}
@@ -207,7 +207,7 @@ export default function AccountPreference() {
                 style={{
                   marginLeft: '-22px',
                   cursor: 'pointer',
-                  color: '#0079d3',
+                  color: '#0079d3'
                 }}
               />
             </Box>

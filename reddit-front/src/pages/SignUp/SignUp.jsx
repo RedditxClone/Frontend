@@ -2,7 +2,6 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable camelcase */
 import { Typography } from '@mui/material';
-import jwt_decode from 'jwt-decode';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { GrFacebook } from 'react-icons/gr';
@@ -61,10 +60,8 @@ function SignUp() {
   };
 
   const handleCallBackResponse = (response) => {
-    const userObject = jwt_decode(response.credential);
-
     /** Should be sent to API */
-    console.log(userObject);
+    console.log(response.credential);
     setSignUpWithGoggle(true);
   };
   useEffect(() => {

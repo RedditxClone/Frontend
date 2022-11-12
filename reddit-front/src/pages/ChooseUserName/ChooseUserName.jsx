@@ -13,7 +13,7 @@ import ErrorMessage, {
 import InfoButton from '../../components/InfoButton/InfoButton';
 import useInput from '../../hooks/use-input';
 
-const SERVER_NAME = process.env.BASE_URL;
+const SERVER_NAME = process.env.REACT_APP_BASE_URL;
 /**
  * This component returns a page that appears after entering your email in signup
  * It has two input fields one for username

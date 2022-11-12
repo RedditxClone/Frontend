@@ -1,10 +1,10 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable linebreak-style */
 /* eslint-disable react/jsx-wrap-multilines */
 import './ConnectedAccountsStyle.css';
 import { Switch, Button, Box } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
-// import GoogleIcon from '@mui/icons-material/Google';
-import google from '../../imgs/google.png';
+import google from '../../../assets/Images/google.png';
 
 export default function ConnectedAccounts() {
   return (
@@ -28,6 +28,10 @@ export default function ConnectedAccounts() {
               startIcon={<FacebookIcon />}
               variant="contained"
               style={{ backgroundColor: '#1da1f2' }}
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   window.open('https://www.facebook.com/', '_blank');
+              // }}
             >
               Connect to Facebook
             </Button>
@@ -52,11 +56,10 @@ export default function ConnectedAccounts() {
         </div>
         <Box className="cont">
           <Button
-            // startIcon={
-            //   <GoogleIcon
-            //     style={{ color: '#1c1c1c', backgroundColor: '#ffffff' }}
-            //   />
-            // }
+            // onClick={(e) => {
+            //   e.preventDefault();
+            //   window.open('https://www.google.com/', '_blank');
+            // }}
             startIcon={
               <img
                 src={google}
@@ -69,12 +72,6 @@ export default function ConnectedAccounts() {
           >
             Connect to Google
           </Button>
-          {/* <Button
-            style={{ color: '#1da1f2' }}
-            variant="text"
-          >
-            (disconnect)
-          </Button> */}
         </Box>
       </div>
     </div>

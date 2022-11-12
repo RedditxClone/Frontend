@@ -3,25 +3,19 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/self-closing-comp */
 
-import { BrowserRouter, Route, Routes, NavLink } from 'react-router-dom';
-import AccountSettings from '../../components/AccountSettings/AccountSettings';
-import ProfileSettings from '../../components/ProfileSettings/ProfileSettings';
-import SafetyPrivacySettings from '../../components/SafetyPrivacySettings/SafetyPrivacySettings';
-import FeedSettings from '../../components/FeedSettings/FeedSettings';
-import Notifications from '../../components/Notifications/Notifications';
-import Emails from '../../components/Emails/Emails';
-import Subscriptions from '../../components/Subscriptions/Subscriptions';
-import ChatMessaging from '../../components/ChatMessaging/ChatMessaging';
+import { NavLink, Outlet } from 'react-router-dom';
+import AppBarReddit from '../../components/Layout/AppBar/AppBar';
 import './UserSettings.css';
 
 function UserSettings() {
   const activeStyle = {
     borderBottom: '3px solid #0079d3',
-    color: 'black',
+    color: 'black'
   };
 
   return (
-    <BrowserRouter>
+    <>
+      <AppBarReddit />
       <div className="main-container">
         <div className="main-div">
           <h3 className="main">User settings</h3>
@@ -29,95 +23,58 @@ function UserSettings() {
             <nav>
               <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                to="/account"
+                to="/settings/account"
               >
                 Account
               </NavLink>
               <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                to="/profile"
+                to="/settings/profile"
               >
                 Profile
               </NavLink>
               <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                to="/privacy"
+                to="/settings/privacy"
               >
-                Safety & Privacy
+                Safety &amp; Privacy
               </NavLink>
               <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                to="/feed"
+                to="/settings/feed"
               >
                 Feed Settings
               </NavLink>
               <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                to="/notifications"
+                to="/settings/notifications"
               >
                 Notifications
               </NavLink>
               <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                to="/emails"
+                to="/settings/emails"
               >
                 Emails
               </NavLink>
               <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                to="/premium"
+                to="/settings/premium"
               >
                 Subscriptions
               </NavLink>
               <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                to="/messaging"
+                to="/settings/messaging"
               >
-                Chat & Messaging
+                Chat &amp; Messaging
               </NavLink>
             </nav>
+            <Outlet />
           </div>
         </div>
-        <Routes>
-          <Route
-            path="/"
-            element={<AccountSettings />}
-          />
-          <Route
-            path="/account"
-            element={<AccountSettings />}
-          />
-          <Route
-            path="/profile"
-            element={<ProfileSettings />}
-          />
-          <Route
-            path="/privacy"
-            element={<SafetyPrivacySettings />}
-          />
-          <Route
-            path="/feed"
-            element={<FeedSettings />}
-          />
-          <Route
-            path="/notifications"
-            element={<Notifications />}
-          />
-          <Route
-            path="/emails"
-            element={<Emails />}
-          />
-          <Route
-            path="/premium"
-            element={<Subscriptions />}
-          />
-          <Route
-            path="/messaging"
-            element={<ChatMessaging />}
-          />
-        </Routes>
       </div>
-    </BrowserRouter>
+    </>
   );
 }
 

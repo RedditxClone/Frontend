@@ -19,7 +19,7 @@ export default function Images() {
               marginLeft: '34px',
               marginTop: '14px',
               fontSize: '2.7rem',
-              color: '#0079d3',
+              color: '#0079d3'
             }}
           />
           <p className="p">
@@ -36,7 +36,7 @@ export default function Images() {
               marginLeft: '166px',
               marginTop: '14px',
               fontSize: '2.7rem',
-              color: '#0079d3',
+              color: '#0079d3'
             }}
           />
           <p

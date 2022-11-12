@@ -27,36 +27,36 @@ import { Button } from '@mui/material';
 // import { BiDollarCircle } from 'react-icons/bi';
 // import { BsPaypal } from 'react-icons/bs';
 // import { MdCamera } from 'react-icons/md';
-// import '../../imgs/imgsFile';
-import onlyFans from '../../imgs/onlyfans.png';
-import custom from '../../imgs/custom.png';
-import instagram from '../../imgs/instagram.png';
-import twitter from '../../imgs/twitter.png';
-import twitch from '../../imgs/twitch.png';
-import youtube from '../../imgs/youtube.png';
-import paypal from '../../imgs/paypal.png';
-import soundCloud from '../../imgs/soundcloud.png';
-import venmo from '../../imgs/venmo.png';
-import kofi from '../../imgs/kofi.png';
-import patreon from '../../imgs/patreon.png';
-import kickStarter from '../../imgs/kickstarter.png';
-import discord from '../../imgs/discord.png';
-import coffee from '../../imgs/buy_me_a_coffee.png';
-import linkTree from '../../imgs/linktree.png';
-import reddit from '../../imgs/reddit.png';
-import subStack from '../../imgs/substack.png';
-import cameo from '../../imgs/cameo.png';
-import beacons from '../../imgs/beacons.png';
-import tiktok from '../../imgs/tiktok.png';
-import facebook from '../../imgs/facebook.png';
-import tumblr from '../../imgs/tumblr.png';
-import spotify from '../../imgs/spotify.png';
-import cashApp from '../../imgs/cash_app.png';
-import shopify from '../../imgs/shopify.png';
+// import '../../../assets/Images/imgsFile';
+import onlyFans from '../../../assets/Images/onlyfans.png';
+import custom from '../../../assets/Images/custom.png';
+import instagram from '../../../assets/Images/instagram.png';
+import twitter from '../../../assets/Images/twitter.png';
+import twitch from '../../../assets/Images/twitch.png';
+import youtube from '../../../assets/Images/youtube.png';
+import paypal from '../../../assets/Images/paypal.png';
+import soundCloud from '../../../assets/Images/soundcloud.png';
+import venmo from '../../../assets/Images/venmo.png';
+import kofi from '../../../assets/Images/kofi.png';
+import patreon from '../../../assets/Images/patreon.png';
+import kickStarter from '../../../assets/Images/kickstarter.png';
+import discord from '../../../assets/Images/discord.png';
+import coffee from '../../../assets/Images/buy_me_a_coffee.png';
+import linkTree from '../../../assets/Images/linktree.png';
+import reddit from '../../../assets/Images/reddit.png';
+import subStack from '../../../assets/Images/substack.png';
+import cameo from '../../../assets/Images/cameo.png';
+import beacons from '../../../assets/Images/beacons.png';
+import tiktok from '../../../assets/Images/tiktok.png';
+import facebook from '../../../assets/Images/facebook.png';
+import tumblr from '../../../assets/Images/tumblr.png';
+import spotify from '../../../assets/Images/spotify.png';
+import cashApp from '../../../assets/Images/cash_app.png';
+import shopify from '../../../assets/Images/shopify.png';
 
 export default function Box1({
   setIsShownAdd,
-  setIsShownComp,
+  setIsShownComp
   // setIconTitle,
   // setIcon,
 }) {
@@ -119,6 +119,7 @@ export default function Box1({
           Instagram
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -130,6 +131,7 @@ export default function Box1({
           Twitter
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -141,6 +143,7 @@ export default function Box1({
           Tiktok
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -152,6 +155,7 @@ export default function Box1({
           Twitch
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -163,6 +167,7 @@ export default function Box1({
           Facebook
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -174,6 +179,7 @@ export default function Box1({
           Youtube
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -185,6 +191,7 @@ export default function Box1({
           Tumblr
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -196,6 +203,7 @@ export default function Box1({
           Spotify
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -207,6 +215,7 @@ export default function Box1({
           Soundcloud
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -218,6 +227,7 @@ export default function Box1({
           Beacons
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -229,6 +239,7 @@ export default function Box1({
           Linktree
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -240,6 +251,7 @@ export default function Box1({
           Discord
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -251,6 +263,7 @@ export default function Box1({
           Venmo
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -262,6 +275,7 @@ export default function Box1({
           Cash app
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -273,6 +287,7 @@ export default function Box1({
           Patreon
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -284,6 +299,7 @@ export default function Box1({
           Kofi
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -295,6 +311,7 @@ export default function Box1({
           PayPal
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -306,6 +323,7 @@ export default function Box1({
           Cameo
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -317,6 +335,7 @@ export default function Box1({
           OnlyFans
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -328,6 +347,7 @@ export default function Box1({
           Substack
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -339,6 +359,7 @@ export default function Box1({
           Kickstarter
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img
@@ -350,6 +371,7 @@ export default function Box1({
           Buy Me a Coffee
         </Button>
         <Button
+          onClick={handleClickComp}
           variant="outlined"
           startIcon={
             <img

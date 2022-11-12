@@ -14,6 +14,7 @@ import { IoMdExit } from 'react-icons/io';
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   StyledSelect,
   StyledButton,
@@ -27,6 +28,7 @@ import {
  */
 function Profile() {
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const [openexplore, setOpenExplore] = useState(false);
   const [opened, setOpened] = useState([
     false,
@@ -51,6 +53,10 @@ function Profile() {
     CopyOpened[index] = open;
     // console.log(CopyOpened);
     setOpened([CopyOpened]);
+  };
+
+  const userSettingsClickHandler = () => {
+    navigate('/settings/account');
   };
 
   const CommCatogeries = [
@@ -164,7 +170,9 @@ function Profile() {
             <StyledButton>My Profile</StyledButton>
           </MenuItem>
           <MenuItem data-testid="options">
-            <StyledButton>User Settings</StyledButton>
+            <StyledButton onClick={userSettingsClickHandler}>
+              User Settings
+            </StyledButton>
           </MenuItem>
           <Divider />
           <MenuItem

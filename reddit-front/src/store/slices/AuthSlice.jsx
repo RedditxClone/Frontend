@@ -12,7 +12,7 @@ import axios from 'axios';
  * @property {string}  msg - The message returns with fulfilled requests
  */
 
-const SERVER_NAME = process.env.BASE_URL;
+const SERVER_NAME = process.env.REACT_APP_BASE_URL;
 const INITIAL_STATE = {
   user: {},
   isAuth: false,
