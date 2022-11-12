@@ -215,6 +215,9 @@ function CategoriesPage({
             homePageCard={false}
             buttonText={buttonText}
             textChangedToLink={ClickedCardHandler}
+            sx={{
+              position: 'sticky'
+            }}
           />
           {/* <CommunityHoverCard community={communities[0]} /> */}
           <SideDiv>
