@@ -28,6 +28,10 @@ import ChatMessaging from './components/ChatMessaging/ChatMessaging';
 const routes = createBrowserRouter([
   {
     path: '/',
+    element: <HomePage />
+  },
+  {
+    path: '/auth',
     element: <DefaultUserPage />,
     errorElement: <ErrorPage />,
     children: [

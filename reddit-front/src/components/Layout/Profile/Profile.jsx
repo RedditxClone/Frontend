@@ -10,11 +10,11 @@ import { BsToggleOn, BsPencil } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { AiOutlineEye, AiOutlineCopyrightCircle } from 'react-icons/ai';
 import { IoMdExit } from 'react-icons/io';
-// import { BiRadioCircle } from 'react-icons/bi';
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { AuthActions } from '../../../store/slices/AuthSlice';
 import {
   StyledSelect,
   StyledButton,
@@ -29,6 +29,7 @@ import {
 function Profile() {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [openexplore, setOpenExplore] = useState(false);
   const [opened, setOpened] = useState([
     false,
@@ -57,6 +58,11 @@ function Profile() {
 
   const userSettingsClickHandler = () => {
     navigate('/settings/account');
+  };
+
+  const logoutHandler = () => {
+    dispatch(AuthActions.logOut());
+    navigate('/');
   };
 
   const CommCatogeries = [
@@ -237,7 +243,7 @@ function Profile() {
               color="#1A3043"
               size="1.5rem"
             />
-            <StyledButton>Log Out </StyledButton>
+            <StyledButton onClick={logoutHandler}>Log Out </StyledButton>
           </MenuItem>
         </StyledSelect>
       </FormControl>

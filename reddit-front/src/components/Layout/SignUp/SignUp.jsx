@@ -8,7 +8,7 @@ import { StyledButton, SignInBox } from '../AppBar/AppBar.Style';
 function SignUp() {
   const navigate = useNavigate();
   const onClickSignUp = () => {
-    navigate('/signup');
+    navigate('/auth/signup');
   };
   return (
     <SignInBox>

@@ -157,7 +157,7 @@ function SignUp() {
           <p id="Newto">
             Already a redditor?
             <Link
-              to="/login"
+              to="/auth/login"
               id="BottomLink"
             >
               LOG IN
