@@ -1,29 +1,92 @@
-import { Button } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { AuthActions } from '../../store/slices/AuthSlice';
+import { useSelector } from 'react-redux';
+import pic from '../../assets/Images/1166721.jpg';
+import './HomePage.style.css';
+// import { useNavigate } from 'react-router-dom';
+// import { AuthActions } from '../../store/slices/AuthSlice';
 import AppBar from '../../components/Layout/AppBar/AppBar';
+import BestHotNewCard from '../../components/HomePageCards/BestHotNewCard';
+import CreatePostCard from '../../components/HomePageCards/CreatePostCard';
+import PostsList from '../../components/PostsList/PostsList';
+import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesCard';
+import HomeLanguagesCard from '../../components/HomePageCards/HomeLanguagesCard';
+import HomeCreatePostCard from '../../components/HomePageCards/HomeCreatePostCard';
+
+const communities = [
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: true,
+    goingDown: false,
+    rank: 1
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: true,
+    rank: 1
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: true,
+    rank: 1
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: true,
+    goingDown: false,
+    rank: 1
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1
+  }
+];
+
+const buttons1 = ['Top', 'Gaming', 'Near You'];
+const buttonText = 'See All Health&Fit';
 
 export default function HomePage() {
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
-  const logoutHandler = () => {
-    dispatch(AuthActions.logOut());
-    navigate('/login');
-  };
+  // const dispatch = useDispatch();
+  const { user, isAuth } = useSelector((state) => state.auth);
+  // const navigate = useNavigate();
+  console.log(user);
   return (
-    <div style={{ textAlign: 'center' }}>
-      <AppBar />
-      <h1>Home Page</h1>
-      <h2>{user.username}</h2>
-      <Button
-        variant="contained"
-        size="large"
-        onClick={logoutHandler}
-      >
-        Logout
-      </Button>
-    </div>
+    <>
+      <header>
+        <AppBar />
+      </header>
+      <main className="home-page_container">
+        <div className="post-section">
+          <CreatePostCard />
+          <BestHotNewCard />
+          <PostsList />
+        </div>
+        <div className="cards-section">
+          <HomeCommunitiesCard
+            buttons1={buttons1}
+            buttons2={buttons1}
+            pic={pic}
+            communities={communities}
+            homePageCard={false}
+            buttonText={buttonText}
+          />
+          {isAuth && (
+            <div className="card-wrapper">
+              <HomeCreatePostCard />
+            </div>
+          )}
+          <div className="card-wrapper">
+            <HomeLanguagesCard />
+          </div>
+        </div>
+      </main>
+    </>
   );
 }

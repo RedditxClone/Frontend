@@ -25,8 +25,8 @@ import AdultContentCheckBox from './AdultContentCheckBox';
  * @returns {React.Component}
  */
 
-function CreateCommunity() {
-  const [open, setOpen] = useState(true);
+function CreateCommunity({ open, setOpen }) {
+  // const [open, setOpen] = useState(show);
   const [communityType, setCommunityType] = useState('public');
   const [communityName, setCommunityName] = useState('');
   const [isAdultContent, setIsAdultContent] = useState(false);

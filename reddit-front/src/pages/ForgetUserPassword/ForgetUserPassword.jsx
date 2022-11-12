@@ -136,7 +136,7 @@ Looks like you've been doing that a lot. Take a break for 8 minutes before tryin
           <p>
             <Link
               className="BottomLink"
-              to="/forgetuname"
+              to="/auth/forgetuname"
               onClick={resetRequest}
             >
               FORGOT USERNAME?
@@ -156,14 +156,14 @@ Looks like you've been doing that a lot. Take a break for 8 minutes before tryin
             <Link
               onClick={resetRequest}
               className="BottomLink"
-              to="/login"
+              to="/auth/login"
             >
               LOG IN .
             </Link>
             <Link
               onClick={resetRequest}
               className="BottomLink"
-              to="/signup"
+              to="/auth/signup"
             >
               SIGN UP
             </Link>

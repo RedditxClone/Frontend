@@ -21,7 +21,6 @@ import {
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import useInput from '../../hooks/use-input';
-import Recaptcha from '../../components/Recaptcha/Recaptcha';
 
 /**
  * This component returns a login page contains:
@@ -58,14 +57,11 @@ function Login() {
     hasError: errorPassword
   } = useInput((value) => value.length >= 8);
 
-  const [recaptcha, setRecaptcha] = useState(false);
   const [loginWithFacebook, setLoginWithFacebook] = useState(false);
   const [loginWithGoogle, setLoginWithGoogle] = useState(false);
   /** To check if the form is valid or not */
   const formIsValid =
-    (!errorPassword && !errorUserName && recaptcha) ||
-    loginWithGoogle ||
-    loginWithFacebook;
+    (!errorPassword && !errorUserName) || loginWithGoogle || loginWithFacebook;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -73,7 +69,7 @@ function Login() {
   /** If the authentication changes, run the useEffect to redirect to the home page  */
   useEffect(() => {
     if (isAuth) {
-      navigate('/home');
+      navigate('/');
     }
   }, [isAuth]);
   const onSubmitHandler = async (event) => {
@@ -204,10 +200,7 @@ function Login() {
           />
           {errorPassword && <ErrorMessage> Invalid Password</ErrorMessage>}
         </DotDiv>
-        {!errorUserName &&
-          !errorPassword &&
-          touchedPasswordInput &&
-          touchedUserNameInput && <Recaptcha setRecaptcha={setRecaptcha} />}
+
         <InfoButton
           len={len}
           hlen={lhlen}
@@ -221,7 +214,7 @@ function Login() {
           <p id="forget">
             Forgot your
             <Link
-              to="/forgetuname"
+              to="/auth/forgetuname"
               onClick={resetInputs}
             >
               {' '}
@@ -229,7 +222,7 @@ function Login() {
             </Link>
             or
             <Link
-              to="/forgetupassword"
+              to="/auth/forgetupassword"
               onClick={resetInputs}
             >
               {' '}
@@ -239,7 +232,7 @@ function Login() {
           <p id="Newto">
             New to Reddit?
             <Link
-              to="/signup"
+              to="/auth/signup"
               id="BottomLink"
               onClick={resetInputs}
             >

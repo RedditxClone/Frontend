@@ -18,7 +18,8 @@ export const StyledToolBar = styled(Toolbar)({
   flexDirection: 'row',
   maxHeight: '50px',
   position: 'relative',
-  margin: '0'
+  margin: '0',
+  zIndex: '1000'
 });
 
 export const Search = styled('div')({
@@ -74,22 +75,13 @@ export const StyledText = styled(Typography)({
   textTransform: 'none'
 });
 
-export const StyledLogo = styled('div')(({ theme }) => ({
+export const StyledLogo = styled('div')({
   display: 'flex',
-  // gap: '1px',
-  flexBasis: '10%',
   alignItems: 'center',
-  justifyContent: 'space-between',
   height: '50%',
   marginRight: '5px',
-
-  [theme.breakpoints.up('xs')]: {
-    flexBasis: '5%'
-  },
-  [theme.breakpoints.up('md')]: {
-    flexBasis: '10%'
-  }
-}));
+  cursor: 'pointer'
+});
 
 export const Home = styled('div')(({ theme }) => ({
   height: '100%',

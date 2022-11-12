@@ -81,7 +81,7 @@ function ChooseUserName() {
     resetUserName();
   };
   if (isAuth) {
-    navigate('/home');
+    navigate('/');
     resetInputs();
   }
 
@@ -168,7 +168,7 @@ function ChooseUserName() {
           >
             <BackLink
               onClick={resetInputs}
-              to="/signup"
+              to="/auth/signup"
             >
               Back
             </BackLink>
