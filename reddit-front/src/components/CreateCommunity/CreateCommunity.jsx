@@ -30,9 +30,11 @@ function CreateCommunity({ open, setOpen }) {
   const [communityType, setCommunityType] = useState('public');
   const [communityName, setCommunityName] = useState('');
   const [isAdultContent, setIsAdultContent] = useState(false);
+  const [errorEmailName, setErrorCommunityName] = useState(false);
 
   const onSubmitHandler = () => {
     // For Test only
+    if (!errorEmailName) setOpen(false);
     console.log(communityName, communityType, isAdultContent);
   };
 
@@ -56,6 +58,7 @@ function CreateCommunity({ open, setOpen }) {
               <CommunityNameField
                 onChangeCommunityName={setCommunityName}
                 communityNameLength={communityName.length}
+                setErrorCommunityName={setErrorCommunityName}
               />
               <ChooseCommunityType onChangeCommunityType={setCommunityType} />
               <AdultContentCheckBox
