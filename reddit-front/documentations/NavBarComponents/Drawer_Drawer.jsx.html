@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Drawer/Drawer.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Drawer/Drawer.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable max-len */
+/* eslint-disable object-curly-newline */
+import { Drawer, IconButton, List, ListItem } from '@mui/material';
+import { AiOutlineClose } from 'react-icons/ai';
+import { IoIosAdd, IoMdStats, IoIosNotificationsOutline } from 'react-icons/io';
+import { HiHome } from 'react-icons/hi';
+import { HiOutlineBarsArrowUp } from 'react-icons/hi2';
+import { CgArrowTopRightO } from 'react-icons/cg';
+import {
+  StyledInputBase,
+  StyledText,
+  StyledButton
+} from '../AppBar/AppBar.Style';
+
+/**
+ * @description this function is the sideDrawer that appears when u click on side Icon which found inside menu box(home) in the navigation bar , it consists of list of items communities and feedand other
+ * @param {bool} showSideBar this for showing SideBar or not it depends
+ * @param {function} onClickSideIcon this fucntion is executed when u need to close SideDrawer (it is a handler in Home function)
+ * @return {React.Component} it return the Side Drawer
+ */
+function SideDrawer({ showSideBar, onClickSideIcon }) {
+  return (
+    &lt;Drawer
+      BackdropProps={{ invisible: true }}
+      sx={{
+        display: { xs: 'none', sm: 'block' },
+        '&amp; .MuiDrawer-paper': {
+          boxSizing: 'border-box',
+          width: '250px',
+          mt: '65px'
+        }
+      }}
+      MenuProps={{ PaperProps: { sx: { maxHeight: 200 } } }}
+      open={showSideBar}
+    >
+      &lt;List>
+        &lt;ListItem data-testid="items">
+          &lt;IconButton
+            onClick={onClickSideIcon}
+            sx={{ ml: '170px' }}
+          >
+            {' '}
+            &lt;AiOutlineClose size="1.3rem" />
+          &lt;/IconButton>
+        &lt;/ListItem>
+        &lt;ListItem data-testid="items">
+          &lt;StyledInputBase
+            placeholder="Filter"
+            sx={{
+              width: '200px',
+              backgroundColor: '#DAE0E0',
+              borderRadius: '0px',
+              pl: '6px',
+              ':hover': { border: '1px solid #4d4dff' }
+            }}
+          />
+        &lt;/ListItem>
+        &lt;ListItem data-testid="items">
+          &lt;StyledText sx={{ fontSize: '13px' }}>YOUR COUMMUNITIES&lt;/StyledText>
+        &lt;/ListItem>
+        &lt;ListItem data-testid="items">
+          &lt;IoIosAdd
+            color="#1A3043"
+            size="1.5rem"
+          />
+          &lt;StyledButton>Create Community&lt;/StyledButton>
+        &lt;/ListItem>
+        &lt;ListItem data-testid="items">
+          &lt;StyledText sx={{ fontSize: '13px' }}>FEEDS&lt;/StyledText>
+        &lt;/ListItem>
+        &lt;ListItem data-testid="items">
+          &lt;HiHome
+            color="black"
+            size="1.5rem"
+          />
+          &lt;StyledButton>Home&lt;/StyledButton>
+        &lt;/ListItem>
+        &lt;ListItem data-testid="items">
+          &lt;CgArrowTopRightO
+            color="#1A3043"
+            size="1.5rem"
+          />
+          &lt;StyledButton>Popular&lt;/StyledButton>
+        &lt;/ListItem>
+        &lt;ListItem data-testid="items">
+          &lt;IoMdStats
+            color="#1A3043"
+            size="1.5rem"
+          />
+          &lt;StyledButton>All&lt;/StyledButton>
+        &lt;/ListItem>
+        &lt;ListItem data-testid="items">
+          &lt;StyledText sx={{ fontSize: '13px' }}>OTHER&lt;/StyledText>
+        &lt;/ListItem>
+        &lt;ListItem data-testid="items">
+          &lt;IoIosAdd
+            color="#1A3043"
+            size="1.5rem"
+          />
+          &lt;StyledButton>Create Posts&lt;/StyledButton>
+        &lt;/ListItem>
+        &lt;ListItem data-testid="items">
+          &lt;HiOutlineBarsArrowUp
+            color="#1A3043"
+            size="1.5rem"
+          />
+          &lt;StyledButton>Top Communities&lt;/StyledButton>
+        &lt;/ListItem>
+        &lt;ListItem data-testid="items">
+          &lt;IoIosNotificationsOutline
+            color="#1A3043"
+            size="1.5rem"
+          />
+          &lt;StyledButton>Notifications&lt;/StyledButton>
+        &lt;/ListItem>
+      &lt;/List>
+    &lt;/Drawer>
+  );
+}
+
+export default SideDrawer;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppBarReddit">AppBarReddit</a></li><li><a href="global.html#HomeBox">HomeBox</a></li><li><a href="global.html#IconsBox">IconsBox</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#Profile">Profile</a></li><li><a href="global.html#ProfileLogin">ProfileLogin</a></li><li><a href="global.html#SearchBox">SearchBox</a></li><li><a href="global.html#SideDrawer">SideDrawer</a></li><li><a href="global.html#SignUp">SignUp</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sat Nov 12 2022 23:48:25 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

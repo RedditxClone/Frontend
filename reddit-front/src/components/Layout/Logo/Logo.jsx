@@ -31,10 +31,11 @@ const Sec2 = styled('div')(({ theme }) => ({
     display: 'block'
   }
 }));
+
 /**
- * description : this function for the first section in the nav bar which is the package of
- * Logo of reddit
- * it return the whole logo of reddit
+ * @description this function for the first section in the nav bar
+  which is the package of Logo of reddit
+ * @return {React.Component } the whole logo of reddit
  */
 function Logo() {
   const navigate = useNavigate();

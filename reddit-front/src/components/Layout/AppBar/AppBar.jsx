@@ -10,10 +10,11 @@ import LogIn from '../LogIn/LogIn';
 import ProfileLogin from '../ProfileLogging/ProfileLogging';
 
 /**
- *description : this function is the main function which describes the navigation bar as loggedin
- *or not it consists of many components
- *it returns the navigation bar of the site
- */
+* @description this function is the main function which describes the navigation bar as
+  loggedin or not it consists of many components
+* @param {string} topid this an id for nav bar used when back to top button to scroll up to it
+* @return {React.Component} the navigation bar of the site
+*/
 function AppBarReddit({ topid }) {
   const { isAuth } = useSelector((state) => state.auth);
 
