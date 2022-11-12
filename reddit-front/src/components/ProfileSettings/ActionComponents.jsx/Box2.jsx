@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import './ActionComponents.css';
 // import '../../../assets/images/imgsFile';
 import { MdArrowBack } from 'react-icons/md';
-import custom from '../../../assets/images/custom.png';
+import custom from '../../../assets/Images/custom.png';
 // import onlyFans from '../../../assets/images/onlyfans.png';
 // import instagram from '../../../assets/images/instagram.png';
 // import twitter from '../../../assets/images/twitter.png';

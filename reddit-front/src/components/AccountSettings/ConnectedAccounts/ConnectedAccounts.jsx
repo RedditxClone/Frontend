@@ -4,7 +4,7 @@
 import './ConnectedAccountsStyle.css';
 import { Switch, Button, Box } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import google from '../../../assets/images/google.png';
+import google from '../../../assets/Images/google.png';
 
 export default function ConnectedAccounts() {
   return (
@@ -28,6 +28,10 @@ export default function ConnectedAccounts() {
               startIcon={<FacebookIcon />}
               variant="contained"
               style={{ backgroundColor: '#1da1f2' }}
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   window.open('https://www.facebook.com/', '_blank');
+              // }}
             >
               Connect to Facebook
             </Button>
@@ -52,6 +56,10 @@ export default function ConnectedAccounts() {
         </div>
         <Box className="cont">
           <Button
+            // onClick={(e) => {
+            //   e.preventDefault();
+            //   window.open('https://www.google.com/', '_blank');
+            // }}
             startIcon={
               <img
                 src={google}
