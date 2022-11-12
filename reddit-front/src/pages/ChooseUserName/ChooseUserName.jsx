@@ -103,7 +103,7 @@ function ChooseUserName() {
         }}
       >
         <h3>Choose your username</h3>
-        <span>
+        <span data-testid="ChooseUserNameDescription">
           {' '}
           Your username is how other community members will see you. This name
           will be used to credit you for things you share on Reddit. What should
@@ -130,10 +130,11 @@ function ChooseUserName() {
                 onBlur={onBlurUserNameInput}
                 onFocus={onFocusUserNameInput}
                 value={userName}
+                data-testid="ChooseUserNameInputs"
               />
 
               {errorUserName && (
-                <ErrorMessage>
+                <ErrorMessage data-testid="ChooseUserNameInputsError">
                   Username must be between 3 and 20 characters
                 </ErrorMessage>
               )}
@@ -151,8 +152,9 @@ function ChooseUserName() {
                 value={password}
                 onFocus={onFocusPasswordInput}
                 type="password"
+                data-testid="ChooseUserNameInputs"
               />
-              {errorPassword && <ErrorMessage> Invalid Password</ErrorMessage>}
+              {errorPassword && <ErrorMessage data-testid="ChooseUserNameInputsError"> Invalid Password</ErrorMessage>}
             </DotDiv>
             {!errorUserName && touchedUserNameInput && (
               <Recaptcha setRecaptcha={setRecaptcha} />
@@ -169,6 +171,7 @@ function ChooseUserName() {
             <BackLink
               onClick={resetInputs}
               to="/auth/signup"
+              data-testid="ChooseUserNameBackButton"
             >
               Back
             </BackLink>
@@ -178,6 +181,7 @@ function ChooseUserName() {
               type="submit"
               loading={isLoading}
               disabled={!formIsValid}
+              data-testid="ChooseUserNameSignUpButton"
             >
               SIGN UP
             </InfoButton>

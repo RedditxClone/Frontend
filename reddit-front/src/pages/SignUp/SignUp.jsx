@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable operator-linebreak */
 /* eslint-disable camelcase */
-import { Typography } from '@mui/material';
+// import { Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { GrFacebook } from 'react-icons/gr';
@@ -87,7 +87,7 @@ function SignUp() {
   const lhlen = 3;
   return (
     <ContentDiv>
-      <Typography variant="h3">Sign up</Typography>
+      <h1>Sign up</h1>
       <UserAggrementDiv>
         <p>
           By continuing, you are setting up a Reddit

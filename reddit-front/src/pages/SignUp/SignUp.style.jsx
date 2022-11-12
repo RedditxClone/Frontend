@@ -5,7 +5,7 @@ const DividerDiv = styled('div')(
     boxSizing: 'border-box',
     alignItems: 'center',
     display: 'flex',
-    margin: '2.8rem 0',
+    margin: '2.8rem 0 1.3rem 0',
     justifyContent: 'space-between',
     width: '28rem',
     '.DividerLine': {

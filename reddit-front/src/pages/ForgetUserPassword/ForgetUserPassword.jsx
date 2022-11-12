@@ -71,7 +71,7 @@ function ForgetUserPassword() {
       <RedditImageDiv />
       <Typography variant="h4">Reset your password</Typography>
       <DescriptionDiv>
-        <p>
+        <p data-testid="ForgetUserPasswordHeaderUserAggrement">
           Tell us the username and email address associated with
           <br />
           your Reddit account, and we&#8217;ll send you an email with a link
@@ -89,9 +89,10 @@ function ForgetUserPassword() {
             onBlur={onBlurUserNameInput}
             onFocus={onFocusUserNameInput}
             value={userName}
+            data-testid="ForgetUserPasswordInputs"
           />
           {errorUserName && (
-            <ErrorMessage>
+            <ErrorMessage data-testid="ForgetUserPasswordInputsError">
               Username must be between 3 and 20 characters
             </ErrorMessage>
           )}
@@ -105,9 +106,10 @@ function ForgetUserPassword() {
             error={errorEmail}
             success={!errorEmail && touchedEmailInput}
             label="Email address"
+            data-testid="ForgetUserPasswordInputs"
           />
           {errorEmail && (
-            <ErrorMessage>Please fix your email to continue</ErrorMessage>
+            <ErrorMessage data-testid="ForgetUserPasswordInputsError">Please fix your email to continue</ErrorMessage>
           )}
         </DotDiv>
         {!errorUserName &&
@@ -120,6 +122,7 @@ function ForgetUserPassword() {
           type="submit"
           disabled={!formIsValid}
           loading={isLoading}
+          data-testid="ForgetUserPasswordButton"
         >
           RESET PASSWORD
         </InfoButton>

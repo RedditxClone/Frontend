@@ -19,9 +19,20 @@ const AllDiv = styled('div')({
 });
 
 const ContentDiv = styled('div')({
+  fontSize: '1.4rem',
+  fontWeight: '500',
+  lineHeight: '1.8rem',
+  color: '#1a1a1b',
+  margin: '0',
   alignSelf: 'center',
   padding: '2.4rem',
-  paddingBottom: '0px'
+  paddingBottom: '0px',
+  '& h1': {
+    fontFamily: "'IBM Plex Sans',sans-serif",
+    fontSize: '18px',
+    fontWeight: '500',
+    lineHeight: '22px'
+  }
 });
 
 const UserAggrementDiv = styled('div')({

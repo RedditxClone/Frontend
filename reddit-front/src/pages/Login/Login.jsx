@@ -2,7 +2,7 @@
 /* eslint-disable operator-linebreak */
 // eslint-disable-next-line camelcase
 import jwt_decode from 'jwt-decode';
-import { Typography } from '@mui/material';
+// import { Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -130,9 +130,9 @@ function Login() {
   const lhlen = 3;
   return (
     <ContentDiv>
-      <Typography variant="h3">Log in</Typography>
+      <h1>Log in</h1>
       <UserAggrementDiv>
-        <p>
+        <p data-testid="LoginHeaderUserAggrement">
           By continuing, you agree to our
           <LinkWithMargin href="https://www.redditinc.com/policies/user-agreement">
             User Agreement
@@ -177,13 +177,14 @@ function Login() {
             onBlur={onBlurUserNameInput}
             onFocus={onFocusUserNameInput}
             value={userName}
+            data-testid="LoginInputs"
           />
           {errorUserName && (
             <ErrorMessage>
               Username must be between 3 and 20 characters
             </ErrorMessage>
           )}
-          {error && <ErrorMessage>Incorrect username or password</ErrorMessage>}
+          {error && <ErrorMessage data-testid="LoginInputsError">Incorrect username or password</ErrorMessage>}
         </DotDiv>
         <DotDiv>
           <LoginInputField
@@ -197,8 +198,9 @@ function Login() {
             value={password}
             type="password"
             disabled={!formIsValid}
+            data-testid="LoginInputs"
           />
-          {errorPassword && <ErrorMessage> Invalid Password</ErrorMessage>}
+          {errorPassword && <ErrorMessage data-testid="LoginInputsError"> Invalid Password</ErrorMessage>}
         </DotDiv>
 
         <InfoButton
@@ -207,6 +209,7 @@ function Login() {
           loading={isLoading}
           type="submit"
           disabled={!formIsValid}
+          data-testid="LoginButton"
         >
           LOG IN
         </InfoButton>

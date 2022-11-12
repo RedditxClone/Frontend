@@ -67,7 +67,7 @@ function ForgetUserName() {
         Recover your username
       </Typography>
       <DescriptionDiv>
-        <p>
+        <p data-testid="ForgetUserNameHeaderUserAggrement">
           Tell us the email address associated with your Reddit
           <br />
           account, and we&#8217;ll send you an email with your username.
@@ -83,9 +83,10 @@ function ForgetUserName() {
             error={errorEmail}
             success={!errorEmail && touchedEmailInput}
             label="Email address"
+            data-testid="ForgetUserNameInputs"
           />
           {errorEmail && (
-            <ErrorMessage>Please fix your email to continue</ErrorMessage>
+            <ErrorMessage data-testid="ForgetUserNameInputsError">Please fix your email to continue</ErrorMessage>
           )}
         </DotDiv>
         {!errorEmail && touchedEmailInput && (
@@ -97,6 +98,7 @@ function ForgetUserName() {
           hlen={lhlen}
           disabled={!formIsValid}
           type="submit"
+          data-testid="ForgetUserNameButton"
         >
           EMAIL ME
         </InfoButton>
