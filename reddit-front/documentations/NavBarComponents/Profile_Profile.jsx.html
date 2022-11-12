@@ -1,4 +1,32 @@
-/* eslint-disable object-curly-newline */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Profile/Profile.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Profile/Profile.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable object-curly-newline */
 import {
   MenuItem,
   InputLabel,
@@ -79,26 +107,26 @@ function Profile() {
     'MoreTopics'
   ];
   const Catogeries = CommCatogeries.map((comm, index) => (
-    <MenuItem
+    &lt;MenuItem
       onClick={() => openCategoriesHandler(index)}
       key={comm}
       data-testid="catogeries"
     >
-      <StyledButton>{comm}</StyledButton>
+      &lt;StyledButton>{comm}&lt;/StyledButton>
       {opened[index] ? (
-        <MdExpandLess size="2rem" />
+        &lt;MdExpandLess size="2rem" />
       ) : (
-        <MdExpandMore size="2rem" />
+        &lt;MdExpandMore size="2rem" />
       )}
-    </MenuItem>
+    &lt;/MenuItem>
   ));
   return (
-    <ProfileContainer>
-      <CreateCommunity
+    &lt;ProfileContainer>
+      &lt;CreateCommunity
         open={openCreateCommunity}
         setOpen={setOpenCreateCommunity}
       />
-      <FormControl
+      &lt;FormControl
         sx={{
           height: '100%',
           width: '100%',
@@ -108,10 +136,10 @@ function Profile() {
               marginTop: '0px'
             }
           },
-          '&.MuiFormLabel-root': { pb: '0' }
+          '&amp;.MuiFormLabel-root': { pb: '0' }
         }}
       >
-        <InputLabel
+        &lt;InputLabel
           sx={{
             color: 'black',
             height: '50%',
@@ -120,33 +148,33 @@ function Profile() {
             pt: '0.5rem',
             mt: '-0.8rem',
             alignItems: 'center',
-            '&.Mui-focused': {
+            '&amp;.Mui-focused': {
               color: 'black'
             }
-            // '&.MuiFormLabel-root': { pt: '1rem' }
+            // '&amp;.MuiFormLabel-root': { pt: '1rem' }
           }}
           shrink={false}
         >
-          <IconButton
+          &lt;IconButton
             sx={{
               color: '#1A3043',
               fontSize: '1.5rem',
-              '&.MuiButtonBase-root': { p: '0.5rem 0 0.5rem 0' }
+              '&amp;.MuiButtonBase-root': { p: '0.5rem 0 0.5rem 0' }
             }}
           >
-            <CgProfile />
-          </IconButton>
-          {/* <BiRadioCircle /> */}
-          &nbsp;
-          <StyledText sx={{ display: { xs: 'none', sm: 'block' }, p: '0' }}>
+            &lt;CgProfile />
+          &lt;/IconButton>
+          {/* &lt;BiRadioCircle /> */}
+          &amp;nbsp;
+          &lt;StyledText sx={{ display: { xs: 'none', sm: 'block' }, p: '0' }}>
             {user.username}
-          </StyledText>
-        </InputLabel>
-        <StyledSelect
+          &lt;/StyledText>
+        &lt;/InputLabel>
+        &lt;StyledSelect
           sx={{
             height: '100%',
-            '&.MuiInputBase-root': { m: '0' },
-            '&.MuiSelect-select': {
+            '&amp;.MuiInputBase-root': { m: '0' },
+            '&amp;.MuiSelect-select': {
               ':focus': { backgroundColor: 'white' }
             },
             ':hover': { border: '1px solid #DAE0E2', borderRadius: '3px' }
@@ -156,111 +184,134 @@ function Profile() {
           disableUnderline
           data-testid="select"
         >
-          <MenuItem
+          &lt;MenuItem
             sx={{ gap: '0.3rem' }}
             data-testid="options"
           >
-            <CgProfile
+            &lt;CgProfile
               color="#1A3043"
               size="1.5rem"
             />
-            <StyledText sx={{ width: '100%' }}>My Stuff</StyledText>
-          </MenuItem>
-          <MenuItem data-testid="options">
-            <StyledButton> Online Status</StyledButton>
-            <IconButton
+            &lt;StyledText sx={{ width: '100%' }}>My Stuff&lt;/StyledText>
+          &lt;/MenuItem>
+          &lt;MenuItem data-testid="options">
+            &lt;StyledButton> Online Status&lt;/StyledButton>
+            &lt;IconButton
               sx={{
                 color: '#249FEC',
                 fontSize: '1.8rem',
-                '&.MuiButtonBase-root': {
+                '&amp;.MuiButtonBase-root': {
                   padding: '0.2rem'
                 }
               }}
             >
-              <BsToggleOn />
-            </IconButton>
-          </MenuItem>
-          <MenuItem data-testid="options">
-            <StyledButton>My Profile</StyledButton>
-          </MenuItem>
-          {isAuth && (
-            <MenuItem data-testid="options">
-              <StyledButton onClick={userSettingsClickHandler}>
+              &lt;BsToggleOn />
+            &lt;/IconButton>
+          &lt;/MenuItem>
+          &lt;MenuItem data-testid="options">
+            &lt;StyledButton>My Profile&lt;/StyledButton>
+          &lt;/MenuItem>
+          {isAuth &amp;&amp; (
+            &lt;MenuItem data-testid="options">
+              &lt;StyledButton onClick={userSettingsClickHandler}>
                 User Settings
-              </StyledButton>
-            </MenuItem>
+              &lt;/StyledButton>
+            &lt;/MenuItem>
           )}
-          <Divider />
-          <MenuItem
+          &lt;Divider />
+          &lt;MenuItem
             sx={{ gap: '0.3rem' }}
             data-testid="options"
           >
-            <AiOutlineEye
+            &lt;AiOutlineEye
               color="#1A3043"
               size="1.5rem"
             />
-            <StyledText>View Options</StyledText>
-          </MenuItem>
-          <MenuItem data-testid="options">
-            <StyledButton>Dark Mode </StyledButton>
-            <BsToggleOn
+            &lt;StyledText>View Options&lt;/StyledText>
+          &lt;/MenuItem>
+          &lt;MenuItem data-testid="options">
+            &lt;StyledButton>Dark Mode &lt;/StyledButton>
+            &lt;BsToggleOn
               color="#249FEC"
               size="2rem"
             />
-          </MenuItem>
-          <Divider />
-          <MenuItem
+          &lt;/MenuItem>
+          &lt;Divider />
+          &lt;MenuItem
             sx={{ gap: '0.3rem' }}
             data-testid="options"
           >
-            <AiOutlineCopyrightCircle
+            &lt;AiOutlineCopyrightCircle
               color="#1A3043"
               size="1.5rem"
             />
-            <StyledButton onClick={() => setOpenCreateCommunity(true)}>
+            &lt;StyledButton onClick={() => setOpenCreateCommunity(true)}>
               Create community
-            </StyledButton>
-          </MenuItem>
-          <MenuItem
+            &lt;/StyledButton>
+          &lt;/MenuItem>
+          &lt;MenuItem
             sx={{ gap: '8px' }}
             onClick={() => handleExploreClick()}
             data-testid="options"
           >
-            <IconButton
+            &lt;IconButton
               sx={{
                 color: '#1A3043',
                 fontSize: '1.2rem',
-                '&.MuiButtonBase-root': {
+                '&amp;.MuiButtonBase-root': {
                   padding: '0.2rem'
                 }
               }}
             >
-              <BsPencil />
-            </IconButton>
-            <StyledButton>Explore</StyledButton>
+              &lt;BsPencil />
+            &lt;/IconButton>
+            &lt;StyledButton>Explore&lt;/StyledButton>
             {openexplore ? (
-              <MdExpandLess size="2rem" />
+              &lt;MdExpandLess size="2rem" />
             ) : (
-              <MdExpandMore size="2rem" />
+              &lt;MdExpandMore size="2rem" />
             )}
-          </MenuItem>
+          &lt;/MenuItem>
           {openexplore ? Catogeries : null}
           {/* here is the list of recent communities will handle when backend is done */}
-          <Divider />
-          <MenuItem
+          &lt;Divider />
+          &lt;MenuItem
             sx={{ gap: '0.3rem' }}
             data-testid="options"
           >
-            <IoMdExit
+            &lt;IoMdExit
               color="#1A3043"
               size="1.5rem"
             />
-            <StyledButton onClick={logoutHandler}>Log Out </StyledButton>
-          </MenuItem>
-        </StyledSelect>
-      </FormControl>
-    </ProfileContainer>
+            &lt;StyledButton onClick={logoutHandler}>Log Out &lt;/StyledButton>
+          &lt;/MenuItem>
+        &lt;/StyledSelect>
+      &lt;/FormControl>
+    &lt;/ProfileContainer>
   );
 }
 
 export default Profile;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppBarReddit">AppBarReddit</a></li><li><a href="global.html#HomeBox">HomeBox</a></li><li><a href="global.html#IconsBox">IconsBox</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#Profile">Profile</a></li><li><a href="global.html#ProfileLogin">ProfileLogin</a></li><li><a href="global.html#SearchBox">SearchBox</a></li><li><a href="global.html#SideDrawer">SideDrawer</a></li><li><a href="global.html#SignUp">SignUp</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sat Nov 12 2022 23:48:25 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -24,16 +24,10 @@ import {
 import SideDrawer from '../Drawer/Drawer';
 import UserSettingsLogo from '../../../utilities/UserSettingsLogo/UserLogo';
 import CreateCommunity from '../../CreateCommunity/CreateCommunity';
-/**
- * @typedef {PropType} state
- * @property {bool} Side this property describes if u want to see the SideDrawer or not and send it to SideElement
- * @property {bool} Open this property controls the list of the home if u want to show or not
- */
 
 /**
- * description : this function describes the home box in the bar in case u are loggedin
- * it contains ur communities ,etc..
- * it returns the home box
+ * @description this function describes the home box in the bar in case u are loggedin it contains ur communities ,etc..
+ * @return {React.Component} the home box
  */
 function HomeBox() {
   const [Side, setSide] = useState(false);

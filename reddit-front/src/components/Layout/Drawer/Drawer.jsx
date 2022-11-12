@@ -13,15 +13,10 @@ import {
 } from '../AppBar/AppBar.Style';
 
 /**
- * @property {bool} showSideBar this property for showing SideBar or not it depends
- * @property {function} onClickSideIcon this fucntion is executed when u need to close SideDrawer (it is a handler in Home function)
- */
-
-/**
- * description : this function is the sideDrawer that appears when u click on side Icon which found
- * inside menu box(home) in the navigation bar , it consists of list of items communities and feed
- * and other
- * it return the Side Drawer
+ * @description this function is the sideDrawer that appears when u click on side Icon which found inside menu box(home) in the navigation bar , it consists of list of items communities and feedand other
+ * @param {bool} showSideBar this for showing SideBar or not it depends
+ * @param {function} onClickSideIcon this fucntion is executed when u need to close SideDrawer (it is a handler in Home function)
+ * @return {React.Component} it return the Side Drawer
  */
 function SideDrawer({ showSideBar, onClickSideIcon }) {
   return (
