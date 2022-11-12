@@ -1,0 +1,47 @@
+
+.connected-accounts Button {
+    font-family: Arial,sans-serif;
+    letter-spacing: unset;
+    line-height: 17px;
+    text-transform: unset;
+    min-height: 32px;
+    padding: 4px 16px;
+    border-radius: 50px;
+}
+
+.facebook, .google{
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+}
+
+.account {
+    display: flex;
+    flex-flow: nowrap;
+    margin-bottom: 32px;
+}
+
+.link {
+    justify-content: flex-end;
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    border: none;
+    color: #0079D3;
+    cursor: pointer;
+    padding: 0;
+    text-transform: lowercase;
+}
+
+.disabled-div {
+    display: flex;
+    flex-flow: nowrap;
+    margin-bottom: 32px;
+    pointer-events: none;
+    opacity: 0.4;
+    margin-left: 32px;
+}
+

@@ -5,7 +5,7 @@ import './PostContainer.css';
  * This Component is just a wrapper for the whole post content
  *
  */
-export default function PostContainer(props) {
+function PostContainer(props) {
   return (
     <div
       className="post-container"
@@ -15,3 +15,5 @@ export default function PostContainer(props) {
     </div>
   );
 }
+
+export default PostContainer;

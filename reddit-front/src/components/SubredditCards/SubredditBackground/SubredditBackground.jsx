@@ -14,7 +14,7 @@ import { BackgroundImage } from './SubredditBackground.Style';
  *
  */
 
-export default function SubredditBackground({ baseColor }) {
+function SubredditBackground({ baseColor }) {
   const [defaultBackground, setDefaultBackground] = useState(false);
   return (
     <Box
@@ -36,3 +36,4 @@ export default function SubredditBackground({ baseColor }) {
     </Box>
   );
 }
+export default SubredditBackground;

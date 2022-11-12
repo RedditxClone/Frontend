@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["src/pages/ResetPassword/"],
+    "include": ["src/components/Layout/"],
     "includePattern": ".jsx$",
     "excludePattern": "(node_modules/|docs)"
   },
@@ -11,7 +11,7 @@
   },
   "opts": {
     "recurse": true,
-    "destination": "./documentations/pages/ResetPassword",
+    "destination": "./documentations/NavBarComponents/",
     "readme": "README.md"
   }
 }

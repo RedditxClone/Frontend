@@ -14,11 +14,24 @@ import ResetPassword from './pages/ResetPassword/ResetPassword';
 import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 import SubredditCards from './components/SubredditCards/SubredditCards';
+import AccountSettings from './components/AccountSettings/AccountSettings';
+import UserSettings from './pages/UserSettings/UserSettings';
+import ProfileSettings from './components/ProfileSettings/ProfileSettings';
+import SafetyPrivacySettings from './components/SafetyPrivacySettings/SafetyPrivacySettings';
+import FeedSettings from './components/FeedSettings/FeedSettings';
+import Notifications from './components/Notifications/Notifications';
+import Emails from './components/Emails/Emails';
+import Subscriptions from './components/Subscriptions/Subscriptions';
+import ChatMessaging from './components/ChatMessaging/ChatMessaging';
 
 // Routes
 const routes = createBrowserRouter([
   {
     path: '/',
+    element: <HomePage />
+  },
+  {
+    path: '/auth',
     element: <DefaultUserPage />,
     errorElement: <ErrorPage />,
     children: [
@@ -55,6 +68,44 @@ const routes = createBrowserRouter([
   {
     path: '/subreddit',
     element: <SubredditCards />
+  },
+  {
+    path: '/settings',
+    element: <UserSettings />,
+    children: [
+      {
+        path: 'account',
+        element: <AccountSettings />
+      },
+      {
+        path: 'profile',
+        element: <ProfileSettings />
+      },
+      {
+        path: 'privacy',
+        element: <SafetyPrivacySettings />
+      },
+      {
+        path: 'feed',
+        element: <FeedSettings />
+      },
+      {
+        path: 'notifications',
+        element: <Notifications />
+      },
+      {
+        path: 'emails',
+        element: <Emails />
+      },
+      {
+        path: 'premium',
+        element: <Subscriptions />
+      },
+      {
+        path: 'messaging',
+        element: <ChatMessaging />
+      }
+    ]
   }
 ]);
 

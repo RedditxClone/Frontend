@@ -2,7 +2,6 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable camelcase */
 import { Typography } from '@mui/material';
-import jwt_decode from 'jwt-decode';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { GrFacebook } from 'react-icons/gr';
@@ -20,7 +19,6 @@ import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import { checkEmail } from '../../utilities/Helpers';
 import useInput from '../../hooks/use-input';
-import Recaptcha from '../../components/Recaptcha/Recaptcha';
 
 /**
  * This component returns a signup page contains:
@@ -39,11 +37,9 @@ function SignUp() {
     isTouched: touchedEmailInput,
     hasError: errorEmail
   } = useInput((value) => checkEmail(value));
-  const [recaptcha, setRecaptcha] = useState(false);
   const [signUpWithGoggle, setSignUpWithGoggle] = useState(false);
   const [signUpWithFacebook, setSignUpWithFacebook] = useState(false);
-  const formIsValid =
-    (recaptcha && !errorEmail) || signUpWithGoggle || signUpWithFacebook;
+  const formIsValid = !errorEmail || signUpWithGoggle || signUpWithFacebook;
 
   const navigate = useNavigate();
 
@@ -64,10 +60,8 @@ function SignUp() {
   };
 
   const handleCallBackResponse = (response) => {
-    const userObject = jwt_decode(response.credential);
-
     /** Should be sent to API */
-    console.log(userObject);
+    console.log(response.credential);
     setSignUpWithGoggle(true);
   };
   useEffect(() => {
@@ -148,9 +142,7 @@ function SignUp() {
             <ErrorMessage>Please fix your email to continue</ErrorMessage>
           )}
         </DotDiv>
-        {!errorEmail && touchedEmailInput && (
-          <Recaptcha setRecaptcha={setRecaptcha} />
-        )}
+
         <InfoButton
           outlined={!outLined}
           len={len}
@@ -165,7 +157,7 @@ function SignUp() {
           <p id="Newto">
             Already a redditor?
             <Link
-              to="/login"
+              to="/auth/login"
               id="BottomLink"
             >
               LOG IN

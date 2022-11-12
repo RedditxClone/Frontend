@@ -10,24 +10,31 @@ import { BsToggleOn, BsPencil } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { AiOutlineEye, AiOutlineCopyrightCircle } from 'react-icons/ai';
 import { IoMdExit } from 'react-icons/io';
-// import { BiRadioCircle } from 'react-icons/bi';
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { AuthActions } from '../../../store/slices/AuthSlice';
 import {
   StyledSelect,
   StyledButton,
   StyledText,
   ProfileContainer
 } from '../AppBar/AppBar.Style';
+import CreateCommunity from '../../CreateCommunity/CreateCommunity';
+
 /**
- * description : this function describes the profile select in the nav bar in case u are loggedin
- *  which includes the settings and etc..
- * it returns profile box
+ * @description this function describes the profile select
+ * in the nav bar in case u are loggedin which includes the settings and etc..
+ * @return {React.Component} profile box
  */
 function Profile() {
-  const { user } = useSelector((state) => state.auth);
+  const { user, isAuth } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [openexplore, setOpenExplore] = useState(false);
+  const [openCreateCommunity, setOpenCreateCommunity] = useState(false);
+
   const [opened, setOpened] = useState([
     false,
     false,
@@ -51,6 +58,15 @@ function Profile() {
     CopyOpened[index] = open;
     // console.log(CopyOpened);
     setOpened([CopyOpened]);
+  };
+
+  const userSettingsClickHandler = () => {
+    navigate('/settings/account');
+  };
+
+  const logoutHandler = () => {
+    dispatch(AuthActions.logOut());
+    navigate('/');
   };
 
   const CommCatogeries = [
@@ -78,6 +94,10 @@ function Profile() {
   ));
   return (
     <ProfileContainer>
+      <CreateCommunity
+        open={openCreateCommunity}
+        setOpen={setOpenCreateCommunity}
+      />
       <FormControl
         sx={{
           height: '100%',
@@ -163,9 +183,13 @@ function Profile() {
           <MenuItem data-testid="options">
             <StyledButton>My Profile</StyledButton>
           </MenuItem>
-          <MenuItem data-testid="options">
-            <StyledButton>User Settings</StyledButton>
-          </MenuItem>
+          {isAuth && (
+            <MenuItem data-testid="options">
+              <StyledButton onClick={userSettingsClickHandler}>
+                User Settings
+              </StyledButton>
+            </MenuItem>
+          )}
           <Divider />
           <MenuItem
             sx={{ gap: '0.3rem' }}
@@ -193,7 +217,9 @@ function Profile() {
               color="#1A3043"
               size="1.5rem"
             />
-            <StyledButton>Create community </StyledButton>
+            <StyledButton onClick={() => setOpenCreateCommunity(true)}>
+              Create community
+            </StyledButton>
           </MenuItem>
           <MenuItem
             sx={{ gap: '8px' }}
@@ -229,7 +255,7 @@ function Profile() {
               color="#1A3043"
               size="1.5rem"
             />
-            <StyledButton>Log Out </StyledButton>
+            <StyledButton onClick={logoutHandler}>Log Out </StyledButton>
           </MenuItem>
         </StyledSelect>
       </FormControl>

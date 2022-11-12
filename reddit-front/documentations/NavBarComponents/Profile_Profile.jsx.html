@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Profile/Profile.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Profile/Profile.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable object-curly-newline */
+import {
+  MenuItem,
+  InputLabel,
+  Divider,
+  FormControl,
+  IconButton
+} from '@mui/material';
+import { BsToggleOn, BsPencil } from 'react-icons/bs';
+import { CgProfile } from 'react-icons/cg';
+import { AiOutlineEye, AiOutlineCopyrightCircle } from 'react-icons/ai';
+import { IoMdExit } from 'react-icons/io';
+import { MdExpandLess, MdExpandMore } from 'react-icons/md';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { AuthActions } from '../../../store/slices/AuthSlice';
+import {
+  StyledSelect,
+  StyledButton,
+  StyledText,
+  ProfileContainer
+} from '../AppBar/AppBar.Style';
+import CreateCommunity from '../../CreateCommunity/CreateCommunity';
+
+/**
+ * @description this function describes the profile select
+ * in the nav bar in case u are loggedin which includes the settings and etc..
+ * @return {React.Component} profile box
+ */
+function Profile() {
+  const { user, isAuth } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [openexplore, setOpenExplore] = useState(false);
+  const [openCreateCommunity, setOpenCreateCommunity] = useState(false);
+
+  const [opened, setOpened] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ]);
+  const handleExploreClick = () => {
+    setOpenExplore((current) => !current);
+  };
+
+  const openCategoriesHandler = (index) => {
+    const CopyOpened = [...opened];
+    // console.log(CopyOpened);
+    let open = CopyOpened[index];
+    // console.log(open);
+    open = !open;
+    // console.log(open);
+    CopyOpened[index] = open;
+    // console.log(CopyOpened);
+    setOpened([CopyOpened]);
+  };
+
+  const userSettingsClickHandler = () => {
+    navigate('/settings/account');
+  };
+
+  const logoutHandler = () => {
+    dispatch(AuthActions.logOut());
+    navigate('/');
+  };
+
+  const CommCatogeries = [
+    'Gaming',
+    'Sports',
+    'Bussiness,Economics...',
+    'Crypto',
+    'Television',
+    'Celeberity',
+    'MoreTopics'
+  ];
+  const Catogeries = CommCatogeries.map((comm, index) => (
+    &lt;MenuItem
+      onClick={() => openCategoriesHandler(index)}
+      key={comm}
+      data-testid="catogeries"
+    >
+      &lt;StyledButton>{comm}&lt;/StyledButton>
+      {opened[index] ? (
+        &lt;MdExpandLess size="2rem" />
+      ) : (
+        &lt;MdExpandMore size="2rem" />
+      )}
+    &lt;/MenuItem>
+  ));
+  return (
+    &lt;ProfileContainer>
+      &lt;CreateCommunity
+        open={openCreateCommunity}
+        setOpen={setOpenCreateCommunity}
+      />
+      &lt;FormControl
+        sx={{
+          height: '100%',
+          width: '100%',
+          m: '0',
+          'label + MuiInput': {
+            formControl: {
+              marginTop: '0px'
+            }
+          },
+          '&amp;.MuiFormLabel-root': { pb: '0' }
+        }}
+      >
+        &lt;InputLabel
+          sx={{
+            color: 'black',
+            height: '50%',
+            display: 'flex',
+            flexDirection: 'row',
+            pt: '0.5rem',
+            mt: '-0.8rem',
+            alignItems: 'center',
+            '&amp;.Mui-focused': {
+              color: 'black'
+            }
+            // '&amp;.MuiFormLabel-root': { pt: '1rem' }
+          }}
+          shrink={false}
+        >
+          &lt;IconButton
+            sx={{
+              color: '#1A3043',
+              fontSize: '1.5rem',
+              '&amp;.MuiButtonBase-root': { p: '0.5rem 0 0.5rem 0' }
+            }}
+          >
+            &lt;CgProfile />
+          &lt;/IconButton>
+          {/* &lt;BiRadioCircle /> */}
+          &amp;nbsp;
+          &lt;StyledText sx={{ display: { xs: 'none', sm: 'block' }, p: '0' }}>
+            {user.username}
+          &lt;/StyledText>
+        &lt;/InputLabel>
+        &lt;StyledSelect
+          sx={{
+            height: '100%',
+            '&amp;.MuiInputBase-root': { m: '0' },
+            '&amp;.MuiSelect-select': {
+              ':focus': { backgroundColor: 'white' }
+            },
+            ':hover': { border: '1px solid #DAE0E2', borderRadius: '3px' }
+          }}
+          MenuProps={{ PaperProps: { sx: { maxHeight: 350 } } }}
+          variant="standard"
+          disableUnderline
+          data-testid="select"
+        >
+          &lt;MenuItem
+            sx={{ gap: '0.3rem' }}
+            data-testid="options"
+          >
+            &lt;CgProfile
+              color="#1A3043"
+              size="1.5rem"
+            />
+            &lt;StyledText sx={{ width: '100%' }}>My Stuff&lt;/StyledText>
+          &lt;/MenuItem>
+          &lt;MenuItem data-testid="options">
+            &lt;StyledButton> Online Status&lt;/StyledButton>
+            &lt;IconButton
+              sx={{
+                color: '#249FEC',
+                fontSize: '1.8rem',
+                '&amp;.MuiButtonBase-root': {
+                  padding: '0.2rem'
+                }
+              }}
+            >
+              &lt;BsToggleOn />
+            &lt;/IconButton>
+          &lt;/MenuItem>
+          &lt;MenuItem data-testid="options">
+            &lt;StyledButton>My Profile&lt;/StyledButton>
+          &lt;/MenuItem>
+          {isAuth &amp;&amp; (
+            &lt;MenuItem data-testid="options">
+              &lt;StyledButton onClick={userSettingsClickHandler}>
+                User Settings
+              &lt;/StyledButton>
+            &lt;/MenuItem>
+          )}
+          &lt;Divider />
+          &lt;MenuItem
+            sx={{ gap: '0.3rem' }}
+            data-testid="options"
+          >
+            &lt;AiOutlineEye
+              color="#1A3043"
+              size="1.5rem"
+            />
+            &lt;StyledText>View Options&lt;/StyledText>
+          &lt;/MenuItem>
+          &lt;MenuItem data-testid="options">
+            &lt;StyledButton>Dark Mode &lt;/StyledButton>
+            &lt;BsToggleOn
+              color="#249FEC"
+              size="2rem"
+            />
+          &lt;/MenuItem>
+          &lt;Divider />
+          &lt;MenuItem
+            sx={{ gap: '0.3rem' }}
+            data-testid="options"
+          >
+            &lt;AiOutlineCopyrightCircle
+              color="#1A3043"
+              size="1.5rem"
+            />
+            &lt;StyledButton onClick={() => setOpenCreateCommunity(true)}>
+              Create community
+            &lt;/StyledButton>
+          &lt;/MenuItem>
+          &lt;MenuItem
+            sx={{ gap: '8px' }}
+            onClick={() => handleExploreClick()}
+            data-testid="options"
+          >
+            &lt;IconButton
+              sx={{
+                color: '#1A3043',
+                fontSize: '1.2rem',
+                '&amp;.MuiButtonBase-root': {
+                  padding: '0.2rem'
+                }
+              }}
+            >
+              &lt;BsPencil />
+            &lt;/IconButton>
+            &lt;StyledButton>Explore&lt;/StyledButton>
+            {openexplore ? (
+              &lt;MdExpandLess size="2rem" />
+            ) : (
+              &lt;MdExpandMore size="2rem" />
+            )}
+          &lt;/MenuItem>
+          {openexplore ? Catogeries : null}
+          {/* here is the list of recent communities will handle when backend is done */}
+          &lt;Divider />
+          &lt;MenuItem
+            sx={{ gap: '0.3rem' }}
+            data-testid="options"
+          >
+            &lt;IoMdExit
+              color="#1A3043"
+              size="1.5rem"
+            />
+            &lt;StyledButton onClick={logoutHandler}>Log Out &lt;/StyledButton>
+          &lt;/MenuItem>
+        &lt;/StyledSelect>
+      &lt;/FormControl>
+    &lt;/ProfileContainer>
+  );
+}
+
+export default Profile;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppBarReddit">AppBarReddit</a></li><li><a href="global.html#HomeBox">HomeBox</a></li><li><a href="global.html#IconsBox">IconsBox</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#Profile">Profile</a></li><li><a href="global.html#ProfileLogin">ProfileLogin</a></li><li><a href="global.html#SearchBox">SearchBox</a></li><li><a href="global.html#SideDrawer">SideDrawer</a></li><li><a href="global.html#SignUp">SignUp</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sat Nov 12 2022 23:48:25 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

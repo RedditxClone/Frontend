@@ -1,0 +1,45 @@
+
+.images .Div-img-1 {
+    display: flex;
+    margin-bottom: 32px;
+    margin-top: 16px;
+}
+
+.Div-img-1 .div-1 {
+    border: 1px dashed #d7d7d7;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 4px;
+    cursor: pointer;
+    height: 120px;
+    width: 120px;
+    margin-right: 12px;
+}
+
+.Div-img-1 .div-2 {
+    border: 1px dashed #d7d7d7;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 4px;
+    cursor: pointer;
+    height: 120px;
+    width: 412px;
+    margin-right: 12px;
+}
+
+/* .MuiSvgIcon-root {
+    margin-left: 34px;
+    margin-top: 14px;
+    font-size: 2.7rem !important;
+    color: #0079d3;
+} */
+
+.div-span-1 {
+    font-size: 11px;
+    padding-left: 8px;
+}
+
+.div-span-2 {
+    font-size: 11px;
+    padding-left: 1px;
+}

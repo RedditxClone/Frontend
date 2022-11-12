@@ -23,21 +23,18 @@ import {
 } from '../AppBar/AppBar.Style';
 import SideDrawer from '../Drawer/Drawer';
 import UserSettingsLogo from '../../../utilities/UserSettingsLogo/UserLogo';
-/**
- * @typedef {PropType} state
- * @property {bool} Side this property describes if u want to see the SideDrawer or not and send it to SideElement
- * @property {bool} Open this property controls the list of the home if u want to show or not
- */
+import CreateCommunity from '../../CreateCommunity/CreateCommunity';
 
 /**
- * description : this function describes the home box in the bar in case u are loggedin
- * it contains ur communities ,etc..
- * it returns the home box
+ * @description this function describes the home box in the bar in case u are loggedin it contains ur communities ,etc..
+ * @return {React.Component} the home box
  */
 function HomeBox() {
   const [Side, setSide] = useState(false);
   const [Open, setOpen] = useState(false);
   const [Moderator, SetModetator] = useState(false);
+  const [openCreateCommunity, setOpenCreateCommunity] = useState(false);
+
   // by redux as it is global state
 
   // eslint-disable-next-line no-unused-vars
@@ -150,6 +147,10 @@ function HomeBox() {
 
   return (
     <Home>
+      <CreateCommunity
+        open={openCreateCommunity}
+        setOpen={setOpenCreateCommunity}
+      />
       <StyledButton
         sx={{
           width: '100%',
@@ -262,7 +263,10 @@ function HomeBox() {
               <StyledHomeIconButton>
                 <IoIosAdd />
               </StyledHomeIconButton>
-              <StyledButton sx={{ ml: '0.5rem' }}>
+              <StyledButton
+                sx={{ ml: '0.5rem' }}
+                onClick={() => setOpenCreateCommunity(true)}
+              >
                 Create Community
               </StyledButton>
             </MenuItem>

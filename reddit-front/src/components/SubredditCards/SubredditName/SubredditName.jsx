@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable react/jsx-indent */
 /* eslint-disable operator-linebreak */
 /* eslint-disable indent */
 import Box from '@mui/material/Box';
@@ -20,6 +23,7 @@ import {
   SubTitle,
   JoinButton
 } from './SubredditName.Style';
+import ActionMessage from '../../ActionMessage/ActionMessage';
 
 /**
  * @typedef PropType
@@ -34,11 +38,13 @@ import {
 function SubredditName({ highlightColor }) {
   const [joined, setJoined] = useState(false);
   const [activeNotificationType, setActiveNotificationType] = useState(1);
+  const [showJoinedMsg, setShowJoinedMsg] = useState(false);
+  const [showLeftMsg, setShowLeftMsg] = useState(false);
   const [showNotificationsTypeList, setShowNotificationsTypeList] =
     useState(false);
-
   return (
     <TitleLogoContainer data-testid="subreddit-title-logo-container">
+      {alert}
       {/* Subreddit Name  */}
       <StyledSubredditName>
         <SubredditTitle variant="h1">Real Madrid CF</SubredditTitle>
@@ -66,8 +72,12 @@ function SubredditName({ highlightColor }) {
               if (joined) {
                 setJoined(!joined);
                 e.target.innerHTML = 'Join';
+                // setShowJoinedMsg(false);
+                setShowLeftMsg(!showLeftMsg);
               } else {
                 setJoined(!joined);
+                setShowJoinedMsg(!showJoinedMsg);
+                // setShowLeftMsg(false);
               }
             }}
             onMouseOver={(e) => {
@@ -79,6 +89,19 @@ function SubredditName({ highlightColor }) {
           >
             {joined ? 'Joined' : 'Join'}
           </JoinButton>
+          {showJoinedMsg ? (
+            <ActionMessage
+              message="Successfully joined r/test_community2022"
+              show={true}
+            />
+          ) : null}
+
+          {showLeftMsg ? (
+            <ActionMessage
+              message="Successfully left r/test_community2022"
+              show={true}
+            />
+          ) : null}
         </Box>
         {/* Notifications Button  */}
         <Box sx={{ position: 'relative' }}>

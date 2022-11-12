@@ -1,0 +1,38 @@
+
+.overlay{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    background-color: rgba(28,28,28,.9);
+    top: 0;
+    left: 0;
+}
+
+.account-settings {
+    max-width: 688px;
+    padding-bottom: 40px;
+    min-height: calc(100vh - 88px);
+    line-height: 1;
+    font-family: Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    margin-top: 0px;
+    padding-bottom: 2px;
+}
+
+.h3 span {
+    margin-left: 4px;
+    color: #ff4500;
+}
+
+.h2 {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #1c1c1c;
+    padding: 40px 0px;
+    margin-bottom: 0;
+    margin-top: 0px;
+}
+
+

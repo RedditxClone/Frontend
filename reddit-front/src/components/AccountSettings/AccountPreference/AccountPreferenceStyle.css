@@ -1,0 +1,94 @@
+.main-user-info .h3, .connected-accounts .h3, .beta-tests h3{
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #1c1c1c;
+    display: flex;
+    margin-bottom: 4px;
+    margin-top: 0;
+}
+
+.main-user-info .main-h3,.beta-tests .main-h3 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    line-height: 12px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #EDEFF1;
+    color: #7c7c7c;
+    margin-bottom: 32px;
+    padding-bottom: 6px;
+    margin-top: 0px;
+}
+
+.main-user-info .p, .beta-tests p{
+    font-weight: 400;
+    color: #7c7c7c;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0;
+}
+
+.connected-accounts .p {
+    margin-bottom: 16px;
+}
+
+.user-info Button {
+    font-family: Arial,sans-serif;
+    font-weight: 700;
+    letter-spacing: unset;
+    line-height: 17px;
+    text-transform: unset;
+    min-height: 32px;
+    padding: 4px 16px;
+    border-radius: 50px;
+}
+
+.user,.user-l {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+}
+
+.user-l {
+    margin-bottom: -8px;
+}
+
+.user-info {
+    display: flex;
+    flex-flow: nowrap;
+    margin-bottom: 32px;
+}
+
+.cont {
+    justify-content: flex-end;
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+}
+
+.box-lan,.box-con {
+    margin-left: 40px;
+    margin-top: 15px;
+    margin-bottom: 35px;
+}
+
+.user-info a {
+    color: #0079D3;
+    text-decoration: underline;
+    margin-left: 4px;
+}
+
+.MuiPaper-root.MuiPaper-elevation {
+    margin-left: 65px !important;
+}
+
+.css-1ptx2yq-MuiInputBase-root-MuiInput-root:before {
+    border-bottom: 0 !important;
+}
+
+.MuiSelect-select.MuiSelect-standard {
+    color: #0079d3;
+    font-size: 15px;
+    display: flex
+}

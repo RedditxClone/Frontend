@@ -2,10 +2,13 @@ pipeline {
 	agent any
 	stages {
 		stage('Docker') {
+			environment {
+				REACT_APP_BASE_URL = credentials('BASE_URL')
+    		}
             steps {
 				sh  '''
 					cd reddit-front
-					echo BASE_URL=http://back:3000/api > .env
+					echo REACT_APP_BASE_URL=$REACT_APP_BASE_URL > .env
 					docker-compose up --build -d
 					'''
             }

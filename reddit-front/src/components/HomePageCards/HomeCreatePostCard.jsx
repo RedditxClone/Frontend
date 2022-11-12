@@ -2,20 +2,26 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { useState } from 'react';
 import { Root, LargeRoundedButton, StyledCard } from './HomePageCards.style';
 import redditimage from '../../assets/snoo-small.png';
 import redditCover from '../../assets/2y2pftyz87981.png';
 import StyledHorizontalLine from '../../utilities/StyledHorizontalLine/StyledHorizontalLine';
+import CreateCommunity from '../CreateCommunity/CreateCommunity';
 
 /**
  * this function returns Create Post Card ,the one that is displayed after the communities card
  */
 
 export default function HomeCreatePostCard() {
+  const [openCreateCommunity, setOpenCreateCommunity] = useState(false);
   return (
     <Root>
+      <CreateCommunity
+        open={openCreateCommunity}
+        setOpen={setOpenCreateCommunity}
+      />
       <StyledCard elevation={0}>
-
         <CardMedia
           component="img"
           height="75"
@@ -36,7 +42,6 @@ export default function HomeCreatePostCard() {
           >
             <Box
               sx={{
-
                 display: 'flex',
                 alignSelf: 'flex-start',
                 alignItems: 'center'
@@ -68,7 +73,6 @@ export default function HomeCreatePostCard() {
               sx={{
                 color: '#1c1c1c',
                 marginLeft: '1.5rem'
-
               }}
               data-testid="home_2nd_create_post_card_typography"
             >
@@ -94,7 +98,7 @@ export default function HomeCreatePostCard() {
               variant="contained"
               disableElevation
             >
-              View All
+              Create Post
             </LargeRoundedButton>
 
             <LargeRoundedButton
@@ -103,6 +107,7 @@ export default function HomeCreatePostCard() {
               }}
               variant="outlined"
               disableElevation
+              onClick={() => setOpenCreateCommunity(true)}
             >
               Create Community
             </LargeRoundedButton>
@@ -110,6 +115,5 @@ export default function HomeCreatePostCard() {
         </CardContent>
       </StyledCard>
     </Root>
-
   );
 }

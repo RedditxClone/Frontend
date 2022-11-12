@@ -124,7 +124,7 @@ Looks like you've been doing that a lot. Take a break for 8 minutes before tryin
             <Link
               onClick={resetRequest}
               className="BottomLink"
-              to="/login"
+              to="/auth/login"
             >
               LOG IN
               <div> .</div>
@@ -132,7 +132,7 @@ Looks like you've been doing that a lot. Take a break for 8 minutes before tryin
             <Link
               onClick={resetRequest}
               className="BottomLink"
-              to="/signup"
+              to="/auth/signup"
             >
               {' '}
               SIGN UP

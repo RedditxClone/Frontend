@@ -159,13 +159,13 @@ function ResetPassword() {
           <p>
             <Link
               className="BottomLink"
-              to="/login"
+              to="/auth/login"
             >
               LOG IN
             </Link>
             <Link
               className="BottomLink"
-              to="/signup"
+              to="/auth/signup"
             >
               SIGN UP
             </Link>
