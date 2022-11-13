@@ -25,6 +25,7 @@ export default function ConnectedAccounts() {
           </p>
           <Box className="cont">
             <Button
+              data-testid="facebook-ic"
               startIcon={<FacebookIcon />}
               variant="contained"
               style={{ backgroundColor: '#1da1f2' }}
@@ -56,6 +57,7 @@ export default function ConnectedAccounts() {
         </div>
         <Box className="cont">
           <Button
+            data-testid="google-ic"
             // onClick={(e) => {
             //   e.preventDefault();
             //   window.open('https://www.google.com/', '_blank');

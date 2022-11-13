@@ -11,7 +11,10 @@ import './AccountSettingsStyle.css';
 
 export default function AccountSettings() {
   return (
-    <div className="account-settings">
+    <div
+      className="account-settings"
+      data-testid="account-settings-container"
+    >
       <h2 className="h2">Account settings</h2>
       <AccountPreference />
       <ConnectedAccounts />

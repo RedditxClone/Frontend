@@ -16,6 +16,7 @@ export default function Box2({ setIsShownContinue, email }) {
     <div
       className="box-2"
       id="confg-2"
+      data-testid="confirmation-box-2"
     >
       <div
         className="icon-1"

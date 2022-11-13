@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Notifications.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Notifications.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable linebreak-style */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable react/no-unescaped-entities */
+import { Box, Switch } from '@mui/material';
+import './NotificationsStyle.css';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useState } from 'react';
+import CommunityAlert from './CommunityAlert/CommunityAlert';
+/**
+ * this is the component that contains the notifications settings
+ */
+export default function Notifications() {
+  const [isForward, setIsForward] = useState(false);
+  const handleClickForward = () => {
+    setIsForward(true);
+  };
+  return (
+    &lt;>
+      {isForward &amp;&amp; &lt;CommunityAlert setIsForward={setIsForward} />}
+      {!isForward &amp;&amp; (
+        &lt;div className="notifications">
+          &lt;h2 className="h2">Notifications settings&lt;/h2>
+          &lt;div className="messages">
+            &lt;h3 className="main-h3">Messages&lt;/h3>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Inbox messages&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Chat messages&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div-last">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Chat requests&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="activity">
+            &lt;h3 className="main-h3">Activity&lt;/h3>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3
+                  className="h3"
+                  onClick={handleClickForward}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Community alerts
+                &lt;/h3>
+              &lt;/div>
+              &lt;Box
+                className="child-b"
+                style={{ justifyContent: 'flex-start', paddingBottom: '6px' }}
+              >
+                &lt;ArrowForwardIcon
+                  style={{ marginLeft: '7px', cursor: 'pointer' }}
+                  onClick={handleClickForward}
+                />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Mentions of u/username&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Comments on your posts&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Upvotes on your posts&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Upvotes on your comments&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Replies to your comments&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Activity on your comments&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Activity on threads you're in&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Activity on chat posts you're in&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">New followers&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">New post flair&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">New user flair&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Pinned posts&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Awards you receive&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Posts you follow&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Comments you follow&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div-last">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Reddit Talk in your communities&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="recommendation">
+            &lt;h3 className="main-h3">Recommendation&lt;/h3>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Trending posts&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Broadcast recommendations&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Community recommendations&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div-last">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">ReReddit&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="updates">
+            &lt;h3 className="main-h3">Updates&lt;/h3>
+            &lt;div className="parent-div">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Reddit announcements&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+            &lt;div className="parent-div-last">
+              &lt;div className="child-div">
+                &lt;h3 className="h3">Cake day&lt;/h3>
+              &lt;/div>
+              &lt;Box className="child-b">
+                &lt;Switch />
+              &lt;/Box>
+            &lt;/div>
+          &lt;/div>
+          {/* &lt;div className="moderation">
+        &lt;h3 className="main-h3">Moderation&lt;/h3>
+        &lt;div className="parent-div">
+          &lt;div className="child-div">
+            &lt;h3 className="h3">Mod notifications&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch />
+          &lt;/Box>
+        &lt;/div>
+        &lt;div className="parent-div">
+          &lt;div className="child-div">
+            &lt;h3 className="h3">r/sports_20&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;ArrowForwardIcon />
+          &lt;/Box>
+        &lt;/div>
+      &lt;/div> */}
+        &lt;/div>
+      )}
+    &lt;/>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Nov 13 2022 01:13:26 GMT+0200 (توقيت شرق أوروبا الرسمي)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

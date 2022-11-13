@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ChatMessaging.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ChatMessaging.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable linebreak-style */
+/* eslint-disable comma-dangle */
+/* eslint-disable object-curly-newline */
+import { Box, Button, TextField, MenuItem } from '@mui/material';
+import { useState } from 'react';
+import './ChatMessagingStyle.css';
+/**
+ * this is the component that contains the chat settings
+ */
+export default function ChatMessaging() {
+  const [state, setState] = useState('EVERYONE');
+  const handleChangeState = (e) => {
+    setState(e.target.value);
+  };
+  const [stat, setStat] = useState('EVERYONE');
+  const handleChangeStat = (e) => {
+    setStat(e.target.value);
+  };
+  return (
+    &lt;div className="chat-messaging">
+      &lt;h2 className="h2">Chat &amp; Messaging&lt;/h2>
+      &lt;div className="parent-div-first">
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Who can send you chat requests&lt;/h3>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;TextField
+            style={{ marginTop: '-7px' }}
+            variant="standard"
+            select
+            fullwidth
+            value={state}
+            onChange={handleChangeState}
+          >
+            &lt;MenuItem
+              style={{ fontSize: 11, fontWeight: 500 }}
+              value="EVERYONE"
+            >
+              EVERYONE
+            &lt;/MenuItem>
+            &lt;MenuItem
+              style={{ fontSize: 11, fontWeight: 500 }}
+              value="ACCOUNT OLDER THAN 30 DAYS"
+            >
+              ACCOUNT OLDER THAN 30 DAYS
+            &lt;/MenuItem>
+            &lt;MenuItem
+              style={{ fontSize: 11, fontWeight: 500 }}
+              value="NOBODY"
+            >
+              NOBODY
+            &lt;/MenuItem>
+          &lt;/TextField>
+        &lt;/Box>
+      &lt;/div>
+      &lt;div
+        className="parent-div"
+        style={{ marginTop: '32px' }}
+      >
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Who can send you private messages&lt;/h3>
+          &lt;p className="p-1">
+            Heads up—Reddit admins and moderators of communities you’ve joined
+            can message you even if they’re not approved.
+          &lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;TextField
+            style={{ marginTop: '15px' }}
+            variant="standard"
+            select
+            fullwidth
+            value={stat}
+            onChange={handleChangeStat}
+          >
+            &lt;MenuItem
+              style={{ fontSize: 11, fontWeight: 500 }}
+              value="EVERYONE"
+            >
+              EVERYONE
+            &lt;/MenuItem>
+            &lt;MenuItem
+              style={{ fontSize: 11, fontWeight: 500 }}
+              value="NOBODY"
+            >
+              NOBODY
+            &lt;/MenuItem>
+          &lt;/TextField>
+        &lt;/Box>
+      &lt;/div>
+      &lt;div className="parent-div">
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Invite someone to chat&lt;/h3>
+          &lt;p className="p-2">
+            Copy a link to invite someone to a direct chatroom with you.
+          &lt;/p>
+        &lt;/div>
+        &lt;Box
+          className="child-b"
+          style={{
+            justifyCcontent: 'flex-end',
+            alignItems: 'center',
+            display: 'flex',
+            flexGrow: 1
+          }}
+        >
+          &lt;Button
+            variant="outlined"
+            color="primary"
+            style={{ marginBottom: '50px', padding: '6px 18px' }}
+            // style={{
+            //   fontWeight: '700',
+            //   letterSpacing: 'unset',
+            //   lineHeight: '17px',
+            //   textTransform: 'unset',
+            //   minHeight: '32px',
+            //   padding: '4px 16px',
+            //   borderRadius: '50px',
+            // }}
+          >
+            Copy link
+          &lt;/Button>
+        &lt;/Box>
+      &lt;/div>
+      &lt;div className="parent-div-last">
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Mark all as read&lt;/h3>
+          &lt;p className="p">Mark all conversations and invites as read.&lt;/p>
+        &lt;/div>
+        &lt;Box
+          className="child-b"
+          style={{
+            justifyCcontent: 'flex-end',
+            alignItems: 'center',
+            display: 'flex',
+            flexGrow: 1
+          }}
+        >
+          &lt;Button
+            style={{ marginBottom: '50px', padding: '6px 18px' }}
+            variant="outlined"
+            color="primary"
+          >
+            Mark as Read
+          &lt;/Button>
+        &lt;/Box>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Nov 13 2022 01:16:27 GMT+0200 (توقيت شرق أوروبا الرسمي)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

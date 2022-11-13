@@ -13,6 +13,7 @@ export default function Box1({ setIsShownChange, setIsShownContinue }) {
     ele.style.visibility = 'hidden';
     setIsShownChange(false);
   };
+
   const handleClickContinue = () => {
     setIsShownContinue(true);
     handleClickClose();
@@ -20,10 +21,12 @@ export default function Box1({ setIsShownChange, setIsShownContinue }) {
   return (
     <div className="b-contain">
       <div
+        data-testid="confirmation-box-1"
         className="box-1"
         id="confg-1"
       >
         <div
+          data-testid="close-icon"
           className="icon-1"
           onClick={handleClickClose}
         >
@@ -45,6 +48,7 @@ export default function Box1({ setIsShownChange, setIsShownContinue }) {
         <div className="buttons">
           <div className="btn-1">
             <Button
+              data-testid="cancel-button"
               variant="outlined"
               color="primary"
               onClick={handleClickClose}
@@ -54,6 +58,7 @@ export default function Box1({ setIsShownChange, setIsShownContinue }) {
           </div>
           <div>
             <Button
+              data-testid="continue-button"
               onClick={handleClickContinue}
               variant="contained"
             >

@@ -54,7 +54,17 @@ import spotify from '../../../assets/Images/spotify.png';
 import cashApp from '../../../assets/Images/cash_app.png';
 import shopify from '../../../assets/Images/shopify.png';
 
-export default function Box1({
+/**
+ * @typedef PropType
+ * @property {Function} setIsShownAdd
+ * @property {Function} setIsShownComp
+ */
+
+/**
+ * this is the component which appears when we press on add social links button in profile settings
+ */
+
+function Box1({
   setIsShownAdd,
   setIsShownComp
   // setIconTitle,
@@ -74,15 +84,20 @@ export default function Box1({
     <div
       className="box1"
       id="confg1"
+      data-testid="confirmation-box1"
     >
       <div className="contain">
         <div className="div-main-1">Add Social Link</div>
-        <div className="icon-1">
+        <div
+          className="icon-1"
+          data-testid="close-i"
+        >
           <CloseIcon onClick={handleClickClose} />
         </div>
       </div>
       <div className="contain-2">
         <Button
+          data-testid="custom-btn"
           onClick={handleClickComp}
           variant="outlined"
           startIcon={
@@ -386,3 +401,4 @@ export default function Box1({
     </div>
   );
 }
+export default Box1;

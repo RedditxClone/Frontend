@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: AccountPreference/AccountPreference.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: AccountPreference/AccountPreference.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable linebreak-style */
+/* eslint-disable no-unused-vars */
+/* eslint-disable arrow-body-style */
+/* eslint-disable comma-dangle */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable object-curly-newline */
+/* eslint-disable import/no-duplicates */
+/* eslint-disable react/no-unescaped-entities */
+import './AccountPreferenceStyle.css';
+import { Button, Box, TextField, MenuItem } from '@mui/material';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { useState } from 'react';
+
+import { list } from '../../../utilities/CountriesList';
+import Box1 from '../ActionComponents/Box1';
+import Box2 from '../ActionComponents/Box2';
+
+/**
+ *this component contains Email change and country in account settings
+ */
+function AccountPreference() {
+  const [isShownChange, setIsShownChange] = useState(false);
+  const handleClickChange = () => {
+    setIsShownChange(true);
+  };
+  const [isShownContinue, setIsShownContinue] = useState(false);
+  const [gender, setGender] = useState('Man');
+  const handleChangeGender = (e) => {
+    setGender(e.target.value);
+  };
+  const [language, setLanguage] = useState('English (US)');
+  const handleChangeLanguage = (e) => {
+    setLanguage(e.target.value);
+  };
+
+  // const [country, setCountry] = useState('Egypt');
+  // // const options = useMemo(() => countryList.getData(), []);
+  // const handleChangeCountry = (e) => {
+  //   setCountry(e.target.value);
+  // };
+
+  // const [country, setCountry] = useState([]);
+  // const handleChangeCountry = (e) => {
+  //   setCountry(e.target.value);
+  // };
+  // useEffect(() => {
+  //   const getCountries = async () => {
+  //     const res = await fetch('https://restcountries.com/v3.1/all');
+  //     const getcon = await res.json();
+  //     console.log(getcon);
+  //     setCountry(res);
+  //   };
+  //   getCountries();
+  // }, []);
+
+  // const [email, setEmail] = useState('karim.moh2052@gamil.com');
+  const email = ' karim.moh2052@gamil.com ';
+  // const { user } = useSelector((state) => state.auth);
+
+  return (
+    &lt;>
+      {(isShownChange || isShownContinue) &amp;&amp; &lt;div className="overlay">&lt;/div>}
+      &lt;div className="main-user-info">
+        &lt;h3 className="main-h3">Account Preferences&lt;/h3>
+        &lt;div className="user-info">
+          &lt;div className="user">
+            &lt;h3 className="h3">Email address&lt;/h3>
+            &lt;p className="p">{email}&lt;/p>
+          &lt;/div>
+          &lt;div className="cont">
+            &lt;Button
+              data-testid="chage-button"
+              onClick={handleClickChange}
+              variant="outlined"
+              color="primary"
+            >
+              Change
+            &lt;/Button>
+            {isShownChange &amp;&amp; (
+              &lt;Box1
+                setIsShownChange={setIsShownChange}
+                setIsShownContinue={setIsShownContinue}
+              />
+            )}
+            {isShownContinue &amp;&amp; (
+              &lt;Box2
+                setIsShownContinue={setIsShownContinue}
+                email={email}
+              />
+            )}
+          &lt;/div>
+        &lt;/div>
+        &lt;div className="user-info">
+          &lt;div className="user">
+            &lt;h3 className="h3">Gender&lt;/h3>
+            &lt;p className="p">
+              Reddit will never share this information and only uses it to
+              improve what content you see.
+            &lt;/p>
+          &lt;/div>
+          &lt;div className="cont">
+            &lt;Box>
+              &lt;TextField
+                variant="standard"
+                select
+                fullwidth
+                value={gender}
+                onChange={handleChangeGender}
+                data-testid="gender-selecte"
+              >
+                &lt;MenuItem
+                  data-testid="woman-option"
+                  value="Woman"
+                >
+                  Woman
+                &lt;/MenuItem>
+                &lt;MenuItem value="Man">Man&lt;/MenuItem>
+                &lt;MenuItem value="Non-Binary">Non-Binary&lt;/MenuItem>
+                &lt;MenuItem value="I Refer To Myself As...">
+                  I Refer To Myself As...
+                &lt;/MenuItem>
+                &lt;MenuItem value="I Prefer Not To Say">
+                  I Prefer Not To Say
+                &lt;/MenuItem>
+              &lt;/TextField>
+            &lt;/Box>
+          &lt;/div>
+        &lt;/div>
+        &lt;div className="user-info">
+          &lt;div className="user-l">
+            &lt;h3 className="h3">
+              Display language
+              &lt;span>(beta)&lt;/span>
+            &lt;/h3>
+            &lt;p className="p">
+              Select the language you'd like to experience the Reddit interface
+              in. Note that this won't change the language of user-generated
+              content and that this feature is still in development so
+              translations and UI are still under review.
+            &lt;/p>
+            &lt;Box
+              className="box-lan"
+              style={{ display: 'flex' }}
+            >
+              &lt;select
+                style={{
+                  fontSize: '16px',
+                  fontWeight: 500,
+                  lineHeight: '20px',
+                  appearance: 'none',
+                  background: 'none',
+                  border: 'none',
+                  paddingLeft: '4px',
+                  paddingRight: '20px',
+                  cursor: 'pointer',
+                  color: '#0079d3',
+                  borderRadius: '25px'
+                }}
+                value={language}
+                onChange={handleChangeLanguage}
+              >
+                &lt;option value="Deutsch">Deutsch&lt;/option>
+                &lt;option value="English (US)">English (US)&lt;/option>
+                &lt;option value="Español (ES)">Español (ES)&lt;/option>
+                &lt;option value="Español (MX)">Español (MX)&lt;/option>
+                &lt;option value="Français">Français&lt;/option>
+                &lt;option value="Italiano">Italiano&lt;/option>
+                &lt;option value="Português (BR)">Português (BR)&lt;/option>
+                &lt;option value="Português (PT)">Português (PT)&lt;/option>
+              &lt;/select>
+              &lt;ArrowDropDownIcon
+                style={{
+                  marginLeft: '-22px',
+                  cursor: 'pointer',
+                  color: '#0079d3'
+                }}
+              />
+            &lt;/Box>
+          &lt;/div>
+        &lt;/div>
+        &lt;div className="user-info">
+          &lt;div className="user">
+            &lt;h3 className="h3">Country&lt;/h3>
+            &lt;p className="p">
+              This is your primary location.
+              &lt;a href="##">Learn more&lt;/a>
+            &lt;/p>
+            &lt;Box
+              className="box-con"
+              style={{ display: 'flex' }}
+            >
+              &lt;select
+                data-testid="country-select"
+                id="countries"
+                style={{
+                  fontSize: '16px',
+                  fontWeight: 500,
+                  lineHeight: '20px',
+                  appearance: 'none',
+                  background: 'none',
+                  border: 'none',
+                  paddingLeft: '4px',
+                  paddingRight: '18px',
+                  cursor: 'pointer',
+                  color: '#0079d3',
+                  borderRadius: '25px'
+                }}
+                // value={country}
+                // onChange={handleChangeCountry}
+              >
+                {list.map((countryGet) => (
+                  &lt;option key={countryGet.id}>{countryGet.name}&lt;/option>
+                ))}
+              &lt;/select>
+              &lt;ArrowDropDownIcon
+                style={{
+                  marginLeft: '-22px',
+                  cursor: 'pointer',
+                  color: '#0079d3'
+                }}
+              />
+            &lt;/Box>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+    &lt;/>
+  );
+}
+export default AccountPreference;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccountPreference">AccountPreference</a></li><li><a href="global.html#AccountSettings">AccountSettings</a></li><li><a href="global.html#Box1">Box1</a></li><li><a href="global.html#Box2">Box2</a></li><li><a href="global.html#Box4">Box4</a></li><li><a href="global.html#Box5">Box5</a></li><li><a href="global.html#ConnectedAccounts">ConnectedAccounts</a></li><li><a href="global.html#DeleteAccount">DeleteAccount</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sat Nov 12 2022 23:57:52 GMT+0200 (توقيت شرق أوروبا الرسمي)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

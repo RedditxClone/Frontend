@@ -22,8 +22,10 @@ export default function Box4({ setIsDelete, setIsShownDelContinue }) {
     <div
       className="box-4"
       id="confg-4"
+      data-testid="confirmation-box-4"
     >
       <div
+        data-testid="close-ic"
         className="icon-1"
         onClick={handleClickClose}
       >
@@ -45,6 +47,7 @@ export default function Box4({ setIsDelete, setIsShownDelContinue }) {
       <div className="buttons">
         <div className="btn-1">
           <Button
+            data-testid="cancel-btn"
             variant="outlined"
             color="primary"
             onClick={handleClickClose}
@@ -54,6 +57,7 @@ export default function Box4({ setIsDelete, setIsShownDelContinue }) {
         </div>
         <div>
           <Button
+            data-testid="cont-btn"
             onClick={handleClickContinue}
             variant="contained"
           >

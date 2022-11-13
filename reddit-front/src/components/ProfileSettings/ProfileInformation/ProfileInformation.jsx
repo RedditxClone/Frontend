@@ -10,7 +10,11 @@ import { VscAdd } from 'react-icons/vsc';
 import Box1 from '../ActionComponents.jsx/Box1';
 import Box2 from '../ActionComponents.jsx/Box2';
 
-export default function ProfileInformation() {
+/**
+ * this is the component which contains dispaly name , about , social links in profile settings
+ */
+
+function ProfileInformation() {
   const maxTextCount = 30;
   const maxTextCharCount = 200;
   const [isShownAdd, setIsShownAdd] = useState(false);
@@ -34,6 +38,7 @@ export default function ProfileInformation() {
           </p>
           <div className="cont-2">
             <Box
+              data-testid="display-cont"
               className="box"
               style={{ marginTop: 0 }}
             >
@@ -58,6 +63,7 @@ export default function ProfileInformation() {
           A brief description of yourself shown on your profile.
         </p>
         <TextareaAutosize
+          data-testid="about-cont"
           placeholder="About(optional)"
           maxLength={maxTextCharCount}
           style={{ width: 685, height: 100 }}
@@ -80,6 +86,7 @@ export default function ProfileInformation() {
           </p>
           <Box>
             <Button
+              data-testid="social-btn"
               variant="contained"
               startIcon={<VscAdd />}
               onClick={handleClickAdd}
@@ -106,3 +113,4 @@ export default function ProfileInformation() {
     </>
   );
 }
+export default ProfileInformation;

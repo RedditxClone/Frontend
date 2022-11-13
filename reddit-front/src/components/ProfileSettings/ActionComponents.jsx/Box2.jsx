@@ -30,7 +30,17 @@ import custom from '../../../assets/Images/custom.png';
 // import cashApp from '../../../assets/images/cash_app.png';
 // import shopify from '../../../assets/images/shopify.png';
 
-export default function Box2({ setIsShownComp, setIsShownAdd }) {
+/**
+ * @typedef PropType
+ * @property {Function} setIsShownComp
+ * @property {Function} setIsShownAdd
+ */
+
+/**
+ * this is the component which appears when we click on any component in box-1 profile settings
+ */
+
+function Box2({ setIsShownComp, setIsShownAdd }) {
   const handleClickBack = () => {
     const ele = document.getElementById('confg2');
     ele.style.display = 'none';
@@ -84,3 +94,4 @@ export default function Box2({ setIsShownComp, setIsShownAdd }) {
     </div>
   );
 }
+export default Box2;

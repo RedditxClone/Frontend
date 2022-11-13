@@ -6,7 +6,9 @@ import './NotificationsStyle.css';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useState } from 'react';
 import CommunityAlert from './CommunityAlert/CommunityAlert';
-
+/**
+ * this is the component that contains the notifications settings
+ */
 export default function Notifications() {
   const [isForward, setIsForward] = useState(false);
   const handleClickForward = () => {
@@ -16,7 +18,10 @@ export default function Notifications() {
     <>
       {isForward && <CommunityAlert setIsForward={setIsForward} />}
       {!isForward && (
-        <div className="notifications">
+        <div
+          data-testid="notifi-settings-container"
+          className="notifications"
+        >
           <h2 className="h2">Notifications settings</h2>
           <div className="messages">
             <h3 className="main-h3">Messages</h3>
@@ -136,7 +141,7 @@ export default function Notifications() {
                 <h3 className="h3">New followers</h3>
               </div>
               <Box className="child-b">
-                <Switch />
+                <Switch data-testid="new-follower-sw" />
               </Box>
             </div>
             <div className="parent-div">

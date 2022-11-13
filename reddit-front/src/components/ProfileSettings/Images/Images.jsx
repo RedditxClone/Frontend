@@ -3,7 +3,11 @@
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import './ImagesStyle.css';
 
-export default function Images() {
+/**
+ * this is the component which contains profile photo component
+ */
+
+function Images() {
   return (
     <div className="images">
       <h3 className="main-h3">Images</h3>
@@ -13,6 +17,7 @@ export default function Images() {
         <div
           className="div-1"
           style={{ backgroundColor: '#f2f4f5' }}
+          data-testid="profile-ph"
         >
           <ControlPointIcon
             style={{
@@ -28,6 +33,7 @@ export default function Images() {
           </p>
         </div>
         <div
+          data-testid="cover-ph"
           className="div-2"
           style={{ backgroundColor: '#f2f4f5' }}
         >
@@ -51,3 +57,4 @@ export default function Images() {
     </div>
   );
 }
+export default Images;

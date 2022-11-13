@@ -16,6 +16,7 @@ export default function Box5({ setIsShownDelContinue }) {
     <div
       className="box-5"
       id="confg-5"
+      data-testid="confirmation-box-5"
     >
       <div
         className="icon-1"

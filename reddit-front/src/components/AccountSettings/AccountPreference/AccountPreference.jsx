@@ -12,10 +12,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useState } from 'react';
 
 import { list } from '../../../utilities/CountriesList';
-// import countryList from 'react-select-country-list';
 import Box1 from '../ActionComponents/Box1';
 import Box2 from '../ActionComponents/Box2';
-// import CompSelectLan from './CompSelectLan/CompSelectLan';
 
 export default function AccountPreference() {
   const [isShownChange, setIsShownChange] = useState(false);
@@ -33,10 +31,10 @@ export default function AccountPreference() {
   };
 
   // const [country, setCountry] = useState('Egypt');
-  // // const options = useMemo(() => countryList.getData(), []);
-  // const handleChangeCountry = (e) => {
-  //   setCountry(e.target.value);
-  // };
+  // const options = useMemo(() => countryList.getData(), []);
+  const handleChangeCountry = (e) => {
+    document.getElementById('countries').value = e.target.value;
+  };
 
   // const [country, setCountry] = useState([]);
   // const handleChangeCountry = (e) => {
@@ -68,6 +66,7 @@ export default function AccountPreference() {
           </div>
           <div className="cont">
             <Button
+              data-testid="chage-button"
               onClick={handleClickChange}
               variant="outlined"
               color="primary"
@@ -104,8 +103,14 @@ export default function AccountPreference() {
                 fullwidth
                 value={gender}
                 onChange={handleChangeGender}
+                data-testid="gender-selecte"
               >
-                <MenuItem value="Woman">Woman</MenuItem>
+                <MenuItem
+                  data-testid="woman-option"
+                  value="Woman"
+                >
+                  Woman
+                </MenuItem>
                 <MenuItem value="Man">Man</MenuItem>
                 <MenuItem value="Non-Binary">Non-Binary</MenuItem>
                 <MenuItem value="I Refer To Myself As...">
@@ -182,6 +187,7 @@ export default function AccountPreference() {
               style={{ display: 'flex' }}
             >
               <select
+                data-testid="country-select"
                 id="countries"
                 style={{
                   fontSize: '16px',
@@ -200,7 +206,12 @@ export default function AccountPreference() {
                 // onChange={handleChangeCountry}
               >
                 {list.map((countryGet) => (
-                  <option key={countryGet.id}>{countryGet.name}</option>
+                  <option
+                    onClick={handleChangeCountry}
+                    key={countryGet.id}
+                  >
+                    {countryGet.name}
+                  </option>
                 ))}
               </select>
               <ArrowDropDownIcon

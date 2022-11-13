@@ -24,6 +24,7 @@ export default function DeleteAccount() {
         <h3 className="main-h3">Delete Account</h3>
         <Box className="del">
           <Button
+            data-testid="delete-button"
             onClick={handleClickDelete}
             startIcon={<RiDeleteBin5Fill style={{ color: '#ff585b' }} />}
             variant="text"

@@ -4,7 +4,9 @@
 import { Box, Button, TextField, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import './ChatMessagingStyle.css';
-
+/**
+ * this is the component that contains the chat settings
+ */
 export default function ChatMessaging() {
   const [state, setState] = useState('EVERYONE');
   const handleChangeState = (e) => {
@@ -15,7 +17,10 @@ export default function ChatMessaging() {
     setStat(e.target.value);
   };
   return (
-    <div className="chat-messaging">
+    <div
+      data-testid="chat-mes-settings-container"
+      className="chat-messaging"
+    >
       <h2 className="h2">Chat & Messaging</h2>
       <div className="parent-div-first">
         <div className="child-div">
@@ -99,10 +104,11 @@ export default function ChatMessaging() {
             justifyCcontent: 'flex-end',
             alignItems: 'center',
             display: 'flex',
-            flexGrow: 1,
+            flexGrow: 1
           }}
         >
           <Button
+            data-testid="copy-btn"
             variant="outlined"
             color="primary"
             style={{ marginBottom: '50px', padding: '6px 18px' }}
@@ -131,7 +137,7 @@ export default function ChatMessaging() {
             justifyCcontent: 'flex-end',
             alignItems: 'center',
             display: 'flex',
-            flexGrow: 1,
+            flexGrow: 1
           }}
         >
           <Button

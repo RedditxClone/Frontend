@@ -2,10 +2,15 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Box, Switch } from '@mui/material';
 import './EmailsStyle.css';
-
+/**
+ * this is the component that contains the email settings
+ */
 export default function Emails() {
   return (
-    <div className="emails">
+    <div
+      data-testid="emails-settings-container"
+      className="emails"
+    >
       <h2 className="h2">Manage Emails</h2>
       <div className="messages">
         <h3 className="main-h3">Messages</h3>
@@ -81,7 +86,7 @@ export default function Emails() {
             <h3 className="h3">New followers</h3>
           </div>
           <Box className="child-b">
-            <Switch />
+            <Switch data-testid="new-followers-sw" />
           </Box>
         </div>
       </div>

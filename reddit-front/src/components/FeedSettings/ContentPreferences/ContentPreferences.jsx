@@ -11,7 +11,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignCenter';
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
 
-export default function ContentPreferences() {
+/**
+ * this is the component that contains the adult content option and autoplay options
+ */
+
+function ContentPreferences() {
   const [state, setState] = useState('HOT');
   const handleChangeState = (e) => {
     setState(e.target.value);
@@ -32,7 +36,7 @@ export default function ContentPreferences() {
           </p>
         </div>
         <Box className="child-b">
-          <Switch />
+          <Switch data-testid="adult-cont" />
         </Box>
       </div>
       <div className="parent-div-disabled">
@@ -78,7 +82,7 @@ export default function ContentPreferences() {
           </p>
         </div>
         <Box className="child-b">
-          <Switch />
+          <Switch data-testid="media-cont" />
         </Box>
       </div>
       <div className="parent-div">
@@ -204,3 +208,4 @@ export default function ContentPreferences() {
     </div>
   );
 }
+export default ContentPreferences;

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ActionComponents.jsx/Box1.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ActionComponents.jsx/Box1.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable linebreak-style */
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable comma-dangle */
+import CloseIcon from '@mui/icons-material/Close';
+// import { Button } from '@mui/material';
+import './ActionComponents.css';
+import { Button } from '@mui/material';
+// import LinkIcon from '@mui/icons-material/Link';
+// import InstagramIcon from '@mui/icons-material/Instagram';
+// import TwitterIcon from '@mui/icons-material/Twitter';
+// import {
+//   FaTiktok,
+//   FaReddit,
+//   FaTwitch,
+//   FaFacebook,
+//   FaYoutube,
+//   FaTumblrSquare,
+//   FaSpotify,
+//   FaSoundcloud,
+//   FaBraille,
+//   FaTree,
+//   FaDiscord,
+//   FaPatreon,
+// } from 'react-icons/fa';
+// import { SiKofi } from 'react-icons/si';
+// import { IoLogoVenmo } from 'react-icons/io5';
+// import { BiDollarCircle } from 'react-icons/bi';
+// import { BsPaypal } from 'react-icons/bs';
+// import { MdCamera } from 'react-icons/md';
+// import '../../../assets/Images/imgsFile';
+import onlyFans from '../../../assets/Images/onlyfans.png';
+import custom from '../../../assets/Images/custom.png';
+import instagram from '../../../assets/Images/instagram.png';
+import twitter from '../../../assets/Images/twitter.png';
+import twitch from '../../../assets/Images/twitch.png';
+import youtube from '../../../assets/Images/youtube.png';
+import paypal from '../../../assets/Images/paypal.png';
+import soundCloud from '../../../assets/Images/soundcloud.png';
+import venmo from '../../../assets/Images/venmo.png';
+import kofi from '../../../assets/Images/kofi.png';
+import patreon from '../../../assets/Images/patreon.png';
+import kickStarter from '../../../assets/Images/kickstarter.png';
+import discord from '../../../assets/Images/discord.png';
+import coffee from '../../../assets/Images/buy_me_a_coffee.png';
+import linkTree from '../../../assets/Images/linktree.png';
+import reddit from '../../../assets/Images/reddit.png';
+import subStack from '../../../assets/Images/substack.png';
+import cameo from '../../../assets/Images/cameo.png';
+import beacons from '../../../assets/Images/beacons.png';
+import tiktok from '../../../assets/Images/tiktok.png';
+import facebook from '../../../assets/Images/facebook.png';
+import tumblr from '../../../assets/Images/tumblr.png';
+import spotify from '../../../assets/Images/spotify.png';
+import cashApp from '../../../assets/Images/cash_app.png';
+import shopify from '../../../assets/Images/shopify.png';
+
+/**
+ * @typedef PropType
+ * @property {Function} setIsShownAdd
+ * @property {Function} setIsShownComp
+ */
+
+/**
+ * this is the component which appears when we press on add social links button in profile settings
+ */
+
+function Box1({
+  setIsShownAdd,
+  setIsShownComp
+  // setIconTitle,
+  // setIcon,
+}) {
+  const handleClickClose = () => {
+    const ele = document.getElementById('confg1');
+    ele.style.display = 'none';
+    ele.style.visibility = 'hidden';
+    setIsShownAdd(false);
+  };
+  const handleClickComp = () => {
+    setIsShownComp(true);
+    handleClickClose();
+  };
+  return (
+    &lt;div
+      className="box1"
+      id="confg1"
+    >
+      &lt;div className="contain">
+        &lt;div className="div-main-1">Add Social Link&lt;/div>
+        &lt;div className="icon-1">
+          &lt;CloseIcon onClick={handleClickClose} />
+        &lt;/div>
+      &lt;/div>
+      &lt;div className="contain-2">
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={custom}
+              alt="custom"
+            />
+          }
+        >
+          custom URL
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={reddit}
+              alt="reddit"
+            />
+          }
+        >
+          Reddit
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={instagram}
+              alt="instagram"
+            />
+          }
+        >
+          Instagram
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={twitter}
+              alt="twitter"
+            />
+          }
+        >
+          Twitter
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={tiktok}
+              alt="tiktok"
+            />
+          }
+        >
+          Tiktok
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={twitch}
+              alt="twitch"
+            />
+          }
+        >
+          Twitch
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={facebook}
+              alt="facebook"
+            />
+          }
+        >
+          Facebook
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={youtube}
+              alt="youtube"
+            />
+          }
+        >
+          Youtube
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={tumblr}
+              alt="tumblr"
+            />
+          }
+        >
+          Tumblr
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={spotify}
+              alt="spotify"
+            />
+          }
+        >
+          Spotify
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={soundCloud}
+              alt="soundcloud"
+            />
+          }
+        >
+          Soundcloud
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={beacons}
+              alt="beacons"
+            />
+          }
+        >
+          Beacons
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={linkTree}
+              alt="linktree"
+            />
+          }
+        >
+          Linktree
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={discord}
+              alt="discord"
+            />
+          }
+        >
+          Discord
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={venmo}
+              alt="venmo"
+            />
+          }
+        >
+          Venmo
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={cashApp}
+              alt="cashapp"
+            />
+          }
+        >
+          Cash app
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={patreon}
+              alt="patreon"
+            />
+          }
+        >
+          Patreon
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={kofi}
+              alt="kofi"
+            />
+          }
+        >
+          Kofi
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={paypal}
+              alt="paypal"
+            />
+          }
+        >
+          PayPal
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={cameo}
+              alt="cameo"
+            />
+          }
+        >
+          Cameo
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={onlyFans}
+              alt="onlyfans"
+            />
+          }
+        >
+          OnlyFans
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={subStack}
+              alt="substack"
+            />
+          }
+        >
+          Substack
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={kickStarter}
+              alt="kickstarter"
+            />
+          }
+        >
+          Kickstarter
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={coffee}
+              alt="coffee"
+            />
+          }
+        >
+          Buy Me a Coffee
+        &lt;/Button>
+        &lt;Button
+          onClick={handleClickComp}
+          variant="outlined"
+          startIcon={
+            &lt;img
+              src={shopify}
+              alt="shopify"
+            />
+          }
+        >
+          Shopify
+        &lt;/Button>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+export default Box1;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Box1">Box1</a></li><li><a href="global.html#Box2">Box2</a></li><li><a href="global.html#Images">Images</a></li><li><a href="global.html#ProfileInformation">ProfileInformation</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Nov 13 2022 00:27:58 GMT+0200 (توقيت شرق أوروبا الرسمي)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
