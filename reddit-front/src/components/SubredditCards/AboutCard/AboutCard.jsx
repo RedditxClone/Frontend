@@ -40,7 +40,12 @@ import {
  *
  */
 
-function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
+function AboutCard({
+  baseColor,
+  highlightColor,
+  isModeratorMode,
+  inCreatePost = false
+}) {
   // For testing
   const subTopicsList = [
     'first',
@@ -116,7 +121,7 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
   return (
     <AboutCardContainer data-testid="about-card-container">
       <CardHeader
-        title="About Community"
+        title={inCreatePost ? '' : 'About Community'}
         baseColor={baseColor}
         hasDropDownMenu={1}
         isModeratorMode={isModeratorMode}
@@ -306,7 +311,7 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
         />
 
         {/* Community Topics  */}
-        {isModeratorMode ? (
+        {isModeratorMode && !inCreatePost && (
           <>
             <CommunityTopics
               highlightColor={highlightColor}
@@ -323,23 +328,27 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
               marginRight="0"
             />
           </>
-        ) : null}
+        )}
 
         {/* Create Post Button  */}
-        <Box
-          className="subreddit-create-post"
-          data-testid="create-post-inside-community"
-        >
-          <CreatePostButton sx={{ backgroundColor: highlightColor }}>
-            Create post
-          </CreatePostButton>
-        </Box>
-        <StyledHorizontalLine
-          marginTop="1.5"
-          marginBottom="1.5"
-          marginLeft="0"
-          marginRight="0"
-        />
+        {!inCreatePost && (
+          <Box
+            className="subreddit-create-post"
+            data-testid="create-post-inside-community"
+          >
+            <CreatePostButton sx={{ backgroundColor: highlightColor }}>
+              Create post
+            </CreatePostButton>
+          </Box>
+        )}
+        {!inCreatePost && (
+          <StyledHorizontalLine
+            marginTop="1.5"
+            marginBottom="1.5"
+            marginLeft="0"
+            marginRight="0"
+          />
+        )}
 
         {/* Community options  */}
         <Box

@@ -7,6 +7,7 @@
   --newCommunityTheme-body: #ffffff;
   --newCommunityTheme-metaText: #7c7c7c;
   --newCommunityTheme-monospaceColor: #ff006d;
+  --newRedditTheme-line: #EDEFF1;
 }
 * {
   box-sizing: border-box;

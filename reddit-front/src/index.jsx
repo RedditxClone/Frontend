@@ -23,6 +23,7 @@ import Notifications from './components/Notifications/Notifications';
 import Emails from './components/Emails/Emails';
 import Subscriptions from './components/Subscriptions/Subscriptions';
 import ChatMessaging from './components/ChatMessaging/ChatMessaging';
+import CreatePost from './pages/CreatePost/CreatePost';
 
 // Routes
 const routes = createBrowserRouter([
@@ -106,6 +107,10 @@ const routes = createBrowserRouter([
         element: <ChatMessaging />
       }
     ]
+  },
+  {
+    path: '/submit',
+    element: <CreatePost />
   }
 ]);
 
