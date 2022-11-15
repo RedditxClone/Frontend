@@ -1,14 +1,13 @@
+/* eslint-disable max-len */
 import { BsReddit } from 'react-icons/bs';
 import { styled } from '@mui/material';
-import { StyledLogo } from '../AppBar/AppBar.Style';
+import { StyledLogo } from './AppBar.Style';
 import RedditLogo from '../../../utilities/RedditLogo/RedditLogo';
-
+/**
+ *@description this function for the first section in the nav bar which is the package of Logo of reddit
+ *@return {React.Component } the whole logo of reddit
+ */
 function Logo() {
-  /**
-   * description : this function for the first section in the nav bar which is the package of
-   * Logo of reddit
-   * it return the whole logo of reddit
-   */
   const Sec1 = styled('div')(({ theme }) => ({
     color: '#FF4500',
     alignItems: 'center',

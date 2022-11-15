@@ -1,6 +1,6 @@
 import { AiOutlineSearch } from 'react-icons/ai';
 import { styled } from '@mui/material';
-import { StyledInputBase, Search } from '../AppBar/AppBar.Style';
+import { StyledInputBase, Search } from './AppBar.Style';
 /**
  * @description of the function :it describes the searchbar in the navigation bar as a box
  * @param {bool} login it describes the state at which the user is loggedin or not

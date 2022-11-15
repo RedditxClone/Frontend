@@ -1,3 +1,8 @@
+/**
+ * @description this logo for user settings in home list in nav bar
+ * @return {React.Component} this returns logo in reddit
+ */
+
 function UserSettingsLogo() {
   return (
     <img

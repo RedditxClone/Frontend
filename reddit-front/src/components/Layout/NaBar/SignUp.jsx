@@ -1,8 +1,9 @@
-import { StyledButton, SignInBox } from '../AppBar/AppBar.Style';
+import { StyledButton, SignInBox } from './AppBar.Style';
 
 /**
- * description : this Signup box which appears in the navigation bar when u are not loggedin
- * it returns SignUp button
+ *@description this Signup box which appears in the navigation bar when u are not loggedin
+ *@param {bool} this for if u signed up
+ *@return {React.Component} SignUp button
  */
 function SignUp({ clicked }) {
   return (

@@ -6,21 +6,11 @@ import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { IoSettingsOutline } from 'react-icons/io5';
 // import { MdExpandMore } from 'react-icons/md';
 import { useState } from 'react';
-import {
-  StyledSelect,
-  StyledButton,
-  ProfileLogging
-} from '../AppBar/AppBar.Style';
+import { StyledSelect, StyledButton, ProfileLogging } from './AppBar.Style';
 
 /**
- * @typedef {PropType} state
- * @property {bool} opencommunity this property the state of the comuunity list as open or not
- * @property {bool} opensettings  this property the state of the settings list as open or not
- */
-
-/**
- * description :this is the profie box in the nav bar in case u are not logged in
- * it returns progileLogin select
+ *@description this is the profie box in the nav bar in case u are not logged in
+ *@return {React.Component} progileLogin select
  */
 
 function ProfileLogin() {

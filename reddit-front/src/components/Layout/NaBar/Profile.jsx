@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable object-curly-newline */
 import {
   MenuItem,
@@ -18,11 +19,10 @@ import {
   StyledButton,
   StyledText,
   ProfileContainer
-} from '../AppBar/AppBar.Style';
+} from './AppBar.Style';
 /**
- * description : this function describes the profile select in the nav bar in case u are loggedin
- *  which includes the settings and etc..
- * it returns profile box
+ *@description this function describes the profile select in the nav bar in case u are loggedin which includes the settings and etc..
+ *@return {React.Component} profile box
  */
 function Profile() {
   const [openexplore, setOpenExplore] = useState(false);

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import SideDrawer from '../../../components/Layout/Drawer/Drawer';
+import SideDrawer from '../../../components/Layout/NaBar/Drawer';
 
 describe('Test for SideDrawer', () => {
   it('Test for rendering SideDrawer list', () => {

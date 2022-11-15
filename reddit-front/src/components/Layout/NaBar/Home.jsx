@@ -11,7 +11,7 @@ import { BsLayoutTextSidebar } from 'react-icons/bs';
 import { CgArrowTopRightO } from 'react-icons/cg';
 import { AiOutlineStar } from 'react-icons/ai';
 import { HiOutlineBarsArrowUp } from 'react-icons/hi2';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { MdExpandMore } from 'react-icons/md';
 import { TfiLayers } from 'react-icons/tfi';
 import {
@@ -20,19 +20,13 @@ import {
   Home,
   StyledButton,
   StyledHomeIconButton
-} from '../AppBar/AppBar.Style';
-import SideDrawer from '../Drawer/Drawer';
+} from './AppBar.Style';
+import SideDrawer from './Drawer';
 import UserSettingsLogo from '../../../utilities/UserSettingsLogo/UserLogo';
-/**
- * @typedef {PropType} state
- * @property {bool} Side this property describes if u want to see the SideDrawer or not and send it to SideElement
- * @property {bool} Open this property controls the list of the home if u want to show or not
- */
 
 /**
- * description : this function describes the home box in the bar in case u are loggedin
- * it contains ur communities ,etc..
- * it returns the home box
+ * @description this function describes the home box in the bar in case u are loggedin it contains ur communities ,etc..
+ * @return {React.Component} the home box
  */
 function HomeBox() {
   const [Side, setSide] = useState(false);

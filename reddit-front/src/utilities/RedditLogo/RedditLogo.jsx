@@ -1,3 +1,8 @@
+/**
+ * @description this logo for reddit in nav bar rddit word
+ * @return {React.Component} this returns reddit logo
+ */
+
 function RedditLogo() {
   return (
     <svg
