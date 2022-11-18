@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent-props */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
@@ -84,6 +85,7 @@ function PostsResults() {
     <ThemeProvider theme={searchTheme}>
       {/* Sorting the posts */}
       <Box
+        data-testid="search-posts-results"
         sx={{
           display: 'flex',
           justifyContent: 'flex-start'

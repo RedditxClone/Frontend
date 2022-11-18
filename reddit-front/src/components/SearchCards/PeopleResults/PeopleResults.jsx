@@ -109,7 +109,7 @@ function PeopleResults({ isSideBarCard }) {
               </NameLogoContainer>
               {/* follow button  */}
               <FollowButton
-                data-testid="follow-button"
+                data-testid="community-follow-button"
                 data-isFollowed={item.followed}
                 onClick={() =>
                   handleFollowButton(this, item.community_id, item.followed)

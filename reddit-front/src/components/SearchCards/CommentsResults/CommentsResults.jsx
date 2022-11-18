@@ -55,7 +55,7 @@ function CommentsResults() {
   }, []);
 
   return (
-    <RootContainer data-testid="comments-results">
+    <RootContainer data-testid="search-comments-results">
       <ResultsContainer>
         {result.length === 0 && isFinished ? (
           <h3>No data found.</h3>

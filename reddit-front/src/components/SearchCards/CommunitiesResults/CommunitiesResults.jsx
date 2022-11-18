@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/aria-role */
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable react/no-array-index-key */
@@ -129,9 +130,9 @@ function CommunitiesResults({ isSideBarCard }) {
                 </div>
               </NameLogoContainer>
 
-              {/* follow button  */}
+              {/* join button  */}
               <FollowButton
-                data-testid="join-button"
+                role="community-join-button"
                 data-isJoined={item.joined}
                 onClick={() =>
                   handleJoinButton(this, item.community_id, item.joined)
