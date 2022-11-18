@@ -23,12 +23,37 @@ import Notifications from './components/Notifications/Notifications';
 import Emails from './components/Emails/Emails';
 import Subscriptions from './components/Subscriptions/Subscriptions';
 import ChatMessaging from './components/ChatMessaging/ChatMessaging';
-
+// import ProfileUserCard from './components/ProfileUserCard/ProfileUserCard';
+import ProfilePost from './components/PorfileUpvotesPosts/ProfileUpvotePosts';
+// import PostPorfileList from './components/PostListProfile/PostListProfile';
 // Routes
+
+const Data = {
+  id: 1,
+  votes: 3,
+  community_id: 4,
+  user_id: 2,
+  community_name: 'quran',
+  posted_by: 'nada osman',
+  posted_at: '1 minute ago',
+  post_type: 'img',
+  title: 'this is sport topic',
+  flair_name: 'Question'
+};
 const routes = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />
+    element: (
+      <ProfilePost
+        postData={Data}
+        isCommunityPost={false}
+        isPostFullDetailsMode={false}
+        isModeratorMode={false}
+        post_type="img"
+        title="this is sport topic"
+        flair_name="Question"
+      />
+    )
   },
   {
     path: '/auth',
