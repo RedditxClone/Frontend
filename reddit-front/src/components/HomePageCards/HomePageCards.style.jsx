@@ -142,7 +142,7 @@ export const StyledMenuItem = styled(MenuItem)({
   color: '#9DA0A1',
   padding: '0.5rem',
   fontSize: '1.6rem',
-  '&li:hover': { backgroundColor: 'blue' }
+  '&:hover': { backgroundColor: '#0272fc1a', color: 'black' }
 });
 
 export const LargeRoundedButton = styled(RoundedButton)({

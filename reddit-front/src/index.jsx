@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -24,13 +25,130 @@ import './index.css';
 // import Subscriptions from './components/Subscriptions/Subscriptions';
 // import ChatMessaging from './components/ChatMessaging/ChatMessaging';
 import MyProfilePage from './pages/MyProfilePage/MyProfilePage';
-
+import CommentsForSamePostCard from './components/CommentsCard/CommentsCard';
+import CommentTap from './components/CommentTap/CommentTap';
 // Routes
+// const communities = [
+//   {
+//     name: 'My Community',
+//     picture: pic,
+//     growing: true,
+//     goingDown: false,
+//     rank: 1,
+//     joined: false,
+//     userCommunity: false,
+//     noMembers: '1.6m',
+//     noOnlineMembers: '825',
+//     description: 'For Your Health'
+//   },
+//   {
+//     name: 'My Community',
+//     picture: pic,
+//     growing: false,
+//     goingDown: true,
+//     rank: 1,
+//     joined: false,
+//     userCommunity: true,
+//     noMembers: '1.6m',
+//     noOnlineMembers: '825',
+//     description: 'For Your Health'
+//   },
+//   {
+//     name: 'My Community',
+//     picture: pic,
+//     growing: false,
+//     goingDown: true,
+//     rank: 1,
+//     joined: false,
+//     userCommunity: true,
+//     noMembers: '1.6m',
+//     noOnlineMembers: '825',
+//     description: 'For Your Health'
+//   }
+// ];
+const postCommentInfo = {
+  userName: 'Aya_husein',
+  postTitle: 'test',
+  postLink: 'www.google.com',
+  communityName: 'quotes',
+  postOwner: 'Aya_husein',
+  
+  
+};
+const commentsForSamePost = [
+  {
+    userName: 'Aya_husein',
+    noVotes: 3,
+    time: '2 minutes ago',
+    content: 'kkkkkkkk',
+    reply: true,
+    isModerator: true,
+    spam:false,
+    locked:false,
+    approved:false,
+    removed:false,
+    saved:false,
+    commentLink:'www.google.com',
+    hasRemovalReason:false,
+    removalReason:'',
+    removalInfo:{
+      removalTime:'',
+      removerUser:""///??
+    }
+  },
+  {
+    userName: 'Aya_husein',
+    noVotes: 3,
+    time: '2 minutes ago',
+    content: 'kkkkkkkk',
+    reply: false,
+    isModerator: false,
+    spam:false,
+    locked:false,
+    approved:false,
+    removed:false,
+    saved:false,
+    commentLink:'www.google.com',
+    hasRemovalReason:false,
+    removalReason:''
+  },
+  {
+    userName: 'Aya_husein',
+    noVotes: 3,
+    time: '2 minutes ago',
+    content: 'kkkkkkkk',
+    reply: true,
+    isModerator: true,
+    spam:false,
+    locked:false,
+    approved:false,
+    removed:false,
+    saved:false,
+    commentLink:'www.google.com',
+    hasRemovalReason:false,
+    removalReason:''
+  }
+];
+const comments=[
+  {
+    postCommentInfo:postCommentInfo,
+    commentsForSamePost:commentsForSamePost  
+  },
+  {
+    postCommentInfo:postCommentInfo,
+    commentsForSamePost:commentsForSamePost  
+  },
+  {
+    postCommentInfo:postCommentInfo,
+    commentsForSamePost:commentsForSamePost  
+  }
+];
 const routes = createBrowserRouter([
   {
     path: '/',
     element: <MyProfilePage />
   }
+  // <CommentTap comments={comments} />
   // ,
   // {
   //   path: '/auth',
