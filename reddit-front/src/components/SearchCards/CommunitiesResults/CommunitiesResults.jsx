@@ -29,6 +29,7 @@ import {
   joinSubreddit,
   leaveSubreddit
 } from '../../../services/requests/Subreddit';
+import Loader from '../../../utilities/Loader/Loader';
 
 /**
  * @typedef PropType
@@ -45,7 +46,7 @@ function CommunitiesResults({ isSideBarCard }) {
   const searchKey = 'test'; // for testing
   const [result, setResult] = useState([]);
   const slicingSize = isSideBarCard ? 5 : result.length;
-  const [isFinished, setIsFinished] = useState(false);
+  const [statusCode, setStatusCode] = useState(0);
 
   // Fetching the results by calling the fetch service
   useEffect(() => {
@@ -54,8 +55,8 @@ function CommunitiesResults({ isSideBarCard }) {
         key: searchKey,
         searchingCategory: 'communities'
       });
-      setResult(results);
-      setIsFinished(true);
+      setResult(results.data);
+      setStatusCode(results.statusCode);
     };
     fetchResults();
   }, []);
@@ -95,74 +96,98 @@ function CommunitiesResults({ isSideBarCard }) {
         marginTop: isSideBarCard ? '0' : '2rem'
       }}
     >
-      <ResultsContainer>
-        {isSideBarCard ? <StyledHeading>Communities</StyledHeading> : null}
-        {/* result container  */}
-        {result.length === 0 && isFinished ? (
-          <h3> No data found.</h3>
-        ) : (
-          result.slice(0, slicingSize).map((item, index) => (
-            <SingleResultContainer key={`people-result-${index}`}>
-              {/* Name and logo  */}
-              <NameLogoContainer>
-                <StyledLogoContainer>
-                  <StyledLogo
-                    data-testid="community-logo-search"
-                    src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png"
-                    alt="user_image"
-                  />
-                </StyledLogoContainer>
-                <div>
-                  <StyledCommunityName data-testid="community-search">
-                    {`r/${item.name}`}
-                  </StyledCommunityName>
-                  {!isSideBarCard ? (
-                    <MembersCount className="subreddit_members_count">
-                      {`${divideBigNumber(item.members_count)} Members`}
-                    </MembersCount>
-                  ) : null}
+      {statusCode === 0 ? (
+        <Loader />
+      ) : (
+        <ResultsContainer>
+          {/* // check if failed to fetch the results from the server  */}
+          {!isSideBarCard && statusCode === 400 ? (
+            <h1
+              style={{
+                padding: '.76rem',
+                margin: 0,
+                paddingLeft: '1rem',
+                backgroundColor: '#dae0e6'
+              }}
+            >
+              Failed to fetch the results.
+            </h1>
+          ) : null}
 
-                  <StyledDescription>
-                    {!isSideBarCard
-                      ? item.description
-                      : `${divideBigNumber(item.members_count)}  Members`}
-                  </StyledDescription>
-                </div>
-              </NameLogoContainer>
+          {isSideBarCard ? <StyledHeading>Communities</StyledHeading> : null}
+          {/* result container  */}
+          {result.length === 0 && statusCode === 200 && !isSideBarCard
+            ? null
+            : result.slice(0, slicingSize).map((item, index) => (
+                <SingleResultContainer key={`people-result-${index}`}>
+                  {/* Name and logo  */}
+                  <NameLogoContainer>
+                    <StyledLogoContainer>
+                      <StyledLogo
+                        data-testid="community-logo-search"
+                        src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png"
+                        alt="user_image"
+                      />
+                    </StyledLogoContainer>
+                    <div>
+                      <StyledCommunityName data-testid="community-search">
+                        {`r/${item.name}`}
+                      </StyledCommunityName>
+                      {!isSideBarCard ? (
+                        <MembersCount className="subreddit_members_count">
+                          {`${divideBigNumber(item.members_count)} Members`}
+                        </MembersCount>
+                      ) : null}
 
-              {/* join button  */}
-              <FollowButton
-                role="community-join-button"
-                data-isJoined={item.joined}
-                onClick={() =>
-                  handleJoinButton(this, item.community_id, item.joined)
-                }
-                onMouseOver={handleHoveringOnJoinButton}
-                onMouseOut={handleHoveringOutJoinButton}
-              >
-                {item.joined ? 'Joined' : 'Join'}
-              </FollowButton>
-            </SingleResultContainer>
-          ))
-        )}
-        {isSideBarCard && result.length > 0 ? (
-          <StyledHeading
-            onClick={() => {
-              window.location.href = '/search/communities';
-            }}
-            sx={{
-              color: '#0079D3',
-              fontSize: '14px',
-              paddingBottom: '1.6rem',
-              cursor: 'pointer'
-            }}
-          >
-            See more communities
-          </StyledHeading>
-        ) : (
-          <h3> No data found</h3>
-        )}
-      </ResultsContainer>
+                      <StyledDescription>
+                        {!isSideBarCard
+                          ? item.description
+                          : `${divideBigNumber(item.members_count)}  Members`}
+                      </StyledDescription>
+                    </div>
+                  </NameLogoContainer>
+
+                  {/* join button  */}
+                  <FollowButton
+                    role="community-join-button"
+                    data-isJoined={item.joined}
+                    onClick={() =>
+                      handleJoinButton(this, item.community_id, item.joined)
+                    }
+                    onMouseOver={handleHoveringOnJoinButton}
+                    onMouseOut={handleHoveringOutJoinButton}
+                  >
+                    {item.joined ? 'Joined' : 'Join'}
+                  </FollowButton>
+                </SingleResultContainer>
+              ))}
+          {isSideBarCard && result.length > 0 ? (
+            <StyledHeading
+              onClick={() => {
+                window.location.href = '/search/communities';
+              }}
+              sx={{
+                color: '#0079D3',
+                fontSize: '14px',
+                paddingBottom: '1.6rem',
+                cursor: 'pointer'
+              }}
+            >
+              See more communities
+            </StyledHeading>
+          ) : (
+            <h2
+              style={{
+                padding: '.76rem',
+                margin: 0,
+                paddingLeft: '1.8rem'
+              }}
+            >
+              No results found.
+            </h2>
+          )}
+        </ResultsContainer>
+      )}
     </RootContainer>
   );
 }

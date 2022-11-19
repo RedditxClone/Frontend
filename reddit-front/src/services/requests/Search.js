@@ -1,3 +1,6 @@
+/* eslint-disable no-else-return */
+/* eslint-disable consistent-return */
+/* eslint-disable arrow-body-style */
 /* eslint-disable no-plusplus */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable func-names */
@@ -17,12 +20,36 @@ const api = axios.create({
  * @param {object} data - The request data
  */
 const retrieveResults = async (data) => {
-  const { searchingCategory } = data;
-  const request = data; // this data that will be sent the api request
+  try {
+    let { searchingCategory } = data;
+    const request = data; // this data that will be sent the api request
+    // fetching the results
+    const response = await api.get(`/api/search/${searchingCategory}`);
+    return { data: response.data, statusCode: 200 };
+    // Work with the response...
+  } catch (err) {
+    if (err.response) {
+      // The client was given an error response (5xx, 4xx)
+      return { data: [], statusCode: 400 };
+    } else if (err.request) {
+      // The client never received a response, and the request was never left
+      return { data: [], statusCode: 400 };
+    } else {
+      // Anything else
+      console.log('Error', err.message);
+      return { data: [], statusCode: 400 };
+    }
+  }
 
-  // fetching the results
-  const response = await api.get(`/api/search/${searchingCategory}`);
-  return response.data;
+  // let { searchingCategory } = data;
+  // const request = data; // this data that will be sent the api request
+  // // fetching the results
+  // const response = await api
+  //   .get(`/api/search/${searchingCategory}`)
+  //   .then(() => {
+  //     return response.data;
+  //   })
+  //   .catch((e) => console.log(e.message));
 };
 
 export default retrieveResults;
