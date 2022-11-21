@@ -1,6 +1,9 @@
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Box from '@mui/material/Box';
-import { memo } from 'react';
+import { useState, useEffect, memo } from 'react';
 import Link from '@mui/material/Link';
 import { AiOutlineMail } from 'react-icons/ai';
 import {
@@ -9,11 +12,13 @@ import {
   ModeratorUsername
 } from './ModeratorsCard.Style';
 import CardHeader from '../CardHeader/CardHeader';
+import { getModeratorsList } from '../../../services/requests/Subreddit';
 
 /**
  * @typedef PropType
  * @property {string, color} baseColor
  * @property {string, color} highlightColor
+ * @property {Array} moderatorsList
  */
 
 /**
@@ -21,7 +26,22 @@ import CardHeader from '../CardHeader/CardHeader';
  *
  */
 
-function ModeratorsCard({ highlightColor, baseColor }) {
+function ModeratorsCard({ highlightColor, baseColor, subredditId }) {
+  const [moderatorsList, setModeratorsList] = useState([]);
+
+  useEffect(() => {
+    // Fetching the data of the moderators
+    const fetchModerators = async () => {
+      const results = await getModeratorsList({ id: subredditId });
+
+      setModeratorsList(results[0].list);
+    };
+
+    fetchModerators();
+  }, []);
+
+  // console.log('moderatorsList inside', moderatorsList);
+
   return (
     <ModeratorsContainer
       className="moderators"
@@ -52,16 +72,15 @@ function ModeratorsCard({ highlightColor, baseColor }) {
         </MessageModsButton>
 
         {/* List of the moderators  */}
-        <Box className="moderator-name">
-          <ModeratorUsername style={{ color: highlightColor }}>
-            u/test_user
-          </ModeratorUsername>
-        </Box>
-        <Box className="moderator-name">
-          <ModeratorUsername style={{ color: highlightColor }}>
-            u/test_user
-          </ModeratorUsername>
-        </Box>
+        {moderatorsList.length > 0
+          ? moderatorsList.map((item) => (
+              <Box className="moderator-name">
+                <ModeratorUsername style={{ color: highlightColor }}>
+                  {item}
+                </ModeratorUsername>
+              </Box>
+            ))
+          : null}
 
         {/* The view all button  */}
         <Box

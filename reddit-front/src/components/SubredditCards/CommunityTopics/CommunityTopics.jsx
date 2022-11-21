@@ -25,7 +25,10 @@ import {
   SuggestedSubTopic,
   HeadingContainer
 } from './CommunityTopics.Style';
-
+import {
+  updateSubredditTopic,
+  updateSubredditSubtopics
+} from '../../../services/requests/Subreddit';
 /**
  * @typedef PropType
  * @property {string} baseColor
@@ -34,6 +37,7 @@ import {
  * @property {array} chosenSubTopicsList
  * @property {array} trackUserChosenSubTopic
  * @property {array} trackUserRemovedSubTopic
+ * @property {number} subredditId
  */
 
 /**
@@ -48,7 +52,8 @@ function CommunityTopics({
   subTopicsList,
   chosenSubTopicsList,
   trackUserChosenSubTopic,
-  trackUserRemovedSubTopic
+  trackUserRemovedSubTopic,
+  subredditId
 }) {
   // states
   const [infoIconColor, setInfoIconColor] = useState('#aaa');
@@ -72,6 +77,14 @@ function CommunityTopics({
   const activateTopic = (e) => {
     const topicId = e.target.id;
     setActiveTopic(topicId);
+    // call api to update it in the database
+    const request = {
+      id: subredditId,
+      topic: {
+        topic: topicId
+      }
+    };
+    updateSubredditTopic(request);
   };
   /**
    * This Method returns the list of topics to be shown,
@@ -106,27 +119,17 @@ function CommunityTopics({
    *
    */
   const saveNewTopic = () => {
-    // // Saving Modifications for the chosen sub topics
-    // trackUserChosenSubTopic.forEach((item) => {
-    //   // Store the item in the chosen list
-    //   chosenSubTopicsList.push(item);
-    //   // remove it from the original list
-    //   subTopicsList.splice(subTopicsList.indexOf(item), 1);
-    // });
-    // trackUserChosenSubTopic.splice(0, trackUserChosenSubTopic.length);
-
-    // // Saving Modifications for the removed sub topics
-    // trackUserRemovedSubTopic.forEach((item) => {
-    //   // return the item to the original list
-    //   subTopicsList.push(item);
-    //   // Remove the item from the chosen list
-    //   ChosenSubTopicsList.splice(ChosenSubTopicsList.indexOf(item), 1);
-    // });
-    // trackUserRemovedSubTopic.splice(0, trackUserRemovedSubTopic.length);
-
     // Update the counter value
     setSubTopicsCounter(chosenSubTopicsList.length);
 
+    // update the api
+    const request = {
+      id: subredditId,
+      subtopics: {
+        subtopics: { chosenSubTopicsList }
+      }
+    };
+    updateSubredditSubtopics(request);
     // closing the edit mode
     setEditSubTopics(false);
     setShowSubTopics(false);
@@ -166,10 +169,11 @@ function CommunityTopics({
   const handleClickOnChosenSubTopic = (e) => {
     if (editSubTopics) {
       let value = e.target.innerHTML.trim();
-      const i = chosenSubTopicsList.indexOf(value);
+      let i = chosenSubTopicsList.indexOf(value);
 
       if (value === 'x') {
         value = e.target.previousSibling.innerHTML.trim();
+        i = chosenSubTopicsList.indexOf(value);
       }
 
       trackUserRemovedSubTopic.push(value);
