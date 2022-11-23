@@ -15,9 +15,9 @@ import NavLink from './ProfileNav.style';
  * @param {Array} links to set destinations we will go when clicking on list item
  * @returns {React.Component} styled sideList
  */
-function ProfileNav() {
-  const listArray = ['OVERVIEW', 'POSTS', 'COMMENTS', 'HISTORY', 'SAVED', 'HIDDEN', 'UPVOTED', 'DOWNVOTED'];
-  const links = ['/', '/', 'comments/', 'history/', 'saved/', 'hidden/', 'upvoted/', 'downvoted/'];
+function ProfileNav({ arr, olinks }) {
+  const listArray = arr;
+  const links = olinks;
 
   return (
     <List

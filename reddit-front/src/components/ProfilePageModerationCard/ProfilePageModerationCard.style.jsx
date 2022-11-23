@@ -14,7 +14,8 @@ export const SmallCard = styled("div")({
   width: "31rem",
   backgroundColor: "#FFFFFF",
   border: "1px solid #ccc",
-  borderRadius: "4px"
+  borderRadius: "4px",
+  marginTop: '1.5rem'
 });
 
 /**

@@ -1,13 +1,13 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import ProfileNav from '../../components/ProfileNav/ProfileNav';
-import MyProfileCard from '../../components/MyProfileCard/MyProfileCard';
+import ProfileUserCard from '../../components/ProfileUserCard/ProfileUserCard';
 import ProfilePageModerationCard from '../../components/ProfilePageModerationCard/ProfilePageModerationCard';
 import pic from '../../assets/Images/1166721.jpg';
 
 export default function MyProfilePage() {
-  const arr = ['OVERVIEW', 'POSTS', 'COMMENTS', 'HISTORY', 'SAVED', 'HIDDEN', 'UPVOTED', 'DOWNVOTED'];
-  const links = ['/', 'submitted', 'comments', 'history', 'saved', 'hidden', 'upvoted', 'downvoted'];
+  const arr = ['OVERVIEW', 'POSTS', 'COMMENTS'];
+  const links = ['profile_user', 'submitted', 'comments', 'history', 'saved', 'hidden', 'upvoted', 'downvoted'];
   const communities = [
     {
       name: 'My Community',
@@ -46,37 +46,37 @@ export default function MyProfilePage() {
       description: 'For Your Health'
     }
   ];
-  const [optionButton, optionButtonState] = useState({
-    title: 'More Options',
-    showMore: false,
-    listItems: []
-  });
-  const MoreOptionsHandler = () => {
-    const showless = !optionButton.showMore;
-    optionButtonState({
-      title: 'More Options',
-      showMore: showless,
-      listItems: []
-    });
-  };
-  const FewerOptionsHandler = () => {
-    const showmore = !optionButton.showMore;
-    optionButtonState({
-      title: 'Fewer Options',
-      showMore: showmore,
-      listItems: [
-        'Add Custom Feed',
-        'Invite Someone to chat'
-      ]
-    });
-  };
-  const buttonHandler = () => {
-    if (optionButton.showMore) {
-      MoreOptionsHandler();
-    } else {
-      FewerOptionsHandler();
-    }
-  };
+  //   const [optionButton, optionButtonState] = useState({
+  //     title: 'More Options',
+  //     showMore: false,
+  //     listItems: []
+  //   });
+  //   const MoreOptionsHandler = () => {
+  //     const showless = !optionButton.showMore;
+  //     optionButtonState({
+  //       title: 'More Options',
+  //       showMore: showless,
+  //       listItems: []
+  //     });
+  //   };
+  //   const FewerOptionsHandler = () => {
+  //     const showmore = !optionButton.showMore;
+  //     optionButtonState({
+  //       title: 'Fewer Options',
+  //       showMore: showmore,
+  //       listItems: [
+  //         'Add Custom Feed',
+  //         'Invite Someone to chat'
+  //       ]
+  //     });
+  //   };
+  //   const buttonHandler = () => {
+  //     if (optionButton.showMore) {
+  //       MoreOptionsHandler();
+  //     } else {
+  //       FewerOptionsHandler();
+  //     }
+  //   };
   return (
     <div>
       <ProfileNav
@@ -86,12 +86,7 @@ export default function MyProfilePage() {
       <div style={{ display: 'flex', padding: '2rem 2.4rem' }}>
         <Outlet />
         <div>
-          <MyProfileCard
-            arr={optionButton.listItems}
-            optionsButtonTitle={optionButton.title}
-            socialLinksArray={[]}
-            click={buttonHandler}
-          />
+          <ProfileUserCard />
           <ProfilePageModerationCard
             communities={communities}
           />

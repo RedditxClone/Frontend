@@ -27,6 +27,8 @@ import './index.css';
 import MyProfilePage from './pages/MyProfilePage/MyProfilePage';
 import CommentsForSamePostCard from './components/CommentsCard/CommentsCard';
 import CommentTap from './components/CommentTap/CommentTap';
+import ProfilePost from './components/PorfileUpvotesPosts/ProfileUpvotePosts';
+import OtherProfilePage from './pages/OtherProfilePage/OtherProfilePage';
 // Routes
 // const communities = [
 //   {
@@ -144,41 +146,144 @@ const comments=[
   }
 ];
 
-// import ProfilePost from './components/PorfileUpvotesPosts/ProfileUpvotePosts';
+
 // // import PostPorfileList from './components/PostListProfile/PostListProfile';
 // // Routes
 
-// const Data = {
-//   id: 1,
-//   votes: 3,
-//   community_id: 4,
-//   user_id: 2,
-//   community_name: 'quran',
-//   posted_by: 'nada osman',
-//   posted_at: '1 minute ago',
-//   post_type: 'img',
-//   title: 'this is sport topic',
-//   flair_name: 'Question'
-// };
+const Data = {
+  id: 1,
+  votes: 3,
+  community_id: 4,
+  user_id: 2,
+  community_name: 'quran',
+  posted_by: 'nada osman',
+  posted_at: '1 minute ago',
+  post_type: 'img',
+  title: 'this is sport topic',
+  flair_name: 'Question'
+};
 // const routes = createBrowserRouter([
 //   {
 //     path: '/',
-//     element: (
-//       <ProfilePost
-//         postData={Data}
-//         isCommunityPost={false}
-//         isPostFullDetailsMode={false}
-//         isModeratorMode={false}
-//         post_type="img"
-//         title="this is sport topic"
-//         flair_name="Question"
-//       />
-//     )
+
 //   },
 const routes = createBrowserRouter([
   {
     path: '/',
     element: <MyProfilePage />,
+    children: [
+      {
+        path: 'submitted',
+        element: (
+          <ProfilePost
+            postData={Data}
+            isCommunityPost={false}
+            isPostFullDetailsMode={false}
+            isModeratorMode={false}
+            post_type="img"
+            title="this is sport topic"
+            flair_name="Question"
+          />
+        )
+      },
+      // {
+      //   path: 'comments',
+      //   element: (
+      //     <CommentTap comments={comments} />
+      //   )
+      // },
+      {
+        path: 'history',
+        element: (
+          <ProfilePost
+            postData={Data}
+            isCommunityPost={false}
+            isPostFullDetailsMode={false}
+            isModeratorMode={false}
+            post_type="img"
+            title="this is sport topic"
+            flair_name="Question"
+          />
+        )
+      },
+      {
+        path: 'saved',
+        element: (
+          <ProfilePost
+            postData={Data}
+            isCommunityPost={false}
+            isPostFullDetailsMode={false}
+            isModeratorMode={false}
+            post_type="img"
+            title="this is sport topic"
+            flair_name="Question"
+          />
+        )
+      },
+      {
+        path: 'hidden',
+        element: (
+          <ProfilePost
+            postData={Data}
+            isCommunityPost={false}
+            isPostFullDetailsMode={false}
+            isModeratorMode={false}
+            post_type="img"
+            title="this is sport topic"
+            flair_name="Question"
+          />
+        )
+      },
+      {
+        path: 'upvoted',
+        element: (
+          <ProfilePost
+            postData={Data}
+            isCommunityPost={false}
+            isPostFullDetailsMode={false}
+            isModeratorMode={false}
+            post_type="img"
+            title="this is sport topic"
+            flair_name="Question"
+          />
+        )
+      },
+      {
+        path: 'downvoted',
+        element: (
+          <ProfilePost
+            postData={Data}
+            isCommunityPost={false}
+            isPostFullDetailsMode={false}
+            isModeratorMode={false}
+            post_type="img"
+            title="this is sport topic"
+            flair_name="Question"
+          />
+        )
+      },
+    ]
+  },
+  {
+    path: 'profile_user',
+    element: <OtherProfilePage />,
+    children: [
+      {
+        path: 'submitted',
+        element: (
+          <ProfilePost
+            postData={Data}
+            isCommunityPost={false}
+            isPostFullDetailsMode={false}
+            isModeratorMode={false}
+            post_type="img"
+            title="this is sport topic"
+            flair_name="Question"
+          />
+        )
+      }
+    ]
+
   }
   // <CommentTap comments={comments} />
   // ,
