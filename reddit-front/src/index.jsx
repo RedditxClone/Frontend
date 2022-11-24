@@ -24,51 +24,51 @@ import Notifications from './components/Notifications/Notifications';
 import Emails from './components/Emails/Emails';
 import Subscriptions from './components/Subscriptions/Subscriptions';
 import ChatMessaging from './components/ChatMessaging/ChatMessaging';
-// import ProfilePageModerationCard from './components/ProfilePageModerationCard/ProfilePageModerationCard';
-// import pic from './assets/Images/1166721.jpg';
+ import ProfilePageModerationCard from './components/ProfilePageModerationCard/ProfilePageModerationCard';
+ import pic from './assets/Images/1166721.jpg';
 import CommentsForSamePostCard from './components/CommentsCard/CommentsCard';
 import CommentTap from './components/CommentTap/CommentTap';
 // import BasicModal from './components/CommentsCard/DeleteModal/DeleteModal';
 // import AddRemovalReasonModal from './components/CommentsCard/AddRemovalReasonModal/AddRemovalReasonModal';
 // Routes
-// const communities = [
-//   {
-//     name: 'My Community',
-//     picture: pic,
-//     growing: true,
-//     goingDown: false,
-//     rank: 1,
-//     joined: false,
-//     userCommunity: false,
-//     noMembers: '1.6m',
-//     noOnlineMembers: '825',
-//     description: 'For Your Health'
-//   },
-//   {
-//     name: 'My Community',
-//     picture: pic,
-//     growing: false,
-//     goingDown: true,
-//     rank: 1,
-//     joined: false,
-//     userCommunity: true,
-//     noMembers: '1.6m',
-//     noOnlineMembers: '825',
-//     description: 'For Your Health'
-//   },
-//   {
-//     name: 'My Community',
-//     picture: pic,
-//     growing: false,
-//     goingDown: true,
-//     rank: 1,
-//     joined: false,
-//     userCommunity: true,
-//     noMembers: '1.6m',
-//     noOnlineMembers: '825',
-//     description: 'For Your Health'
-//   }
-// ];
+const communities = [
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: true,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: true,
+    rank: 1,
+    joined: false,
+    userCommunity: true,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: true,
+    rank: 1,
+    joined: false,
+    userCommunity: true,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  }
+];
 const postCommentInfo = {
   userName: 'Aya_husein',
   postTitle: 'test',
@@ -150,6 +150,7 @@ const routes = createBrowserRouter([
   {
     path: '/',
     element: (
+      // <ProfilePageModerationCard communities={communities} />
        <CommentTap comments={comments} />
       //  <BasicModal />
     )

@@ -103,7 +103,7 @@ export default function CommentsForSamePostCard({
   };
   const [anchorEl, setAnchorEl] = useState(null);
   const [cardComments, setCardComments] = useState(commentsForSamePost);
-
+  let deletedComment;
   const open = Boolean(anchorEl);
   /**
    * opens the Rising Menu */
@@ -118,6 +118,7 @@ export default function CommentsForSamePostCard({
     }
     if (clickedItem == 3) {
       deleteCommentHandler(clicked, index);
+      deletedComment=index;
     }
     setAnchorEl(null);
   };
@@ -241,6 +242,7 @@ export default function CommentsForSamePostCard({
       >
         {commentsForSamePost.map((comment, index) => (
           <Box
+           id={`comment${index}`}
             key={index}
             sx={{
               display: "flex",
@@ -566,7 +568,7 @@ export default function CommentsForSamePostCard({
                     <MdOutlineModeEditOutline size={16} color="#7c7c7c" />{" "}
                     &nbsp; Edit
                   </StyledMenuItem>
-                  <StyledMenuItem onClick={() => handleClose(true, 3, index)}>
+                  <StyledMenuItem id={`buttonDelete${index}`} onClick={() => handleClose(true, 3, index)}>
                     <MdDeleteOutline size={16} color="#7c7c7c" /> &nbsp; Delete
                   </StyledMenuItem>
                 </Menu>
