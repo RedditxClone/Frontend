@@ -6,7 +6,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState, memo } from 'react';
+import { useState, memo, useEffect } from 'react';
 import { Box, Typography, Link } from '@mui/material';
 import { BsInfoCircle, BsPencil } from 'react-icons/bs';
 import { AiOutlineDown } from 'react-icons/ai';
@@ -27,14 +27,17 @@ import {
 } from './CommunityTopics.Style';
 import {
   updateSubredditTopic,
-  updateSubredditSubtopics
+  updateSubredditSubtopics,
+  updateSubredditActiveSubtopics
 } from '../../../services/requests/Subreddit';
 /**
  * @typedef PropType
  * @property {string} baseColor
  * @property {string} highlightColor
  * @property {array} subTopicsList
+ * @property {array} setSubTopicsList
  * @property {array} chosenSubTopicsList
+ * @property {array} setChosenSubTopicsList
  * @property {array} trackUserChosenSubTopic
  * @property {array} trackUserRemovedSubTopic
  * @property {number} subredditId
@@ -50,10 +53,13 @@ function CommunityTopics({
   highlightColor,
   baseColor,
   subTopicsList,
+  setSubTopicsList,
   chosenSubTopicsList,
+  setChosenSubTopicsList,
   trackUserChosenSubTopic,
   trackUserRemovedSubTopic,
-  subredditId
+  subredditId,
+  activeSubredditTopic
 }) {
   // states
   const [infoIconColor, setInfoIconColor] = useState('#aaa');
@@ -63,7 +69,7 @@ function CommunityTopics({
   const [subTopicsCounter, setSubTopicsCounter] = useState(
     chosenSubTopicsList.length
   );
-  const [activeTopic, setActiveTopic] = useState(2); // this will depend on the data form api
+  const [activeTopic, setActiveTopic] = useState(activeSubredditTopic);
   const [editSubTopics, setEditSubTopics] = useState(false);
   const maxTopics = 25;
   const maxNumOfShownSubTopics = 7;
@@ -72,16 +78,19 @@ function CommunityTopics({
 
   const [rerender, setRerender] = useState(false);
 
-  // Event listeners
+  useEffect(() => {
+    setActiveTopic(activeSubredditTopic);
+  }, [activeSubredditTopic]);
 
+  // Event listeners
   const activateTopic = (e) => {
-    const topicId = e.target.id;
-    setActiveTopic(topicId);
+    const chosenTopic = e.target.innerHTML;
+    setActiveTopic(chosenTopic);
     // call api to update it in the database
     const request = {
       id: subredditId,
-      topic: {
-        topic: topicId
+      request: {
+        active_topic: chosenTopic
       }
     };
     updateSubredditTopic(request);
@@ -94,8 +103,9 @@ function CommunityTopics({
   const getSubTopicsToShow = (isEditingMode) => {
     if (isEditingMode) return chosenSubTopicsList;
 
-    if (chosenSubTopicsList.length <= 7) return chosenSubTopicsList;
-
+    if (chosenSubTopicsList.length <= 7) {
+      return chosenSubTopicsList;
+    }
     return chosenSubTopicsList.slice(0, 7);
   };
 
@@ -123,13 +133,27 @@ function CommunityTopics({
     setSubTopicsCounter(chosenSubTopicsList.length);
 
     // update the api
-    const request = {
+    let request = {
       id: subredditId,
-      subtopics: {
-        subtopics: { chosenSubTopicsList }
+      request: {
+        active_subtopics: chosenSubTopicsList
+      }
+    };
+
+    // update chosen sub-topics list
+    updateSubredditActiveSubtopics(request);
+    setChosenSubTopicsList(chosenSubTopicsList);
+
+    // update the original sub-topics list
+    request = {
+      id: subredditId,
+      request: {
+        subtopics: subTopicsList
       }
     };
     updateSubredditSubtopics(request);
+    setSubTopicsList(subTopicsList);
+
     // closing the edit mode
     setEditSubTopics(false);
     setShowSubTopics(false);
@@ -266,7 +290,7 @@ function CommunityTopics({
             fontWeight: '600'
           }}
         >
-          {topicsList[activeTopic]}
+          {activeTopic}
         </Link>
 
         <AiOutlineDown
@@ -299,9 +323,9 @@ function CommunityTopics({
                 </SelectListOption>
               ) : (
                 <SelectListOption
-                  onClick={activateTopic}
+                  onClick={(e) => activateTopic(e, index)}
                   key={`topic-${index}`}
-                  id={index}
+                  id={`topic-${index}`}
                   variant="paragraph"
                   sx={{
                     color: 'black',
@@ -339,7 +363,6 @@ function CommunityTopics({
         {getSubTopicsToShow(editSubTopics).map((subTopic, index) => {
           return (
             <SubTopic
-              id={`sub-topic-item-${index}`}
               key={index}
               sx={{
                 color: highlightColor,

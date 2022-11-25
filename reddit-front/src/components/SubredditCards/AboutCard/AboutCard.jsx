@@ -62,35 +62,18 @@ function AboutCard({
   const [chosenSubTopicsList, setChosenSubTopicsList] = useState([]);
   const [showThemeOption, setShowThemeOption] = useState(false);
   const [editDescription, setEditDescription] = useState(false);
-  const [communityDescription, setCommunityDescription] = useState('old');
+  const [communityDescription, setCommunityDescription] = useState('');
 
   const [aboutInfo, setAboutInfo] = useState([]);
 
-  // let subTopicsList = [
-  //   'first',
-  //   'second',
-  //   'third',
-  //   'fourth',
-  //   'fifth',
-  //   '1',
-  //   '2',
-  //   '3',
-  //   '4',
-  //   '5',
-  //   '6',
-  //   '7',
-  //   '8',
-  //   '9'
-  // ];
-  // let chosenSubTopicsList = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
   useEffect(() => {
     // Fetching the about info of the subreddit
     const fetchInfo = async () => {
       const results = await getAboutInfo({ id: subredditId });
-      setAboutInfo(results[0]);
-      setSubTopicsList(results[0].subtopics);
-      setChosenSubTopicsList(results[0].active_subtopics);
-      setCommunityDescription(results[0].description);
+      setAboutInfo(results);
+      setSubTopicsList(results.subtopics);
+      setChosenSubTopicsList(results.active_subtopics);
+      setCommunityDescription(results.description);
     };
 
     fetchInfo();
@@ -130,7 +113,7 @@ function AboutCard({
     // update the database
     const request = {
       id: subredditId,
-      description: {
+      request: {
         description: newDescription
       }
     };
@@ -348,10 +331,13 @@ function AboutCard({
               highlightColor={highlightColor}
               baseColor={baseColor}
               subTopicsList={subTopicsList}
+              setSubTopicsList={setSubTopicsList}
               chosenSubTopicsList={chosenSubTopicsList}
+              setChosenSubTopicsList={setChosenSubTopicsList}
               trackUserChosenSubTopic={trackUserChosenSubTopic}
               trackUserRemovedSubTopic={trackUserRemovedSubTopic}
               subredditId={subredditId}
+              activeSubredditTopic={aboutInfo.active_topic}
             />
             <StyledHorizontalLine
               marginTop="1.5"
