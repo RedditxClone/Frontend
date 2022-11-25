@@ -37,6 +37,7 @@ a {
   align-items: center;
   flex-wrap: wrap;
   flex: 1 1 auto;
+  font-size: 12px;
 }
 .post-info .community-name {
   display: inline-block;
@@ -327,9 +328,9 @@ a {
   position: relative;
   cursor: default;
 }
-.mod-action-icon:hover .post-approved-by,
-.mod-action-icon:hover .post-spammed-by,
-.mod-action-icon:hover .post-removed-by {
+.mod-action-icon .approved-post-icon:hover .post-approved-by,
+.mod-action-icon .spammed-post-icon:hover .post-spammed-by,
+.mod-action-icon .removed-post-icon:hover .post-removed-by {
   display: block;
   visibility: visible;
 }
@@ -344,15 +345,29 @@ a {
   position: absolute;
   top: -3rem;
   left: -18rem;
-  width: 40rem;
+  width: 46rem;
   display: none;
   visibility: hidden;
 }
 
 .post-info-details .removal-reason {
-  color: red;
+  color: #ff585b;
+  margin-left: 6px;
+  margin-top: 3px;
+}
+.mod-action-icon .nsfw-flair {
+  border: 1px solid rgb(255, 88, 91);
+  color: rgb(255, 88, 91);
+  display: inline-block;
+  height: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  vertical-align: text-bottom;
+  box-sizing: border-box;
+  line-height: 14px;
+  padding: 0 4px;
   margin-left: 5px;
-  margin-top: 2px;
 }
 
 @media (max-width: 640px) {
@@ -362,7 +377,6 @@ a {
   .user-stats .user-stats-item {
     padding-right: 5%;
   }
-
   .mod-action-icon .post-approved-by,
   .mod-action-icon .post-removed-by,
   .mod-action-icon .post-spammed-by {
