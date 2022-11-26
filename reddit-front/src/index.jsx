@@ -13,7 +13,7 @@ import ForgetUserPassword from './pages/ForgetUserPassword/ForgetUserPassword';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
-import SubredditCards from './components/SubredditCards/SubredditCards';
+import Subreddit from './pages/Subreddit/Subreddit';
 import AccountSettings from './components/AccountSettings/AccountSettings';
 import UserSettings from './pages/UserSettings/UserSettings';
 import ProfileSettings from './components/ProfileSettings/ProfileSettings';
@@ -72,7 +72,7 @@ const routes = createBrowserRouter([
   },
   {
     path: '/subreddit',
-    element: <SubredditCards />
+    element: <Subreddit />
   },
   {
     path: '/settings',
