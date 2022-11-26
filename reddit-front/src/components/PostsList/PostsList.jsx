@@ -4,17 +4,17 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { Box } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
-import { getPosts } from '../../redux/slices/PostSlice';
+import { getPosts } from '../../services/requests/Post';
 import PostCard from '../PostCard/PostCard';
 /**
  * @typedef PropType
+ * @property {string} sortType
  * @property {bool} isCommunityPost
  * @property {bool} isModeratorMode
+ * @property {bool} isHomePagePost
  */
 
 /**
@@ -23,18 +23,23 @@ import PostCard from '../PostCard/PostCard';
  *
  */
 
-function PostsList({ isCommunityPost, isModeratorMode }) {
-  const isPostFullDetailsMode = true;
-  const dispatch = useDispatch();
+function PostsList({
+  sortType,
+  isCommunityPost,
+  isModeratorMode,
+  isHomePagePost
+}) {
+  const isPostFullDetailsMode = false;
+  const [posts, setPosts] = useState([]);
 
-  // Dispatching the action to get the posts data from the server
+  // Fetching the results by calling the fetch service
   useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
-
-  const { posts, isPostsLoading, requestIsRejected } = useSelector(
-    (state) => state.post
-  );
+    const fetchPosts = async () => {
+      const results = await getPosts({ sortType });
+      setPosts(results);
+    };
+    fetchPosts();
+  }, []);
 
   // Preparing the data of the post to get displayed
   const postsData =
@@ -45,25 +50,22 @@ function PostsList({ isCommunityPost, isModeratorMode }) {
             postData={post}
             isCommunityPost={isCommunityPost}
             isPostFullDetailsMode={isPostFullDetailsMode}
+            isHomePagePost={isHomePagePost}
             isModeratorMode={isModeratorMode}
+            isSaved={post.is_saved}
+            isLocked={post.is_locked}
+            isPostApproved={post.is_postApproved}
+            isPostSticky={post.is_postSticky}
+            isDistinguishedAsMode={post.is_distinguishedAsMode}
+            isNSFW={post.is_NSFW}
+            isSpoiled={post.is_spoiled}
+            replyNotifications={post.reply_notifications}
           />
         ))
       : null;
 
   // Returning the result
-  return (
-    <div>
-      {isPostsLoading && !requestIsRejected ? (
-        <Box sx={{ display: 'flex' }}>
-          <CircularProgress />
-        </Box>
-      ) : (
-        postsData
-      )}
-      {requestIsRejected
-        ? 'Failed to fetch the data from the server, Please try again later.'
-        : null}
-    </div>
-  );
+  return <div>{postsData}</div>;
 }
+
 export default PostsList;

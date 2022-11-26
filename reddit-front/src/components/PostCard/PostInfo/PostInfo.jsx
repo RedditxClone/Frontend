@@ -7,16 +7,17 @@
 import './PostInfo.css';
 
 import { memo, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
-import { FcApproval } from 'react-icons/fc';
+import { FcApproval, FcLock } from 'react-icons/fc';
+import { BsFillShieldFill } from 'react-icons/bs';
 import { RiSpamLine } from 'react-icons/ri';
 import { CiNoWaitingSign } from 'react-icons/ci';
-import { divideBigNumber } from '../../../utilities/Helpers';
 import {
   getPostRelatedCommunityInfo,
-  getPostRelatedUserInfo
-} from '../../../redux/slices/PostSlice';
+  getPostRelatedUserInfo,
+  followPost
+} from '../../../services/requests/Post';
 import Logo from './test.png';
 import RemovalReasonDialog from './RemovalReasonDialog';
 
@@ -31,6 +32,10 @@ import RemovalReasonDialog from './RemovalReasonDialog';
  * @property {boolean} isCommunityPost
  * @property {boolean} isPostFullDetailsMode
  * @property {integer} modAction  // 0: none, 1: approved, 2: spammed, 3: removed
+ * @property {boolean} isNSFW
+ * @property {boolean} isLocked
+ * @property {boolean} isDistinguishedAsMode
+ * @property {bool} isFollowed
  */
 
 /**
@@ -49,21 +54,24 @@ function PostInfo({
   postId,
   isCommunityPost,
   isPostFullDetailsMode,
-  modAction
+  modAction,
+  isNSFW,
+  isLocked,
+  isDistinguishedAsMode,
+  isFollowed
 }) {
   const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
-  const [isPostFollowed, setIsPostFollowed] = useState(false);
-  const { postRelatedCommunityData, postRelatedUserData } = useSelector(
-    (state) => state.post
+  const [isPostFollowed, setIsPostFollowed] = useState(isFollowed);
+  const { postRelatedCommunityData, setPostRelatedCommunityData } = useState(
+    []
   );
+  const { postRelatedUserData, setPostRelatedUserData } = useState([]);
   const [openRemovalDialog, setOpenRemovalDialog] = useState(false);
-
-  const dispatch = useDispatch();
 
   // Dispatching the action to get the data of subreddit and user that related to the post
   useEffect(() => {
-    dispatch(getPostRelatedCommunityInfo(communityId));
-    dispatch(getPostRelatedUserInfo(userId));
+    getPostRelatedCommunityInfo(communityId);
+    getPostRelatedUserInfo(userId);
     setIsCommunityNameHovered(false);
   }, [isCommunityNameHovered]);
 
@@ -122,7 +130,15 @@ function PostInfo({
 
   /* This function handles the follow button */
   const handleFollowPost = function () {
-    setIsPostFollowed(!isPostFollowed);
+    if (!isPostFollowed) {
+      setIsPostFollowed(true);
+      const info = { request: { follow: true }, id: postId };
+      followPost(info);
+    } else {
+      setIsPostFollowed(false);
+      const info = { request: { follow: false }, id: postId };
+      followPost(info);
+    }
   };
 
   const handleOpenRemovalDialog = () => {
@@ -140,70 +156,81 @@ function PostInfo({
       data-testid="test-post-info"
     >
       {/* Community logo on the post card  */}
-      <div
-        className="community-logo"
-        data-testid="test-post-logo"
-      >
-        <a className="community-logo-link">
-          <img
-            src={Logo}
-            alt="community Logo"
-          />
-        </a>
-      </div>
+      {!isCommunityPost ? (
+        <div
+          className="community-logo"
+          data-testid="test-post-logo"
+        >
+          <a className="community-logo-link">
+            <img
+              src={Logo}
+              alt="community Logo"
+            />
+          </a>
+        </div>
+      ) : null}
+
       {/* post info details -> username, time, community name */}
       <div className="post-info-details">
-        <div
-          className="community-name"
-          onMouseOver={handleHoverOnSubreddit}
-          onFocus={handleHoverOnSubreddit}
-          onMouseOut={handleHoverOutSubreddit}
-          onBlur={handleHoverOutSubreddit}
-          data-testid="test-post-community-name"
-        >
-          <a href="#">{getCommunityName()}</a>
+        {!isCommunityPost ? (
           <div
-            className="community-information"
-            id={'community-information-post-' + postId}
+            className="community-name"
+            onMouseOver={handleHoverOnSubreddit}
+            onFocus={handleHoverOnSubreddit}
+            onMouseOut={handleHoverOutSubreddit}
+            onBlur={handleHoverOutSubreddit}
+            data-testid="test-post-community-name"
           >
-            <div className="community-information-header">
-              <div className="community-logo-2">
-                <img
-                  src={Logo}
-                  alt="community logo"
-                />
+            <a href="#">{getCommunityName()}</a>
+            <div
+              className="community-information"
+              id={'community-information-post-' + postId}
+            >
+              <div className="community-information-header">
+                <div className="community-logo-2">
+                  <img
+                    src={Logo}
+                    alt="community logo"
+                  />
+                </div>
+                <h3 className="community-name-2">
+                  <a href="#">{getCommunityName()}</a>
+                </h3>
               </div>
-              <h3 className="community-name-2">
-                <a href="#">{getCommunityName()}</a>
-              </h3>
-            </div>
-            <div className="community-stats">
-              <div className="community-stats-item">
-                <span className="members-count">
-                  {divideBigNumber(postRelatedCommunityData.members_count)}
-                </span>
-                <span>members</span>
+              <div className="community-stats">
+                <div className="community-stats-item">
+                  <span className="members-count">
+                    {/* {divideBigNumber(postRelatedCommunityData.members_count)} */}
+                    1234
+                  </span>
+                  <span>members</span>
+                </div>
+                <div className="community-stats-item">
+                  <span className="online-members">
+                    {/* {divideBigNumber(postRelatedCommunityData.online_members)} */}
+                    123
+                  </span>
+                  <span>online</span>
+                </div>
               </div>
-              <div className="community-stats-item">
-                <span className="online-members">
-                  {divideBigNumber(postRelatedCommunityData.online_members)}
-                </span>
-                <span>online</span>
+              <div className="community-description-text">
+                <p>
+                  test
+                  {/* {postRelatedCommunityData.description} */}
+                </p>
               </div>
-            </div>
-            <div className="community-description-text">
-              <p>{postRelatedCommunityData.description}</p>
-            </div>
-            <div className="community-view-button">
-              <a
-                href="#"
-                className="view-community"
-              >
-                view community
-              </a>
+              <div className="community-view-button">
+                <a
+                  href="#"
+                  className="view-community"
+                >
+                  view community
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        ) : null}
+
         <span className="posted-by">Posted by</span>
         <div
           className="post-user-info"
@@ -225,25 +252,24 @@ function PostInfo({
                 />
               </div>
               <p className="user-name-2">
-                <a href="#">{postRelatedUserData.name}</a>
+                <a href="#">postRelatedUserData.name</a>
                 <p>
                   {getPostedBy()}
                   <span className="user-joined-from">
-                    {postRelatedUserData.joined_at}
+                    postRelatedUserData.joined_at
                   </span>
                 </p>
               </p>
             </div>
             <div className="user-stats">
               <div className="user-stats-item">
-                <span className="karma-count">
-                  {divideBigNumber(postRelatedUserData.post_karma)}
-                </span>
+                <span className="karma-count">1234</span>
                 <span>post karma</span>
               </div>
               <div className="user-stats-item">
                 <span className="karma-commented">
-                  {divideBigNumber(postRelatedUserData.comment_karam)}
+                  {/* {divideBigNumber(postRelatedUserData.comment_karam)} */}
+                  123
                 </span>
                 <span>comment karma</span>
               </div>
@@ -251,13 +277,15 @@ function PostInfo({
             <div className="user-stats">
               <div className="user-stats-item">
                 <span className="awardee-karma">
-                  {divideBigNumber(postRelatedUserData.awardee_karam)}
+                  {/* {divideBigNumber(postRelatedUserData.awardee_karam)} */}
+                  123
                 </span>
                 <span>awardee karma</span>
               </div>
               <div className="user-stats-item">
                 <span className="awarder-karma">
-                  {divideBigNumber(postRelatedUserData.awarded_karma)}
+                  {/* {divideBigNumber(postRelatedUserData.awarded_karma)} */}
+                  123
                 </span>
                 <span>awarder karma</span>
               </div>
@@ -278,18 +306,56 @@ function PostInfo({
           39 minutes ago
         </span>
         <div className="mod-action-icon">
+          {isNSFW ? (
+            <span
+              className="nsfw-flair"
+              id={`post-nsfw-${postId}`}
+            >
+              nfsw
+            </span>
+          ) : null}
+
+          {isDistinguishedAsMode ? (
+            <BsFillShieldFill
+              id={`post-distinguish-as-mod-${postId}`}
+              style={{
+                fontSize: '13px',
+                color: '#8bc34a',
+                margin: '6px 0 0 7px'
+              }}
+            />
+          ) : null}
+
+          {isLocked ? (
+            <FcLock
+              id={`post-lock-comments-${postId}`}
+              style={{
+                fontSize: '13px',
+                color: '#8bc34a',
+                margin: '6px 0 0 7px'
+              }}
+            />
+          ) : null}
+
           {modAction === 1 ? (
-            <>
-              <FcApproval style={{ margin: '6px 0 0 5px' }} />
+            <span className="approved-post-icon">
+              <FcApproval style={{ fontSize: '13px', margin: '6px 0 0 7px' }} />
               <span className="post-approved-by">
                 Approved by mustafa-hamzawy at Wed,Nov 09, 2022 4:18:33 PM UTC
               </span>
-            </>
+            </span>
           ) : null}
 
           {modAction === 2 ? (
-            <>
-              <RiSpamLine style={{ color: 'red', margin: '6px 0 0 5px' }} />
+            <span className="spammed-post-icon">
+              <RiSpamLine
+                className="spammed-post-icon"
+                style={{
+                  fontSize: '13px',
+                  color: 'red',
+                  margin: '6px 0 0 7px'
+                }}
+              />
               <span
                 className="post-spammed-by"
                 style={{ width: '45rem' }}
@@ -297,18 +363,22 @@ function PostInfo({
                 Removed as spam by mustafa-hamzawy at Wed,Nov 09, 2022 4:18:33
                 PM UTC
               </span>
-            </>
+            </span>
           ) : null}
 
           {modAction === 3 ? (
-            <>
+            <span className="removed-post-icon">
               <CiNoWaitingSign
-                style={{ color: 'red', margin: '6px 0 0 5px' }}
+                style={{
+                  fontSize: '13px',
+                  color: 'red',
+                  margin: '6px 0 0 5px'
+                }}
               />
               <span className="post-removed-by">
                 Removed by mustafa-hamzawy at Wed,Nov 09, 2022 4:18:33 PM UTC
               </span>
-            </>
+            </span>
           ) : null}
         </div>
         {modAction === 3 ? (

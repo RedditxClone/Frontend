@@ -16,7 +16,9 @@ const api = axios.create({
  */
 export const joinSubreddit = async (data) => {
   const { id } = data;
-  const response = await api.patch(`/api/subreddit/${id}/join`);
+  const response = await api.patch(`/api/subreddit/${id}/join`, {
+    joined: true
+  });
   return response.data;
 };
 
@@ -26,7 +28,9 @@ export const joinSubreddit = async (data) => {
  */
 export const leaveSubreddit = async (data) => {
   const { id } = data;
-  const response = await api.patch(`/api/subreddit/${id}/leave`);
+  const response = await api.patch(`/api/subreddit/${id}/leave`, {
+    joined: false
+  });
   return response.data;
 };
 
@@ -37,7 +41,8 @@ export const leaveSubreddit = async (data) => {
 export const frequentNotify = async (data) => {
   const { id } = data;
   const response = await api.patch(
-    `/api/subreddit/${id}/frequent_notifications`
+    `/api/subreddit/${id}/frequent_notifications`,
+    { notifications_style: 0 }
   );
   return response.data;
 };
@@ -48,7 +53,9 @@ export const frequentNotify = async (data) => {
  */
 export const lowNotify = async (data) => {
   const { id } = data;
-  const response = await api.patch(`/api/subreddit/${id}/low_notifications`);
+  const response = await api.patch(`/api/subreddit/${id}/low_notifications`, {
+    notifications_style: 1
+  });
   return response.data;
 };
 
@@ -58,7 +65,19 @@ export const lowNotify = async (data) => {
  */
 export const offNotify = async (data) => {
   const { id } = data;
-  const response = await api.patch(`/api/subreddit/${id}/off_notifications`);
+  const response = await api.patch(`/api/subreddit/${id}/off_notifications`, {
+    notifications_style: 2
+  });
+  return response.data;
+};
+
+/**
+ * This service for getting the subreddit's data
+ * @param {object} data - The request data
+ */
+export const fetchSubredditData = async (data) => {
+  const { id } = data;
+  const response = await api.get(`/api/subreddit/${id}`);
   return response.data;
 };
 
@@ -107,10 +126,10 @@ export const getAboutInfo = async (data) => {
  * @param {object} data - The request data
  */
 export const updateDescription = async (data) => {
-  const { id, description } = data;
+  const { id, request } = data;
   const response = await api.patch(
     `/api/subreddit/${id}/update_description`,
-    description
+    request
   );
   return response.data;
 };
@@ -120,8 +139,11 @@ export const updateDescription = async (data) => {
  * @param {object} data - The request data
  */
 export const updateSubredditTopic = async (data) => {
-  const { id, topic } = data;
-  const response = await api.patch(`/api/subreddit/${id}/update_topic`, topic);
+  const { id, request } = data;
+  const response = await api.patch(
+    `/api/subreddit/${id}/update_topic`,
+    request
+  );
   return response.data;
 };
 
@@ -130,10 +152,23 @@ export const updateSubredditTopic = async (data) => {
  * @param {object} data - The request data
  */
 export const updateSubredditSubtopics = async (data) => {
-  const { id, subtopics } = data;
+  const { id, request } = data;
   const response = await api.patch(
     `/api/subreddit/${id}/update_subtopics`,
-    subtopics
+    request
+  );
+  return response.data;
+};
+
+/**
+ * This service for updating the subreddit subtopics active list
+ * @param {object} data - The request data
+ */
+export const updateSubredditActiveSubtopics = async (data) => {
+  const { id, request } = data;
+  const response = await api.patch(
+    `/api/subreddit/${id}/update_active_subtopics`,
+    request
   );
   return response.data;
 };
