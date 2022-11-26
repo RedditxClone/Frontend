@@ -66,6 +66,10 @@ function CreatePost() {
                 <CreatePostEditor />
               </div>
             </div>
+            <div>Flairs</div>
+            <div className={classes['create-post_buttons']}>
+              <button type="button">Post</button>
+            </div>
           </div>
         </div>
         <div className={classes['right-part']}>

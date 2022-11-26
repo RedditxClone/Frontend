@@ -3,8 +3,16 @@ import { IoIosArrowDown } from 'react-icons/io';
 import classes from './CreatePost.module.css';
 
 const communities = [
-  { logo: 'logo1', name: 'comm1', members: '12356' },
-  { logo: 'logo2', name: 'comm2', members: '156' }
+  {
+    logo: '/src/assts/2y2pftyz87981.png',
+    name: 'comm1',
+    members: '12356'
+  },
+  {
+    logo: '../../assts/snoo-small.png',
+    name: 'comm2',
+    members: '156'
+  }
 ];
 
 function ChooseCommunityName() {

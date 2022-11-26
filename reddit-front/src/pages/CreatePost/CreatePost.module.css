@@ -27,6 +27,7 @@
     max-width: 300px;
     margin-bottom: 1px;
     background-color: #fff;
+    position: relative;
 }
 
 .choose-community_icon {
@@ -76,9 +77,10 @@
 /****************************** Community list ********************************/
 .communities-list {
     background-color: #fff;
-    max-width: 300px;
+    width: 300px;
     padding: 2rem;
-    z-index: 3;
+    z-index: 100;
+    position: absolute;
 }
 
 .communities_item {
