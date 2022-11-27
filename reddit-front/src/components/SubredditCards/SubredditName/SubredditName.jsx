@@ -5,7 +5,7 @@
 /* eslint-disable indent */
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { useState, memo } from 'react';
+import { useState, memo, useEffect } from 'react';
 import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
 import {
   MdOutlineNotificationsActive,
@@ -24,10 +24,18 @@ import {
   JoinButton
 } from './SubredditName.Style';
 import ActionMessage from '../../ActionMessage/ActionMessage';
-
+import {
+  joinSubreddit,
+  leaveSubreddit,
+  frequentNotify,
+  offNotify,
+  lowNotify
+} from '../../../services/requests/Subreddit';
 /**
  * @typedef PropType
  * @property {string} highlightColor
+ * @property {int} subredditId
+ * @property {bool} isJoined
  */
 
 /**
@@ -35,20 +43,35 @@ import ActionMessage from '../../ActionMessage/ActionMessage';
  *
  */
 
-function SubredditName({ highlightColor }) {
-  const [joined, setJoined] = useState(false);
-  const [activeNotificationType, setActiveNotificationType] = useState(1);
+function SubredditName({
+  highlightColor,
+  subredditId,
+  isJoined,
+  name,
+  username,
+  notificationsStyle
+}) {
+  const [joined, setJoined] = useState(isJoined);
+
+  const [activeNotificationType, setActiveNotificationType] =
+    useState(notificationsStyle);
   const [showJoinedMsg, setShowJoinedMsg] = useState(false);
   const [showLeftMsg, setShowLeftMsg] = useState(false);
   const [showNotificationsTypeList, setShowNotificationsTypeList] =
     useState(false);
+
+  useEffect(() => {
+    setJoined(isJoined);
+    setActiveNotificationType(notificationsStyle);
+  }, [isJoined, notificationsStyle]);
+
   return (
     <TitleLogoContainer data-testid="subreddit-title-logo-container">
       {alert}
       {/* Subreddit Name  */}
       <StyledSubredditName>
-        <SubredditTitle variant="h1">Real Madrid CF</SubredditTitle>
-        <SubTitle>r/realmadrid</SubTitle>
+        <SubredditTitle variant="h1">{name}</SubredditTitle>
+        <SubTitle>{`r/${username}`}</SubTitle>
       </StyledSubredditName>
 
       {/* Buttons -> Join, Notifications  */}
@@ -57,6 +80,7 @@ function SubredditName({ highlightColor }) {
         <Box sx={{ width: '9.6rem' }}>
           <JoinButton
             data-testid="join-community-button"
+            id="join-community-button"
             size="medium"
             sx={{
               border: `1px solid ${highlightColor}`,
@@ -72,12 +96,12 @@ function SubredditName({ highlightColor }) {
               if (joined) {
                 setJoined(!joined);
                 e.target.innerHTML = 'Join';
-                // setShowJoinedMsg(false);
+                leaveSubreddit({ id: subredditId });
                 setShowLeftMsg(!showLeftMsg);
               } else {
                 setJoined(!joined);
+                joinSubreddit({ id: subredditId });
                 setShowJoinedMsg(!showJoinedMsg);
-                // setShowLeftMsg(false);
               }
             }}
             onMouseOver={(e) => {
@@ -158,6 +182,7 @@ function SubredditName({ highlightColor }) {
                   }}
                   onClick={() => {
                     setActiveNotificationType(0);
+                    frequentNotify({ id: subredditId });
                   }}
                 >
                   {activeNotificationType !== 0 ? (
@@ -188,6 +213,7 @@ function SubredditName({ highlightColor }) {
                   }}
                   onClick={() => {
                     setActiveNotificationType(1);
+                    lowNotify({ id: subredditId });
                   }}
                 >
                   {activeNotificationType !== 1 ? (
@@ -220,6 +246,7 @@ function SubredditName({ highlightColor }) {
                   }}
                   onClick={() => {
                     setActiveNotificationType(2);
+                    offNotify({ id: subredditId });
                   }}
                 >
                   {activeNotificationType !== 2 ? (
@@ -245,4 +272,4 @@ function SubredditName({ highlightColor }) {
   );
 }
 
-export default memo(SubredditName);
+export default SubredditName;

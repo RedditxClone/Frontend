@@ -1,9 +1,11 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 /* eslint-disable operator-linebreak */
 /* eslint-disable consistent-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable prefer-const */
-import { useState, memo } from 'react';
+import { useState, memo, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Switch from '@mui/material/Switch';
@@ -27,12 +29,16 @@ import {
   StyledActionButton,
   EditCommunityActionsContainer
 } from './AboutCard.Style';
-
+import {
+  getAboutInfo,
+  updateDescription
+} from '../../../services/requests/Subreddit';
 /**
  * @typedef PropType
  * @property {string, color} baseColor
  * @property {string, color} highlightColor
  * @property {boolean} isModeratorMode
+ * @property {Integer} subredditId
  */
 
 /**
@@ -40,37 +46,42 @@ import {
  *
  */
 
-function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
-  // For testing
-  const subTopicsList = [
-    'first',
-    'second',
-    'third',
-    'fourth',
-    'fifth',
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9'
-  ];
-  const chosenSubTopicsList = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+function AboutCard({
+  baseColor,
+  highlightColor,
+  isModeratorMode,
+  subredditId
+}) {
   let paragraphColor = '#7c7c7c';
   const maxDescriptionLength = 500;
   const trackUserChosenSubTopic = [];
   const trackUserRemovedSubTopic = [];
 
   // States
+  const [subTopicsList, setSubTopicsList] = useState([]);
+  const [chosenSubTopicsList, setChosenSubTopicsList] = useState([]);
   const [showThemeOption, setShowThemeOption] = useState(false);
   const [editDescription, setEditDescription] = useState(false);
-  const [communityDescription, setCommunityDescription] =
-    useState('old Description');
+  const [communityDescription, setCommunityDescription] = useState('');
+
+  const [aboutInfo, setAboutInfo] = useState([]);
+
+  useEffect(() => {
+    // Fetching the about info of the subreddit
+    const fetchInfo = async () => {
+      const results = await getAboutInfo({ id: subredditId });
+      setAboutInfo(results);
+      setSubTopicsList(results.subtopics);
+      setChosenSubTopicsList(results.active_subtopics);
+      setCommunityDescription(results.description);
+    };
+
+    fetchInfo();
+  }, []);
+
   const [charCounter, setCharCounter] = useState(
-    maxDescriptionLength - communityDescription.length
+    // maxDescriptionLength - communityDescription.length
+    0
   );
 
   // Event Listeners
@@ -99,6 +110,14 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
     ).value;
     setCommunityDescription(newDescription);
     setEditDescription(false);
+    // update the database
+    const request = {
+      id: subredditId,
+      request: {
+        description: newDescription
+      }
+    };
+    updateDescription(request);
   };
 
   /**
@@ -223,7 +242,7 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
               marginLeft: '1rem'
             }}
           >
-            Created Oct 11, 2022
+            {`Created ${aboutInfo.created_at}`}
           </Typography>
         </CommunityCreatedDate>
         <StyledHorizontalLine
@@ -255,7 +274,7 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
                 lineHeight: '2rem'
               }}
             >
-              {divideBigNumber(6254)}
+              {divideBigNumber(aboutInfo.members_count)}
             </span>
             <MembersTypography
               variant="paragraph"
@@ -287,7 +306,7 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
               >
                 ●
               </span>
-              {divideBigNumber(12344)}
+              {divideBigNumber(aboutInfo.members_online)}
             </Box>
             <MembersTypography
               variant="paragraph"
@@ -312,9 +331,13 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
               highlightColor={highlightColor}
               baseColor={baseColor}
               subTopicsList={subTopicsList}
+              setSubTopicsList={setSubTopicsList}
               chosenSubTopicsList={chosenSubTopicsList}
+              setChosenSubTopicsList={setChosenSubTopicsList}
               trackUserChosenSubTopic={trackUserChosenSubTopic}
               trackUserRemovedSubTopic={trackUserRemovedSubTopic}
+              subredditId={subredditId}
+              activeSubredditTopic={aboutInfo.active_topic}
             />
             <StyledHorizontalLine
               marginTop="1.5"
@@ -333,55 +356,6 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
           <CreatePostButton sx={{ backgroundColor: highlightColor }}>
             Create post
           </CreatePostButton>
-        </Box>
-        <StyledHorizontalLine
-          marginTop="1.5"
-          marginBottom="1.5"
-          marginLeft="0"
-          marginRight="0"
-        />
-
-        {/* Community options  */}
-        <Box
-          className="community-options"
-          sx={{
-            paddingTop: '1.6rem',
-            marginTop: '1.6rem'
-          }}
-        >
-          <ShowOptionsButton
-            data-testid="community-options-button"
-            sx={{ backgroundColor: 'transparent', color: highlightColor }}
-            onClick={() => {
-              setShowThemeOption(!showThemeOption);
-            }}
-          >
-            Community options
-            {!showThemeOption ? (
-              <AiOutlineDown fontSize="1.3rem" />
-            ) : (
-              <AiOutlineUp fontSize="1.3rem" />
-            )}
-          </ShowOptionsButton>
-          {showThemeOption ? (
-            <CommunityThemeOption
-              className="community-theme-option"
-              data-testid="community-theme-option"
-            >
-              <span
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  margin: '8px 0'
-                }}
-              >
-                <AiOutlineEye fontSize="2rem" />
-                <span style={{ marginLeft: '1rem' }}>Community theme</span>
-              </span>
-              <Switch defaultChecked />
-            </CommunityThemeOption>
-          ) : null}
         </Box>
       </Box>
     </AboutCardContainer>

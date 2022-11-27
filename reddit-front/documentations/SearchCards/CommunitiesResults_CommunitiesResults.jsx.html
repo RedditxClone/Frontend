@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CommunitiesResults/CommunitiesResults.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CommunitiesResults/CommunitiesResults.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable array-callback-return */
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
+import {
+  RootContainer,
+  ResultsContainer,
+  SingleResultContainer,
+  NameLogoContainer,
+  FollowButton,
+  StyledLogoContainer,
+  StyledLogo,
+  StyledDescription,
+  StyledHeading
+} from '../PeopleResults/PeopleResults.Style';
+import { StyledCommunityName, MembersCount } from './CommunitiesResults.Style';
+import { divideBigNumber } from '../../../utilities/Helpers';
+import retrieveResults from '../../../services/requests/Search';
+import {
+  joinSubreddit,
+  leaveSubreddit
+} from '../../../services/requests/Subreddit';
+
+/**
+ * @typedef PropType
+ * @property {bool} isSideBarCard // To show the results in a side bar cards
+ */
+
+/**
+ * This Component for the showing the communities related to the key of the searching.
+ *
+ */
+
+function CommunitiesResults({ isSideBarCard }) {
+  // states
+  const searchKey = 'test'; // for testing
+  const [result, setResult] = useState([]);
+  const slicingSize = isSideBarCard ? 5 : result.length;
+  const [isFinished, setIsFinished] = useState(false);
+
+  // Fetching the results by calling the fetch service
+  useEffect(() => {
+    const fetchResults = async () => {
+      const results = await retrieveResults({
+        key: searchKey,
+        searchingCategory: 'communities'
+      });
+      setResult(results);
+      setIsFinished(true);
+    };
+    fetchResults();
+  }, []);
+
+  // Handlers
+  /**
+   * This function divides handles the join button
+   * @param {int} subredditId - The number to be divided.
+   * @param {bool} currentState - true : joined, false: not joined
+   */
+  const handleJoinButton = (e, subredditId, currentState) => {
+    if (currentState) {
+      leaveSubreddit({ id: subredditId });
+    } else {
+      joinSubreddit({ id: subredditId });
+    }
+  };
+
+  const handleHoveringOnJoinButton = (e) => {
+    if (e.target.dataset.isjoined) {
+      e.target.innerHTML = 'Leave';
+    }
+  };
+
+  const handleHoveringOutJoinButton = (e) => {
+    if (e.target.dataset.isjoined) {
+      e.target.innerHTML = 'Joined';
+    } else {
+      e.target.innerHTML = 'Join';
+    }
+  };
+
+  return (
+    &lt;RootContainer
+      data-testid="community-results"
+      sx={{
+        marginTop: isSideBarCard ? '0' : '2rem'
+      }}
+    >
+      &lt;ResultsContainer>
+        {isSideBarCard ? &lt;StyledHeading>Communities&lt;/StyledHeading> : null}
+        {/* result container  */}
+        {result.length === 0 &amp;&amp; isFinished ? (
+          &lt;h3> No data found.&lt;/h3>
+        ) : (
+          result.slice(0, slicingSize).map((item, index) => (
+            &lt;SingleResultContainer key={`people-result-${index}`}>
+              {/* Name and logo  */}
+              &lt;NameLogoContainer>
+                &lt;StyledLogoContainer>
+                  &lt;StyledLogo
+                    data-testid="community-logo-search"
+                    src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png"
+                    alt="user_image"
+                  />
+                &lt;/StyledLogoContainer>
+                &lt;div>
+                  &lt;StyledCommunityName data-testid="community-search">
+                    {`r/${item.name}`}
+                  &lt;/StyledCommunityName>
+                  {!isSideBarCard ? (
+                    &lt;MembersCount className="subreddit_members_count">
+                      {`${divideBigNumber(item.members_count)} Members`}
+                    &lt;/MembersCount>
+                  ) : null}
+
+                  &lt;StyledDescription>
+                    {!isSideBarCard
+                      ? item.description
+                      : `${divideBigNumber(item.members_count)}  Members`}
+                  &lt;/StyledDescription>
+                &lt;/div>
+              &lt;/NameLogoContainer>
+
+              {/* follow button  */}
+              &lt;FollowButton
+                data-testid="join-button"
+                data-isJoined={item.joined}
+                onClick={() =>
+                  handleJoinButton(this, item.community_id, item.joined)
+                }
+                onMouseOver={handleHoveringOnJoinButton}
+                onMouseOut={handleHoveringOutJoinButton}
+              >
+                {item.joined ? 'Joined' : 'Join'}
+              &lt;/FollowButton>
+            &lt;/SingleResultContainer>
+          ))
+        )}
+        {isSideBarCard &amp;&amp; result.length > 0 ? (
+          &lt;StyledHeading
+            onClick={() => {
+              window.location.href = '/search/communities';
+            }}
+            sx={{
+              color: '#0079D3',
+              fontSize: '14px',
+              paddingBottom: '1.6rem',
+              cursor: 'pointer'
+            }}
+          >
+            See more communities
+          &lt;/StyledHeading>
+        ) : (
+          &lt;h3> No data found&lt;/h3>
+        )}
+      &lt;/ResultsContainer>
+    &lt;/RootContainer>
+  );
+}
+
+export default CommunitiesResults;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Comment">Comment</a></li><li><a href="global.html#CommentContainer">CommentContainer</a></li><li><a href="global.html#CommentContent">CommentContent</a></li><li><a href="global.html#Comments">Comments</a></li><li><a href="global.html#CommentsResults">CommentsResults</a></li><li><a href="global.html#CommunitiesResults">CommunitiesResults</a></li><li><a href="global.html#Flair">Flair</a></li><li><a href="global.html#FollowButton">FollowButton</a></li><li><a href="global.html#GoToThread">GoToThread</a></li><li><a href="global.html#ImageContainer">ImageContainer</a></li><li><a href="global.html#MembersCount">MembersCount</a></li><li><a href="global.html#NameLogoContainer">NameLogoContainer</a></li><li><a href="global.html#PeopleResults">PeopleResults</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostsResults">PostsResults</a></li><li><a href="global.html#PostStatistics">PostStatistics</a></li><li><a href="global.html#PostTitle">PostTitle</a></li><li><a href="global.html#ResultsContainer">ResultsContainer</a></li><li><a href="global.html#RootContainer">RootContainer</a></li><li><a href="global.html#SearchResults">SearchResults</a></li><li><a href="global.html#SideCardsContainer">SideCardsContainer</a></li><li><a href="global.html#SingleResultContainer">SingleResultContainer</a></li><li><a href="global.html#StyledCommunityName">StyledCommunityName</a></li><li><a href="global.html#StyledDescription">StyledDescription</a></li><li><a href="global.html#StyledHeading">StyledHeading</a></li><li><a href="global.html#StyledLogo">StyledLogo</a></li><li><a href="global.html#StyledLogoContainer">StyledLogoContainer</a></li><li><a href="global.html#StyledSpan">StyledSpan</a></li><li><a href="global.html#StyledUsername">StyledUsername</a></li><li><a href="global.html#UpVotes">UpVotes</a></li><li><a href="global.html#Username">Username</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Tue Nov 15 2022 22:37:28 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
