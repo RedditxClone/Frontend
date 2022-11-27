@@ -56,6 +56,7 @@ function PostInfo({
   const { postRelatedCommunityData, postRelatedUserData } = useSelector(
     (state) => state.post
   );
+
   const [openRemovalDialog, setOpenRemovalDialog] = useState(false);
 
   const dispatch = useDispatch();

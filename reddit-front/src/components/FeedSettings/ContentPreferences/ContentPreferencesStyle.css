@@ -6,7 +6,7 @@
 
 .parent-div-disabled {
     pointer-events:painted;
-    opacity: 0.4;
+    /* opacity: 0.4; */
 }
 
 .content-preferences .child-div,.child-div-shifted {

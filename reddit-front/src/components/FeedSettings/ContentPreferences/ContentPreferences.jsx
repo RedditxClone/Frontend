@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable linebreak-style */
 /* eslint-disable object-curly-newline */
 import { TextField, Box, Switch, MenuItem } from '@mui/material';
 import './ContentPreferencesStyle.css';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import Brightness5Icon from '@mui/icons-material/Brightness5';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
@@ -10,8 +12,21 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import MenuIcon from '@mui/icons-material/Menu';
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignCenter';
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
+import { UpdateSettings } from '../../../store/slices/UpdateSettings';
 
-export default function ContentPreferences() {
+export default function ContentPreferences({ settings }) {
+  let previousState;
+  const [safeMode, setSafeMode] = useState(settings.SafeBrowsingMode);
+  const dispatch = useDispatch();
+  const handlePlayMedia = (e) => {
+    dispatch(UpdateSettings({ autoPlayMedia: e.target.checked }));
+  };
+  const handleAdultContnet = (e) => {
+    dispatch(UpdateSettings({ adultContent: e.target.checked }));
+  };
+  const handleSafeMode = (e) => {
+    dispatch(UpdateSettings({ SafeBrowsingMode: e.target.checked }));
+  };
   const [state, setState] = useState('HOT');
   const handleChangeState = (e) => {
     setState(e.target.value);
@@ -32,10 +47,16 @@ export default function ContentPreferences() {
           </p>
         </div>
         <Box className="child-b">
-          <Switch />
+          <Switch
+            onChange={handleAdultContnet}
+            checked={settings.adultContent}
+          />
         </Box>
       </div>
-      <div className="parent-div-disabled">
+      <div
+        className="parent-div-disabled"
+        style={settings.adultContent ? { opacity: 1 } : { opacity: 0.4 }}
+      >
         <div className="child-div">
           <h3 className="h3">Safe browsing mode</h3>
           <p className="p">
@@ -44,7 +65,11 @@ export default function ContentPreferences() {
           </p>
         </div>
         <Box className="child-b">
-          <Switch />
+          <Switch
+            disabled={!settings.adultContent}
+            checked={settings.SafeBrowsingMode}
+            onChange={handleSafeMode}
+          />
         </Box>
       </div>
       <div className="parent-div">
@@ -78,7 +103,10 @@ export default function ContentPreferences() {
           </p>
         </div>
         <Box className="child-b">
-          <Switch />
+          <Switch
+            onChange={handlePlayMedia}
+            checked={settings.autoPlayMedia}
+          />
         </Box>
       </div>
       <div className="parent-div">

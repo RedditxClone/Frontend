@@ -6,28 +6,25 @@ import './ActionComponents.css';
 // import '../../../assets/images/imgsFile';
 import { MdArrowBack } from 'react-icons/md';
 import { useState } from 'react';
-import custom from '../../../assets/Images/custom.png';
+import twitch from '../../../assets/Images/twitch.png';
 
-export default function Box2({ setIsShownComp, setIsShownAdd }) {
-  const [inpCount1, setInpCount1] = useState();
-  const [inpCount2, setInpCount2] = useState();
+export default function Box8({ setIsShownComp, setIsShownAdd }) {
+  const [inpCount, setInpCount] = useState();
+  const handleChange = (e) => {
+    setInpCount(e.target.value.length);
+  };
   const handleClickBack = () => {
-    const ele = document.getElementById('confg2');
+    const ele = document.getElementById('confg8');
     ele.style.display = 'none';
     ele.style.visibility = 'hidden';
     setIsShownComp(false);
     setIsShownAdd(true);
   };
-  const handleChange1 = (e) => {
-    setInpCount1(e.target.value.length);
-  };
-  const handleChange2 = (e) => {
-    setInpCount2(e.target.value.length);
-  };
   return (
     <div
       className="box2"
-      id="confg2"
+      id="confg8"
+      style={{ height: '200px' }}
     >
       <div className="contain">
         <div className="arrow">
@@ -39,7 +36,7 @@ export default function Box2({ setIsShownComp, setIsShownAdd }) {
             className="save"
             variant="outlined"
             style={
-              inpCount1 > 0 && inpCount2 > 0
+              inpCount > 0
                 ? {
                     cursor: 'pointer',
                     backgroundColor: '3293db',
@@ -58,23 +55,18 @@ export default function Box2({ setIsShownComp, setIsShownAdd }) {
           variant="outlined"
           startIcon={
             <img
-              src={custom}
-              alt="custom"
+              src={twitch}
+              alt="twitch"
             />
           }
         >
-          custom URL
+          Twitch
         </Button>
         <form className="form">
           <input
-            placeholder="Display text"
+            placeholder="@username"
             className="inp1"
-            onChange={handleChange1}
-          />
-          <input
-            placeholder="https://website.com"
-            className="inp1"
-            onChange={handleChange2}
+            onChange={handleChange}
           />
         </form>
       </div>

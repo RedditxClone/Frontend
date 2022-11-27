@@ -6,13 +6,13 @@ import './ActionComponents.css';
 // import '../../../assets/images/imgsFile';
 import { MdArrowBack } from 'react-icons/md';
 import { useState } from 'react';
-import custom from '../../../assets/Images/custom.png';
+import spotify from '../../../assets/Images/spotify.png';
 
-export default function Box2({ setIsShownComp, setIsShownAdd }) {
+export default function Box12({ setIsShownComp, setIsShownAdd }) {
   const [inpCount1, setInpCount1] = useState();
   const [inpCount2, setInpCount2] = useState();
   const handleClickBack = () => {
-    const ele = document.getElementById('confg2');
+    const ele = document.getElementById('confg12');
     ele.style.display = 'none';
     ele.style.visibility = 'hidden';
     setIsShownComp(false);
@@ -27,7 +27,7 @@ export default function Box2({ setIsShownComp, setIsShownAdd }) {
   return (
     <div
       className="box2"
-      id="confg2"
+      id="confg12"
     >
       <div className="contain">
         <div className="arrow">
@@ -58,12 +58,12 @@ export default function Box2({ setIsShownComp, setIsShownAdd }) {
           variant="outlined"
           startIcon={
             <img
-              src={custom}
-              alt="custom"
+              src={spotify}
+              alt="spotify"
             />
           }
         >
-          custom URL
+          Spotify
         </Button>
         <form className="form">
           <input
@@ -72,7 +72,7 @@ export default function Box2({ setIsShownComp, setIsShownAdd }) {
             onChange={handleChange1}
           />
           <input
-            placeholder="https://website.com"
+            placeholder="https://spotify.com"
             className="inp1"
             onChange={handleChange2}
           />

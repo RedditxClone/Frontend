@@ -10,22 +10,26 @@ import './AccountPreferenceStyle.css';
 import { Button, Box, TextField, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { UpdateSettings } from '../../../store/slices/UpdateSettings';
 import { list } from '../../../utilities/CountriesList';
-// import countryList from 'react-select-country-list';
 import Box1 from '../ActionComponents/Box1';
 import Box2 from '../ActionComponents/Box2';
-// import CompSelectLan from './CompSelectLan/CompSelectLan';
+import ChangePassword from './ChangePassword';
 
-export default function AccountPreference() {
+export default function AccountPreference({ settings }) {
+  const dispatch = useDispatch();
   const [isShownChange, setIsShownChange] = useState(false);
   const handleClickChange = () => {
     setIsShownChange(true);
   };
+  const [isShownChangePass, setIsShownChangePass] = useState(false);
+  const handleClickChangePass = () => {
+    setIsShownChangePass(true);
+  };
   const [isShownContinue, setIsShownContinue] = useState(false);
-  const [gender, setGender] = useState('Man');
   const handleChangeGender = (e) => {
-    setGender(e.target.value);
+    dispatch(UpdateSettings({ gender: e.target.value }));
   };
   const [language, setLanguage] = useState('English (US)');
   const handleChangeLanguage = (e) => {
@@ -33,33 +37,15 @@ export default function AccountPreference() {
   };
 
   const { user } = useSelector((state) => state.auth);
-  // const [country, setCountry] = useState('Egypt');
-  // // const options = useMemo(() => countryList.getData(), []);
-  // const handleChangeCountry = (e) => {
-  //   setCountry(e.target.value);
-  // };
-
-  // const [country, setCountry] = useState([]);
-  // const handleChangeCountry = (e) => {
-  //   setCountry(e.target.value);
-  // };
-  // useEffect(() => {
-  //   const getCountries = async () => {
-  //     const res = await fetch('https://restcountries.com/v3.1/all');
-  //     const getcon = await res.json();
-  //     console.log(getcon);
-  //     setCountry(res);
-  //   };
-  //   getCountries();
-  // }, []);
-
-  // const [email, setEmail] = useState('karim.moh2052@gamil.com');
-
-  // const { user } = useSelector((state) => state.auth);
+  const handleChangeCountry = (e) => {
+    dispatch(UpdateSettings({ countryCode: e.target.value }));
+  };
 
   return (
     <>
-      {(isShownChange || isShownContinue) && <div className="overlay"></div>}
+      {(isShownChangePass || isShownChange || isShownContinue) && (
+        <div className="overlay"></div>
+      )}
       <div className="main-user-info">
         <h3 className="main-h3">Account Preferences</h3>
         <div className="user-info">
@@ -91,6 +77,24 @@ export default function AccountPreference() {
         </div>
         <div className="user-info">
           <div className="user">
+            <h3 className="h3">Change Password</h3>
+            <p className="p">Password must be at least 8 characters long</p>
+          </div>
+          <div className="cont">
+            <Button
+              onClick={handleClickChangePass}
+              variant="outlined"
+              color="primary"
+            >
+              Change
+            </Button>
+            {isShownChangePass && (
+              <ChangePassword setIsShownChangePass={setIsShownChangePass} />
+            )}
+          </div>
+        </div>
+        <div className="user-info">
+          <div className="user">
             <h3 className="h3">Gender</h3>
             <p className="p">
               Reddit will never share this information and only uses it to
@@ -103,7 +107,7 @@ export default function AccountPreference() {
                 variant="standard"
                 select
                 fullwidth
-                value={gender}
+                value={settings.gender}
                 onChange={handleChangeGender}
               >
                 <MenuItem value="Woman">Woman</MenuItem>
@@ -197,8 +201,8 @@ export default function AccountPreference() {
                   color: '#0079d3',
                   borderRadius: '25px'
                 }}
-                // value={country}
-                // onChange={handleChangeCountry}
+                value={settings.countryCode}
+                onChange={handleChangeCountry}
               >
                 {list.map((countryGet) => (
                   <option key={countryGet.id}>{countryGet.name}</option>
