@@ -17,7 +17,6 @@ import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
 import { divideBigNumber } from '../../../utilities/Helpers';
 import { flagPostAsVisited } from '../../../services/requests/Post';
-import Logo from './test_2.jpeg';
 import Logo2 from './test.png';
 import Logo3 from './test_3.jpg';
 

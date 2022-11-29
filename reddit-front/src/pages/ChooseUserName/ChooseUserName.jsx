@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable operator-linebreak */
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -21,6 +22,7 @@ import isAvailableUserName from '../../services/requests/isAvailableUserName';
  * @returns {React.Component}
  */
 function ChooseUserName() {
+  const SUGGESTED_USERNAMES = ['ahmed12345', 'mohamed4578'];
   const {
     value: userName,
     valueChangeHandler: onChangeUserNameInputHandler,
@@ -104,13 +106,19 @@ function ChooseUserName() {
           we call you?
         </span>
       </div>
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}
+      >
         <form onSubmit={onSubmitHandler}>
           <div
             style={{
               height: '75vh',
               padding: '24px 24px 12px',
-              borderBottom: '1px solid hsla(195,2%,65%,.36)'
+              borderBottom: '1px solid hsla(195,2%,65%,.36)',
+              flex: '1 1'
             }}
           >
             <DotDiv>
@@ -177,6 +185,24 @@ function ChooseUserName() {
             </InfoButton>
           </div>
         </form>
+        {SUGGESTED_USERNAMES.length > 0 && (
+          <div style={{ margin: '4rem' }}>
+            <p>
+              Here are some username suggestions
+              <span> icon</span>
+            </p>
+            <ul>
+              {SUGGESTED_USERNAMES.map((user, index) => (
+                <li
+                  key={index}
+                  style={{ color: '#0079d3', fontWeight: '600' }}
+                >
+                  {user}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
