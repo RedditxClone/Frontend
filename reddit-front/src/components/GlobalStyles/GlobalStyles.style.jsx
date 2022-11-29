@@ -15,7 +15,8 @@ export const LinkWithMargin = styled('a')({
 });
 
 const AllDiv = styled('div')({
-  display: 'flex'
+  display: 'flex',
+  backgroundColor: '#fff'
 });
 
 const ContentDiv = styled('div')({
