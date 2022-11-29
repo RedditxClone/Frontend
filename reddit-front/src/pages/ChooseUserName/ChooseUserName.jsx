@@ -1,8 +1,10 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable operator-linebreak */
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { AiOutlineReload } from 'react-icons/ai';
 import { signUp } from '../../store/slices/AuthSlice';
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import { DotDiv } from '../../components/GlobalStyles/GlobalStyles.style';
@@ -13,7 +15,7 @@ import ErrorMessage, {
 import InfoButton from '../../components/InfoButton/InfoButton';
 import useInput from '../../hooks/use-input';
 import isAvailableUserName from '../../services/requests/isAvailableUserName';
-
+import getRandomUserNames from '../../services/requests/getRandomUserNames';
 /**
  * This component returns a page that appears after entering your email in signup
  * It has two input fields one for username
@@ -22,10 +24,10 @@ import isAvailableUserName from '../../services/requests/isAvailableUserName';
  * @returns {React.Component}
  */
 function ChooseUserName() {
-  const SUGGESTED_USERNAMES = ['ahmed12345', 'mohamed4578'];
   const {
     value: userName,
     valueChangeHandler: onChangeUserNameInputHandler,
+    valueChangeOutside: onClickSuggestedUserName,
     inputBlurHandler: onBlurUserNameInput,
     inputFocusHandler: onFocusUserNameInput,
     isTouched: touchedUserNameInput,
@@ -44,7 +46,7 @@ function ChooseUserName() {
   } = useInput((value) => value.length > 8);
   const [recaptcha, setRecaptcha] = useState(false);
   const [takenUserName, setTakenUserName] = useState(false);
-
+  const [suggestedUserNames, setSuggestedUserNames] = useState([]);
   /** To check if the username available or not */
   useEffect(() => {
     const timeToReadName = setTimeout(async () => {
@@ -65,6 +67,17 @@ function ChooseUserName() {
     };
   }, [userName]);
 
+  useEffect(() => {
+    async function getUserNames() {
+      try {
+        const userNames = await getRandomUserNames();
+        setSuggestedUserNames(userNames);
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
+    getUserNames();
+  }, []);
   const formIsValid =
     !takenUserName && !errorPassword && !errorUserName && recaptcha;
   const dispatch = useDispatch();
@@ -87,6 +100,14 @@ function ChooseUserName() {
     resetInputs();
   };
 
+  const onGetRandomUserNames = async () => {
+    try {
+      const userNames = await getRandomUserNames();
+      setSuggestedUserNames(userNames);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
   const len = 15;
   const lhlen = 3;
   return (
@@ -185,22 +206,43 @@ function ChooseUserName() {
             </InfoButton>
           </div>
         </form>
-        {SUGGESTED_USERNAMES.length > 0 && (
-          <div style={{ margin: '4rem' }}>
-            <p>
+        {suggestedUserNames.length > 0 && (
+          <div style={{ margin: '3rem 5rem' }}>
+            <h3>
               Here are some username suggestions
-              <span> icon</span>
-            </p>
-            <ul>
-              {SUGGESTED_USERNAMES.map((user, index) => (
-                <li
-                  key={index}
-                  style={{ color: '#0079d3', fontWeight: '600' }}
-                >
-                  {user}
-                </li>
-              ))}
-            </ul>
+              <span
+                style={{
+                  color: '#0079d3',
+                  cursor: 'pointer',
+                  marginLeft: '1rem',
+                  fontWeight: '700'
+                }}
+                onClick={onGetRandomUserNames}
+              >
+                <AiOutlineReload />
+              </span>
+            </h3>
+
+            {suggestedUserNames.map((user, index) => (
+              <button
+                key={index}
+                type="button"
+                style={{
+                  color: '#0079d3',
+                  fontWeight: '600',
+                  listStyle: 'none',
+                  cursor: 'pointer',
+                  fontSize: '1.2rem',
+                  marginBottom: '1rem',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  display: 'block'
+                }}
+                onClick={() => onClickSuggestedUserName(user)}
+              >
+                {user}
+              </button>
+            ))}
           </div>
         )}
       </div>

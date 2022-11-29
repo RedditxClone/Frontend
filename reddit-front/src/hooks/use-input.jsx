@@ -4,6 +4,8 @@ import { useState } from 'react';
  * @typedef {Object} InputStat
  * @property {string} enteredValue - the value entered in the input
  * @property {Function} valueChangeHandler - Function that handles changes to this input
+ * @property {Function} valueChangeOutside - Function that change the value
+ * when it changes outside the input
  * @property {boolean} isTouched - To determine if the user has touched this input or not
  * @property {string} enteredValue - the value entered in the input
  * @property {Function} inputBlurHandler - Function that handles when the user leave the input
@@ -24,6 +26,11 @@ function useInput(validateFn) {
 
   const valueChangeHandler = (event) => {
     setEnteredValue(event.target.value);
+    setHasError(!validateFn(enteredValue));
+  };
+
+  const valueChangeOutside = (value) => {
+    setEnteredValue(value);
     setHasError(!validateFn(enteredValue));
   };
 
@@ -48,6 +55,7 @@ function useInput(validateFn) {
     inputBlurHandler,
     inputFocusHandler,
     reset,
+    valueChangeOutside,
     hasError
   };
 }
