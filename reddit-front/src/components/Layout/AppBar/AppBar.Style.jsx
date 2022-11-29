@@ -40,21 +40,6 @@ export const Search = styled('div')({
 //   flexBasis: '50%'
 // });
 
-export const Icons = styled('div')(({ theme }) => ({
-  display: 'flex',
-  backgroundColor: 'white',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  marginLeft: '0.3rem',
-  marginRight: '0.3rem',
-  [theme.breakpoints.up('xs')]: {
-    flexBasis: '5%'
-  },
-  [theme.breakpoints.up('sm')]: {
-    flexBasis: '10%'
-  }
-}));
-
 export const StyledSelect = styled(Select)({
   width: '100%',
   height: '100%',
@@ -74,14 +59,55 @@ export const StyledText = styled(Typography)({
   padding: '0',
   textTransform: 'none'
 });
-
-export const StyledLogo = styled('div')({
+export const Icons = styled('div')(({ theme }) => ({
+  display: 'flex',
+  backgroundColor: 'white',
+  alignItems: 'center',
+  marginLeft: '0.3rem',
+  marginRight: '0.3rem',
+  height: '100%',
+  [theme.breakpoints.up('xs')]: {
+    flexBasis: '10%',
+    marginLeft: '0',
+    marginRight: '0',
+    justifyContent: 'center'
+  },
+  [theme.breakpoints.up('sm')]: {
+    flexBasis: '16%',
+    justifyContent: 'space-between'
+  },
+  [theme.breakpoints.up('md')]: {
+    flexBasis: '11%',
+    justifyContent: 'space-between'
+  },
+  [theme.breakpoints.up('lg')]: {
+    flexBasis: '10%',
+    justifyContent: 'space-between',
+    marginLeft: '0.4rem',
+    marginRight: '0.4rem'
+  }
+}));
+export const StyledLogo = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   height: '50%',
-  marginRight: '5px',
-  cursor: 'pointer'
-});
+  // marginRight: '5px',
+  cursor: 'pointer',
+
+  [theme.breakpoints.up('xs')]: {
+    flexBasis: '10%',
+    justifyContent: 'center'
+  },
+  [theme.breakpoints.up('sm')]: {
+    flexBasis: '6%'
+  },
+  [theme.breakpoints.up('md')]: {
+    flexBasis: '12.5%'
+  },
+  [theme.breakpoints.up('lg')]: {
+    flexBasis: '10%'
+  }
+}));
 
 export const Home = styled('div')(({ theme }) => ({
   height: '100%',
@@ -90,6 +116,7 @@ export const Home = styled('div')(({ theme }) => ({
     flexBasis: '10%'
   },
   [theme.breakpoints.up('sm')]: {
+    // flexBasis: '15%'
     flexBasis: '20%'
   }
 }));
@@ -108,12 +135,17 @@ export const StyledButton = styled(Button)({
 
 export const StyledHomeIconButton = styled(IconButton)({
   color: '#1A3043',
-  fontsize: '1.4rem',
+  fontSize: '2rem',
   '&.MuiButtonBase-root': {
     padding: '0.2rem'
   }
 });
 
+// export const StyledHomeBoxIcon = styled(IconButton)({
+//   fontSize: '2rem',
+//   color: 'black',
+//   '&.MuiButtonBase-root': { p: '0 0 0.3rem 0' }
+// });
 export const StyledTtextField = styled(TextField)({
   heigh: '20%'
 });
@@ -122,6 +154,12 @@ export const ProfileContainer = styled('div')(({ theme }) => ({
   height: '50px',
   alignItems: 'center',
   [theme.breakpoints.up('xs')]: {
+    flexBasis: '15%'
+  },
+  [theme.breakpoints.up('sm')]: {
+    flexBasis: '15%'
+  },
+  [theme.breakpoints.up('lg')]: {
     flexBasis: '20%'
   }
 }));
@@ -142,14 +180,15 @@ export const ProfileLogging = styled('div')(({ theme }) => ({
 
 export const SignInBox = styled('div')(({ theme }) => ({
   backgroundColor: 'white',
-  marginLeft: '0.2rem',
   '&.MuiButtonBase-root': { minwidth: '0' },
   [theme.breakpoints.up('xs')]: {
     display: 'none'
   },
   [theme.breakpoints.up('sm')]: {
     display: 'block',
-    flexBasis: '10%'
+    flexBasis: '10%',
+    marginLeft: '0.5rem',
+    marginRight: '0.5rem'
   }
 }));
 
