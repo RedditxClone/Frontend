@@ -35,14 +35,12 @@ function CreateCommunity({ open, setOpen }) {
   const navigate = useNavigate();
 
   const onSubmitHandler = async (event) => {
-    let fulfilled;
     event.preventDefault();
 
-    await createSubreddit(
+    const fulfilled = await createSubreddit(
       communityName,
       communityType,
-      isAdultContent,
-      fulfilled
+      isAdultContent
     );
 
     if (fulfilled) {

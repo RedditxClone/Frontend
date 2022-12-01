@@ -1,21 +1,21 @@
 import api from './api';
 
-const createSubreddit = (communityName, communityType, isOver18, fulfilled = false) => {
-  console.log(communityName, communityType, isOver18);
-  api.patch('/api/subreddit/', {
-    name: communityName,
-    type: communityType,
-    over18: isOver18
-  }).then((response) => {
+const createSubreddit = async (communityName, communityType, isOver18) => {
+  try {
+    const response = await api.post('/api/subreddit/', {
+      name: communityName,
+      type: communityType,
+      over18: isOver18
+    });
     if (response.status >= 200 && response.status < 300) {
-      fulfilled = true;
-    } else {
-      fulfilled = false;
+      console.log(response.data);
+      return true;
     }
-  }).catch((error) => {
-    fulfilled = false;
-    console.log(fulfilled, error.message);
-  });
+    return false;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
 };
 
 export default createSubreddit;
