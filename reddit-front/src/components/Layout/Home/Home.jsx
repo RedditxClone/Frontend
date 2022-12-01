@@ -11,33 +11,85 @@ import { BsLayoutTextSidebar } from 'react-icons/bs';
 import { CgArrowTopRightO } from 'react-icons/cg';
 import { AiOutlineStar } from 'react-icons/ai';
 import { HiOutlineBarsArrowUp } from 'react-icons/hi2';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MdExpandMore } from 'react-icons/md';
 import { TfiLayers } from 'react-icons/tfi';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   StyledInputBase,
   StyledText,
   Home,
   StyledButton,
   StyledHomeIconButton
+  // StyledHomeBoxIcon
 } from '../AppBar/AppBar.Style';
 import SideDrawer from '../Drawer/Drawer';
 import UserSettingsLogo from '../../../utilities/UserSettingsLogo/UserLogo';
 import CreateCommunity from '../../CreateCommunity/CreateCommunity';
-
 /**
  * @description this function describes the home box in the bar in case u are loggedin it contains ur communities ,etc..
  * @return {React.Component} the home box
  */
-function HomeBox() {
+function HomeBox({ allkindcomm }) {
   const [Side, setSide] = useState(false);
   const [Open, setOpen] = useState(false);
   const [Moderator, SetModetator] = useState(false);
   const [openCreateCommunity, setOpenCreateCommunity] = useState(false);
-
+  const [homeCurrentState, setHomeCurrentState] = useState('');
   // by redux as it is global state
 
   // eslint-disable-next-line no-unused-vars
+  /// ///////////////////////////V.I////////////////////////////////
+  // dont forget to put the comm got from attributes allkindcomm object got from user
+  // fav comm , mod comm and all comm i join in
+
+  // for navigate
+  const navigate = useNavigate();
+  // for changing the path
+  const location = useLocation();
+  // let HomeBoxIcon;
+  useEffect(() => {
+    const MyLocation = window.location.href;
+    let lastSegment = MyLocation.split('/').pop();
+    if (lastSegment === '') {
+      lastSegment = 'Home';
+    }
+    setHomeCurrentState(lastSegment);
+    console.log('Location changed');
+    // switch (lastSegment) {
+    //   case 'notifications':
+    //     HomeBoxIcon = (
+    //       <StyledHomeBoxIcon>
+    //         <IoIosNotificationsOutline />
+    //       </StyledHomeBoxIcon>
+    //     );
+    //     break;
+    //   case 'messaging':
+    //     console.log('here');
+    //     HomeBoxIcon = <UserSettingsLogo />;
+    //     console.log(HomeBoxIcon);
+    //     break;
+    //   case 'account':
+    //     HomeBoxIcon = <UserSettingsLogo />;
+    //     break;
+    //   default:
+    //     HomeBoxIcon = (
+    //       <StyledHomeBoxIcon>
+    //         <HiHome />
+    //       </StyledHomeBoxIcon>
+    //     );
+    //     break;
+    // }
+  }, [location]);
+
+  // const history = useHistory();
+  // history.listen((location, action) => {
+  //   console.log(
+  //     `The current URL is ${location.pathname}${location.search}${location.hash}`
+  //   );
+  //   console.log(`The last navigation action was ${action}`);
+  // });
+
   const [MyCommunities, setMyCommunities] = useState([
     {
       imgsrc:
@@ -57,7 +109,7 @@ function HomeBox() {
         (comm) => comm.communityname === community.communityname
       );
     } else {
-      setMyFavComm((prevFavComm) => [community]);
+      setMyFavComm([community]);
       // console.log(MyFavComm);
       return;
     }
@@ -67,7 +119,7 @@ function HomeBox() {
         (comm) => comm.communityname !== community.communityname
       );
       // console.log(NewFavComm);
-      setMyFavComm((prevFavComm) => [NewFavComm]);
+      setMyFavComm([NewFavComm]);
     } else {
       setMyFavComm((prevFavComm) => [...prevFavComm, community]);
     }
@@ -78,7 +130,7 @@ function HomeBox() {
       <img
         src={comm.imgsrc}
         alt={comm.communityname}
-        style={{ width: '2rem', height: '2rem', borderRadius: '50%' }}
+        style={{ width: '2.4rem', height: '2.4rem', borderRadius: '50%' }}
       />
       <StyledButton
         sx={{
@@ -88,7 +140,7 @@ function HomeBox() {
         {comm.communityname}
       </StyledButton>
       <IconButton onClick={() => favHandler(comm)}>
-        <AiOutlineStar />
+        <AiOutlineStar size="2rem" />
       </IconButton>
     </MenuItem>
   ));
@@ -117,7 +169,7 @@ function HomeBox() {
       <img
         src={comm.imgsrc}
         alt={comm.communityname}
-        style={{ width: '2rem', height: '2rem', borderRadius: '50%' }}
+        style={{ width: '2.3rem', height: '2.3rem', borderRadius: '50%' }}
       />
       <StyledButton
         sx={{
@@ -127,24 +179,65 @@ function HomeBox() {
         {comm.communityname}
       </StyledButton>
       <IconButton>
-        <AiOutlineStar />
+        <AiOutlineStar size="2rem" />
       </IconButton>
     </MenuItem>
   ));
   /**
+   * description : this handler controls the list of home select status
+   */
+  const handleOpen = () => {
+    // setOpen((current) => !current);
+    const OpenTemp = !Open;
+    setOpen(OpenTemp);
+    console.log('inhandleopen');
+    console.log(Open);
+  };
+  /**
    * description : this handler controls the Side status
    */
   const handleSide = () => {
-    setSide((current) => !current);
-    setOpen(false);
+    handleOpen();
+    // console.log('inhandleside(open)');
+    // console.log(Open);
+    const SideTemp = !Side;
+    setSide(SideTemp);
+    // console.log('inhandleside(side)');
+    // console.log(Side);
   };
-  /**
-   * description : this handler controls the list of home select status
-   */
-  const handleopen = () => {
-    setOpen((current) => !current);
+  const handleSideClose = () => {
+    const SideTemp = !Side;
+    setSide(SideTemp);
+  };
+  // useEffect(() => {
+  //   const MyLocation = window.location.href;
+  //   console.log(MyLocation);
+  //   console.log('nada');
+  // });
+  // const handleScrollUp = () => {
+  //   const element = document.getElementById(id);
+  //   if (element) {
+  //     element.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  // };
+
+  const userSettingsClickHandler = () => {
+    navigate('/settings/account');
   };
 
+  const notificationsClickHandler = () => {
+    navigate('/settings/notifications');
+  };
+
+  const messagingClickHandler = () => {
+    navigate('/settings/messaging');
+  };
+  const homeClickHandler = () => {
+    navigate('/');
+  };
+  const createPostClickHandler = () => {
+    navigate('/submit');
+  };
   return (
     <Home>
       <CreateCommunity
@@ -163,11 +256,11 @@ function HomeBox() {
             minWidth: '0'
           }
         }}
-        onClick={handleopen}
+        onClick={handleOpen}
         data-testid="homebutton"
       >
-        <Box
-          sx={{
+        <div
+          style={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center'
@@ -175,33 +268,34 @@ function HomeBox() {
         >
           <IconButton
             sx={{
-              size: '1.5rem',
+              fontSize: '2rem',
               color: 'black',
               '&.MuiButtonBase-root': { p: '0 0 0.3rem 0' }
             }}
           >
             <HiHome />
+            {/* {HomeBoxIcon} */}
           </IconButton>
           <StyledText
             sx={{
-              fontSize: '1rem',
+              fontSize: '1.5rem',
               display: { xs: 'none', sm: 'block' }
             }}
             data-testid="homeinhomebutton"
           >
-            Home
+            {homeCurrentState}
           </StyledText>
-        </Box>
+        </div>
         <IconButton sx={{ '&.MuiButtonBase-root': { p: '0' } }}>
           {Open ? (
             <IconButton
-              onClick={() => handleSide()}
+              onClick={handleSide}
               data-testid="sidedrawerbutton"
             >
-              <BsLayoutTextSidebar style={{ size: '0.4rem' }} />
+              <BsLayoutTextSidebar size="2rem" />
             </IconButton>
           ) : null}
-          <MdExpandMore />
+          <MdExpandMore size="2rem" />
         </IconButton>
       </StyledButton>
       {Open ? (
@@ -211,7 +305,7 @@ function HomeBox() {
             maxHeight: '250px',
             position: 'absolute',
             top: '55px',
-            width: '275px'
+            width: '23rem'
           }}
           data-testid="homelist"
         >
@@ -220,7 +314,8 @@ function HomeBox() {
               <StyledInputBase
                 placeholder="Filter"
                 sx={{
-                  width: '190px',
+                  fontSize: '1.5rem',
+                  width: '18rem',
                   backgroundColor: '#DAE0E0',
                   borderRadius: '0px',
                   pl: '6px',
@@ -238,8 +333,8 @@ function HomeBox() {
                 </StyledText>
               </MenuItem>
             ) : null}
-            {FavComm}
             <MenuItem>
+              {FavComm}
               <StyledText sx={{ fontSize: '13px' }}>MODERATING</StyledText>
             </MenuItem>
             {Moderator ? { ModeratorComm } : null}
@@ -259,14 +354,11 @@ function HomeBox() {
                 YOUR COMMNUNITIES
               </StyledText>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={() => setOpenCreateCommunity(true)}>
               <StyledHomeIconButton>
                 <IoIosAdd />
               </StyledHomeIconButton>
-              <StyledButton
-                sx={{ ml: '0.5rem' }}
-                onClick={() => setOpenCreateCommunity(true)}
-              >
+              <StyledButton sx={{ ml: '0.3rem' }}>
                 Create Community
               </StyledButton>
             </MenuItem>
@@ -274,7 +366,7 @@ function HomeBox() {
             <MenuItem>
               <StyledText sx={{ fontSize: '13px' }}>FEEDS</StyledText>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={homeClickHandler}>
               <StyledHomeIconButton
                 sx={{
                   '&.MuiButtonBase-root': {
@@ -306,15 +398,15 @@ function HomeBox() {
             <MenuItem>
               <StyledText sx={{ fontSize: '13px' }}>OTHER</StyledText>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={userSettingsClickHandler}>
               <UserSettingsLogo />
               <StyledButton sx={{ ml: '0.5rem' }}>User Settings</StyledButton>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={messagingClickHandler}>
               <UserSettingsLogo />
               <StyledButton sx={{ ml: '0.5rem' }}>Messages</StyledButton>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={createPostClickHandler}>
               <StyledHomeIconButton>
                 <IoIosAdd />
               </StyledHomeIconButton>
@@ -326,7 +418,7 @@ function HomeBox() {
               </StyledHomeIconButton>
               <StyledButton sx={{ ml: '0.5rem' }}>Top Communities</StyledButton>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={notificationsClickHandler}>
               <StyledHomeIconButton>
                 <IoIosNotificationsOutline />
               </StyledHomeIconButton>
@@ -338,7 +430,7 @@ function HomeBox() {
       {Side ? (
         <SideDrawer
           showSideBar={Side}
-          onClickSideIcon={handleSide}
+          onClickSideIcon={handleSideClose}
           data-testid="sidedrawer"
         />
       ) : null}

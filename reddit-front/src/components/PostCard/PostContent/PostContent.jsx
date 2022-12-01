@@ -12,6 +12,8 @@
 import { useEffect, memo, useState } from 'react';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
+import Logo3 from '../../../assets/Images/test.png';
+import Logo2 from '../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
 import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
