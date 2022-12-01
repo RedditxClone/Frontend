@@ -9,6 +9,7 @@ import {
   Modal
 } from '@mui/material';
 import { GrFormClose } from 'react-icons/gr';
+import { useNavigate } from 'react-router-dom';
 import theme, {
   CenteredCard,
   CardHeaderUnderlined,
@@ -17,7 +18,7 @@ import theme, {
 import CommunityNameField from './CommunityNameField';
 import ChooseCommunityType from './ChooseCommunityType';
 import AdultContentCheckBox from './AdultContentCheckBox';
-
+import createSubreddit from '../../services/requests/createSubreddit';
 /**
  * This Card appears when click on create community button
  * , and you choose the properties for your community like name and type and the ability
@@ -30,12 +31,26 @@ function CreateCommunity({ open, setOpen }) {
   const [communityType, setCommunityType] = useState('public');
   const [communityName, setCommunityName] = useState('');
   const [isAdultContent, setIsAdultContent] = useState(false);
-  const [errorEmailName, setErrorCommunityName] = useState(false);
+  const [errorCommunityName, setErrorCommunityName] = useState(false);
+  const navigate = useNavigate();
 
-  const onSubmitHandler = () => {
-    // For Test only
-    if (!errorEmailName) setOpen(false);
-    console.log(communityName, communityType, isAdultContent);
+  const onSubmitHandler = async (event) => {
+    let fulfilled;
+    event.preventDefault();
+
+    await createSubreddit(
+      communityName,
+      communityType,
+      isAdultContent,
+      fulfilled
+    );
+
+    if (fulfilled) {
+      setOpen(false);
+      navigate('/subreddit');
+    } else {
+      console.log('error in creating community');
+    }
   };
 
   return (
@@ -87,6 +102,7 @@ function CreateCommunity({ open, setOpen }) {
                 variant="contained"
                 color="primary"
                 onClick={onSubmitHandler}
+                disabled={errorCommunityName}
               >
                 Create Community
               </StyledButton>

@@ -1,6 +1,6 @@
 /* eslint-disable operator-linebreak */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../../services/requests/api';
 
 /**
  * @typedef AuthState - This describes the current authentication state
@@ -12,7 +12,6 @@ import axios from 'axios';
  * @property {string}  msg - The message returns with fulfilled requests
  */
 
-const SERVER_NAME = process.env.REACT_APP_BASE_URL;
 const INITIAL_STATE = {
   user: {},
   isAuth: false,
@@ -30,19 +29,17 @@ export const signUp = createAsyncThunk(
   async (user, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      console.log(user);
-      const res = await axios.post(`${SERVER_NAME}/api/auth/signup`, {
+      const res = await api.post('/api/auth/signup', {
         email: user.email,
         username: user.username,
         password: user.password
       });
-
+      const cookies = res.headers['set-cookie'];
+      console.log(cookies);
       const { data } = res;
-      console.log(data);
       return data;
     } catch (err) {
       console.log(err);
-
       return rejectWithValue(err.response.data.message);
     }
   }
@@ -54,11 +51,12 @@ export const signUp = createAsyncThunk(
 export const login = createAsyncThunk('user/login', async (user, thunkAPI) => {
   const { rejectWithValue } = thunkAPI;
   try {
-    const res = await axios.post(`${SERVER_NAME}/api/auth/login`, {
+    const res = await api.post('/api/auth/login', {
       username: user.username,
       password: user.password
     });
-
+    const cookies = res.headers['set-cookie'];
+    console.log(cookies);
     const { data } = res;
 
     return data;
@@ -75,7 +73,7 @@ export const forgetUserName = createAsyncThunk(
   async (user, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.post(`${SERVER_NAME}/api/auth/forget-username`, {
+      const res = await api.post('/api/auth/forget-username', {
         emai: user.email
       });
 
@@ -96,7 +94,7 @@ export const forgetPassword = createAsyncThunk(
   async (user, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.post(`${SERVER_NAME}/api/auth/forget-password`, {
+      const res = await api.post('/api/auth/forget-password', {
         emai: user.email,
         username: user.username
       });
@@ -118,12 +116,9 @@ export const resetPassword = createAsyncThunk(
   async (user, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.post(
-        `${SERVER_NAME}/api/auth/change-forgetten-password`,
-        {
-          password: user.password
-        }
-      );
+      const res = await api.post('/api/auth/change-forgetten-password', {
+        password: user.password
+      });
 
       const { data } = res;
 

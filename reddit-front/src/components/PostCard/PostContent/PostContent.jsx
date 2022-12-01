@@ -73,7 +73,7 @@ function PostContent({
   );
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
-  const getPostContent = function () {
+  const getPostContent = () => {
     const contentType = postContentData.post_type;
     const mediaCount = postContentData.media_count;
     switch (contentType) {

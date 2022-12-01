@@ -1,9 +1,4 @@
-import axios from 'axios';
-
-const SERVER_NAME = process.env.REACT_APP_BASE_URL;
-const api = axios.create({
-  baseURL: SERVER_NAME
-});
+import api from './api';
 
 const getRandomUserNames = async () => {
   const response = await api.get('/api/user/random-usernames');
