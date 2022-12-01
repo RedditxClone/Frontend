@@ -31,12 +31,12 @@ function useInput(validateFn) {
 
   const valueChangeOutside = (value) => {
     setEnteredValue(value);
-    setHasError(!validateFn(enteredValue));
+    setHasError(enteredValue !== '' && !validateFn(enteredValue));
   };
 
   const inputFocusHandler = () => {
     setIsTouched(true);
-    setHasError(!validateFn(enteredValue));
+    setHasError(enteredValue !== '' && !validateFn(enteredValue));
   };
 
   const inputBlurHandler = () => {

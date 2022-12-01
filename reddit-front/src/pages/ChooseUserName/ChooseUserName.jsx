@@ -50,14 +50,13 @@ function ChooseUserName() {
   /** To check if the username available or not */
   useEffect(() => {
     const timeToReadName = setTimeout(async () => {
-      try {
-        const res = isAvailableUserName(userName);
-        if (res.status >= 200 && res.status < 300) {
-          setTakenUserName(false);
-        } else {
-          setTakenUserName(true);
-        }
-      } catch (err) {
+      const availableUserName = await isAvailableUserName(userName);
+      if (availableUserName) {
+        console.log('fulfilled = ', availableUserName);
+        setTakenUserName(false);
+      } else {
+        console.log('fulfilled = ', availableUserName);
+
         setTakenUserName(true);
       }
     }, 1500);
@@ -65,7 +64,7 @@ function ChooseUserName() {
     return () => {
       clearTimeout(timeToReadName);
     };
-  }, [userName]);
+  }, [userName, isAvailableUserName]);
 
   useEffect(() => {
     async function getUserNames() {

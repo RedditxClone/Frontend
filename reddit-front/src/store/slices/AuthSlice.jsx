@@ -30,6 +30,7 @@ export const signUp = createAsyncThunk(
   async (user, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
+      console.log(user);
       const res = await axios.post(`${SERVER_NAME}/api/auth/signup`, {
         email: user.email,
         username: user.username,
@@ -37,8 +38,11 @@ export const signUp = createAsyncThunk(
       });
 
       const { data } = res;
+      console.log(data);
       return data;
     } catch (err) {
+      console.log(err);
+
       return rejectWithValue(err.response.data.message);
     }
   }
