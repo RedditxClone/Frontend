@@ -1,8 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-// const SERVER_NAME = process.env.REACT_APP_BASE_URL;
+import api from '../../services/requests/api';
 
 const INITIAL_STATE = {
   settings: {},
@@ -14,7 +12,7 @@ const INITIAL_STATE = {
 export const getSettings = createAsyncThunk('settings', async (_, thunkAPI) => {
   const { rejectedWithValue } = thunkAPI;
   try {
-    const response = await axios.get('http://localhost:3005/settings');
+    const response = await api.get('http://localhost:3005/settings');
     // const response = await axios.get(`${SERVER_NAME}`);
     return response.data;
   } catch (error) {
