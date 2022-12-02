@@ -12,6 +12,10 @@
     left: 0;
     transform: translate(calc(50vw - 50%), calc(50vh - 50%));
     border-radius: 4px;
+    -webkit-transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+    -moz-transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+    -ms-transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+    -o-transform: translate(calc(50vw - 50%), calc(50vh - 50%));
 }
 
 .box-3 {

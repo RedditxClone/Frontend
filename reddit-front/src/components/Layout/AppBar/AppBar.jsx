@@ -20,23 +20,23 @@ function AppBarReddit({ topid }) {
 
   return (
     <StyledToolBar id={topid}>
-      {/* <Logo />
-      {isAuth && <HomeBox />}
+      <Logo />
+      {isAuth && <HomeBox allkindcomm={user} />}
       <SearchBox login={isAuth} />
       {isAuth && <IconsBox />}
       {isAuth && <Profile />}
       {!isAuth && <SignUp />}
       {!isAuth && <LogIn />}
-      {!isAuth && <ProfileLogin />} */}
+      {!isAuth && <ProfileLogin />}
 
-      <Logo />
+      {/* <Logo />
       {true && <HomeBox allkindcomm={user} />}
       <SearchBox login={isAuth} />
       {true && <IconsBox />}
       {true && <Profile />}
       {false && <SignUp />}
       {false && <LogIn />}
-      {false && <ProfileLogin />}
+      {false && <ProfileLogin />} */}
     </StyledToolBar>
   );
 }

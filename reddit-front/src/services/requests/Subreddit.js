@@ -1,14 +1,8 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
-import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
-const SERVER_NAME = process.env.REACT_APP_BASE_URL;
-
-const api = axios.create({
-  baseURL: SERVER_NAME
-});
+import api from './api';
 
 /**
  * This service for joining a subreddit
