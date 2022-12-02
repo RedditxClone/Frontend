@@ -105,7 +105,7 @@ export default function HomePage() {
             buttonText={buttonText}
           />
 
-          {!isAuth && (
+          {isAuth && (
             <div>
               <div className="card-wrapper">
                 <HomeCreatePostCard />
