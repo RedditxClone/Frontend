@@ -9,16 +9,19 @@ const INITIAL_STATE = {
   fullfilled: false
 };
 
-export const getSettings = createAsyncThunk('settings', async (_, thunkAPI) => {
-  const { rejectedWithValue } = thunkAPI;
-  try {
-    const response = await api.get('http://localhost:3005/settings');
-    // const response = await axios.get(`${SERVER_NAME}`);
-    return response.data;
-  } catch (error) {
-    return rejectedWithValue(error.response.message);
+export const getSettings = createAsyncThunk(
+  'settings/getSettings',
+  async (_, thunkAPI) => {
+    const { rejectedWithValue } = thunkAPI;
+    try {
+      const response = await api.get('http://localhost:3005/settings');
+      // const response = await axios.get(`${SERVER_NAME}`);
+      return response.data;
+    } catch (error) {
+      return rejectedWithValue(error.response.message);
+    }
   }
-});
+);
 
 const SettingsSlice = createSlice({
   name: 'settings',

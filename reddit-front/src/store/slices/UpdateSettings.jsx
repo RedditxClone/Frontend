@@ -1,8 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-// const SERVER_NAME = process.env.REACT_APP_BASE_URL;
+import api from '../../services/requests/api';
 
 const INITIAL_STATE = {
   updatedSettings: {},
@@ -12,11 +10,11 @@ const INITIAL_STATE = {
 };
 
 export const UpdateSettings = createAsyncThunk(
-  'settings',
+  'settings/updateSettings',
   async (updatedObject, thunkAPI) => {
     const { rejectedWithValue } = thunkAPI;
     try {
-      const response = await axios.patch(
+      const response = await api.patch(
         'http://localhost:3005/settings',
         updatedObject
       );
