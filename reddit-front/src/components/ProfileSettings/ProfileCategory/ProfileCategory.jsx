@@ -6,7 +6,7 @@ import './ProfileCategoryStyle.css';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Box3 from '../ActionComponents.jsx/Box3';
-import { UpdateSettings } from '../../../store/slices/UpdateSettings';
+import { UpdateSettings } from '../../../store/slices/Settings';
 
 export default function ProfileCategory({ settings }) {
   const dispatch = useDispatch();

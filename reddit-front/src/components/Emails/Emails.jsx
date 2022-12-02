@@ -4,8 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { Box, Switch } from '@mui/material';
 import './EmailsStyle.css';
-import { getSettings } from '../../store/slices/Settings';
-import { UpdateSettings } from '../../store/slices/UpdateSettings';
+import { getSettings, UpdateSettings } from '../../store/slices/Settings';
 
 export default function Emails() {
   const dispatch = useDispatch();

@@ -10,14 +10,20 @@ import { StyledInputBase, Search } from '../AppBar/AppBar.Style';
 
 function SearchBox({ login }) {
   const SearchContainer = styled('div')(({ theme }) => ({
+    height: '100%',
     [theme.breakpoints.up('xs')]: {
       flexBasis: login ? '60%' : '75%'
     },
     [theme.breakpoints.up('sm')]: {
-      flexBasis: login ? '60%' : '65%'
+      flexBasis: login ? '48%' : '65%'
     },
     [theme.breakpoints.up('md')]: {
       marginLeft: login ? '5px' : '15px',
+      flexBasis: login ? '46.5%' : '65%'
+    },
+    [theme.breakpoints.up('lg')]: {
+      marginLeft: login ? '5px' : '15px',
+      // flexBasis: login ? '45%' : '65%'
       flexBasis: login ? '40%' : '65%'
     }
   }));
@@ -28,9 +34,12 @@ function SearchBox({ login }) {
         <div>&nbsp;</div>
         <AiOutlineSearch
           color="#8D9092"
-          size="1.5rem"
+          size="2.5rem"
         />
-        <StyledInputBase placeholder="RedditSearch..." />
+        <StyledInputBase
+          placeholder="RedditSearch..."
+          sx={{ fontSize: '1.5rem' }}
+        />
       </Search>
     </SearchContainer>
   );

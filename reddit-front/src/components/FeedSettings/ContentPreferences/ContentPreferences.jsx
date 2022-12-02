@@ -12,7 +12,7 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import MenuIcon from '@mui/icons-material/Menu';
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignCenter';
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
-import { UpdateSettings } from '../../../store/slices/UpdateSettings';
+import { UpdateSettings } from '../../../store/slices/Settings';
 
 export default function ContentPreferences({ settings }) {
   let previousState;

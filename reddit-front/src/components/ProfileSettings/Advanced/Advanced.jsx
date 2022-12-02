@@ -2,7 +2,7 @@
 import { Switch, Box } from '@mui/material';
 import './AdvancedStyle.css';
 import { useDispatch } from 'react-redux';
-import { UpdateSettings } from '../../../store/slices/UpdateSettings';
+import { UpdateSettings } from '../../../store/slices/Settings';
 
 export default function Advanced({ settings }) {
   const dispatch = useDispatch();

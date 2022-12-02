@@ -35,7 +35,7 @@ import Box25 from '../ActionComponents.jsx/Box25';
 import Box26 from '../ActionComponents.jsx/Box26';
 import Box27 from '../ActionComponents.jsx/Box27';
 import Box28 from '../ActionComponents.jsx/Box28';
-import { UpdateSettings } from '../../../store/slices/UpdateSettings';
+import { UpdateSettings } from '../../../store/slices/Settings';
 
 export default function ProfileInformation({ settings }) {
   const dispatch = useDispatch();
