@@ -50,8 +50,8 @@ export const signUp = createAsyncThunk(
  * Send a post request to backend with the login user data
  */
 export const login = createAsyncThunk('user/login', async (user, thunkAPI) => {
-  console.log(SERVER_NAME);
   const { rejectWithValue } = thunkAPI;
+  console.log('here');
   try {
     const res = await api.post('/api/auth/login', {
       username: user.username,
@@ -59,6 +59,7 @@ export const login = createAsyncThunk('user/login', async (user, thunkAPI) => {
     });
     const cookies = res.headers['set-cookie'];
     console.log(cookies);
+    console.log(res);
     const { data } = res;
 
     return data;

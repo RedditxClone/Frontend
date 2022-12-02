@@ -15,7 +15,9 @@ export const getSettings = createAsyncThunk(
   async (_, thunkAPI) => {
     const { rejectedWithValue } = thunkAPI;
     try {
-      const response = await api.get('/api/user/me/prefs');
+      const response = await api.get('/api/user/me/prefs', {
+        headers: { Authorization: 'token' }
+      });
       return response.data;
     } catch (error) {
       return rejectedWithValue(error.response.message);
