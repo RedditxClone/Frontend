@@ -28,6 +28,7 @@ export const signUp = createAsyncThunk(
   'user/signup',
   async (user, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
+
     try {
       const res = await api.post('/api/auth/signup', {
         email: user.email,
@@ -49,6 +50,7 @@ export const signUp = createAsyncThunk(
  * Send a post request to backend with the login user data
  */
 export const login = createAsyncThunk('user/login', async (user, thunkAPI) => {
+  console.log(SERVER_NAME);
   const { rejectWithValue } = thunkAPI;
   try {
     const res = await api.post('/api/auth/login', {

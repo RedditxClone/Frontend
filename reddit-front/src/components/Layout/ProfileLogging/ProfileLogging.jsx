@@ -1,5 +1,11 @@
 /* eslint-disable object-curly-newline */
-import { MenuItem, FormControl, InputLabel, Divider } from '@mui/material';
+import {
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Divider,
+  IconButton
+} from '@mui/material';
 import { BsClock, BsToggleOn } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
@@ -64,10 +70,7 @@ function ProfileLogin() {
           }}
           shrink={false}
         >
-          <CgProfile
-            size="1.5rem"
-            color="#878A8C"
-          />
+          <CgProfile style={{ color: '#878A8C', fontSize: '2rem' }} />
         </InputLabel>
         <StyledSelect
           sx={{
@@ -96,10 +99,9 @@ function ProfileLogin() {
             onClick={() => handleComClick()}
             data-testid="elements"
           >
-            <BsClock
-              color="#1A3043"
-              size="1.5rem"
-            />
+            <IconButton sx={{ fontSize: '1.7rem' }}>
+              <BsClock color="#1A3043" />
+            </IconButton>
             <StyledButton>Recent Communities</StyledButton>
             {opencommunity ? (
               <MdExpandLess size="2rem" />
@@ -110,7 +112,7 @@ function ProfileLogin() {
           {/* here is the list of recent communities will handle when backend is done */}
           {opencommunity ? (
             <MenuItem data-testid="elements">
-              <StyledButton>any community</StyledButton>
+              <StyledButton sx={{ ml: '4rem' }}>any community</StyledButton>
             </MenuItem>
           ) : null}
           {isAuth && (
@@ -131,24 +133,21 @@ function ProfileLogin() {
             <MenuItem data-testid="elements">
               <StyledButton sx={{ pl: '40px' }}>
                 Dark Mode
-                <BsToggleOn
-                  color="#249FEC"
-                  size="2rem"
-                  style={{ paddingLeft: '80px' }}
-                />
+                <IconButton sx={{ fontSize: '2rem' }}>
+                  <BsToggleOn
+                    color="#249FEC"
+                    style={{ paddingLeft: '80px' }}
+                  />
+                </IconButton>
               </StyledButton>
             </MenuItem>
           ) : null}
           <Divider />
           <MenuItem data-testid="elements">
-            <CgProfile
-              size="1.5rem"
-              color="#1A3043"
-            />
-            <StyledButton
-              sx={{ pr: '50px' }}
-              onClick={clickSignUpHandler}
-            >
+            <IconButton sx={{ fontSize: '2rem' }}>
+              <CgProfile color="#1A3043" />
+            </IconButton>
+            <StyledButton onClick={clickSignUpHandler}>
               Sign Up or Log In
             </StyledButton>
           </MenuItem>

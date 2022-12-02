@@ -6,7 +6,7 @@ import {
   FormControl,
   IconButton
 } from '@mui/material';
-import { BsToggleOn, BsPencil } from 'react-icons/bs';
+import { BsToggleOn, BsPencil, BsToggleOff } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { AiOutlineEye, AiOutlineCopyrightCircle } from 'react-icons/ai';
 import { IoMdExit } from 'react-icons/io';
@@ -33,9 +33,11 @@ function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [openexplore, setOpenExplore] = useState(false);
+  const [DarkMode, setDarkMode] = useState(false);
+  const [OnlineStatus, setOnlineStatus] = useState(true);
   const [openCreateCommunity, setOpenCreateCommunity] = useState(false);
 
-  const [opened, setOpened] = useState([
+  const [Opened, setOpened] = useState([
     false,
     false,
     false,
@@ -48,8 +50,14 @@ function Profile() {
     setOpenExplore((current) => !current);
   };
 
+  const handleOnlineStatusClick = () => {
+    setOnlineStatus((current) => !current);
+  };
+  const handleDarkModeClick = () => {
+    setDarkMode((current) => !current);
+  };
   const openCategoriesHandler = (index) => {
-    const CopyOpened = [...opened];
+    const CopyOpened = [...Opened];
     // console.log(CopyOpened);
     let open = CopyOpened[index];
     // console.log(open);
@@ -57,7 +65,7 @@ function Profile() {
     // console.log(open);
     CopyOpened[index] = open;
     // console.log(CopyOpened);
-    setOpened([CopyOpened]);
+    setOpened(CopyOpened);
   };
 
   const userSettingsClickHandler = () => {
@@ -85,7 +93,7 @@ function Profile() {
       data-testid="catogeries"
     >
       <StyledButton>{comm}</StyledButton>
-      {opened[index] ? (
+      {Opened[index] ? (
         <MdExpandLess size="2rem" />
       ) : (
         <MdExpandMore size="2rem" />
@@ -130,7 +138,7 @@ function Profile() {
           <IconButton
             sx={{
               color: '#1A3043',
-              fontSize: '1.5rem',
+              fontSize: '2.5rem',
               '&.MuiButtonBase-root': { p: '0.5rem 0 0.5rem 0' }
             }}
           >
@@ -162,23 +170,40 @@ function Profile() {
           >
             <CgProfile
               color="#1A3043"
-              size="1.5rem"
+              size="2rem"
             />
             <StyledText sx={{ width: '100%' }}>My Stuff</StyledText>
           </MenuItem>
-          <MenuItem data-testid="options">
+          <MenuItem
+            data-testid="options"
+            onClick={handleOnlineStatusClick}
+          >
             <StyledButton> Online Status</StyledButton>
-            <IconButton
-              sx={{
-                color: '#249FEC',
-                fontSize: '1.8rem',
-                '&.MuiButtonBase-root': {
-                  padding: '0.2rem'
-                }
-              }}
-            >
-              <BsToggleOn />
-            </IconButton>
+            {OnlineStatus ? (
+              <IconButton
+                sx={{
+                  color: '#249FEC',
+                  fontSize: '3rem',
+                  '&.MuiButtonBase-root': {
+                    padding: '0.2rem'
+                  }
+                }}
+              >
+                <BsToggleOn />
+              </IconButton>
+            ) : (
+              <IconButton
+                sx={{
+                  color: '#DFDFDF',
+                  fontSize: '3rem',
+                  '&.MuiButtonBase-root': {
+                    padding: '0.2rem'
+                  }
+                }}
+              >
+                <BsToggleOff />
+              </IconButton>
+            )}
           </MenuItem>
           <MenuItem data-testid="options">
             <StyledButton>My Profile</StyledButton>
@@ -197,16 +222,26 @@ function Profile() {
           >
             <AiOutlineEye
               color="#1A3043"
-              size="1.5rem"
+              size="2rem"
             />
             <StyledText>View Options</StyledText>
           </MenuItem>
-          <MenuItem data-testid="options">
+          <MenuItem
+            data-testid="options"
+            onClick={handleDarkModeClick}
+          >
             <StyledButton>Dark Mode </StyledButton>
-            <BsToggleOn
-              color="#249FEC"
-              size="2rem"
-            />
+            {DarkMode ? (
+              <BsToggleOn
+                color="#249FEC"
+                size="3.5rem"
+              />
+            ) : (
+              <BsToggleOff
+                color="#DFDFDF"
+                size="3.5rem"
+              />
+            )}
           </MenuItem>
           <Divider />
           <MenuItem
@@ -215,7 +250,7 @@ function Profile() {
           >
             <AiOutlineCopyrightCircle
               color="#1A3043"
-              size="1.5rem"
+              size="2rem"
             />
             <StyledButton onClick={() => setOpenCreateCommunity(true)}>
               Create community
@@ -235,7 +270,7 @@ function Profile() {
                 }
               }}
             >
-              <BsPencil />
+              <BsPencil size="1.5rem" />
             </IconButton>
             <StyledButton>Explore</StyledButton>
             {openexplore ? (
@@ -248,12 +283,12 @@ function Profile() {
           {/* here is the list of recent communities will handle when backend is done */}
           <Divider />
           <MenuItem
-            sx={{ gap: '0.3rem' }}
+            sx={{ gap: '0.5rem' }}
             data-testid="options"
           >
             <IoMdExit
               color="#1A3043"
-              size="1.5rem"
+              size="2rem"
             />
             <StyledButton onClick={logoutHandler}>Log Out </StyledButton>
           </MenuItem>
