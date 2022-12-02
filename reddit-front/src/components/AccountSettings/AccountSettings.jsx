@@ -12,7 +12,6 @@ import BetaTests from './BetaTests/BetaTests';
 import DeleteAccount from './DeleteAccount/DeleteAccount';
 import './AccountSettingsStyle.css';
 import { getSettings } from '../../store/slices/Settings';
-import { UpdateSettings } from '../../store/slices/UpdateSettings';
 
 export default function AccountSettings() {
   const dispatch = useDispatch();

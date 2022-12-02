@@ -11,7 +11,7 @@ import { Button, Box, TextField, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { UpdateSettings } from '../../../store/slices/UpdateSettings';
+import { UpdateSettings } from '../../../store/slices/Settings';
 import { list } from '../../../utilities/CountriesList';
 import Box1 from '../ActionComponents/Box1';
 import Box2 from '../ActionComponents/Box2';

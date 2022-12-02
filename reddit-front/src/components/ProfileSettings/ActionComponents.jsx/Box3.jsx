@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Button } from '@mui/material';
 import './ActionComponents.css';
 import { useDispatch } from 'react-redux';
-import { UpdateSettings } from '../../../store/slices/UpdateSettings';
+import { UpdateSettings } from '../../../store/slices/Settings';
 
 export default function Box3({ setIsToggled }) {
   const dispatch = useDispatch();
