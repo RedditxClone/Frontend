@@ -33,7 +33,7 @@ function ChooseUserName() {
     isTouched: touchedUserNameInput,
     reset: resetUserName,
     hasError: errorUserName
-  } = useInput((value) => value.length >= 3 && value.length <= 20);
+  } = useInput((value) => value.length >= 3);
 
   const {
     value: password,
