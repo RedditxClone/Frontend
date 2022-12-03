@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   frontend:
-    container_name: front
+    container_name: front-phase
     build:
       context: .
       dockerfile: devops.Dockerfile

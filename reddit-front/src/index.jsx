@@ -13,7 +13,7 @@ import ForgetUserPassword from './pages/ForgetUserPassword/ForgetUserPassword';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
-import SubredditCards from './components/SubredditCards/SubredditCards';
+import Subreddit from './pages/Subreddit/Subreddit';
 import AccountSettings from './components/AccountSettings/AccountSettings';
 import UserSettings from './pages/UserSettings/UserSettings';
 import ProfileSettings from './components/ProfileSettings/ProfileSettings';
@@ -24,6 +24,11 @@ import Emails from './components/Emails/Emails';
 import Subscriptions from './components/Subscriptions/Subscriptions';
 import ChatMessaging from './components/ChatMessaging/ChatMessaging';
 import CreatePost from './pages/CreatePost/CreatePost';
+import CommunitiesResults from './components/SearchCards/CommunitiesResults/CommunitiesResults';
+import SearchResults from './pages/SearchResults/SearchResults';
+import PeopleResults from './components/SearchCards/PeopleResults/PeopleResults';
+import CommentsResults from './components/SearchCards/CommentsResults/CommentsResults';
+import PostsResults from './components/SearchCards/PostsResults/PostsResults';
 
 // Routes
 const routes = createBrowserRouter([
@@ -68,7 +73,7 @@ const routes = createBrowserRouter([
   },
   {
     path: '/subreddit',
-    element: <SubredditCards />
+    element: <Subreddit />
   },
   {
     path: '/settings',
@@ -111,6 +116,28 @@ const routes = createBrowserRouter([
   {
     path: '/submit',
     element: <CreatePost />
+  },
+  {
+    path: '/search',
+    element: <SearchResults />,
+    children: [
+      {
+        path: 'posts',
+        element: <PostsResults />
+      },
+      {
+        path: 'comments',
+        element: <CommentsResults />
+      },
+      {
+        path: 'communities',
+        element: <CommunitiesResults />
+      },
+      {
+        path: 'people',
+        element: <PeopleResults />
+      }
+    ]
   }
 ]);
 

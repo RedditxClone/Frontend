@@ -11,6 +11,10 @@ import ModeratorsCard from '../ModeratorsCard/ModeratorsCard';
  * @property {string, color} baseColor
  * @property {string, color} highlightColor
  * @property {boolean} isModeratorMode
+ * @property {Array} aboutInfo
+ * @property {Array} flairsList
+ * @property {Array} rulesList
+ * @property {Integer} subredditId
  */
 
 /**
@@ -18,7 +22,12 @@ import ModeratorsCard from '../ModeratorsCard/ModeratorsCard';
  *
  */
 
-function SubredditSideBar({ baseColor, highlightColor, isModeratorMode }) {
+function SubredditSideBar({
+  baseColor,
+  highlightColor,
+  isModeratorMode,
+  subredditId
+}) {
   return (
     <SideBarContainer>
       <SideBarContent>
@@ -26,13 +35,23 @@ function SubredditSideBar({ baseColor, highlightColor, isModeratorMode }) {
           baseColor={baseColor}
           highlightColor={highlightColor}
           isModeratorMode={isModeratorMode}
+          subredditId={subredditId}
         />
-        {!isModeratorMode ? <FlairsCard baseColor={baseColor} /> : null}
+        {!isModeratorMode ? (
+          <FlairsCard
+            baseColor={baseColor}
+            subredditId={subredditId}
+          />
+        ) : null}
 
-        <RulesCard baseColor={baseColor} />
+        <RulesCard
+          baseColor={baseColor}
+          subredditId={subredditId}
+        />
         <ModeratorsCard
           baseColor={baseColor}
           highlightColor={highlightColor}
+          subredditId={subredditId}
         />
       </SideBarContent>
     </SideBarContainer>

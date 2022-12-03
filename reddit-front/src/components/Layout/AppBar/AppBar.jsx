@@ -8,7 +8,6 @@ import Profile from '../Profile/Profile';
 import SignUp from '../SignUp/SignUp';
 import LogIn from '../LogIn/LogIn';
 import ProfileLogin from '../ProfileLogging/ProfileLogging';
-
 /**
 * @description this function is the main function which describes the navigation bar as
   loggedin or not it consists of many components
@@ -16,18 +15,28 @@ import ProfileLogin from '../ProfileLogging/ProfileLogging';
 * @return {React.Component} the navigation bar of the site
 */
 function AppBarReddit({ topid }) {
-  const { isAuth } = useSelector((state) => state.auth);
+  const { isAuth, user } = useSelector((state) => state.auth);
+  // const user = useSelector((state) => state.user);
 
   return (
     <StyledToolBar id={topid}>
       <Logo />
-      {isAuth && <HomeBox />}
+      {isAuth && <HomeBox allkindcomm={user} />}
       <SearchBox login={isAuth} />
       {isAuth && <IconsBox />}
       {isAuth && <Profile />}
       {!isAuth && <SignUp />}
       {!isAuth && <LogIn />}
       {!isAuth && <ProfileLogin />}
+
+      {/* <Logo />
+      {true && <HomeBox allkindcomm={user} />}
+      <SearchBox login={isAuth} />
+      {true && <IconsBox />}
+      {true && <Profile />}
+      {false && <SignUp />}
+      {false && <LogIn />}
+      {false && <ProfileLogin />} */}
     </StyledToolBar>
   );
 }

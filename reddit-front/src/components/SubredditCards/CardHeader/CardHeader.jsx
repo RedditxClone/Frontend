@@ -62,7 +62,7 @@ function CardHeader({ title, baseColor, hasDropDownMenu, isModeratorMode }) {
       {hasDropDownMenu ? (
         <Box
           sx={{
-            margin: 'auto 0 auto auto',
+            margin: isModeratorMode ? 'auto 0 auto 2rem' : 'auto 0 auto 14rem',
             verticalAlign: 'middle',
             cursor: 'pointer',
             borderRadius: '1px',
@@ -96,7 +96,9 @@ function CardHeader({ title, baseColor, hasDropDownMenu, isModeratorMode }) {
                   variant="h5"
                   sx={{
                     borderTopLeftRadius: '6px',
-                    borderTopRightRadius: '6px'
+                    borderTopRightRadius: '6px',
+                    paddingLeft: '1rem',
+                    textAlign: 'left'
                   }}
                 >
                   add to custom feed
@@ -105,10 +107,12 @@ function CardHeader({ title, baseColor, hasDropDownMenu, isModeratorMode }) {
                   variant="h5"
                   sx={{
                     borderBottomLeftRadius: '6px',
-                    borderBottomRightRadius: '6px'
+                    borderBottomRightRadius: '6px',
+                    paddingLeft: '1rem',
+                    textAlign: 'left'
                   }}
                 >
-                  add to custom feed
+                  add to favorites
                 </DropDownMenuItem>
               </DropDownMenuContainer>
             ) : null}

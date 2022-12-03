@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { Box, styled } from '@mui/material';
-import { subredditTheme } from '../SubredditCards.Style';
+import { subredditTheme } from '../../../pages/Subreddit/Subreddit.Style';
 
 /**
  * @param {Box} - the default Box
