@@ -2,7 +2,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { signUp } from '../../store/slices/AuthSlice';
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import { DotDiv } from '../../components/GlobalStyles/GlobalStyles.style';
@@ -12,8 +11,8 @@ import ErrorMessage, {
 } from '../../utilities/CustomStyling/CustomStyling';
 import InfoButton from '../../components/InfoButton/InfoButton';
 import useInput from '../../hooks/use-input';
+import isAvailableUserName from '../../services/requests/isAvailableUserName';
 
-const SERVER_NAME = process.env.REACT_APP_BASE_URL;
 /**
  * This component returns a page that appears after entering your email in signup
  * It has two input fields one for username
@@ -48,12 +47,7 @@ function ChooseUserName() {
   useEffect(() => {
     const timeToReadName = setTimeout(async () => {
       try {
-        const res = await axios.post(
-          `${SERVER_NAME}/api/user/check-available-username`,
-          {
-            username: userName
-          }
-        );
+        const res = isAvailableUserName(userName);
         if (res.status >= 200 && res.status < 300) {
           setTakenUserName(false);
         } else {

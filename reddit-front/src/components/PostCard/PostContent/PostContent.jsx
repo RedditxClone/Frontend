@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
 /* eslint-disable no-use-before-define */
 /* eslint-disable prefer-const */
 /* eslint-disable jsx-a11y/media-has-caption */
@@ -8,11 +10,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
+import { Link } from '@mui/material';
+import { FiExternalLink } from 'react-icons/fi';
+import Logo3 from '../../../assets/Images/test.png';
+import Logo2 from '../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
 import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
 import { divideBigNumber } from '../../../utilities/Helpers';
-import Logo from './test.png';
+import { flagPostAsVisited } from '../../../services/requests/Post';
+
 /**
  * @typedef PropType
  * @property {bool} setHidePost
@@ -20,6 +27,14 @@ import Logo from './test.png';
  * @property {bool} isCommunityPost
  * @property {bool} isPostFullDetailsMode
  * @property {bool} isModeratorMode
+ * @property {bool} isSaved
+ * @property {bool} isLocked
+ * @property {bool} isPostApproved
+ * @property {bool} isPostSticky
+ * @property {bool} isDistinguishedAsMode
+ * @property {bool} isNSFW
+ * @property {bool} isSpoiled
+ * @property {bool} replyNotifications
  */
 
 /**
@@ -34,17 +49,33 @@ function PostContent({
   postContentData,
   isCommunityPost,
   isPostFullDetailsMode,
-  isModeratorMode
+  isModeratorMode,
+  isSaved,
+  isLocked,
+  isPostApproved,
+  isPostSticky,
+  isDistinguishedAsMode,
+  isNSFW,
+  isSpoiled,
+  replyNotifications
 }) {
   let postContent = null;
   let slideIndex = 0;
   const [modAction, setModAction] = useState(0);
+  const [locked, setLocked] = useState(postContentData.is_locked);
+  const [distinguishAsMod, setDistinguishAsMod] = useState(
+    postContentData.is_distinguishedAsMode
+  );
+  const [nsfw, setNsfw] = useState(postContentData.is_NSFW);
+  const [isVisited, setIsVisited] = useState(postContentData.visited);
+  const [canBeSpoiled, setCanBeSpoiled] = useState(
+    postContentData.post_type === 'img'
+  );
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
   const getPostContent = function () {
     const contentType = postContentData.post_type;
     const mediaCount = postContentData.media_count;
-
     switch (contentType) {
       case 'img':
         if (mediaCount > 1) {
@@ -58,13 +89,14 @@ function PostContent({
               </div>
               <div className="my-slides fade">
                 <img
-                  src={Logo}
+                  src={Logo2}
                   alt="post image"
+                  className={`post-image-${postContentData.id}`}
                 />
               </div>
               <div className="my-slides fade">
                 <img
-                  src={Logo}
+                  src={Logo3}
                   alt="post image"
                 />
               </div>
@@ -89,8 +121,12 @@ function PostContent({
           postContent = (
             <div className="post-image">
               <img
+                className={`post-image-${postContentData.id}`}
                 src={Logo}
                 alt="post image"
+                style={{
+                  filter: postContentData.is_spoiled ? 'blur(60px)' : 'none'
+                }}
               />
             </div>
           );
@@ -112,7 +148,26 @@ function PostContent({
         );
         break;
       case 'text':
-        postContent = <p>{postContentData.content}</p>;
+        postContent = (
+          <div className="post-content-text">
+            <p style={{ color: isVisited ? '#949494' : 'black' }}>
+              {postContentData.content}
+            </p>
+          </div>
+        );
+        break;
+      case 'link':
+        postContent = (
+          <div className="post-content-link">
+            <a>
+              {postContentData.content}
+              <FiExternalLink
+                className="external-link-icon"
+                style={{ marginLeft: '4px', color: '#3f9ade' }}
+              />
+            </a>
+          </div>
+        );
         break;
       default:
         break;
@@ -152,11 +207,16 @@ function PostContent({
     showSlides();
   };
 
+  const handleClickOnPost = () => {
+    flagPostAsVisited({ id: postContentData.id });
+  };
+
   // Returning the result
   return (
     <div
       className="post-content"
       data-testid="test-post-content"
+      onClick={handleClickOnPost}
     >
       {/* Post info -> community, username, time */}
       <PostInfo
@@ -169,29 +229,42 @@ function PostContent({
         isCommunityPost={isCommunityPost}
         isPostFullDetailsMode={isPostFullDetailsMode}
         modAction={modAction}
+        isNSFW={nsfw}
+        isLocked={locked}
+        isDistinguishedAsMode={distinguishAsMod}
+        isFollowed={postContentData.follow}
       />
 
-      {/* Post title  */}
+      {/* Post title & flairs  */}
       <div
         className="post-title-container"
         data-testid="test-post-title"
       >
         <div className="post-title">
-          <a
+          <Link
             className="post-link"
-            href="#"
+            sx={{ textDecoration: 'none' }}
           >
-            <h3 className="post-title-heading">{postContentData.title}</h3>
-          </a>
+            <h3
+              className="post-title-heading"
+              style={{ color: isVisited ? '#949494' : 'black' }}
+            >
+              {postContentData.title}
+            </h3>
+          </Link>
         </div>
-        <div className="flair">
-          <a
-            href="#"
-            className="flair-link"
-          >
-            {postContentData.flair_name}
-          </a>
-        </div>
+        {postContentData.flairs.length > 0
+          ? postContentData.flairs.map((item) => (
+              <div className="flair">
+                <a
+                  href="#"
+                  className="flair-link"
+                >
+                  {item}
+                </a>
+              </div>
+            ))
+          : null}
       </div>
 
       {/* post content  */}
@@ -211,7 +284,19 @@ function PostContent({
         isCommunityPost={isCommunityPost}
         changeModAction={setModAction}
         setModAction={setModAction}
+        setDistinguishPostAsMod={setDistinguishAsMod}
+        setNsfw={setNsfw}
+        setLocked={setLocked}
         isModeratorMode={isModeratorMode}
+        isSaved={isSaved}
+        isLocked={isLocked}
+        isPostApproved={isPostApproved}
+        isPostSticky={isPostSticky}
+        isDistinguishedAsMode={isDistinguishedAsMode}
+        isNSFW={isNSFW}
+        isSpoiled={isSpoiled}
+        replyNotifications={replyNotifications}
+        canBeSpoiled={canBeSpoiled}
       />
     </div>
   );

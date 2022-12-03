@@ -6,7 +6,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState, memo } from 'react';
+import { useState, memo, useEffect } from 'react';
 import { Box, Typography, Link } from '@mui/material';
 import { BsInfoCircle, BsPencil } from 'react-icons/bs';
 import { AiOutlineDown } from 'react-icons/ai';
@@ -25,15 +25,22 @@ import {
   SuggestedSubTopic,
   HeadingContainer
 } from './CommunityTopics.Style';
-
+import {
+  updateSubredditTopic,
+  updateSubredditSubtopics,
+  updateSubredditActiveSubtopics
+} from '../../../services/requests/Subreddit';
 /**
  * @typedef PropType
  * @property {string} baseColor
  * @property {string} highlightColor
  * @property {array} subTopicsList
+ * @property {array} setSubTopicsList
  * @property {array} chosenSubTopicsList
+ * @property {array} setChosenSubTopicsList
  * @property {array} trackUserChosenSubTopic
  * @property {array} trackUserRemovedSubTopic
+ * @property {number} subredditId
  */
 
 /**
@@ -46,9 +53,13 @@ function CommunityTopics({
   highlightColor,
   baseColor,
   subTopicsList,
+  setSubTopicsList,
   chosenSubTopicsList,
+  setChosenSubTopicsList,
   trackUserChosenSubTopic,
-  trackUserRemovedSubTopic
+  trackUserRemovedSubTopic,
+  subredditId,
+  activeSubredditTopic
 }) {
   // states
   const [infoIconColor, setInfoIconColor] = useState('#aaa');
@@ -58,7 +69,7 @@ function CommunityTopics({
   const [subTopicsCounter, setSubTopicsCounter] = useState(
     chosenSubTopicsList.length
   );
-  const [activeTopic, setActiveTopic] = useState(2); // this will depend on the data form api
+  const [activeTopic, setActiveTopic] = useState(activeSubredditTopic);
   const [editSubTopics, setEditSubTopics] = useState(false);
   const maxTopics = 25;
   const maxNumOfShownSubTopics = 7;
@@ -67,11 +78,22 @@ function CommunityTopics({
 
   const [rerender, setRerender] = useState(false);
 
-  // Event listeners
+  useEffect(() => {
+    setActiveTopic(activeSubredditTopic);
+  }, [activeSubredditTopic]);
 
+  // Event listeners
   const activateTopic = (e) => {
-    const topicId = e.target.id;
-    setActiveTopic(topicId);
+    const chosenTopic = e.target.innerHTML;
+    setActiveTopic(chosenTopic);
+    // call api to update it in the database
+    const request = {
+      id: subredditId,
+      request: {
+        active_topic: chosenTopic
+      }
+    };
+    updateSubredditTopic(request);
   };
   /**
    * This Method returns the list of topics to be shown,
@@ -81,8 +103,9 @@ function CommunityTopics({
   const getSubTopicsToShow = (isEditingMode) => {
     if (isEditingMode) return chosenSubTopicsList;
 
-    if (chosenSubTopicsList.length <= 7) return chosenSubTopicsList;
-
+    if (chosenSubTopicsList.length <= 7) {
+      return chosenSubTopicsList;
+    }
     return chosenSubTopicsList.slice(0, 7);
   };
 
@@ -106,26 +129,30 @@ function CommunityTopics({
    *
    */
   const saveNewTopic = () => {
-    // // Saving Modifications for the chosen sub topics
-    // trackUserChosenSubTopic.forEach((item) => {
-    //   // Store the item in the chosen list
-    //   chosenSubTopicsList.push(item);
-    //   // remove it from the original list
-    //   subTopicsList.splice(subTopicsList.indexOf(item), 1);
-    // });
-    // trackUserChosenSubTopic.splice(0, trackUserChosenSubTopic.length);
-
-    // // Saving Modifications for the removed sub topics
-    // trackUserRemovedSubTopic.forEach((item) => {
-    //   // return the item to the original list
-    //   subTopicsList.push(item);
-    //   // Remove the item from the chosen list
-    //   ChosenSubTopicsList.splice(ChosenSubTopicsList.indexOf(item), 1);
-    // });
-    // trackUserRemovedSubTopic.splice(0, trackUserRemovedSubTopic.length);
-
     // Update the counter value
     setSubTopicsCounter(chosenSubTopicsList.length);
+
+    // update the api
+    let request = {
+      id: subredditId,
+      request: {
+        active_subtopics: chosenSubTopicsList
+      }
+    };
+
+    // update chosen sub-topics list
+    updateSubredditActiveSubtopics(request);
+    setChosenSubTopicsList(chosenSubTopicsList);
+
+    // update the original sub-topics list
+    request = {
+      id: subredditId,
+      request: {
+        subtopics: subTopicsList
+      }
+    };
+    updateSubredditSubtopics(request);
+    setSubTopicsList(subTopicsList);
 
     // closing the edit mode
     setEditSubTopics(false);
@@ -166,10 +193,11 @@ function CommunityTopics({
   const handleClickOnChosenSubTopic = (e) => {
     if (editSubTopics) {
       let value = e.target.innerHTML.trim();
-      const i = chosenSubTopicsList.indexOf(value);
+      let i = chosenSubTopicsList.indexOf(value);
 
       if (value === 'x') {
         value = e.target.previousSibling.innerHTML.trim();
+        i = chosenSubTopicsList.indexOf(value);
       }
 
       trackUserRemovedSubTopic.push(value);
@@ -262,7 +290,7 @@ function CommunityTopics({
             fontWeight: '600'
           }}
         >
-          {topicsList[activeTopic]}
+          {activeTopic}
         </Link>
 
         <AiOutlineDown
@@ -295,9 +323,9 @@ function CommunityTopics({
                 </SelectListOption>
               ) : (
                 <SelectListOption
-                  onClick={activateTopic}
+                  onClick={(e) => activateTopic(e, index)}
                   key={`topic-${index}`}
-                  id={index}
+                  id={`topic-${index}`}
                   variant="paragraph"
                   sx={{
                     color: 'black',
@@ -335,7 +363,6 @@ function CommunityTopics({
         {getSubTopicsToShow(editSubTopics).map((subTopic, index) => {
           return (
             <SubTopic
-              id={`sub-topic-item-${index}`}
               key={index}
               sx={{
                 color: highlightColor,

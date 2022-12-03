@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import './SmallScreenVoting.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
-import { votePost } from '../../../../redux/slices/PostInteractionsSlice';
+import { votePost } from '../../../../services/requests/Post';
+import { divideBigNumber } from '../../../../utilities/Helpers';
 
 /**
  * @typedef PropType
  * @property {number} votesCount
- * @property {function} divideBigNumber
+ * @property {number} postId
+ * @property {number} currentVotingState  // 0 : not voted, 1 -> up, -1 -> down
  */
 
 /**
@@ -19,86 +20,69 @@ import { votePost } from '../../../../redux/slices/PostInteractionsSlice';
 
 export default function SmallScreenVoting({
   votesCount,
-  divideBigNumber,
-  postId
+  postId,
+  currentVotingState
 }) {
-  const [votingCounter, setVotingCounter] = useState(votesCount);
-  // voting status : 0 -> no voted, 1 -> up, -1 -> down
-  const [votingCurrentState, setVotingCurrentState] = useState(0);
-  const [votingCurrentColors, setVotingCurrentColors] = useState({
-    up: '#c0c2c4',
-    down: '#c0c2c4'
-  });
-  const dispatch = useDispatch();
+  const [votesCountColor, setVotesCountColor] = useState('black');
+  const [isUpVoted, setIsUpVoted] = useState(currentVotingState === 1);
+  const [isDownVoted, setIsDownVoted] = useState(currentVotingState === -1);
+  const [votes, setVotes] = useState(votesCount);
 
   const handleUpVoting = () => {
-    switch (votingCurrentState) {
-      case 0:
-        setVotingCounter(votingCounter + 1);
-        setVotingCurrentState(1);
-        setVotingCurrentColors({
-          up: '#ff6830',
-          down: votingCurrentColors.down
-        });
-        break;
-      case 1:
-        setVotingCounter(votingCounter - 1);
-        setVotingCurrentState(0);
-        setVotingCurrentColors({
-          up: '#c0c2c4',
-          down: '#c0c2c4'
-        });
-        break;
-      case -1:
-        setVotingCounter(votingCounter + 2);
-        setVotingCurrentState(1);
-        setVotingCurrentColors({
-          up: '#ff6830',
-          down: '#c0c2c4'
-        });
-        break;
-      default:
-        break;
+    votesCount = votes;
+    if (isUpVoted) {
+      setVotes(votesCount - 1);
+      votesCount -= 1;
+      setIsUpVoted(false);
+      setIsDownVoted(false);
+      currentVotingState = 0;
+      setVotesCountColor('black');
+    } else if (isDownVoted) {
+      setVotes(votesCount + 2);
+      votesCount += 2;
+      setIsDownVoted(false);
+      setIsUpVoted(true);
+      currentVotingState = 1;
+      setVotesCountColor('#ff6830');
+    } else {
+      setVotes(votesCount + 1);
+      votesCount += 1;
+      setIsUpVoted(true);
+      setIsDownVoted(false);
+      currentVotingState = 1;
+      setVotesCountColor('#ff6830');
     }
-
-    // dispatching the action
-    const info = { body: { dir: votingCounter }, id: postId };
-    dispatch(votePost(info));
+    const info = { request: { votes: votesCount }, id: postId };
+    votePost(info);
   };
 
   const handleDownVoting = () => {
-    switch (votingCurrentState) {
-      case 0:
-        setVotingCounter(votingCounter - 1);
-        setVotingCurrentState(-1);
-        setVotingCurrentColors({
-          up: votingCurrentColors.up,
-          down: '#0272c4'
-        });
-        break;
-      case 1:
-        setVotingCounter(votingCounter - 2);
-        setVotingCurrentState(-1);
-        setVotingCurrentColors({
-          up: '#c0c2c4',
-          down: '#0272c4'
-        });
-        break;
-      case -1:
-        setVotingCounter(votingCounter + 1);
-        setVotingCurrentState(0);
-        setVotingCurrentColors({
-          up: '#c0c2c4',
-          down: '#c0c2c4'
-        });
-        break;
-      default:
-        break;
+    votesCount = votes;
+    if (isUpVoted) {
+      setVotes(votesCount - 2);
+      votesCount -= 2;
+      setIsUpVoted(false);
+      setIsDownVoted(true);
+      currentVotingState = -1;
+      setVotesCountColor('#0272c4');
+    } else if (isDownVoted) {
+      setVotes(votesCount + 1);
+      votesCount += 1;
+      setIsDownVoted(false);
+      setIsUpVoted(false);
+      currentVotingState = 0;
+      setVotesCountColor('black');
+    } else {
+      setVotes(votesCount - 1);
+      votesCount -= 1;
+      setIsUpVoted(false);
+      setIsDownVoted(true);
+      currentVotingState = -1;
+      setVotesCountColor('#0272c4');
     }
 
-    // dispatching the action
-    const info = { body: { dir: votingCounter }, id: postId };
-    dispatch(votePost(info));
+    const info = { request: { votes: votesCount }, id: postId };
+    votePost(info);
   };
 
   // Returning the result
@@ -107,17 +91,20 @@ export default function SmallScreenVoting({
       <div className="small-voting-content">
         <span className="up-vote-icon">
           <BiUpvote
-            color={votingCurrentColors.up}
+            color={isUpVoted ? '#ff6830' : '#c0c2c4'}
             fontSize="24"
             onClick={handleUpVoting}
           />
         </span>
-        <span className="votes-count">
-          {votingCounter > 0 ? divideBigNumber(votingCounter) : 'Vote'}
+        <span
+          className="votes-count"
+          style={{ color: votesCountColor }}
+        >
+          {votes > 0 ? divideBigNumber(votes) : 'Vote'}
         </span>
         <span className="down-vote-icon">
           <BiDownvote
-            color={votingCurrentColors.down}
+            color={isDownVoted ? '#0272c4' : '#c0c2c4'}
             fontSize="24"
             onClick={handleDownVoting}
           />
