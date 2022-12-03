@@ -50,7 +50,9 @@ function AboutCard({
   baseColor,
   highlightColor,
   isModeratorMode,
-  subredditId}) {
+  subredditId,
+  inCreatePost
+}) {
   let paragraphColor = '#7c7c7c';
   const maxDescriptionLength = 500;
   const trackUserChosenSubTopic = [];

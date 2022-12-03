@@ -91,7 +91,7 @@ export default function HomePage() {
       </header>
       <main className="home-page_container">
         <div className="post-section">
-          <CreatePostCard />
+          {isAuth && <CreatePostCard />}
           <BestHotNewCard clickedObject={sortButton} />
           <PostsList />
         </div>
