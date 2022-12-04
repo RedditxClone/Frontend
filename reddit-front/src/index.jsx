@@ -23,6 +23,7 @@ import Notifications from './components/Notifications/Notifications';
 import Emails from './components/Emails/Emails';
 import Subscriptions from './components/Subscriptions/Subscriptions';
 import ChatMessaging from './components/ChatMessaging/ChatMessaging';
+import CreatePost from './pages/CreatePost/CreatePost';
 import CommunitiesResults from './components/SearchCards/CommunitiesResults/CommunitiesResults';
 import SearchResults from './pages/SearchResults/SearchResults';
 import PeopleResults from './components/SearchCards/PeopleResults/PeopleResults';
@@ -111,6 +112,10 @@ const routes = createBrowserRouter([
         element: <ChatMessaging />
       }
     ]
+  },
+  {
+    path: '/submit',
+    element: <CreatePost />
   },
   {
     path: '/search',

@@ -3,6 +3,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Root, LargeRoundedButton, StyledCard } from './HomePageCards.style';
 import redditimage from '../../assets/snoo-small.png';
 import redditCover from '../../assets/2y2pftyz87981.png';
@@ -15,6 +16,10 @@ import CreateCommunity from '../CreateCommunity/CreateCommunity';
 
 export default function HomeCreatePostCard() {
   const [openCreateCommunity, setOpenCreateCommunity] = useState(false);
+  const navigate = useNavigate();
+  const clickCreatePostHandler = () => {
+    navigate('/submit');
+  };
   return (
     <Root>
       <CreateCommunity
@@ -97,6 +102,7 @@ export default function HomeCreatePostCard() {
               }}
               variant="contained"
               disableElevation
+              onClick={clickCreatePostHandler}
             >
               Create Post
             </LargeRoundedButton>

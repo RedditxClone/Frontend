@@ -3,13 +3,24 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Button } from '@mui/material';
 import './ActionComponents.css';
+import { useDispatch } from 'react-redux';
+import { UpdateSettings } from '../../../store/slices/Settings';
 
 export default function Box3({ setIsToggled }) {
+  const dispatch = useDispatch();
   const handleClickClose = () => {
     const ele = document.getElementById('confg3');
     ele.style.display = 'none';
     ele.style.visibility = 'hidden';
     setIsToggled(false);
+    dispatch(UpdateSettings({ nsfw: true }));
+  };
+  const handleClicked = () => {
+    const ele = document.getElementById('confg3');
+    ele.style.display = 'none';
+    ele.style.visibility = 'hidden';
+    setIsToggled(false);
+    dispatch(UpdateSettings({ nsfw: false }));
   };
   return (
     <div
@@ -42,7 +53,12 @@ export default function Box3({ setIsToggled }) {
           </Button>
         </div>
         <div>
-          <Button variant="contained">I UNDERSTAND</Button>
+          <Button
+            onClick={handleClicked}
+            variant="contained"
+          >
+            I UNDERSTAND
+          </Button>
         </div>
       </div>
     </div>
