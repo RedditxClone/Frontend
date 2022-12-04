@@ -18,7 +18,7 @@ import {
   getPostRelatedUserInfo,
   followPost
 } from '../../../services/requests/Post';
-import Logo3 from '../../../assets/Images/test.png';
+import Logo from '../../../assets/Images/test.png';
 import RemovalReasonDialog from './RemovalReasonDialog';
 
 /**
