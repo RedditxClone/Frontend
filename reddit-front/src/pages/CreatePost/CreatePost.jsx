@@ -3,6 +3,9 @@ import { BsImage } from 'react-icons/bs';
 import { TfiLink } from 'react-icons/tfi';
 import { BiPoll } from 'react-icons/bi';
 import { HiOutlineMicrophone } from 'react-icons/hi';
+// import { IoPricetagOutline } from 'react-icons/io';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { MdOutlineDone } from 'react-icons/md';
 import { useState } from 'react';
 import classes from './CreatePost.module.css';
 import AppBar from '../../components/Layout/AppBar/AppBar';
@@ -10,6 +13,8 @@ import AboutCard from '../../components/SubredditCards/AboutCard/AboutCard';
 import PostingRules from './PostingRules';
 import ChooseCommunityName from './ChooseCommunityName';
 import CreatePostEditor from './CreatePostEditor';
+import { RoundedButton } from '../../components/HomePageCards/HomePageCards.style';
+import PostTag from './PostTag';
 // import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 function CreatePost() {
@@ -63,12 +68,43 @@ function CreatePost() {
                 <span className={classes['post-title-length']}>
                   {`${postTitle.length}/300`}
                 </span>
-                <CreatePostEditor />
+                <div>
+                  <CreatePostEditor />
+                </div>
               </div>
             </div>
-            <div>Flairs</div>
-            <div className={classes['create-post_buttons']}>
-              <button type="button">Post</button>
+            <div>
+              <PostTag
+                icon2={<AiOutlinePlus />}
+                icon1={<MdOutlineDone />}
+                text="Spoiler"
+                bgColor1="#fff"
+                bgColor2="#000"
+              />
+              <PostTag
+                icon2={<AiOutlinePlus />}
+                icon1={<MdOutlineDone />}
+                text="NFSW"
+                bgColor1="#fff"
+                bgColor2="rgb(255, 88, 91)"
+              />
+              <PostTag
+                icon1=""
+                icon2=""
+                text="Flair"
+                bgColor1="#fff"
+                bgColor2="rgb(255, 88, 91)"
+              />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <RoundedButton
+                variant="contained"
+                color="primary"
+                disableElevation
+                sx={{ fontSize: '1.2rem', fontWeight: '700' }}
+              >
+                Post
+              </RoundedButton>
             </div>
           </div>
         </div>

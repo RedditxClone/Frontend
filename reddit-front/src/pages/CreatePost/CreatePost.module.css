@@ -5,9 +5,9 @@
     background-color: #ccc;
 }
 
-/**************************************** Right Part ********************************/
+/**************************************** left Part ********************************/
 .left-part {
-    flex: 1 1 100%
+    
 }
 
 .left-part_header {
@@ -146,7 +146,7 @@
     line-height: 1.5rem;
     cursor: pointer;
     outline: none;
-    padding: 1.5rem ;
+    padding: 1rem ;
     text-align: center;
     border-color: var(--newRedditTheme-line);
     color: var(--newCommunityTheme-actionIcon);
@@ -277,14 +277,17 @@
 
 
 @media screen and (max-width: 590px) {
-    .choose-community_container {
-        width: 100%;
-    }
+
     .icon-button {
         font-size: 1.2rem;
         padding: 0.5rem;
         line-height: 1rem;
     }
+
+    .left-part {
+        width: 100%;
+    }
+
 }
 
 @media screen and (max-width: 960px) {
@@ -296,5 +299,7 @@
         justify-content: flex-start;
     }
 
-
+    .left-part {
+        flex: 1 1 100%;
+    }
 }
