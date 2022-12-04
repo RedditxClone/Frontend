@@ -129,16 +129,6 @@ function ModToolsPage() {
               <span>Queues</span>
             </SideBarCategoryTitle>
             <SideBarItem
-              to="/subreddit/about/modqueue"
-              className="subreddit-item"
-              onClick={handleClickOnSidebarItem(
-                'mod queue',
-                <Box>Mod Queue</Box>
-              )}
-            >
-              Mod Queue
-            </SideBarItem>
-            <SideBarItem
               to="/subreddit/about/reports"
               className="subreddit-item"
               onClick={handleClickOnSidebarItem('reports', <Box>reports</Box>)}
