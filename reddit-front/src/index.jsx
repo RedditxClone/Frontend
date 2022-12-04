@@ -28,6 +28,7 @@ import SearchResults from './pages/SearchResults/SearchResults';
 import PeopleResults from './components/SearchCards/PeopleResults/PeopleResults';
 import CommentsResults from './components/SearchCards/CommentsResults/CommentsResults';
 import PostsResults from './components/SearchCards/PostsResults/PostsResults';
+import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
 
 // Routes
 const routes = createBrowserRouter([
@@ -133,6 +134,10 @@ const routes = createBrowserRouter([
         element: <PeopleResults />
       }
     ]
+  },
+  {
+    path: '/subreddit/about/:item',
+    element: <ModToolsPage />
   }
 ]);
 
