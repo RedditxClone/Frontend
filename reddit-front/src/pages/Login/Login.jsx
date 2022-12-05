@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable operator-linebreak */
 // eslint-disable-next-line camelcase
-import jwt_decode from 'jwt-decode';
 import { Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
