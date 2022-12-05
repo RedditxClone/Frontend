@@ -2,11 +2,11 @@ import SecondaryLogo from '../../utilities/RedditLogo/SecondaryLogo';
 import classes from './CreatePost.module.css';
 
 const REDDIT_RULES = [
-  'Remember the human',
-  'Behave like you would in real life',
-  'Look for the original source of content',
-  'Search for duplicates before posting',
-  'Read the community’s rules'
+  { id: 'rule1', rule: 'Remember the human' },
+  { id: 'rule2', rule: 'Behave like you would in real life' },
+  { id: 'rule3', rule: 'Look for the original source of content' },
+  { id: 'rule4', rule: 'Search for duplicates before posting' },
+  { id: 'rule5', rule: 'Read the community’s rules' }
 ];
 
 function PostingRules() {
@@ -18,7 +18,12 @@ function PostingRules() {
       </header>
       <ol style={{ paddingLeft: '1.5rem' }}>
         {REDDIT_RULES.map((el) => (
-          <li className={classes['posting-rule_element']}>{el}</li>
+          <li
+            key={el.id}
+            className={classes['posting-rule_element']}
+          >
+            {el.rule}
+          </li>
         ))}
       </ol>
     </div>

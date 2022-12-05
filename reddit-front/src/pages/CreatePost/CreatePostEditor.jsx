@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
-import { useRef, useState } from 'react';
-import Draft from 'draft-js';
+import { useState } from 'react';
+import Draft, { convertToRaw } from 'draft-js';
 import './CreatePost.module.css';
 import BlockStyleControls from './BlockStyleControls';
 import InlineStyleControls from './InlineStyleControls';
@@ -20,7 +20,7 @@ const styleMap = {
 
 function CreatePostEditor() {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const editorRef = useRef();
+  // const editorRef = useRef();
 
   const getBlockStyle = (block) => {
     switch (block.getType()) {
@@ -30,11 +30,17 @@ function CreatePostEditor() {
         return null;
     }
   };
-  const focus = () => {
-    editorRef.focus();
-  };
+  // const focus = () => {
+  //   editorRef.focus();
+  // };
   const onChangeHandler = (_editorState) => {
     setEditorState(_editorState);
+    const { blocks } = convertToRaw(_editorState.getCurrentContent());
+    const value = blocks
+      .map((block) => (!block.text.trim() && '\n') || block.text)
+      .join('\n');
+
+    console.log(value);
   };
 
   const handleKeyCommand = (command, _editorState) => {
@@ -83,10 +89,7 @@ function CreatePostEditor() {
           onToggle={toggleBlockType}
         />
       </div>
-      <div
-        className={className}
-        onClick={focus}
-      >
+      <div className={className}>
         <Editor
           blockStyleFn={getBlockStyle}
           customStyleMap={styleMap}
@@ -95,7 +98,6 @@ function CreatePostEditor() {
           keyBindingFn={mapKeyToEditorCommand}
           onChange={onChangeHandler}
           placeholder="Text(optional)"
-          ref={editorRef}
           spellCheck
         />
       </div>

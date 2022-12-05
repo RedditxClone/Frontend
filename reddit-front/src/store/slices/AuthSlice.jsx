@@ -57,9 +57,9 @@ export const login = createAsyncThunk('user/login', async (user, thunkAPI) => {
       username: user.username,
       password: user.password
     });
-    const cookies = res.headers['set-cookie'];
-    console.log(cookies);
-    console.log(res);
+    // const cookies = res.headers['set-cookie'];
+
+    console.log(res.data);
     const { data } = res;
 
     return data;
