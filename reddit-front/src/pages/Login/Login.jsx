@@ -20,7 +20,7 @@ import {
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import useInput from '../../hooks/use-input';
-import signInWithGoogle from '../../services/requests/signInWithGoogle';
+import continueInWithGoogle from '../../services/requests/continueWithGoogle';
 
 /**
  * This component returns a login page contains:
@@ -101,7 +101,7 @@ function Login() {
    */
   const handleCallBackResponse = (response) => {
     /** Should be sent to API */
-    signInWithGoogle(response);
+    continueInWithGoogle(response);
     setLoginWithGoogle(true);
   };
 
