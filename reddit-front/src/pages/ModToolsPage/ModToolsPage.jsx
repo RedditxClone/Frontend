@@ -17,7 +17,7 @@ import {
   SideBarItem
 } from './ModToolsPage.Style';
 import './ModToolsPage.css';
-
+import TrafficStates from '../../components/TrafficStates/TrafficStates';
 /**
  * This Component for the Moderator Tools Page
  *
@@ -100,7 +100,8 @@ function ModToolsPage() {
         style={{
           display: 'flex',
           flexDirection: 'row',
-          justifyContent: 'flex-start'
+          justifyContent: 'flex-start',
+          backgroundColor: '#DAE0E6'
         }}
       >
         {/* Side Bar  */}
@@ -305,7 +306,7 @@ function ModToolsPage() {
               className="subreddit-item"
               onClick={handleClickOnSidebarItem(
                 'traffic stats',
-                <Box>traffic stats</Box>
+                <TrafficStates /> // my component
               )}
             >
               traffic stats

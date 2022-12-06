@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import api from './api';
 
 const createSubreddit = async (communityName, communityType, isOver18) => {
