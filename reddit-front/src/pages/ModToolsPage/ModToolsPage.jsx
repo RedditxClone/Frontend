@@ -150,32 +150,14 @@ function ModToolsPage() {
             <SideBarItem
               to="/subreddit/about/edited"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem(
-                'edited',
-                <ModQueue
-                  sortType="any"
-                  isCommunityPost={false}
-                  isModeratorMode={false}
-                  isHomePagePost={false}
-                  whichQueue="edited"
-                />
-              )}
+              onClick={handleClickOnSidebarItem('edited', <Box />)}
             >
               edited
             </SideBarItem>
             <SideBarItem
               to="/subreddit/about/unmoderated"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem(
-                'unmoderated',
-                <ModQueue
-                  sortType="any"
-                  isCommunityPost={false}
-                  isModeratorMode={false}
-                  isHomePagePost={false}
-                  whichQueue="unmoderated"
-                />
-              )}
+              onClick={handleClickOnSidebarItem('unmoderated', <Box />)}
             >
               unmoderated
             </SideBarItem>
