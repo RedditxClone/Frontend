@@ -44,11 +44,11 @@ function TrafficChart() {
     async function fetchData() {
       const res = await getTrafficChartData(); /// //////////////?????????????
       setTrafficChartData(res);
-      console.log(res);
+      // console.log(res);
       console.log(trafficChartData);
-      setLabels(trafficChartData.map((item) => item.day));
-      setJoined(trafficChartData.map((item) => item.joined));
-      setLeft(trafficChartData.map((item) => item.left));
+      // setLabels(trafficChartData.map((item) => item.day));
+      // setJoined(trafficChartData.map((item) => item.joined));
+      // setLeft(trafficChartData.map((item) => item.left));
       // console.log(labels);
       // console.log(joined);
       // console.log(left);
@@ -144,7 +144,10 @@ function TrafficChart() {
           <h3 style={{ color: '#878a8c' }}>TOTAL - LAST MONTH</h3>
         </ChartCard>
       </div>
-      <div style={{ width: '100%', height: '60%', padding: '10px' }}>
+      <div style={{
+        width: '100%', height: '60%', padding: '10px', '& canvas': { width: '100%' }// does not work ?
+      }}
+      >
         <Line data={data} options={options} />
       </div>
     </ChartDiv>

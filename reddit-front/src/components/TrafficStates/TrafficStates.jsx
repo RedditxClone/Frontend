@@ -33,7 +33,7 @@ const tableList = [
  */
 function TrafficStates() {
   return (
-    <div style={{ marginLeft: '20px', width: '100%' }}>
+    <div style={{ margin: '2rem 9rem 4rem 2.5rem', width: '100%' }}>
       <h1>
         Traffic Stats
         {' '}

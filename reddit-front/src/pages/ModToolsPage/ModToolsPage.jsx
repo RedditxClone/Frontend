@@ -17,7 +17,8 @@ import {
   SideBarItem
 } from './ModToolsPage.Style';
 import './ModToolsPage.css';
-import TrafficStates from '../../components/TrafficStates/TrafficStates';import ModQueue from '../../components/ModQueue/ModQueue';
+import TrafficStates from '../../components/TrafficStates/TrafficStates';
+// import ModQueue from '../../components/ModQueue/ModQueue';//
 
 /**
  * This Component for the Moderator Tools Page
@@ -147,13 +148,7 @@ function ModToolsPage() {
               className="subreddit-item"
               onClick={handleClickOnSidebarItem(
                 'spam',
-                <ModQueue
-                  sortType="any"
-                  isCommunityPost={false}
-                  isModeratorMode={false}
-                  isHomePagePost={false}
-                  whichQueue="spam"
-                />
+                <Box />
               )}
             >
               spam
@@ -163,13 +158,7 @@ function ModToolsPage() {
               className="subreddit-item"
               onClick={handleClickOnSidebarItem(
                 'edited',
-                <ModQueue
-                  sortType="any"
-                  isCommunityPost={false}
-                  isModeratorMode={false}
-                  isHomePagePost={false}
-                  whichQueue="edited"
-                />
+                <Box />
               )}
             >
               edited
@@ -179,13 +168,7 @@ function ModToolsPage() {
               className="subreddit-item"
               onClick={handleClickOnSidebarItem(
                 'unmoderated',
-                <ModQueue
-                  sortType="any"
-                  isCommunityPost={false}
-                  isModeratorMode={false}
-                  isHomePagePost={false}
-                  whichQueue="unmoderated"
-                />
+                <Box />
               )}
             >
               unmoderated
