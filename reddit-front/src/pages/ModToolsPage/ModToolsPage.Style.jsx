@@ -7,8 +7,13 @@ import { Link } from 'react-router-dom';
  */
 
 export const BreadCrumbContainer = styled(Box)({
+  position: 'fixed',
   padding: '10px',
-  borderTop: '1px solid #CCCCCC'
+  borderTop: '1px solid #CCCCCC',
+  width: '100%',
+  backgroundColor: '#FFFFFF',
+  zIndex: '30',
+  top: '6.4rem'
 });
 
 export const SubredditIcon = styled(Box)({
