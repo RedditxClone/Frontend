@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable operator-linebreak */
 // eslint-disable-next-line camelcase
-import jwt_decode from 'jwt-decode';
 import { Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
@@ -21,6 +20,7 @@ import {
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import useInput from '../../hooks/use-input';
+import continueInWithGoogle from '../../services/requests/continueWithGoogle';
 
 /**
  * This component returns a login page contains:
@@ -100,10 +100,8 @@ function Login() {
    * @param {Object} response - response from Google API for being registered with google email
    */
   const handleCallBackResponse = (response) => {
-    const userObject = jwt_decode(response.credential);
-
     /** Should be sent to API */
-    console.log(userObject);
+    continueInWithGoogle(response);
     setLoginWithGoogle(true);
   };
 
@@ -111,7 +109,7 @@ function Login() {
   useEffect(() => {
     google.accounts.id.initialize({
       client_id:
-        '543234829301-2pgqtk6133g5k2l6nbhbfn1dq21ffvi0.apps.googleusercontent.com',
+        '731962970730-93vd9ao2c9ckhmguioje6ar6jmjk3cic.apps.googleusercontent.com',
       callback: handleCallBackResponse
     });
 

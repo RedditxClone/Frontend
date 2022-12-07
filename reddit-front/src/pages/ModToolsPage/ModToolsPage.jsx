@@ -17,7 +17,8 @@ import {
   SideBarItem
 } from './ModToolsPage.Style';
 import './ModToolsPage.css';
-import TrafficStates from '../../components/TrafficStates/TrafficStates';
+import TrafficStates from '../../components/TrafficStates/TrafficStates';import ModQueue from '../../components/ModQueue/ModQueue';
+
 /**
  * This Component for the Moderator Tools Page
  *
@@ -108,10 +109,15 @@ function ModToolsPage() {
         <Box
           data-testid="mod-tools-sidebar"
           sx={{
+            bottom: '0',
+            boxSizing: 'border-box',
+            overflow: 'auto',
+            paddingTop: '16px',
+            paddingBottom: '32px',
+            position: 'fixed',
+            top: '11rem',
+            zIndex: '30',
             width: '28rem',
-            overflowY: 'scroll',
-            padding: '1.2rem 0 0 0',
-            height: '65rem',
             backgroundColor: '#F6F7F8'
           }}
         >
@@ -139,14 +145,32 @@ function ModToolsPage() {
             <SideBarItem
               to="/subreddit/about/spam"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem('spam', <Box>spam</Box>)}
+              onClick={handleClickOnSidebarItem(
+                'spam',
+                <ModQueue
+                  sortType="any"
+                  isCommunityPost={false}
+                  isModeratorMode={false}
+                  isHomePagePost={false}
+                  whichQueue="spam"
+                />
+              )}
             >
               spam
             </SideBarItem>
             <SideBarItem
               to="/subreddit/about/edited"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem('edited', <Box>edited</Box>)}
+              onClick={handleClickOnSidebarItem(
+                'edited',
+                <ModQueue
+                  sortType="any"
+                  isCommunityPost={false}
+                  isModeratorMode={false}
+                  isHomePagePost={false}
+                  whichQueue="edited"
+                />
+              )}
             >
               edited
             </SideBarItem>
@@ -155,7 +179,13 @@ function ModToolsPage() {
               className="subreddit-item"
               onClick={handleClickOnSidebarItem(
                 'unmoderated',
-                <Box>unmoderated</Box>
+                <ModQueue
+                  sortType="any"
+                  isCommunityPost={false}
+                  isModeratorMode={false}
+                  isHomePagePost={false}
+                  whichQueue="unmoderated"
+                />
               )}
             >
               unmoderated
@@ -313,7 +343,20 @@ function ModToolsPage() {
             </SideBarItem>
           </SideBarCategory>
         </Box>
-        <div data-testid="mod-tool-item">{currentComponent}</div>
+        <div
+          style={{
+            width: 'calc(100vw)',
+            display: 'flex',
+            justifyContent: 'center',
+            backgroundColor: '#DAE0E6',
+            paddingLeft: '280px',
+            position: 'relative',
+            top: '45px'
+          }}
+          data-testid="mod-tool-item"
+        >
+          {currentComponent}
+        </div>
       </div>
     </div>
   );
