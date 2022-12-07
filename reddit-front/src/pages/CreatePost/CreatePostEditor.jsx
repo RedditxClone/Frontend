@@ -1,7 +1,8 @@
 /* eslint-disable object-curly-newline */
 import { useState } from 'react';
-import Draft, { convertToRaw } from 'draft-js';
+import Draft /* convertToRaw */ from 'draft-js';
 import './CreatePost.module.css';
+import { stateToMarkdown } from 'draft-js-export-markdown';
 import BlockStyleControls from './BlockStyleControls';
 import InlineStyleControls from './InlineStyleControls';
 import './CreatePostEditor.css';
@@ -18,7 +19,7 @@ const styleMap = {
   }
 };
 
-function CreatePostEditor() {
+function CreatePostEditor({ setPostContent }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   // const editorRef = useRef();
 
@@ -30,17 +31,13 @@ function CreatePostEditor() {
         return null;
     }
   };
-  // const focus = () => {
-  //   editorRef.focus();
-  // };
+
   const onChangeHandler = (_editorState) => {
     setEditorState(_editorState);
-    const { blocks } = convertToRaw(_editorState.getCurrentContent());
-    const value = blocks
-      .map((block) => (!block.text.trim() && '\n') || block.text)
-      .join('\n');
+  };
 
-    console.log(value);
+  const onBlurHandler = () => {
+    setPostContent(stateToMarkdown(editorState.getCurrentContent()));
   };
 
   const handleKeyCommand = (command, _editorState) => {
@@ -99,6 +96,7 @@ function CreatePostEditor() {
           onChange={onChangeHandler}
           placeholder="Text(optional)"
           spellCheck
+          onBlur={onBlurHandler}
         />
       </div>
     </div>

@@ -19,9 +19,13 @@ import PostTag from './PostTag';
 
 function CreatePost() {
   const [postTitle, setPostTitle] = useState('');
-
+  const [postContent, setPostContent] = useState('');
   const onChangePostTitle = (event) => {
     setPostTitle(event.target.value);
+  };
+
+  const onPostHandler = () => {
+    console.log(postContent);
   };
   const baseColor = '#0079D3';
   const OPTIONS_BUTTONS = [
@@ -69,7 +73,7 @@ function CreatePost() {
                   {`${postTitle.length}/300`}
                 </span>
                 <div>
-                  <CreatePostEditor />
+                  <CreatePostEditor setPostContent={setPostContent} />
                 </div>
               </div>
             </div>
@@ -102,6 +106,7 @@ function CreatePost() {
                 color="primary"
                 disableElevation
                 sx={{ fontSize: '1.2rem', fontWeight: '700' }}
+                onClick={onPostHandler}
               >
                 Post
               </RoundedButton>
