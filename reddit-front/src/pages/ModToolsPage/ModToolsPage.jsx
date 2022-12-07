@@ -17,7 +17,6 @@ import {
   SideBarItem
 } from './ModToolsPage.Style';
 import './ModToolsPage.css';
-import ModQueue from '../../components/ModQueue/ModQueue';
 
 /**
  * This Component for the Moderator Tools Page
@@ -144,16 +143,7 @@ function ModToolsPage() {
             <SideBarItem
               to="/subreddit/about/spam"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem(
-                'spam',
-                <ModQueue
-                  sortType="any"
-                  isCommunityPost={false}
-                  isModeratorMode={false}
-                  isHomePagePost={false}
-                  whichQueue="spam"
-                />
-              )}
+              onClick={handleClickOnSidebarItem('spam', <Box />)}
             >
               spam
             </SideBarItem>
