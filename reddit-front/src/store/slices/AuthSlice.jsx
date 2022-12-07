@@ -1,7 +1,7 @@
 /* eslint-disable operator-linebreak */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../services/requests/api';
-
+import removeCookie from '../../services/requests/removeCookie';
 /**
  * @typedef AuthState - This describes the current authentication state
  * @property {Objec} user - the current authenticated user with its
@@ -14,6 +14,7 @@ import api from '../../services/requests/api';
 
 const INITIAL_STATE = {
   user: {},
+  userToken: null,
   isAuth: false,
   isLoading: false,
   error: null,
@@ -35,12 +36,13 @@ export const signUp = createAsyncThunk(
         username: user.username,
         password: user.password
       });
-      const cookies = res.headers['set-cookie'];
-      console.log(cookies);
+
       const { data } = res;
+      document.cookie = `Authorization=Bearer ${data.token}`;
       return data;
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      // console.log(err.response.data.message);
       return rejectWithValue(err.response.data.message);
     }
   }
@@ -51,16 +53,16 @@ export const signUp = createAsyncThunk(
  */
 export const login = createAsyncThunk('user/login', async (user, thunkAPI) => {
   const { rejectWithValue } = thunkAPI;
-  console.log('here');
+  // console.log('here');
   try {
     const res = await api.post('/api/auth/login', {
       username: user.username,
       password: user.password
     });
-    const cookies = res.headers['set-cookie'];
-    console.log(cookies);
-    console.log(res);
+
     const { data } = res;
+    // console.log(data.token);
+    document.cookie = `Authorization=Bearer ${data.token}`;
 
     return data;
   } catch (err) {
@@ -145,7 +147,7 @@ const AuthSlice = createSlice({
       state.msg = null;
       state.isAuth = false;
       state.isLoading = false;
-      fulfilled = false;
+      state.fulfilled = false;
     },
     /**
      * End the current session for the current user
@@ -153,7 +155,26 @@ const AuthSlice = createSlice({
      */
     logOut(state) {
       state.user = {};
+      state.userToken = null;
       state.isAuth = false;
+      removeCookie();
+    },
+
+    setUser(state, action) {
+      // console.log('ussssseeerrrr', action.payload);
+      state.user = action.payload;
+    },
+
+    setIsAuthenticated(state, action) {
+      state.isAuth = action.payload;
+    },
+
+    getUser(state) {
+      return state.user;
+    },
+
+    isAuthenticated(state) {
+      return state.isAuth;
     }
   },
   extraReducers: {
@@ -171,6 +192,7 @@ const AuthSlice = createSlice({
     [signUp.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.user = action.payload;
+      state.userToken = action.payload.token;
       state.isAuth = true;
       state.error = null;
     },
@@ -181,6 +203,7 @@ const AuthSlice = createSlice({
       state.fulfilled = false;
     },
     [login.rejected]: (state, action) => {
+      // console.log(state);
       state.isLoading = false;
       state.isAuth = false;
       state.fulfilled = false;
@@ -189,6 +212,7 @@ const AuthSlice = createSlice({
     [login.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.user = action.payload;
+      state.userToken = action.payload.token;
       state.isAuth = true;
       state.fulfilled = true;
       state.error = null;
