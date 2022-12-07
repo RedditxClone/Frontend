@@ -1,43 +1,50 @@
-/* eslint-disable */
-import React from "react";
-import TrafficChart from "../TrafficChart/TrafficChart";
-import TrafficTable from "../TrafficTable/TrafficTable";
-
+import TrafficChart from './TrafficChart';
+import TrafficTable from './TrafficTable';
 
 const tableList = [
   {
-    time: "Sun",
+    time: 'Sun',
     members: 1500
   },
   {
-    time: "Sun",
+    time: 'Sun',
     members: 1500
   },
   {
-    time: "Sun",
+    time: 'Sun',
     members: 1500
   },
   {
-    time: "Sun",
+    time: 'Sun',
     members: 1500
   },
   {
-    time: "Sun",
+    time: 'Sun',
     members: 1500
   },
   {
-    time: "Sun",
+    time: 'Sun',
     members: 222222
   }
 ];
-
-export default function TrafficStates() {
+/**
+ * @description This component is
+ * resposinble to render the Whole Traffic States Components of the Subreddit
+ */
+function TrafficStates() {
   return (
-    <div style={{marginLeft:'20px',width:'100%'}}>
-      <h1>Traffic Stats <span style={{fontSize:'12px',fontWeight:'300'}}>updating every day</span></h1>
+    <div style={{ marginLeft: '20px', width: '100%' }}>
+      <h1>
+        Traffic Stats
+        {' '}
+        <span style={{ fontSize: '12px', fontWeight: '300' }}>
+          updating every day
+        </span>
+      </h1>
       <TrafficChart />
 
-      <TrafficTable  list={tableList} />
+      <TrafficTable list={tableList} />
     </div>
   );
 }
+export default (TrafficStates);

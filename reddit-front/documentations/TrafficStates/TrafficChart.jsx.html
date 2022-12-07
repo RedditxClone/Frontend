@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: TrafficChart.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: TrafficChart.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable import/no-unresolved */
+/* eslint-disable no-dupe-keys */
+import { Line } from 'react-chartjs-2';// error ?
+import {
+  Chart as ChartJS,
+  LineElement,
+  CategoryScale, // x axis
+  LinearScale, // y axis
+  PointElement,
+  Legend,
+  Title,
+  Tooltip
+} from 'chart.js';
+import { useEffect, useState } from 'react';
+
+import { ChartDiv, ChartCard } from './TrafficStates.style';
+import {
+  getTrafficChartData,
+  getTrafficLastMonth,
+  getTrafficLastWeek
+} from '../../services/requests/Traffic';
+
+ChartJS.register(
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Legend,
+  Title,
+  Tooltip
+);
+/**
+ * @description This component is resposinble to render
+ * the Traffic Chart in the Traffic States Component
+ */
+function TrafficChart() {
+  const [trafficChartData, setTrafficChartData] = useState([]);
+  // const [labels, setLabels] = useState([]);
+  // const [joined, setJoined] = useState([]);
+  // const [left, setLeft] = useState([]);
+  const [trafficLastWeek, setTrafficLastWeek] = useState(0);
+  const [trafficLastMonth, setTrafficLastMonth] = useState(0);
+  useEffect(() => {
+    async function fetchData() {
+      const res = await getTrafficChartData(); /// //////////////?????????????
+      setTrafficChartData(res);
+      console.log(res);
+      console.log(trafficChartData);
+      setLabels(trafficChartData.map((item) => item.day));
+      setJoined(trafficChartData.map((item) => item.joined));
+      setLeft(trafficChartData.map((item) => item.left));
+      // console.log(labels);
+      // console.log(joined);
+      // console.log(left);
+      const res1 = await getTrafficLastWeek();
+      setTrafficLastWeek(res1);
+      const res2 = await getTrafficLastMonth();
+      setTrafficLastMonth(res2);
+    }
+    fetchData();
+  }, []);
+  const labels2 = ['1', '2', '3', '4', '5', '6', '7'];
+
+  const data = {
+    labels: labels2, // not working with server
+    datasets: [
+      {
+        label: 'Joined',
+        data: ['65', '59', '80', '81', '56', '55', '300'], // also do not work even if data inside use effect , gives error also
+        fill: false,
+        borderColor: '#0079D3',
+        backgroundColor: '#0079D3',
+        tension: 0,
+        borderWidth: 1,
+        pointRadius: 0,
+        pointHoverRadius: 3
+      },
+      {
+        label: 'Left',
+        data: [200, 400, 3000, 85, 111, 212, 100], // also do not work
+        fill: false,
+        borderColor: '#FFB000',
+        backgroundColor: '#FFB000',
+        tension: 0,
+        borderWidth: 1,
+        pointRadius: 0,
+        pointHoverRadius: 3
+      }
+    ]
+  };
+  const options = {
+    plugins: {
+      legend: true,
+      legend: {
+        position: 'right',
+        align: 'start',
+        labels: {
+          boxWidth: 15,
+          padding: 15,
+          useBorderRadius: true,
+          borderRadius: 1,
+          font: {
+            color: '#1c1c1c'
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: 'Members',
+        position: 'left',
+        padding: {
+          top: 0,
+          bottom: 30
+        },
+        font: {
+          size: '18',
+          color: '#1c1c1c'
+        }
+      },
+      tooltip: {
+        backgroundColor: '#ffffff',
+        titleColor: '#000000',
+        bodyColor: '#000000'
+      }
+    }
+  };
+
+  return (
+    &lt;ChartDiv>
+      &lt;h2 style={{ color: '#0079d3', fontWeight: '600', marginTop: '-0.8rem' }}>
+        Members
+      &lt;/h2>
+      &lt;div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        &lt;ChartCard>
+          &lt;span style={{ fontSize: '32px', fontWeight: '400' }}>
+            {trafficLastWeek.totalMembers}
+          &lt;/span>
+          &lt;h3 style={{ color: '#878a8c' }}>TOTAL - LAST 7 DAYS&lt;/h3>
+        &lt;/ChartCard>
+        &lt;ChartCard>
+          &lt;span style={{ fontSize: '32px', fontWeight: '400' }}>
+            {trafficLastMonth.totalMembers}
+          &lt;/span>
+          &lt;h3 style={{ color: '#878a8c' }}>TOTAL - LAST MONTH&lt;/h3>
+        &lt;/ChartCard>
+      &lt;/div>
+      &lt;div style={{ width: '100%', height: '60%', padding: '10px' }}>
+        &lt;Line data={data} options={options} />
+      &lt;/div>
+    &lt;/ChartDiv>
+  );
+}
+
+export default (TrafficChart);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ChartCard">ChartCard</a></li><li><a href="global.html#ChartDiv">ChartDiv</a></li><li><a href="global.html#TrafficChart">TrafficChart</a></li><li><a href="global.html#TrafficStates">TrafficStates</a></li><li><a href="global.html#TrafficTab">TrafficTab</a></li><li><a href="global.html#TrafficTable">TrafficTable</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Dec 07 2022 11:30:16 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
