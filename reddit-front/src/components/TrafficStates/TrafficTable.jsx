@@ -63,7 +63,9 @@ function TrafficTable({ list }) { // did not write param in
 
   return (
     <div
-      style={{ width: '100%', backgroundColor: '#ffffff', borderRadius: '5px' }}
+      style={{
+        width: '100%', backgroundColor: '#ffffff', borderRadius: '5px', paddingBottom: '2rem'
+      }}
     >
       <Tabs
         value={value}

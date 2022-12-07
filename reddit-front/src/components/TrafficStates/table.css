@@ -2,6 +2,7 @@ table {
   width: 100%;
   height: 200px;
   border-collapse: collapse;
+  margin-bottom: 1rem;
 }
 
 th {
