@@ -20,7 +20,7 @@ import {
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import useInput from '../../hooks/use-input';
-import continueInWithGoogle from '../../services/requests/continueWithGoogle';
+// import continueInWithGoogle from '../../services/requests/continueWithGoogle';
 
 /**
  * This component returns a login page contains:
@@ -29,6 +29,8 @@ import continueInWithGoogle from '../../services/requests/continueWithGoogle';
  * 3- submit button
  * @returns {React.Component}
  */
+const GOOGLE_ID = process.env.REACT_APP_GOOGLE_ID;
+const GOOGLE_SECRET = process.env.REACT_APP_GOOGLE_SECRET;
 
 function Login() {
   /**
@@ -101,15 +103,17 @@ function Login() {
    */
   const handleCallBackResponse = (response) => {
     /** Should be sent to API */
-    continueInWithGoogle(response);
+    console.log(response);
+
+    // continueInWithGoogle(response);
     setLoginWithGoogle(true);
   };
 
   /** Render the Google button only once the page is first renedered */
   useEffect(() => {
     google.accounts.id.initialize({
-      client_id:
-        '731962970730-93vd9ao2c9ckhmguioje6ar6jmjk3cic.apps.googleusercontent.com',
+      client_id: GOOGLE_ID,
+      client_secret: GOOGLE_SECRET,
       callback: handleCallBackResponse
     });
 

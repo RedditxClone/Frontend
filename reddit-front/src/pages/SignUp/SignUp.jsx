@@ -28,6 +28,9 @@ import useInput from '../../hooks/use-input';
  * @returns {React.Component}
  */
 
+const GOOGLE_ID = process.env.REACT_APP_GOOGLE_ID;
+const GOOGLE_SECRET = process.env.REACT_APP_GOOGLE_SECRET;
+
 function SignUp() {
   const {
     value: email,
@@ -66,8 +69,8 @@ function SignUp() {
   };
   useEffect(() => {
     google.accounts.id.initialize({
-      client_id:
-        '731962970730-93vd9ao2c9ckhmguioje6ar6jmjk3cic.apps.googleusercontent.com',
+      client_id: GOOGLE_ID,
+      client_secret: GOOGLE_SECRET,
       callback: handleCallBackResponse
     });
 
