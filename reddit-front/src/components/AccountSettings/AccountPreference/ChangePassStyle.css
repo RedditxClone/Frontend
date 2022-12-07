@@ -1,0 +1,62 @@
+.change-password {
+    height: 600px;
+    max-width: 700px;
+    border: 1px solid #EDEF;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+    border-radius: 4px;
+    -webkit-transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+    -moz-transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+    -ms-transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+    -o-transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+}
+
+.change-password .cover-image img {
+    height: 600px;
+    width: 140px;
+    box-sizing: border-box;
+}
+
+.cover-image {
+    width: 140px;
+}
+
+.content-c {
+    display: flex;
+}
+
+.ic-container {
+    display: flex;
+}
+
+.icon-c {
+    margin-top: 15px;
+    margin-left: 400px;
+}
+
+.icon-reddit {
+    margin-top: 90px;
+    margin-left: 30px;
+}
+
+.cont-pp {
+    margin-left: 30px;
+}
+
+.up-p-cont {
+    display: flex;
+    align-items: center;
+}
+
+.up-p {
+    width:360px
+}
+
+.sw-icon {
+    margin-left: 50px;
+}

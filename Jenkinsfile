@@ -9,7 +9,7 @@ pipeline {
 				sh  '''
 					cd reddit-front
 					echo REACT_APP_BASE_URL=$REACT_APP_BASE_URL > .env
-					docker-compose up --build -d
+					docker-compose -p 'phase2' up --build -d
 					'''
             }
 		}

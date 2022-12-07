@@ -50,7 +50,8 @@ function AboutCard({
   baseColor,
   highlightColor,
   isModeratorMode,
-  subredditId
+  subredditId,
+  inCreatePost
 }) {
   let paragraphColor = '#7c7c7c';
   const maxDescriptionLength = 500;
@@ -135,7 +136,7 @@ function AboutCard({
   return (
     <AboutCardContainer data-testid="about-card-container">
       <CardHeader
-        title="About Community"
+        title={inCreatePost ? '' : 'About Community'}
         baseColor={baseColor}
         hasDropDownMenu={1}
         isModeratorMode={isModeratorMode}
@@ -325,7 +326,7 @@ function AboutCard({
         />
 
         {/* Community Topics  */}
-        {isModeratorMode ? (
+        {isModeratorMode && !inCreatePost && (
           <>
             <CommunityTopics
               highlightColor={highlightColor}
@@ -346,9 +347,7 @@ function AboutCard({
               marginRight="0"
             />
           </>
-        ) : null}
-
-        {/* Create Post Button  */}
+        )}
         <Box
           className="subreddit-create-post"
           data-testid="create-post-inside-community"
