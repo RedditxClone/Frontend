@@ -17,6 +17,10 @@ import {
   SideBarItem
 } from './ModToolsPage.Style';
 import './ModToolsPage.css';
+import Banned from '../../components/Banned/Banned';
+import Muted from '../../components/Muted/Muted';
+import Approved from '../../components/Approved/Approved';
+import Moderators from '../../components/Moderators/Moderators';
 
 /**
  * This Component for the Moderator Tools Page
@@ -107,7 +111,7 @@ function ModToolsPage() {
         <Box
           data-testid="mod-tools-sidebar"
           sx={{
-            width: '28rem',
+            width: '29rem',
             overflowY: 'scroll',
             padding: '1.2rem 0 0 0',
             height: '65rem',
@@ -178,34 +182,28 @@ function ModToolsPage() {
             <SideBarItem
               to="/subreddit/about/banned"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem('banned', <Box>banned</Box>)}
+              onClick={handleClickOnSidebarItem('banned', <Banned />)}
             >
               banned
             </SideBarItem>
             <SideBarItem
               to="/subreddit/about/muted"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem('muted', <Box>muted</Box>)}
+              onClick={handleClickOnSidebarItem('muted', <Muted />)}
             >
               muted
             </SideBarItem>
             <SideBarItem
               to="/subreddit/about/approved"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem(
-                'approved',
-                <Box>approved</Box>
-              )}
+              onClick={handleClickOnSidebarItem('approved', <Approved />)}
             >
               approved
             </SideBarItem>
             <SideBarItem
               to="/subreddit/about/moderators"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem(
-                'moderators',
-                <Box>moderators</Box>
-              )}
+              onClick={handleClickOnSidebarItem('moderators', <Moderators />)}
             >
               moderators
             </SideBarItem>
@@ -312,7 +310,12 @@ function ModToolsPage() {
             </SideBarItem>
           </SideBarCategory>
         </Box>
-        <div data-testid="mod-tool-item">{currentComponent}</div>
+        <div
+          data-testid="mod-tool-item"
+          style={{ width: '85vw' }}
+        >
+          {currentComponent}
+        </div>
       </div>
     </div>
   );
