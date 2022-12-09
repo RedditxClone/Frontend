@@ -15,11 +15,17 @@ import ChooseCommunityName from './ChooseCommunityName';
 import CreatePostEditor from './CreatePostEditor';
 import { RoundedButton } from '../../components/HomePageCards/HomePageCards.style';
 import PostTag from './PostTag';
+import ImagesAndVideos from './Dropzone';
 // import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 function CreatePost() {
   const [postTitle, setPostTitle] = useState('');
   const [postContent, setPostContent] = useState('');
+  const [currentInputIndex, setCurrentInputIndex] = useState(0);
+  // const CURRENT_INPUT = [
+  //   <CreatePostEditor setPostContent={setPostContent} />,
+  //   <Dropzone />
+  // ];
   const onChangePostTitle = (event) => {
     setPostTitle(event.target.value);
   };
@@ -29,11 +35,36 @@ function CreatePost() {
   };
   const baseColor = '#0079D3';
   const OPTIONS_BUTTONS = [
-    { icon: <TiDocumentText />, text: 'Post', disabled: false },
-    { icon: <BsImage />, text: 'Images & videos', disabled: false },
-    { icon: <TfiLink />, text: 'Link', disabled: false },
-    { icon: <BiPoll />, text: 'Poll', disabled: true },
-    { icon: <HiOutlineMicrophone />, text: 'Talk', disabled: true }
+    {
+      icon: <TiDocumentText />,
+      text: 'Post',
+      disabled: false,
+      idx: 0
+    },
+    {
+      icon: <BsImage />,
+      text: 'Images & videos',
+      disabled: false,
+      idx: 1
+    },
+    {
+      icon: <TfiLink />,
+      text: 'Link',
+      disabled: false,
+      idx: 2
+    },
+    {
+      icon: <BiPoll />,
+      text: 'Poll',
+      disabled: true,
+      idx: 0
+    },
+    {
+      icon: <HiOutlineMicrophone />,
+      text: 'Talk',
+      disabled: true,
+      idx: 0
+    }
   ];
   return (
     <div>
@@ -54,6 +85,7 @@ function CreatePost() {
                   key={option.text}
                   disabled={option.disabled}
                   className={classes['icon-button']}
+                  onClick={() => setCurrentInputIndex(option.idx)}
                 >
                   <span style={{ marginRight: '0.5rem' }}>{option.icon}</span>
                   <span>{option.text}</span>
@@ -73,7 +105,11 @@ function CreatePost() {
                   {`${postTitle.length}/300`}
                 </span>
                 <div>
-                  <CreatePostEditor setPostContent={setPostContent} />
+                  {(currentInputIndex === 0 || currentInputIndex > 2) && (
+                    <CreatePostEditor setPostContent={setPostContent} />
+                  )}
+                  {currentInputIndex === 1 && <ImagesAndVideos />}
+                  {/* {CURRENT_INPUT[currentInputIndex]} */}
                 </div>
               </div>
             </div>
