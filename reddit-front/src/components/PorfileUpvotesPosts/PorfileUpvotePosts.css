@@ -3,6 +3,7 @@ div.post-card {
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.1s;
+  width:80%;
   margin-bottom: 3rem;
 }
 

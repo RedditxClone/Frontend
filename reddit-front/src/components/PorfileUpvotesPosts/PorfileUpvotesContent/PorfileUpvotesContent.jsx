@@ -8,6 +8,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
+import { TiDocumentText } from 'react-icons/ti';
 import PostInteractions from '../ProfileUpvotesInteractions/ProfileUpvotesInteractions';
 import PostInfo from '../ProfileUpvotesInfo/ProfileUpvotesInfo';
 import './PorfileUpvotesContent.css';
@@ -46,73 +47,78 @@ function PostContent({
     const mediaCount = postContentData.media_count;
 
     switch (contentType) {
+      // case 'img':
+      //   // if (mediaCount > 1) {
+      //   //   postContent = (
+      //   //     <>
+      //   //       <div className="my-slides fade">
+      //   //         <img
+      //   //           src={Logo}
+      //   //           alt="post image"
+      //   //         />
+      //   //       </div>
+      //   //       <div className="my-slides fade">
+      //   //         <img
+      //   //           src={Logo}
+      //   //           alt="post image"
+      //   //         />
+      //   //       </div>
+      //   //       <div className="my-slides fade">
+      //   //         <img
+      //   //           src={Logo}
+      //   //           alt="post image"
+      //   //         />
+      //   //       </div>
+      //   //       <button
+      //   //         type="button"
+      //   //         className="prev"
+      //   //         onClick={prevSlide}
+      //   //       >
+      //   //         ❮
+      //   //       </button>
+      //   //       <button
+      //   //         type="button"
+      //   //         className="next"
+      //   //         onClick={nextSlide}
+      //   //       >
+      //   //         ❯
+      //   //       </button>
+      //   //     </>
+      //   //   );
+      //   //   // showSlides();
+      //   // } else {
+      //   postContent = (
+      //     <div className="post-image">
+      //       <img
+      //         src={Logo}
+      //         alt="post image"
+      //       />
+      //     </div>
+      //   );
+      //   // }
+      //   break;
+      // case 'video':
+      //   postContent = (
+      //     <video
+      //       controls="true"
+      //       muted="false"
+      //       preload="auto"
+      //       className="post-content-video"
+      //     >
+      //       <source
+      //         src=""
+      //         type="video/mp4"
+      //       />
+      //     </video>
+      //   );
+      //   break;
       case 'img':
-        // if (mediaCount > 1) {
-        //   postContent = (
-        //     <>
-        //       <div className="my-slides fade">
-        //         <img
-        //           src={Logo}
-        //           alt="post image"
-        //         />
-        //       </div>
-        //       <div className="my-slides fade">
-        //         <img
-        //           src={Logo}
-        //           alt="post image"
-        //         />
-        //       </div>
-        //       <div className="my-slides fade">
-        //         <img
-        //           src={Logo}
-        //           alt="post image"
-        //         />
-        //       </div>
-        //       <button
-        //         type="button"
-        //         className="prev"
-        //         onClick={prevSlide}
-        //       >
-        //         ❮
-        //       </button>
-        //       <button
-        //         type="button"
-        //         className="next"
-        //         onClick={nextSlide}
-        //       >
-        //         ❯
-        //       </button>
-        //     </>
-        //   );
-        //   // showSlides();
-        // } else {
         postContent = (
-          <div className="post-image">
-            <img
-              src={Logo}
-              alt="post image"
-            />
-          </div>
+          <a className="post-withoutPic">
+            <TiDocumentText />
+          </a>
         );
-        // }
-        break;
-      case 'video':
-        postContent = (
-          <video
-            controls="true"
-            muted="false"
-            preload="auto"
-            className="post-content-video"
-          >
-            <source
-              src=""
-              type="video/mp4"
-            />
-          </video>
-        );
-        break;
-      case 'text':
-        postContent = <p>{postContentData.content}</p>;
+        // <p>{postContentData.content}</p>;
         break;
       default:
         break;

@@ -17,6 +17,7 @@
   margin-bottom: 5px;
 }
 
+.post-interactions .post-expand,
 .post-interactions .post-comment,
 .post-interactions .post-share,
 .post-interactions .post-save,
@@ -31,8 +32,7 @@
   color: #949494;
   word-break: normal;
   position: relative;
-  padding-left: 8px;
-  left: -8px;
+  padding: 0 8px;
 }
 
 .post-interactions .post-hide button,
@@ -135,6 +135,7 @@
 .post-interactions .drop-down-item:hover,
 .post-interactions .post-hide:hover,
 .post-interactions .post-share:hover,
+.post-interactions .post-expand:hover,
 .post-interactions .post-comment:hover,
 .post-interactions .post-save:hover,
 .post-interactions .post-unsave:hover,

@@ -24,6 +24,7 @@ import { CiNoWaitingSign } from 'react-icons/ci';
 import { GrCheckbox } from 'react-icons/gr';
 import { FiShield } from 'react-icons/fi';
 import { BsThreeDots, BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
+import { CgArrowsExpandLeft } from 'react-icons/cg';
 import { BiHide, BiAddToQueue } from 'react-icons/bi';
 import { TbArrowsCross } from 'react-icons/tb';
 import SmallScreenVoting from '../Voting/SmallScreenVoting/SmallScreenVoting';
@@ -285,6 +286,9 @@ function PostInteractions({
           divideBigNumber={divideBigNumber}
           postId={postId}
         />
+        <a className="post-expand">
+          <CgArrowsExpandLeft />
+        </a>
         {/* comments  */}
         <a className="post-comment">
           <GoComment fontSize="18px" />
