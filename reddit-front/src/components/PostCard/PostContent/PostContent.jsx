@@ -13,7 +13,7 @@ import { useEffect, memo, useState } from 'react';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
 import Logo3 from '../../../assets/Images/test.png';
-import Logo2 from '../../../assets/Images/test_3.jpg';
+import Logo from '../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
 import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
@@ -89,7 +89,7 @@ function PostContent({
               </div>
               <div className="my-slides fade">
                 <img
-                  src={Logo2}
+                  src={Logo}
                   alt="post image"
                   className={`post-image-${postContentData.id}`}
                 />
@@ -255,15 +255,15 @@ function PostContent({
         </div>
         {postContentData.flairs.length > 0
           ? postContentData.flairs.map((item) => (
-              <div className="flair">
-                <a
-                  href="#"
-                  className="flair-link"
-                >
-                  {item}
-                </a>
-              </div>
-            ))
+            <div className="flair">
+              <a
+                href="#"
+                className="flair-link"
+              >
+                {item}
+              </a>
+            </div>
+          ))
           : null}
       </div>
 
