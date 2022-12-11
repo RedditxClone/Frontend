@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable no-unused-vars */
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -30,6 +32,8 @@ import PeopleResults from './components/SearchCards/PeopleResults/PeopleResults'
 import CommentsResults from './components/SearchCards/CommentsResults/CommentsResults';
 import PostsResults from './components/SearchCards/PostsResults/PostsResults';
 import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
+import ModQueue from './components/ModQueue/ModQueue';
+import PostFullPage from './pages/PostFullPage/PostFullPage';
 
 // Routes
 const routes = createBrowserRouter([
@@ -141,8 +145,69 @@ const routes = createBrowserRouter([
     ]
   },
   {
-    path: '/subreddit/about/:item',
+    path: '/subreddit/about/:any',
     element: <ModToolsPage />
+    // children: [
+    //   {
+    //     path: 'reports',
+    //     element: <ModToolsPage />
+    //   },
+    //   {
+    //     path: 'spam',
+    //     element: (
+    //       <ModToolsPage
+    //         activeItem="spam"
+    //         activeComponent={
+    //           <ModQueue
+    //             sortType="any"
+    //             isCommunityPost={false}
+    //             isModeratorMode={false}
+    //             isHomePagePost={false}
+    //             whichQueue="spam"
+    //           />
+    //         }
+    //       />
+    //     )
+    //   },
+    //   {
+    //     path: 'edited',
+    //     element: (
+    //       <ModToolsPage
+    //         activeItem="edited"
+    //         activeComponent={
+    //           <ModQueue
+    //             sortType="any"
+    //             isCommunityPost={false}
+    //             isModeratorMode={false}
+    //             isHomePagePost={false}
+    //             whichQueue="edited"
+    //           />
+    //         }
+    //       />
+    //     )
+    //   },
+    //   {
+    //     path: 'unmoderated',
+    //     element: (
+    //       <ModToolsPage
+    //         activeItem="unmoderated"
+    //         activeComponent={
+    //           <ModQueue
+    //             sortType="any"
+    //             isCommunityPost={false}
+    //             isModeratorMode={false}
+    //             isHomePagePost={false}
+    //             whichQueue="unmoderated"
+    //           />
+    //         }
+    //       />
+    //     )
+    //   }
+    // ]
+  },
+  {
+    path: '/subreddit/post/:id',
+    element: <PostFullPage postId="1" />
   }
 ]);
 
