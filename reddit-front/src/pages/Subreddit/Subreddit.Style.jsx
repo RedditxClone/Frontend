@@ -6,7 +6,6 @@ export const subredditTheme = createTheme({
     values: {
       xs: 0,
       sm: 600,
-      sm_2: 890,
       md: 970,
       md_2: 1030,
       lg: 1225,

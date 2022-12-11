@@ -4,7 +4,7 @@
 import api from './api';
 
 /**
- * This service for fetching the posts
+ * This service for fetching the post data
  * @param {object} data - The request data
  */
 export const getPost = async (id) => {

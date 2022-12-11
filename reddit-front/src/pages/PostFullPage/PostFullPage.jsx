@@ -21,7 +21,7 @@ import {
 } from '../../components/SubredditCards/SubredditSideBar/SubredditSideBar.Style';
 
 /**
- * This Component for the Community Cards.
+ * This Component for the Post Page.
  *
  */
 
