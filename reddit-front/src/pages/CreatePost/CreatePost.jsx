@@ -1,8 +1,3 @@
-import { TiDocumentText } from 'react-icons/ti';
-import { BsImage } from 'react-icons/bs';
-import { TfiLink } from 'react-icons/tfi';
-import { BiPoll } from 'react-icons/bi';
-import { HiOutlineMicrophone } from 'react-icons/hi';
 // import { IoPricetagOutline } from 'react-icons/io';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { MdOutlineDone } from 'react-icons/md';
@@ -12,60 +7,23 @@ import AppBar from '../../components/Layout/AppBar/AppBar';
 import AboutCard from '../../components/SubredditCards/AboutCard/AboutCard';
 import PostingRules from './PostingRules';
 import ChooseCommunityName from './ChooseCommunityName';
-import CreatePostEditor from './CreatePostEditor';
+// import CreatePostEditor from './CreatePostEditor';
 import { RoundedButton } from '../../components/HomePageCards/HomePageCards.style';
 import PostTag from './PostTag';
-import ImagesAndVideos from './Dropzone';
+// import ImagesAndVideos from './Dropzone';
+import CreatePostTabs from './CreatePostTabs';
 // import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 function CreatePost() {
   const [postTitle, setPostTitle] = useState('');
   const [postContent, setPostContent] = useState('');
-  const [currentInputIndex, setCurrentInputIndex] = useState(0);
-  // const CURRENT_INPUT = [
-  //   <CreatePostEditor setPostContent={setPostContent} />,
-  //   <Dropzone />
-  // ];
-  const onChangePostTitle = (event) => {
-    setPostTitle(event.target.value);
-  };
+  const [postMedia, setPostMedia] = useState([]);
 
   const onPostHandler = () => {
-    console.log(postContent);
+    console.log(postContent, postMedia);
   };
   const baseColor = '#0079D3';
-  const OPTIONS_BUTTONS = [
-    {
-      icon: <TiDocumentText />,
-      text: 'Post',
-      disabled: false,
-      idx: 0
-    },
-    {
-      icon: <BsImage />,
-      text: 'Images & videos',
-      disabled: false,
-      idx: 1
-    },
-    {
-      icon: <TfiLink />,
-      text: 'Link',
-      disabled: false,
-      idx: 2
-    },
-    {
-      icon: <BiPoll />,
-      text: 'Poll',
-      disabled: true,
-      idx: 0
-    },
-    {
-      icon: <HiOutlineMicrophone />,
-      text: 'Talk',
-      disabled: true,
-      idx: 0
-    }
-  ];
+
   return (
     <div>
       <header>
@@ -78,41 +36,14 @@ function CreatePost() {
             <ChooseCommunityName />
           </div>
           <div className={classes['create-post']}>
-            <nav className={classes['buttons-list']}>
-              {OPTIONS_BUTTONS.map((option) => (
-                <button
-                  type="button"
-                  key={option.text}
-                  disabled={option.disabled}
-                  className={classes['icon-button']}
-                  onClick={() => setCurrentInputIndex(option.idx)}
-                >
-                  <span style={{ marginRight: '0.5rem' }}>{option.icon}</span>
-                  <span>{option.text}</span>
-                </button>
-              ))}
-            </nav>
-            <div className={classes['post-content']}>
-              <div className={classes['post-title']}>
-                <textarea
-                  className={classes['post-title_textarea']}
-                  maxLength={300}
-                  required
-                  placeholder="Title"
-                  onChange={onChangePostTitle}
-                />
-                <span className={classes['post-title-length']}>
-                  {`${postTitle.length}/300`}
-                </span>
-                <div>
-                  {(currentInputIndex === 0 || currentInputIndex > 2) && (
-                    <CreatePostEditor setPostContent={setPostContent} />
-                  )}
-                  {currentInputIndex === 1 && <ImagesAndVideos />}
-                  {/* {CURRENT_INPUT[currentInputIndex]} */}
-                </div>
-              </div>
-            </div>
+            <CreatePostTabs
+              setPostContent={setPostContent}
+              // postMedia={postMedia}
+              setPostMedia={setPostMedia}
+              postTitle={postTitle}
+              setPostTitle={setPostTitle}
+            />
+
             <div>
               <PostTag
                 icon2={<AiOutlinePlus />}

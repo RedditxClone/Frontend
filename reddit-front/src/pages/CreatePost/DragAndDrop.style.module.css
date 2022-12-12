@@ -1,0 +1,32 @@
+.container {
+    width: 100%;
+    border: 1px var(--newCommunityTheme-line) solid;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.images-container {
+    display: flex;
+}
+
+.image-box,
+.upload-image {
+    padding: 0.5rem;
+    margin-right: 1rem;
+    border-radius: 4px;
+}
+
+.image-box {
+    border: 1px solid var(--newCommunityTheme-bodyText);
+}
+
+.upload-image {
+    padding: 3rem;
+    border: 1px var(--newCommunityTheme-line) dashed;
+    transition: all 0.2s;
+}
+
+.upload-image:hover {
+    border-color: var(--newCommunityTheme-bodyText);
+}
