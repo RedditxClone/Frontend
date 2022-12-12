@@ -9,6 +9,7 @@ import { HiOutlineNewspaper } from 'react-icons/hi';
 import { ImStatsBars } from 'react-icons/im';
 import { Box, Link } from '@mui/material';
 import AppBar from '../../components/Layout/AppBar/AppBar';
+import CommunitySettingsPage from '../CommunitySettingsPage/CommunitySettingsPage';
 import {
   BreadCrumbContainer,
   SubredditIcon,
@@ -277,12 +278,12 @@ function ModToolsPage() {
               <span>Other</span>
             </SideBarCategoryTitle>
             <SideBarItem
-              to="/subreddit/about/communitysettings"
+              to="/subreddit/about/communitysettings/:item"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem(
-                'community settings',
-                <Box>community settings</Box>
-              )}
+              // onClick={handleClickOnSidebarItem(
+              //   'community settings',
+              //   <CommunitySettingsPage />
+              // )}
             >
               community settings
             </SideBarItem>
@@ -319,10 +320,7 @@ function ModToolsPage() {
             width: 'calc(100vw)',
             display: 'flex',
             justifyContent: 'center',
-            backgroundColor: '#DAE0E6',
-            paddingLeft: '280px',
-            position: 'relative',
-            top: '45px'
+            backgroundColor: '#DAE0E6'
           }}
           data-testid="mod-tool-item"
         >
