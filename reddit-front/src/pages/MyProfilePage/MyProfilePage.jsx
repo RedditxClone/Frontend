@@ -4,10 +4,29 @@ import ProfileNav from '../../components/ProfileNav/ProfileNav';
 import MyProfileCard from '../../components/MyProfileCard/MyProfileCard';
 import ProfilePageModerationCard from '../../components/ProfilePageModerationCard/ProfilePageModerationCard';
 import pic from '../../assets/Images/1166721.jpg';
+import AppBar from '../../components/Layout/AppBar/AppBar';
 
 export default function MyProfilePage() {
-  const arr = ['OVERVIEW', 'POSTS', 'COMMENTS', 'HISTORY', 'SAVED', 'HIDDEN', 'UPVOTED', 'DOWNVOTED'];
-  const links = ['/', 'submitted', 'comments', 'history', 'saved', 'hidden', 'upvoted', 'downvoted'];
+  const arr = [
+    'OVERVIEW',
+    'POSTS',
+    'COMMENTS',
+    'HISTORY',
+    'SAVED',
+    'HIDDEN',
+    'UPVOTED',
+    'DOWNVOTED'
+  ];
+  const links = [
+    '/',
+    'submitted',
+    'comments',
+    'history',
+    'saved',
+    'hidden',
+    'upvoted',
+    'downvoted'
+  ];
   const communities = [
     {
       name: 'My Community',
@@ -64,10 +83,7 @@ export default function MyProfilePage() {
     optionButtonState({
       title: 'Fewer Options',
       showMore: showmore,
-      listItems: [
-        'Add Custom Feed',
-        'Invite Someone to chat'
-      ]
+      listItems: ['Add Custom Feed', 'Invite Someone to chat']
     });
   };
   const buttonHandler = () => {
@@ -79,6 +95,7 @@ export default function MyProfilePage() {
   };
   return (
     <div>
+      <AppBar />
       <ProfileNav
         arr={arr}
         olinks={links}
@@ -92,12 +109,9 @@ export default function MyProfilePage() {
             socialLinksArray={[]}
             click={buttonHandler}
           />
-          <ProfilePageModerationCard
-            communities={communities}
-          />
+          <ProfilePageModerationCard communities={communities} />
         </div>
       </div>
-
     </div>
   );
 }
