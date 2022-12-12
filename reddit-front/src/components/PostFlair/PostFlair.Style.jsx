@@ -16,7 +16,6 @@ export const StyledButton = styled(Button)({
   // }
 });
 export const StyledTextField = styled(TextField)({
-  fontSize: '3rem',
   paddingTop: '2rem',
   width: '30rem',
   '&.MuiFormControl-root': {
@@ -31,6 +30,7 @@ export const StyledTextField = styled(TextField)({
 export const Head = styled('div')({
   width: '100%',
   backgroundColor: '#EDEFF1',
+  marginTop: '4.6rem',
   height: '7%',
   color: 'black',
   display: 'flex',
@@ -47,7 +47,7 @@ export const StyledText = styled(Typography)({
   textTransform: 'none',
   height: '8%',
   width: '80%',
-  marginLeft: '20rem',
+  marginLeft: '30rem',
 
   '&.MuiTypography-root': {
     padding: '1.5rem 0'
@@ -55,16 +55,16 @@ export const StyledText = styled(Typography)({
 });
 
 export const Content = styled('div')({
-  width: '80%',
+  width: '75%',
   backgroundColor: '#FFFFFF',
-  height: '80%',
+  height: '70%',
   color: 'black',
   // display: 'flex',
   // flexDirection: 'row',
   borderRadius: '1rem',
   // alignItems: 'flex-end',
   justifyContent: 'flex-end',
-  marginLeft: '20rem'
+  marginLeft: '30rem'
 });
 export const PostFlairTab = styled('div')({
   height: '75rem',
@@ -124,7 +124,8 @@ export const AddFlairLayout = styled('div')({
   height: '90%',
   // marginTop: '4rem',
   backgroundColor: '#EDEFF1',
-  paddingLeft: '3rem'
+  paddingLeft: '3rem',
+  borderRadius: '1rem'
 });
 export const FlairBackGround = styled('div')({
   width: '26%',
@@ -139,6 +140,63 @@ export const FlairTextColor = styled('div')({
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center'
+});
+export const LastPartAddFlair = styled('div')({
+  width: '100%',
+  marginTop: '15rem',
+  height: '7%',
+  color: 'black',
+  display: 'flex',
+  flexDirection: 'row',
+  // alignItems: 'flex-end',
+  justifyContent: 'flex-end',
+  alignItems: 'center'
+});
+
+export const DeleteCard = styled('div')({
+  width: '25%',
+  backgroundColor: 'white',
+  height: '25%',
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  borderRadius: '1rem'
+});
+
+export const DeleteCardFirst = styled('div')({
+  width: '100%',
+  height: '25%',
+  color: 'black',
+  display: 'flex',
+  flexDirection: 'row',
+  borderBottom: '0.2rem solid #EDEFF1',
+  // alignItems: 'flex-end',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  borderRadius: '1rem 1rem 0 0'
+});
+export const DeleteCardSecond = styled('div')({
+  width: '100%',
+  backgroundColor: 'white',
+  height: '40%',
+  color: 'black',
+  justifyContent: 'flex-start',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center'
+});
+export const DeleteCardThird = styled('div')({
+  width: '100%',
+  backgroundColor: '#EDEFF1',
+  height: '35%',
+  color: 'black',
+  display: 'flex',
+  flexDirection: 'row',
+  // alignItems: 'flex-end',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+  borderRadius: '0 0 1rem 1rem'
 });
 // export const StyledInputBase = styled(InputBase)({
 //   width: '90%',

@@ -16,21 +16,45 @@ import {
   StyledTextField,
   AddFlairLayout,
   FlairBackGround,
-  FlairTextColor
+  FlairTextColor,
+  LastPartAddFlair
   //   SecondRowText,
   //   Flairs
 } from './PostFlair.Style';
+import DeletePostFlair from './DeletePostFlairCard';
+import CancelCard from './CancelCard';
+import PostFlairSettingsCard from './PostFlairSettingsCard';
 
 function PostFlair() {
   //   const [AddFlair, setAddFlair] = useState(false);
   const [TextColor, setTextColor] = useState(false);
+  const [textbackgroundcolor, setTextBackGroundColor] = useState(false);
   const [TextMessage, setTextMessage] = useState(true);
+  const [Remainings, setRemainings] = useState(65);
+  const [settingscard, setSettingsCard] = useState(false);
 
+  //   const [deletecard, setDeleteCard] = useState(false);
+  const [cancelcard, setCancelCard] = useState(false);
+
+  const clickSettingsHandler = () => {
+    const temp = !settingscard;
+    setSettingsCard(temp);
+  };
+  //   const clickDeleteHandler = () => {
+  //     const temp = !deletecard;
+  //     setDeleteCard(temp);
+  //   };
+  const cancelHandler = () => {
+    const temp = !cancelcard;
+    setCancelCard(temp);
+  };
   const clickAddFlairHandler = () => {
     const AddTemp = !AddFlair;
     setAddFlair(AddTemp);
   };
   const textBackGroundHandler = (event) => {
+    const temp = !textbackgroundcolor;
+    setTextBackGroundColor(temp);
     console.log(event.target.value);
   };
   const textColorHandler = () => {
@@ -41,14 +65,30 @@ function PostFlair() {
     console.log(event.target.value);
     if (event.target.value === '') {
       setTextMessage(true);
+      const RemainingsTemp = 65;
+      setRemainings(RemainingsTemp);
     } else {
+      const RemainingsTemp = 65 - event.target.value.length;
+      setRemainings(RemainingsTemp);
+      //   console.log(RemainingsTemp);
       setTextMessage(false);
     }
+  };
+  const cancelLogicandler = () => {
+    if (Remainings !== 65 || textbackgroundcolor) cancelHandler();
+    // console.log('nada');
+    // console.log(Remainings);
+  };
+  const saveFlairHandler = () => {
+    console.log('hima');
   };
   return (
     <PostFlairTab>
       <Head>
-        <StyledButton sx={{ color: '#0079D3' }}>
+        <StyledButton
+          sx={{ color: '#0079D3' }}
+          onClick={clickSettingsHandler}
+        >
           Post flair settings
         </StyledButton>
         <StyledButton>Reorder</StyledButton>
@@ -90,7 +130,17 @@ function PostFlair() {
             >
               Flair text
             </FirstRowText>
-            <StyledTextField onChange={textHandler} />
+            <StyledTextField
+              onChange={textHandler}
+              inputProps={{
+                maxLength: 65
+              }}
+              sx={{
+                '&.MuiInputBase-root': {
+                  fontSize: '3rem'
+                }
+              }}
+            />
             <FirstRowText
               sx={{
                 fontSize: '1.2rem',
@@ -100,7 +150,7 @@ function PostFlair() {
             >
               {TextMessage
                 ? 'error:text is required'
-                : '65 character is remaining'}
+                : `${Remainings} character is remaining`}
             </FirstRowText>
             <FlairBackGround>
               <FirstRowText sx={{ fontSize: '1.5rem', color: 'black' }}>
@@ -130,6 +180,21 @@ function PostFlair() {
                 Aa
               </button>
             </FlairTextColor>
+            <LastPartAddFlair>
+              <StyledButton
+                sx={{ color: '#0079D3' }}
+                onClick={cancelLogicandler}
+              >
+                Cancel
+              </StyledButton>
+              <StyledButton
+                sx={{ color: '#FFFFFF', backgroundColor: '#0079D3' }}
+                onClick={saveFlairHandler}
+                disabled
+              >
+                Save
+              </StyledButton>
+            </LastPartAddFlair>
           </AddFlairLayout>
           {/* <SecondRowFlairs>
             <Flairs>
@@ -144,6 +209,15 @@ function PostFlair() {
           </SecondRowFlairs> */}
         </Content>
       </Body>
+      <DeletePostFlair />
+      <CancelCard
+        opened={cancelcard}
+        handleClose={cancelHandler}
+      />
+      <PostFlairSettingsCard
+        opened={settingscard}
+        handleClose={clickSettingsHandler}
+      />
     </PostFlairTab>
   );
 }

@@ -17,7 +17,7 @@ import {
   SideBarItem
 } from './ModToolsPage.Style';
 import './ModToolsPage.css';
-
+import PostFlair from '../../components/PostFlair/PostFlair';
 /**
  * This Component for the Moderator Tools Page
  *
@@ -230,10 +230,7 @@ function ModToolsPage() {
             <SideBarItem
               to="/subreddit/about/postflairs"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem(
-                'Post flairs',
-                <Box>Post flairs</Box>
-              )}
+              onClick={handleClickOnSidebarItem('Post flairs', <PostFlair />)}
             >
               Post flairs
             </SideBarItem>
@@ -319,10 +316,7 @@ function ModToolsPage() {
             width: 'calc(100vw)',
             display: 'flex',
             justifyContent: 'center',
-            backgroundColor: '#DAE0E6',
-            paddingLeft: '280px',
-            position: 'relative',
-            top: '45px'
+            backgroundColor: '#DAE0E6'
           }}
           data-testid="mod-tool-item"
         >

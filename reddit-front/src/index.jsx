@@ -29,13 +29,16 @@ import SearchResults from './pages/SearchResults/SearchResults';
 import PeopleResults from './components/SearchCards/PeopleResults/PeopleResults';
 import CommentsResults from './components/SearchCards/CommentsResults/CommentsResults';
 import PostsResults from './components/SearchCards/PostsResults/PostsResults';
-
+import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
+// import DeletePostFlair from './components/PostFlair/DeletePostFlairCard';
+// import CancelCard from './components/PostFlair/CancelCard';
+import PostFlairSettingsCard from './components/PostFlair/PostFlairSettingsCard';
 // Routes
 const routes = createBrowserRouter([
   {
     path: '/',
     // element: <HomePage />
-    element: <PostFlair />
+    element: <PostFlairSettingsCard />
   },
   {
     path: '/auth',
