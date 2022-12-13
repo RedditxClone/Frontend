@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
+import { useSelector } from 'react-redux';
 import classes from './CreatePost.module.css';
 
 const communities = [
@@ -15,22 +16,30 @@ const communities = [
   }
 ];
 
-function ChooseCommunityName() {
+function ChooseCommunityName({ communityName, setCommunityName }) {
+  const { user } = useSelector((state) => state.auth);
   const inputRef = useRef();
   const [openList, setOpenList] = useState(false);
+  const [currentIcon, setCurrentIcon] = useState(null);
   const onBlurInputHandler = () => {
     setOpenList(false);
   };
   return (
     <>
       <div className={classes['choose-community_container']}>
-        <span className={classes['choose-community_icon']} />
+        <span className={classes['choose-community_icon']}>
+          <img
+            src={currentIcon}
+            alt=""
+          />
+        </span>
         <input
           ref={inputRef}
           onBlur={onBlurInputHandler}
           onFocus={() => setOpenList(true)}
           className={classes['choose-community_input']}
           placeholder="Choose Community"
+          value={communityName}
         />
         <span
           onClick={() => setOpenList((prev) => !prev)}
@@ -46,6 +55,11 @@ function ChooseCommunityName() {
             <button
               type="button"
               className={classes.communities_item}
+              onClick={() => {
+                setCommunityName(user.username);
+                setCurrentIcon(user.icon);
+                setOpenList(false);
+              }}
             >
               <span className={classes['community-logo']}>
                 <img
@@ -72,6 +86,11 @@ function ChooseCommunityName() {
               <button
                 type="button"
                 className={classes.communities_item}
+                onClick={() => {
+                  setCommunityName(comm.name);
+                  setCurrentIcon(comm.logo);
+                  setOpenList(false);
+                }}
               >
                 <span className={classes['community-logo']}>
                   <img

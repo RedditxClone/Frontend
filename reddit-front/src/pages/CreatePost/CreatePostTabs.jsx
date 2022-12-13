@@ -14,9 +14,12 @@ import { TfiLink } from 'react-icons/tfi';
 import { BiPoll } from 'react-icons/bi';
 import { HiOutlineMicrophone } from 'react-icons/hi';
 // import ImagesAndVideos from './Dropzone';
+import { useState } from 'react';
 import CreatePostEditor from './CreatePostEditor';
 import classes from './CreatePost.module.css';
 import DragAndDrop from './DragAndDrop';
+import validURL from '../../services/logic/validUrl';
+import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 
 const TABS_OPTIONS = [
   {
@@ -82,16 +85,31 @@ function CreatePostTabs({
   postMedia,
   setPostMedia,
   postTitle,
-  setPostTitle
+  setPostTitle,
+  setPostUrl,
+  postUrl,
+  validUrl,
+  validTitle,
+  setValidUrl,
+  setValidTitle
 }) {
   const [value, setValue] = React.useState(0);
-
+  const [visitUrl, setVisitUrl] = useState(false);
+  const [visitTitle, setVisitTitle] = useState(false);
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
   };
 
   const onChangePostTitle = (event) => {
-    setPostTitle(event.target.value);
+    const title = event.target.value;
+    setPostTitle(title);
+    setValidTitle(visitTitle && title.length > 3);
+  };
+
+  const onChangePostUrl = (event) => {
+    const url = event.target.value;
+    setPostUrl(url);
+    setValidUrl(url.length > 0 && validURL(url) && visitUrl);
   };
   return (
     <Box sx={{ width: '100%' }}>
@@ -126,10 +144,14 @@ function CreatePostTabs({
             required
             placeholder="Title"
             onChange={onChangePostTitle}
+            onBlur={() => setVisitTitle(true)}
           />
           <span className={classes['post-title-length']}>
             {`${postTitle.length}/300`}
           </span>
+          {!validTitle && (
+            <ErrorMessage>Please, Enter Valid title</ErrorMessage>
+          )}
         </div>
         <TabPanel
           value={value}
@@ -153,8 +175,12 @@ function CreatePostTabs({
           <textarea
             placeholder="Url"
             rows={1}
+            value={postUrl}
             className={classes['post-url']}
+            onChange={onChangePostUrl}
+            onBlur={() => setVisitUrl(true)}
           />
+          {!validUrl && <ErrorMessage>Please, Enter Valid URL</ErrorMessage>}
         </TabPanel>
       </div>
     </Box>
