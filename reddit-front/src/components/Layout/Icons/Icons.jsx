@@ -21,7 +21,7 @@ function IconsBox() {
       >
         <CgArrowTopRightO
           color="#1A3043"
-          size="1.5rem"
+          size="2.5rem"
         />
       </IconButton>
       <IconButton
@@ -36,7 +36,7 @@ function IconsBox() {
       >
         <IoIosNotificationsOutline
           color="#1A3043"
-          size="1.5rem"
+          size="2.5rem"
         />
       </IconButton>
       <IconButton
@@ -51,7 +51,7 @@ function IconsBox() {
       >
         <IoIosAdd
           color="#1A3043"
-          size="1.5rem"
+          size="2.5rem"
         />
       </IconButton>
     </Icons>

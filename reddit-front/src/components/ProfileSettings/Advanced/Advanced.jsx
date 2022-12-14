@@ -1,8 +1,14 @@
 /* eslint-disable linebreak-style */
 import { Switch, Box } from '@mui/material';
 import './AdvancedStyle.css';
+import { useDispatch } from 'react-redux';
+import { UpdateSettings } from '../../../store/slices/Settings';
 
-export default function Advanced() {
+export default function Advanced({ settings }) {
+  const dispatch = useDispatch();
+  const handleToggle = (e) => {
+    dispatch(UpdateSettings({ allowFollow: e.target.checked }));
+  };
   return (
     <div className="advanced">
       <h3 className="main-h3">Advanced</h3>
@@ -15,7 +21,10 @@ export default function Advanced() {
           </p>
         </div>
         <Box className="child-b">
-          <Switch />
+          <Switch
+            onChange={handleToggle}
+            checked={settings.allowFollow}
+          />
         </Box>
       </div>
       <div className="parent-div">

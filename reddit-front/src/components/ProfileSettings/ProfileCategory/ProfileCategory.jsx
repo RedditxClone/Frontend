@@ -1,18 +1,25 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable linebreak-style */
 /* eslint-disable react/self-closing-comp */
 import { Switch, Box } from '@mui/material';
 import './ProfileCategoryStyle.css';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Box3 from '../ActionComponents.jsx/Box3';
+import { UpdateSettings } from '../../../store/slices/Settings';
 
-export default function ProfileCategory() {
+export default function ProfileCategory({ settings }) {
+  const dispatch = useDispatch();
   const [isToggled, setIsToggled] = useState(false);
-  const handleToggle = () => {
+  const [nsfwState, setIsnsfwState] = useState(false);
+  const handleToggle = (e) => {
+    dispatch(UpdateSettings({ nsfw: e.target.checked }));
+    setIsnsfwState(e.target.checked);
     setIsToggled(true);
   };
   return (
     <>
-      {isToggled && <div className="overlay"></div>}
+      {!nsfwState && isToggled && <div className="overlay"></div>}
       <div className="profile-category">
         <h3 className="main-h3">ProfileCategory</h3>
         <div className="parent-div">
@@ -24,9 +31,12 @@ export default function ProfileCategory() {
             </p>
           </div>
           <Box className="child-b">
-            <Switch onChange={handleToggle} />
+            <Switch
+              onChange={handleToggle}
+              checked={settings.nsfw}
+            />
           </Box>
-          {isToggled && <Box3 setIsToggled={setIsToggled} />}
+          {!nsfwState && isToggled && <Box3 setIsToggled={setIsToggled} />}
         </div>
       </div>
     </>

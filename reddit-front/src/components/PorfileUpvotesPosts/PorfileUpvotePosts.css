@@ -3,7 +3,9 @@ div.post-card {
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.1s;
-  margin-bottom: 3rem;
+  width: 100%;
+  margin-top: 0.1rem;
+  /* margin-bottom: 3rem; */
 }
 
 div.post-card:hover {
@@ -43,5 +45,4 @@ div.post-card:hover {
     /* padding-left: 2%; */
     /* padding-right: 2%; */
   }
-} 
-
+}

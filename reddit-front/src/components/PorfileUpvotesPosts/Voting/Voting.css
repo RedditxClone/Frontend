@@ -1,5 +1,5 @@
 div.voting-container {
-  width: 4%;
+  width: 6%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,6 +9,7 @@ div.voting-container {
   text-align: center;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
+  /* border-bottom: 1px solid #898989; */
 }
 div.voting-content {
   display: flex;

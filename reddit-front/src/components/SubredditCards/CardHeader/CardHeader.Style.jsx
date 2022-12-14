@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable import/prefer-default-export */
-import { Box, styled, Typography, Link } from '@mui/material';
+import { Box, styled, Typography } from '@mui/material';
 
 /**
  * @param {Box} - the default box
@@ -50,15 +50,18 @@ export const DropDownMenuItem = styled(Typography)({
 });
 
 /**
- * @param {Link} - the default Link
+ * @param {a} - the default Link
  * @return {ModToolsButton} - The styled Button
  */
-export const ModToolsButton = styled(Link)({
+export const ModToolsButton = styled('a')({
+  textAlign: 'center',
+  marginRight: '1rem',
+  width: '11rem',
   padding: '4px',
   display: 'flex',
   alignItems: 'center',
   position: 'relative',
-  right: '-6.5rem',
+  right: '-3rem',
   textDecoration: 'none',
   color: 'black',
   textTransform: 'uppercase',

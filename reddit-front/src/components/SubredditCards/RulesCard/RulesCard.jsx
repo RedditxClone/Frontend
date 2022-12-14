@@ -1,5 +1,10 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable no-unused-vars */
 import { Typography, Box } from '@mui/material';
-import { useState, memo } from 'react';
+import { useState, memo, useEffect } from 'react';
 import { AiOutlineDown } from 'react-icons/ai';
 import CardHeader from '../CardHeader/CardHeader';
 import {
@@ -11,10 +16,11 @@ import {
   RuleNumber
 } from './RulesCard.Style';
 import StyledHorizontalLine from '../../../utilities/StyledHorizontalLine/StyledHorizontalLine';
-
+import { getRulesList } from '../../../services/requests/Subreddit';
 /**
  * @typedef PropType
  * @property {string, color} baseColor
+ * @property {Integer} subredditId
  */
 
 /**
@@ -22,11 +28,36 @@ import StyledHorizontalLine from '../../../utilities/StyledHorizontalLine/Styled
  *
  */
 
-function RulesCard({ baseColor }) {
-  // eslint-disable-next-line prefer-const
-  let isRuleHasDescription = true;
+function RulesCard({ baseColor, subredditId }) {
   const [showDescription, setShowDescription] = useState(false);
+  const [rulesList, setRulesList] = useState([]);
 
+  useEffect(() => {
+    // Fetching the data of the subreddit rules
+    const fetchRules = async () => {
+      const results = await getRulesList({ id: subredditId });
+      setRulesList(results);
+    };
+
+    fetchRules();
+  }, []);
+
+  /**
+   * This function divides handles the displaying of a rule description
+   * @param {int} ruleId - The number to be divided.
+   */
+  const handleShowDescription = (ruleId) => {
+    const rule = document.getElementById(`show-rule-description-${ruleId}`);
+    if (rule) {
+      if (rule.style.display === 'none') {
+        rule.style.display = 'block';
+        rule.style.visibility = 'visible';
+      } else {
+        rule.style.display = 'none';
+        rule.style.visibility = 'hidden';
+      }
+    }
+  };
   return (
     <RulesCardContainer
       className="community-rules"
@@ -41,51 +72,45 @@ function RulesCard({ baseColor }) {
       {/* Card Body  */}
       <Box sx={{ padding: '12px' }}>
         {/* The list of rules  */}
-        <RuleContainer
-          className="RuleContainer"
-          onClick={() => {
-            setShowDescription(!showDescription);
-          }}
-        >
-          <RuleNumber className="rule-number">1.</RuleNumber>
-          <RuleTitle className="rule-title">test title</RuleTitle>
-          {isRuleHasDescription ? (
-            <ShowRuleDescription className="show-rule-description">
-              <AiOutlineDown fontSize="1.3rem" />
-            </ShowRuleDescription>
-          ) : null}
-        </RuleContainer>
-        {showDescription ? (
-          <RuleDescription
-            onClick={() => {
-              setShowDescription(!showDescription);
-            }}
-          >
-            <Typography
-              variant="paragraph"
-              sx={{
-                fontWeight: '400',
-                fontSize: '1.4rem',
-                lineHeight: '2rem'
-              }}
-            >
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae
-              consequatur placeat ad porro.
-            </Typography>
-          </RuleDescription>
-        ) : null}
 
-        <StyledHorizontalLine />
+        {rulesList.length > 0
+          ? rulesList.map((item, index) => (
+              <>
+                <RuleContainer
+                  className="RuleContainer"
+                  onClick={() => handleShowDescription(index)}
+                >
+                  <RuleNumber className="rule-number">
+                    {`${index + 1}.`}
+                  </RuleNumber>
+                  <RuleTitle className="rule-title">{item.name}</RuleTitle>
+                  {item.description && (
+                    <ShowRuleDescription className="show-rule-description">
+                      <AiOutlineDown fontSize="1.3rem" />
+                    </ShowRuleDescription>
+                  )}
+                </RuleContainer>
 
-        <RuleContainer
-          className="RuleContainer"
-          onClick={() => {
-            setShowDescription(!showDescription);
-          }}
-        >
-          <RuleNumber className="rule-number">2.</RuleNumber>
-          <RuleTitle className="rule-title">test title again</RuleTitle>
-        </RuleContainer>
+                <RuleDescription
+                  id={`show-rule-description-${index}`}
+                  style={{ display: 'none', visibility: 'hidden' }}
+                >
+                  <Typography
+                    variant="paragraph"
+                    sx={{
+                      fontWeight: '400',
+                      fontSize: '1.4rem',
+                      lineHeight: '2rem'
+                    }}
+                  >
+                    {item.description}
+                  </Typography>
+                </RuleDescription>
+
+                {index < rulesList.length - 1 ? <StyledHorizontalLine /> : null}
+              </>
+            ))
+          : null}
       </Box>
     </RulesCardContainer>
   );

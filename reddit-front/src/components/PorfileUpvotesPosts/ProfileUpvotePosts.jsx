@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable prefer-template */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/prop-types */
@@ -7,22 +8,20 @@ import PostContainer from './ProfileUpvoteContainer/ProfileUpvoteContainer';
 import PostContent from './PorfileUpvotesContent/PorfileUpvotesContent';
 import Voting from './Voting/Voting';
 /**
- * @typedef PropType
- * @property {number} id
- * @property {number} votes
- * @property {number} community_id
- * @property {number} user_id
- * @property {string} community_name
- * @property {string} posted_by
- * @property {timestamp} posted_at
- */
-
-/**
  *
  * @param {mixed}  postData
  * @param {bool}  isCommunityPost
  * @param {bool}  isPostFullDetailsMode
+ * @param {bool}  isHomePagePost
  * @param {bool}  isModeratorMode
+ * @param {bool}  isSaved
+ * @param {bool}  isLocked
+ * @param {bool}  isPostApproved
+ * @param {bool}  isPostSticky
+ * @param {bool}  isDistinguishedAsMode
+ * @param {bool}  isNSFW
+ * @param {bool}  isSpoiled
+ * @param {bool}  replyNotifications
  */
 
 /**
@@ -31,11 +30,26 @@ import Voting from './Voting/Voting';
  *
  */
 
-function ProfilePost({
+function ProfileUpvotePosts({
   postData,
-  isCommunityPost,
   isPostFullDetailsMode,
-  isModeratorMode
+  isModeratorMode,
+  isSaved,
+  isLocked,
+  isPostApproved,
+  isPostSticky,
+  isDistinguishedAsMode,
+  isNSFW,
+  isSpoiled,
+  replyNotifications,
+  isHidden,
+  isUpvoted,
+  isDownvoted,
+  isDeleted,
+  isModerator,
+  isCrosspost,
+  isCommunityPost,
+  isPinned
 }) {
   const [hidePost, setHidePost] = useState(false);
 
@@ -51,17 +65,34 @@ function ProfilePost({
         <Voting
           votesCount={postData.votes}
           postId={postData.id}
+          currentVotingState={0}
+          isUpvotedd={isUpvoted}
+          isDownvotedd={isDownvoted}
         />
         <PostContent
           setHidePost={setHidePost}
           postContentData={postData}
-          isCommunityPost={isCommunityPost}
           isPostFullDetailsMode={isPostFullDetailsMode}
-          isModeratorMode={isModeratorMode}
+          isSaved={isSaved}
+          isLocked={isLocked}
+          isPostApproved={isPostApproved}
+          isPostSticky={isPostSticky}
+          isDistinguishedAsMode={isDistinguishedAsMode}
+          isNSFW={isNSFW}
+          isSpoiled={isSpoiled}
+          replyNotifications={replyNotifications}
+          isHidden={isHidden}
+          isUpvoted={isUpvoted}
+          isDownvoted={isDownvoted}
+          isDeleted={isDeleted}
+          isModerator={isModerator}
+          isCrosspost={isCrosspost}
+          isCommunityPost={isCommunityPost}
+          isPinned={isPinned}
         />
       </PostContainer>
     </div>
   ) : null;
 }
 
-export default ProfilePost;
+export default ProfileUpvotePosts;

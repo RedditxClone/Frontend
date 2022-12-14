@@ -94,13 +94,13 @@ export default function MyProfilePage() {
     }
   };
   return (
-    <div>
+    <div style={{ backgroundColor: '#DAE0E6', width: '100%' }}>
       <AppBar />
       <ProfileNav
         arr={arr}
         olinks={links}
       />
-      <div style={{ display: 'flex', padding: '2rem 2.4rem' }}>
+      <div style={{ display: 'flex', padding: '2rem 2.4rem', width: '100%' }}>
         <Outlet />
         <div>
           <MyProfileCard

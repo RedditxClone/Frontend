@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /* eslint-disable no-use-before-define */
 /* eslint-disable prefer-const */
 /* eslint-disable jsx-a11y/media-has-caption */
@@ -8,11 +9,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
+import { TiDocumentText } from 'react-icons/ti';
 import PostInteractions from '../ProfileUpvotesInteractions/ProfileUpvotesInteractions';
 import PostInfo from '../ProfileUpvotesInfo/ProfileUpvotesInfo';
 import './PorfileUpvotesContent.css';
 import { divideBigNumber } from '../../../utilities/Helpers';
 import Logo from './test.png';
+
 /**
  * @typedef PropType
  * @property {bool} setHidePost
@@ -32,60 +35,49 @@ import Logo from './test.png';
 function PostContent({
   setHidePost,
   postContentData,
-  isCommunityPost,
   isPostFullDetailsMode,
-  isModeratorMode
+  isSaved,
+  isLocked,
+  isPostApproved,
+  isPostSticky,
+  isDistinguishedAsMode,
+  isNSFW,
+  isSpoiled,
+  replyNotifications,
+  isHidden,
+  isUpvoted,
+  isDownvoted,
+  isDeleted,
+  isModerator,
+  isCrosspost,
+  isCommunityPost,
+  isPinned
 }) {
   let postContent = null;
   let slideIndex = 0;
+  let expandPostContent = null;
   const [modAction, setModAction] = useState(0);
+  const [content, setContent] = useState(false);
+  const [locked, setLocked] = useState(postContentData.is_locked);
+  const [distinguishAsMod, setDistinguishAsMod] = useState(
+    postContentData.is_distinguishedAsMode
+  );
+  const [nsfw, setNsfw] = useState(postContentData.is_NSFW);
+  const [isVisited, setIsVisited] = useState(postContentData.visited);
+  const [canBeSpoiled, setCanBeSpoiled] = useState(
+    postContentData.post_type === 'img'
+  );
 
+  const showContentt = () => {
+    const temp = !content;
+    setContent(temp);
+  };
   /* Gets the post type (img, video, ..), and returns the content as html component */
   const getPostContent = function () {
     const contentType = postContentData.post_type;
     const mediaCount = postContentData.media_count;
-
     switch (contentType) {
       case 'img':
-        // if (mediaCount > 1) {
-        //   postContent = (
-        //     <>
-        //       <div className="my-slides fade">
-        //         <img
-        //           src={Logo}
-        //           alt="post image"
-        //         />
-        //       </div>
-        //       <div className="my-slides fade">
-        //         <img
-        //           src={Logo}
-        //           alt="post image"
-        //         />
-        //       </div>
-        //       <div className="my-slides fade">
-        //         <img
-        //           src={Logo}
-        //           alt="post image"
-        //         />
-        //       </div>
-        //       <button
-        //         type="button"
-        //         className="prev"
-        //         onClick={prevSlide}
-        //       >
-        //         ❮
-        //       </button>
-        //       <button
-        //         type="button"
-        //         className="next"
-        //         onClick={nextSlide}
-        //       >
-        //         ❯
-        //       </button>
-        //     </>
-        //   );
-        //   // showSlides();
-        // } else {
         postContent = (
           <div className="post-image">
             <img
@@ -94,25 +86,47 @@ function PostContent({
             />
           </div>
         );
+        expandPostContent = (
+          <div style={{ width: '50%', height: '50%' }}>
+            <img
+              src={Logo}
+              alt="post image"
+            />
+          </div>
+        );
         // }
         break;
-      case 'video':
+      case 'video': ///we deleted the video element until decide what we will do with its screenshot???
         postContent = (
-          <video
-            controls="true"
-            muted="false"
-            preload="auto"
-            className="post-content-video"
-          >
-            <source
-              src=""
-              type="video/mp4"
+          <div className="post-image">
+            <img
+              src={Logo}
+              alt="post image"
             />
-          </video>
+          </div>
+        );
+        expandPostContent = (
+          <div style={{ width: '50%', height: '50%' }}>
+            <img
+              src={Logo}
+              alt="post image"
+            />
+          </div>
         );
         break;
       case 'text':
-        postContent = <p>{postContentData.content}</p>;
+        postContent = (
+          <TiDocumentText
+            style={{
+              fontSize: '2.5rem',
+              margin: content ? '3.5rem' : '2.5rem',
+              color: '#949494'
+            }}
+          />
+        );
+        expandPostContent = (
+          <p style={{ fontSize: '1.5rem' }}>{postContentData.content}</p>
+        );
         break;
       default:
         break;
@@ -154,66 +168,99 @@ function PostContent({
 
   // Returning the result
   return (
-    <div
-      className="post-content"
-      data-testid="test-post-content"
-    >
-      {/* post content  */}
-      <div className="post-main-content">
-        <div className="post-content-core">
-          {getPostContent()}
-          {showSlides()}
-        </div>
-      </div>
-
-      <div>
-        {/* Post title  */}
-        <div
-          className="post-title-container"
-          data-testid="test-post-title"
-        >
-          <div className="post-title">
-            <a
-              className="post-link"
-              href="#"
-            >
-              <h3 className="post-title-heading">{postContentData.title}</h3>
-            </a>
-          </div>
-          <div className="flair">
-            <a
-              href="#"
-              className="flair-link"
-            >
-              {postContentData.flair_name}
-            </a>
+    <div className="parent">
+      <div
+        className="post-content"
+        data-testid="test-post-content"
+      >
+        {/* post content  */}
+        <div className="post-main-content">
+          <div
+            className="post-content-core"
+            style={{
+              backgroundColor:
+                postContentData.post_type === 'text' ? '#F8F8F8' : 'white',
+              borderRadius: '0.2rem'
+            }}
+          >
+            {getPostContent()}
+            {showSlides()}
           </div>
         </div>
-        {/* Post info -> community, username, time */}
-        <PostInfo
-          communityName={postContentData.community_name}
-          communityId={postContentData.community_id}
-          userId={postContentData.user_id}
-          postedBy={postContentData.posted_by}
-          postedAt={postContentData.posted_at}
-          postId={postContentData.id}
-          isCommunityPost={isCommunityPost}
-          isPostFullDetailsMode={isPostFullDetailsMode}
-          modAction={modAction}
-        />
 
-        {/* post interactions -> comment, save, hide, ..  */}
-        <PostInteractions
-          setHidePost={setHidePost}
-          commentsCount={divideBigNumber(postContentData.comments_count)}
-          votesCount={postContentData.votes}
-          postId={postContentData.id}
-          isCommunityPost={isCommunityPost}
-          changeModAction={setModAction}
-          setModAction={setModAction}
-          isModeratorMode={isModeratorMode}
-        />
+        <div>
+          {/* Post title  */}
+          <div
+            className="post-title-container"
+            data-testid="test-post-title"
+          >
+            <div className="post-title">
+              <a
+                className="post-link"
+                href="#"
+              >
+                <h3 className="post-title-heading">{postContentData.title}</h3>
+              </a>
+            </div>
+            <div className="flair">
+              <a
+                href="#"
+                className="flair-link"
+              >
+                {/* {postContentData.flair_name} */}
+                {postContentData.flairs[0]}
+              </a>
+            </div>
+          </div>
+          {/* Post info -> community, username, time */}
+          <PostInfo
+            communityName={postContentData.community_name}
+            communityId={postContentData.community_id}
+            userId={postContentData.user_id}
+            postedBy={postContentData.posted_by}
+            postedAt={postContentData.posted_at}
+            postId={postContentData.id}
+            isCommunityPost={isCommunityPost}
+            isPostFullDetailsMode={isPostFullDetailsMode}
+            modAction={modAction}
+            isNSFW={nsfw}
+            isLocked={locked}
+            isDistinguishedAsMode={distinguishAsMod}
+            isFollowed={postContentData.follow}
+          />
+
+          {/* post interactions -> comment, save, hide, ..  */}
+          <PostInteractions
+            setHidePost={setHidePost}
+            commentsCount={divideBigNumber(postContentData.comments_count)}
+            votesCount={postContentData.votes}
+            postId={postContentData.id}
+            isCommunityPost={isCommunityPost}
+            changeModAction={setModAction}
+            setModAction={setModAction}
+            setDistinguishPostAsMod={setDistinguishAsMod}
+            setNsfw={setNsfw}
+            setLocked={setLocked}
+            isSaved={isSaved}
+            isLocked={isLocked}
+            isPostApproved={isPostApproved}
+            isPostSticky={isPostSticky}
+            isDistinguishedAsMode={isDistinguishedAsMode}
+            isNSFW={isNSFW}
+            isSpoiled={isSpoiled}
+            replyNotifications={replyNotifications}
+            canBeSpoiled={canBeSpoiled}
+            isHidden={isHidden}
+            isUpvoted={isUpvoted}
+            isDownvoted={isDownvoted}
+            isDeleted={isDeleted}
+            isModerator={isModerator}
+            isCrosspost={isCrosspost}
+            isPinned={isPinned}
+          />
+        </div>
       </div>
+      {content ? expandPostContent : null}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 .post-content {
   padding-top: 0;
   background-color: white;
-  width: 92%;
+  width: 100%;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   display: flex;
@@ -9,6 +9,18 @@
   align-items: center;
   justify-content: normal;
   margin-left: 5px;
+  /* border-bottom: 1px solid #898989; */
+}
+.parent {
+  padding-top: 0;
+  background-color: white;
+  width: 92%;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: normal;
 }
 
 .post-content .post-title {

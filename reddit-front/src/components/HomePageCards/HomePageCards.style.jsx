@@ -5,6 +5,7 @@ import Link from '@mui/material/Link';
 import { Card, styled } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
+import { NavLink as NavLinkBase } from 'react-router-dom';
 /**
  * Global style for Home Page Cards
  */
@@ -160,7 +161,7 @@ export const LargeRoundedButton = styled(RoundedButton)({
 
 export const StyledCard = styled(Card)({
   padding: '0',
-  maxWidth: 345,
+  width: 345,
   border: '1px solid #1a1a1b12',
   borderRadius: '5px'
 });
@@ -179,4 +180,34 @@ export const CreatePostCardRoot = styled('div')(({ theme }) => ({
   // [theme.breakpoints.down('md')]: {
   //   width: '95%'
   // }
+}));
+
+/**
+ * @description this function styles the default NavLinkBase
+ * @param {NavLinkBase} NavLinkBase - the default NavLinkBase
+ * @return {NavLinkBase} - The styled NavLinkBase
+ */
+
+export const NavLink = styled(NavLinkBase)({
+  textDecoration: 'none'
+});
+
+export const CreatePostCardButtonsRoot = styled('div')(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    display: 'none'
+  },
+  [theme.breakpoints.up('sm')]: {
+    display: 'block'
+  }
+
+}));
+
+export const CreatePostCardOneButtonRoot = styled('div')(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    display: 'block'
+  },
+  [theme.breakpoints.up('sm')]: {
+    display: 'none'
+  }
+
 }));

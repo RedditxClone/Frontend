@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-one-expression-per-line */
@@ -27,24 +28,29 @@ import { BsThreeDots, BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { BiHide, BiAddToQueue } from 'react-icons/bi';
 import { TbArrowsCross } from 'react-icons/tb';
 import SmallScreenVoting from '../Voting/SmallScreenVoting/SmallScreenVoting';
-import { divideBigNumber } from '../../../utilities/Helpers';
 import {
+  approvePost,
+  unApprovePost,
+  deletePost,
   removePost,
+  unRemovePost,
   hidePost,
-  unHidePost,
   savePost,
   unSavePost,
   lockPost,
-  unlockPost,
+  unLockPost,
   unMarkPostAsNSFW,
   markPostAsNSFW,
   spamPost,
-  sendPostReplies,
-  votePost,
-  setSuggestedSort,
+  unSpamPost,
+  sendReplyNotifications,
+  stickyPost,
+  unStickyPost,
+  distinguishAsMod,
+  unDistinguishAsMod,
   spoilPost,
   unSpoilPost
-} from '../../../redux/slices/PostInteractionsSlice';
+} from '../../../services/requests/Post';
 
 /**
  * @typedef PropType
@@ -54,7 +60,14 @@ import {
  * @property {number} postId
  * @property {bool} isCommunityPost
  * @property {function} setModAction
+ * @property {function} setDistinguishAsMod
+ * @property {function} setNsfw
+ * @property {function} setLocked
  * @property {bool} isModeratorMode
+ * @property {bool} isSaved
+ * @property {bool} isLocked
+ * @property {bool} replyNotifications
+ * @property {bool} canBeSpoiled
  */
 
 /**
@@ -69,30 +82,45 @@ function PostInteractions({
   postId,
   isCommunityPost,
   setModAction,
-  isModeratorMode
+  setDistinguishPostAsMod,
+  setNsfw,
+  setLocked,
+  isSaved,
+  isLocked,
+  isPostApproved,
+  isPostSticky,
+  isDistinguishedAsMode,
+  isNSFW,
+  isSpoiled,
+  replyNotifications,
+  canBeSpoiled,
+  isModerator
 }) {
-  const dispatch = useDispatch();
-  // states: false -> normal(unsaved), true  -> saved
-  const [saveState, setSaveState] = useState(false);
-  const [isApproved, setIsApproved] = useState(false);
+  const [saveState, setSaveState] = useState(isSaved);
+  const [isApproved, setIsApproved] = useState(isPostApproved);
+  const [isSticky, setIsSticky] = useState(isPostSticky);
+  const [replyNotificationsState, setReplyNotificationsState] =
+    useState(replyNotifications);
+  const [distinguishAsMode, setDistinguishAsMode] = useState(
+    isDistinguishedAsMode
+  );
+  const [lockComments, setLockComments] = useState(isLocked);
+  const [markedAsNSFW, setMarkedAsNSFW] = useState(isNSFW);
+  const [markedAsSpoiler, setMarkedAsSpoiler] = useState(isSpoiled);
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [isRemoved, setIsRemoved] = useState(false);
   const [isSpammed, setIsSpammed] = useState(false);
-  const [isSticky, setIsSticky] = useState(false);
-  const [distinguishAsMode, setDistinguishAsMode] = useState(false);
-  const [lockComments, setLockComments] = useState(false);
-  const [markedAsOC, setMarkedAsOC] = useState(false);
-  const [markedAsNSFW, setMarkedAsNSFW] = useState(false);
-  const [markedAsSpoiler, setMarkedAsSpoiler] = useState(false);
-  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
 
   // Handler Methods
   const handleSavePost = () => {
     if (!saveState) {
       setSaveState(true);
-      dispatch(savePost(postId));
+      const info = { request: { is_saved: true }, id: postId };
+      savePost(info);
     } else {
       setSaveState(false);
-      dispatch(unSavePost(postId));
+      const info = { request: { is_saved: false }, id: postId };
+      unSavePost(info);
     }
   };
 
@@ -123,136 +151,157 @@ function PostInteractions({
 
   const handleHideButton = () => {
     setHidePost(true);
-    dispatch(hidePost(postId));
+    hidePost({ id: postId });
   };
 
   const handleApproveButton = (id) => {
+    let info = {};
     // cancelling spamming
     setIsSpammed(false);
     document.getElementById(`post-spam-${id}`).style.color = '#949494';
     document.getElementById(`post-spam-2-${id}`).style.color = '#949494';
-    // dispatch(unspamPost(postId));
+    info = { id: postId };
+    unSpamPost(info);
 
     // cancelling removing
     setIsRemoved(false);
     document.getElementById(`post-remove-${id}`).style.color = '#949494';
     document.getElementById(`post-remove-2-${id}`).style.color = '#949494';
-    // dispatch(unremovePost(postId));
+    info = { id: postId };
+    unRemovePost(info);
 
     // approving post
     setIsApproved(true);
     document.getElementById(`post-approve-${id}`).style.color = '#94E044';
     document.getElementById(`post-approve-2-${id}`).style.color = '#94E044';
     setModAction(1);
-    // dispatch(approvePost(postId));
-
-    // console.log('inside');
+    info = { id: postId };
+    approvePost(info);
   };
 
   const handleSpamButton = (id) => {
+    let info = {};
     // cancelling approving
     setIsApproved(false);
     document.getElementById(`post-approve-${id}`).style.color = '#949494';
     document.getElementById(`post-approve-2-${id}`).style.color = '#949494';
-    // dispatch(unapprovePost(id));
+    info = { id: postId };
+    unApprovePost(info);
 
     // cancelling removing
     setIsRemoved(false);
     document.getElementById(`post-remove-${id}`).style.color = '#949494';
     document.getElementById(`post-remove-2-${id}`).style.color = '#949494';
-    // dispatch(unremovePost(id));
+    info = { id: postId };
+    unRemovePost(info);
 
     // spamming post
     setIsSpammed(true);
     document.getElementById(`post-spam-${id}`).style.color = 'red';
     document.getElementById(`post-spam-2-${id}`).style.color = 'red';
     setModAction(2);
-    // dispatch(spamPost(id));
+    info = { id: postId };
+    spamPost(info);
   };
 
   const handleRemoveButton = (id) => {
+    let info = {};
     // cancelling spamming
     setIsSpammed(false);
     document.getElementById(`post-spam-${id}`).style.color = '#949494';
     document.getElementById(`post-spam-2-${id}`).style.color = '#949494';
-    // dispatch(unspamPost(id));
+    info = { id: postId };
+    unSpamPost(info);
 
     // cancelling approving
     setIsApproved(false);
     document.getElementById(`post-approve-${id}`).style.color = '#949494';
     document.getElementById(`post-approve-2-${id}`).style.color = '#949494';
-    // dispatch(unremovePost(id));
+    info = { id: postId };
+    unApprovePost(info);
 
     // removing post
     setIsRemoved(true);
     document.getElementById(`post-remove-${id}`).style.color = 'red';
     document.getElementById(`post-remove-2-${id}`).style.color = 'red';
     setModAction(3);
-    // dispatch(removePost(id));
+    info = { id: postId };
+    removePost(info);
   };
 
   const handleDeletePost = () => {
     setOpenConfirmationDialog(false);
-    // dispatch(deletePost(postId));
+    const request = { id: postId };
+    deletePost(request);
+
+    // remove post from ui
+    const postCard = document.getElementById(`post-${postId}`);
+    if (postCard) postCard.style.display = 'none';
   };
 
   const handleStickyButton = () => {
     if (!isSticky) {
       setIsSticky(true);
-      // dispatch(stickyPost(id));
+      const request = { id: postId };
+      stickyPost(request);
     } else {
       setIsSticky(false);
-      // dispatch(unstickyPost(id));
+      const request = { id: postId };
+      unStickyPost(request);
     }
   };
 
   const handleDistinguishAsMod = () => {
     if (!distinguishAsMode) {
       setDistinguishAsMode(true);
-      setDistinguishAsMode(!distinguishAsMode);
+      setDistinguishPostAsMod(true);
+      distinguishAsMod({ id: postId });
     } else {
       setDistinguishAsMode(false);
-      // setDistinguishAsMode(!undistinguishAsMode);
+      setDistinguishPostAsMod(false);
+      unDistinguishAsMod({ id: postId });
     }
   };
 
   const handleLockComments = () => {
     if (!lockComments) {
       setLockComments(true);
-      // dispatch(lockPost(postId));
+      setLocked(true);
+      const info = { request: { is_locked: true }, id: postId };
+      lockPost(info);
     } else {
       setLockComments(false);
-      // dispatch(unlockPost(postId));
-    }
-  };
-
-  const handleMarkAsOCButton = () => {
-    if (!markedAsOC) {
-      setMarkedAsOC(true);
-      // dispatch(markPostAsOC(postId));
-    } else {
-      setMarkedAsOC(false);
-      // dispatch(unmarkPostAsOC(postId));
+      setLocked(false);
+      const info = { request: { is_locked: false }, id: postId };
+      unLockPost(info);
     }
   };
 
   const handleMarkAsNSFW = () => {
+    const nsfwFlair = document.getElementById(`post-nsfw-${postId}`);
     if (!markedAsNSFW) {
       setMarkedAsNSFW(true);
-      // dispatch(markPostAsNSFW(postId));
+      setNsfw(true);
+      markPostAsNSFW({ id: postId });
     } else {
       setMarkedAsNSFW(false);
-      // dispatch(unmarkPostAsNSFW(postId));
+      setNsfw(false);
+      unMarkPostAsNSFW({ id: postId });
     }
   };
 
   const handleMarkAsSpoiler = () => {
+    const img = document.querySelector(
+      `.post-card .post-content .post-image-${postId}`
+    );
     if (!markedAsSpoiler) {
       setMarkedAsSpoiler(true);
-      // dispatch(spoilPost(postId));
+      spoilPost({ id: postId });
+      img.style.filter = 'blur(60px)';
     } else {
       setMarkedAsSpoiler(false);
-      // dispatch(unSpoilPost(postId));
+      unSpoilPost({ id: postId });
+      img.style.filter = 'none';
     }
   };
 
@@ -272,6 +321,18 @@ function PostInteractions({
     setOpenConfirmationDialog(false);
   };
 
+  const handleSendReplies = () => {
+    if (!replyNotificationsState) {
+      setReplyNotificationsState(true);
+      const info = { request: { state: true }, id: postId };
+      sendReplyNotifications(info);
+    } else {
+      setReplyNotificationsState(false);
+      const info = { request: { state: false }, id: postId };
+      sendReplyNotifications(info);
+    }
+  };
+
   // Returning the result
   return (
     <div
@@ -282,8 +343,8 @@ function PostInteractions({
         {/* voting for small screen  */}
         <SmallScreenVoting
           votesCount={votesCount}
-          divideBigNumber={divideBigNumber}
           postId={postId}
+          currentVotingState={0}
         />
         {/* comments  */}
         <a className="post-comment">
@@ -316,7 +377,7 @@ function PostInteractions({
             <span> unsave</span>
           </a>
         )}
-        {isCommunityPost && isModeratorMode ? (
+        {isModerator ? (
           <>
             {/* // approve */}
             <a
@@ -349,7 +410,7 @@ function PostInteractions({
         ) : null}
 
         {/* post options  */}
-        {isCommunityPost && isModeratorMode ? (
+        {isModerator ? (
           <div
             className="post-options post-more-interactions"
             data-testid="test-post-more-interactions"
@@ -412,21 +473,6 @@ function PostInteractions({
                   </a>
                 </div>
 
-                {/* mark as oc */}
-                <div
-                  className="drop-down-item"
-                  onClick={handleMarkAsOCButton}
-                >
-                  <a>
-                    {markedAsOC ? (
-                      <ImCheckboxChecked fontSize="16px" />
-                    ) : (
-                      <GrCheckbox fontSize="16px" />
-                    )}
-                    <span> Mark As OC</span>
-                  </a>
-                </div>
-
                 {/* mark as nsfw  */}
                 <div
                   className="drop-down-item"
@@ -443,17 +489,31 @@ function PostInteractions({
                 </div>
 
                 {/* mark as spoiler  */}
-                <div
-                  className="drop-down-item"
-                  onClick={handleMarkAsSpoiler}
-                >
-                  <a>
-                    {markedAsSpoiler ? (
+                {canBeSpoiled ? (
+                  <div
+                    className="drop-down-item"
+                    onClick={handleMarkAsSpoiler}
+                  >
+                    <a>
+                      {markedAsSpoiler ? (
+                        <ImCheckboxChecked fontSize="16px" />
+                      ) : (
+                        <GrCheckbox fontSize="16px" />
+                      )}
+                      <span> Mark As Spoiler</span>
+                    </a>
+                  </div>
+                ) : null}
+
+                {/*  Send Replies */}
+                <div className="drop-down-item">
+                  <a onClick={handleSendReplies}>
+                    {replyNotificationsState ? (
                       <ImCheckboxChecked fontSize="16px" />
                     ) : (
                       <GrCheckbox fontSize="16px" />
                     )}
-                    <span> Mark As Spoiler</span>
+                    <span>Send Reply Notifications</span>
                   </a>
                 </div>
               </div>
@@ -490,7 +550,7 @@ function PostInteractions({
                 </a>
               </div>
 
-              {isCommunityPost && isModeratorMode ? (
+              {isModerator ? (
                 <>
                   {/* // edit */}
                   <div className="drop-down-item">
@@ -588,16 +648,9 @@ function PostInteractions({
                       </Button>
                     </DialogActions>
                   </Dialog>
-                  {/*  Add To Collection */}
-                  <div className="drop-down-item">
-                    <a>
-                      <BiAddToQueue fontSize="25px" />
-                      <span> add to collection</span>
-                    </a>
-                  </div>
                 </>
               ) : null}
-              {isCommunityPost && isModeratorMode ? (
+              {isModerator ? (
                 <>
                   {/* save/unsave for responsive design  */}
                   {!saveState ? (

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable linebreak-style */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable comma-dangle */
@@ -5,29 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 // import { Button } from '@mui/material';
 import './ActionComponents.css';
 import { Button } from '@mui/material';
-// import LinkIcon from '@mui/icons-material/Link';
-// import InstagramIcon from '@mui/icons-material/Instagram';
-// import TwitterIcon from '@mui/icons-material/Twitter';
-// import {
-//   FaTiktok,
-//   FaReddit,
-//   FaTwitch,
-//   FaFacebook,
-//   FaYoutube,
-//   FaTumblrSquare,
-//   FaSpotify,
-//   FaSoundcloud,
-//   FaBraille,
-//   FaTree,
-//   FaDiscord,
-//   FaPatreon,
-// } from 'react-icons/fa';
-// import { SiKofi } from 'react-icons/si';
-// import { IoLogoVenmo } from 'react-icons/io5';
-// import { BiDollarCircle } from 'react-icons/bi';
-// import { BsPaypal } from 'react-icons/bs';
-// import { MdCamera } from 'react-icons/md';
-// import '../../../assets/Images/imgsFile';
+
 import onlyFans from '../../../assets/Images/onlyfans.png';
 import custom from '../../../assets/Images/custom.png';
 import instagram from '../../../assets/Images/instagram.png';
@@ -54,21 +33,137 @@ import spotify from '../../../assets/Images/spotify.png';
 import cashApp from '../../../assets/Images/cash_app.png';
 import shopify from '../../../assets/Images/shopify.png';
 
-export default function Box1({
-  setIsShownAdd,
-  setIsShownComp
-  // setIconTitle,
-  // setIcon,
-}) {
+export default function Box1({ setIsShownAdd, setIsShownComp, setNumCom }) {
   const handleClickClose = () => {
     const ele = document.getElementById('confg1');
     ele.style.display = 'none';
     ele.style.visibility = 'hidden';
     setIsShownAdd(false);
   };
-  const handleClickComp = () => {
+  const handleClickComp1 = () => {
     setIsShownComp(true);
     handleClickClose();
+    setNumCom(1);
+  };
+  const handleClickComp2 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(2);
+  };
+  const handleClickComp3 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(3);
+  };
+  const handleClickComp4 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(4);
+  };
+  const handleClickComp5 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(5);
+  };
+  const handleClickComp6 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(6);
+  };
+  const handleClickComp7 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(7);
+  };
+  const handleClickComp8 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(8);
+  };
+  const handleClickComp9 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(9);
+  };
+  const handleClickComp10 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(10);
+  };
+  const handleClickComp11 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(11);
+  };
+  const handleClickComp12 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(12);
+  };
+  const handleClickComp13 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(13);
+  };
+  const handleClickComp14 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(14);
+  };
+  const handleClickComp15 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(15);
+  };
+  const handleClickComp16 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(16);
+  };
+  const handleClickComp17 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(17);
+  };
+  const handleClickComp18 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(18);
+  };
+  const handleClickComp19 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(19);
+  };
+  const handleClickComp20 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(20);
+  };
+  const handleClickComp21 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(21);
+  };
+  const handleClickComp23 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(23);
+  };
+  const handleClickComp24 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(24);
+  };
+  const handleClickComp25 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(25);
+  };
+  const handleClickComp26 = () => {
+    setIsShownComp(true);
+    handleClickClose();
+    setNumCom(26);
   };
   return (
     <div
@@ -83,7 +178,7 @@ export default function Box1({
       </div>
       <div className="contain-2">
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp1}
           variant="outlined"
           startIcon={
             <img
@@ -95,7 +190,7 @@ export default function Box1({
           custom URL
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp2}
           variant="outlined"
           startIcon={
             <img
@@ -107,7 +202,7 @@ export default function Box1({
           Reddit
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp3}
           variant="outlined"
           startIcon={
             <img
@@ -119,7 +214,7 @@ export default function Box1({
           Instagram
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp4}
           variant="outlined"
           startIcon={
             <img
@@ -131,7 +226,7 @@ export default function Box1({
           Twitter
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp5}
           variant="outlined"
           startIcon={
             <img
@@ -143,7 +238,7 @@ export default function Box1({
           Tiktok
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp6}
           variant="outlined"
           startIcon={
             <img
@@ -155,7 +250,7 @@ export default function Box1({
           Twitch
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp7}
           variant="outlined"
           startIcon={
             <img
@@ -167,7 +262,7 @@ export default function Box1({
           Facebook
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp8}
           variant="outlined"
           startIcon={
             <img
@@ -179,7 +274,7 @@ export default function Box1({
           Youtube
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp9}
           variant="outlined"
           startIcon={
             <img
@@ -191,7 +286,7 @@ export default function Box1({
           Tumblr
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp10}
           variant="outlined"
           startIcon={
             <img
@@ -203,7 +298,7 @@ export default function Box1({
           Spotify
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp11}
           variant="outlined"
           startIcon={
             <img
@@ -215,7 +310,7 @@ export default function Box1({
           Soundcloud
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp12}
           variant="outlined"
           startIcon={
             <img
@@ -227,7 +322,7 @@ export default function Box1({
           Beacons
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp13}
           variant="outlined"
           startIcon={
             <img
@@ -239,7 +334,7 @@ export default function Box1({
           Linktree
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp14}
           variant="outlined"
           startIcon={
             <img
@@ -251,7 +346,7 @@ export default function Box1({
           Discord
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp15}
           variant="outlined"
           startIcon={
             <img
@@ -263,7 +358,7 @@ export default function Box1({
           Venmo
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp16}
           variant="outlined"
           startIcon={
             <img
@@ -275,7 +370,7 @@ export default function Box1({
           Cash app
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp17}
           variant="outlined"
           startIcon={
             <img
@@ -287,7 +382,7 @@ export default function Box1({
           Patreon
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp18}
           variant="outlined"
           startIcon={
             <img
@@ -299,7 +394,7 @@ export default function Box1({
           Kofi
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp19}
           variant="outlined"
           startIcon={
             <img
@@ -311,7 +406,7 @@ export default function Box1({
           PayPal
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp20}
           variant="outlined"
           startIcon={
             <img
@@ -323,7 +418,7 @@ export default function Box1({
           Cameo
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp21}
           variant="outlined"
           startIcon={
             <img
@@ -335,7 +430,7 @@ export default function Box1({
           OnlyFans
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp23}
           variant="outlined"
           startIcon={
             <img
@@ -347,7 +442,7 @@ export default function Box1({
           Substack
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp24}
           variant="outlined"
           startIcon={
             <img
@@ -359,7 +454,7 @@ export default function Box1({
           Kickstarter
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp25}
           variant="outlined"
           startIcon={
             <img
@@ -371,7 +466,7 @@ export default function Box1({
           Buy Me a Coffee
         </Button>
         <Button
-          onClick={handleClickComp}
+          onClick={handleClickComp26}
           variant="outlined"
           startIcon={
             <img

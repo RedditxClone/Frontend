@@ -14,7 +14,7 @@ import './index.css';
 // import ResetPassword from './pages/ResetPassword/ResetPassword';
 // import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
 // import ErrorPage from './pages/ErrorPage/ErrorPage';
-// import SubredditCards from './components/SubredditCards/SubredditCards';
+// import Subreddit from './pages/Subreddit/Subreddit';
 // import AccountSettings from './components/AccountSettings/AccountSettings';
 // import UserSettings from './pages/UserSettings/UserSettings';
 // import ProfileSettings from './components/ProfileSettings/ProfileSettings';
@@ -24,11 +24,20 @@ import './index.css';
 // import Emails from './components/Emails/Emails';
 // import Subscriptions from './components/Subscriptions/Subscriptions';
 // import ChatMessaging from './components/ChatMessaging/ChatMessaging';
+import CreatePost from './pages/CreatePost/CreatePost';
+import CommunitiesResults from './components/SearchCards/CommunitiesResults/CommunitiesResults';
+import SearchResults from './pages/SearchResults/SearchResults';
+import PeopleResults from './components/SearchCards/PeopleResults/PeopleResults';
+import CommentsResults from './components/SearchCards/CommentsResults/CommentsResults';
+import PostsResults from './components/SearchCards/PostsResults/PostsResults';
+import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
 import MyProfilePage from './pages/MyProfilePage/MyProfilePage';
 import CommentsForSamePostCard from './components/CommentsCard/CommentsCard';
 import CommentTap from './components/CommentTap/CommentTap';
-import ProfilePost from './components/PorfileUpvotesPosts/ProfileUpvotePosts';
+// import ProfileUpvotePosts from './components/PorfileUpvotesPosts/ProfileUpvotePosts';
+//import UpvotePostList from './components/UpvotePostList/UpvotePostList';
 import OtherProfilePage from './pages/OtherProfilePage/OtherProfilePage';
+import ProfileList from './components/PostListProfile/PostListProfile';
 // Routes
 // const communities = [
 //   {
@@ -73,9 +82,7 @@ const postCommentInfo = {
   postTitle: 'test',
   postLink: 'www.google.com',
   communityName: 'quotes',
-  postOwner: 'Aya_husein',
-  
-  
+  postOwner: 'Aya_husein'
 };
 const commentsForSamePost = [
   {
@@ -85,17 +92,17 @@ const commentsForSamePost = [
     content: 'kkkkkkkk',
     reply: true,
     isModerator: true,
-    spam:false,
-    locked:false,
-    approved:false,
-    removed:false,
-    saved:false,
-    commentLink:'www.google.com',
-    hasRemovalReason:false,
-    removalReason:'',
-    removalInfo:{
-      removalTime:'',
-      removerUser:""///??
+    spam: false,
+    locked: false,
+    approved: false,
+    removed: false,
+    saved: false,
+    commentLink: 'www.google.com',
+    hasRemovalReason: false,
+    removalReason: '',
+    removalInfo: {
+      removalTime: '',
+      removerUser: '' ///??
     }
   },
   {
@@ -105,14 +112,14 @@ const commentsForSamePost = [
     content: 'kkkkkkkk',
     reply: false,
     isModerator: false,
-    spam:false,
-    locked:false,
-    approved:false,
-    removed:false,
-    saved:false,
-    commentLink:'www.google.com',
-    hasRemovalReason:false,
-    removalReason:''
+    spam: false,
+    locked: false,
+    approved: false,
+    removed: false,
+    saved: false,
+    commentLink: 'www.google.com',
+    hasRemovalReason: false,
+    removalReason: ''
   },
   {
     userName: 'Aya_husein',
@@ -121,31 +128,30 @@ const commentsForSamePost = [
     content: 'kkkkkkkk',
     reply: true,
     isModerator: true,
-    spam:false,
-    locked:false,
-    approved:false,
-    removed:false,
-    saved:false,
-    commentLink:'www.google.com',
-    hasRemovalReason:false,
-    removalReason:''
+    spam: false,
+    locked: false,
+    approved: false,
+    removed: false,
+    saved: false,
+    commentLink: 'www.google.com',
+    hasRemovalReason: false,
+    removalReason: ''
   }
 ];
-const comments=[
+const comments = [
   {
-    postCommentInfo:postCommentInfo,
-    commentsForSamePost:commentsForSamePost  
+    postCommentInfo: postCommentInfo,
+    commentsForSamePost: commentsForSamePost
   },
   {
-    postCommentInfo:postCommentInfo,
-    commentsForSamePost:commentsForSamePost  
+    postCommentInfo: postCommentInfo,
+    commentsForSamePost: commentsForSamePost
   },
   {
-    postCommentInfo:postCommentInfo,
-    commentsForSamePost:commentsForSamePost  
+    postCommentInfo: postCommentInfo,
+    commentsForSamePost: commentsForSamePost
   }
 ];
-
 
 // // import PostPorfileList from './components/PostListProfile/PostListProfile';
 // // Routes
@@ -174,17 +180,7 @@ const routes = createBrowserRouter([
     children: [
       {
         path: 'submitted',
-        element: (
-          <ProfilePost
-            postData={Data}
-            isCommunityPost={false}
-            isPostFullDetailsMode={false}
-            isModeratorMode={false}
-            post_type="img"
-            title="this is sport topic"
-            flair_name="Question"
-          />
-        )
+        element: <ProfileList />
       },
       // {
       //   path: 'comments',
@@ -194,96 +190,86 @@ const routes = createBrowserRouter([
       // },
       {
         path: 'history',
-        element: (
-          <ProfilePost
-            postData={Data}
-            isCommunityPost={false}
-            isPostFullDetailsMode={false}
-            isModeratorMode={false}
-            post_type="img"
-            title="this is sport topic"
-            flair_name="Question"
-          />
-        )
+        element: <ProfileList />
       },
       {
         path: 'saved',
-        element: (
-          <ProfilePost
-            postData={Data}
-            isCommunityPost={false}
-            isPostFullDetailsMode={false}
-            isModeratorMode={false}
-            post_type="img"
-            title="this is sport topic"
-            flair_name="Question"
-          />
-        )
+        element: <ProfileList />
       },
       {
         path: 'hidden',
         element: (
-          <ProfilePost
-            postData={Data}
-            isCommunityPost={false}
-            isPostFullDetailsMode={false}
-            isModeratorMode={false}
-            post_type="img"
-            title="this is sport topic"
-            flair_name="Question"
-          />
+          // <UpvotePostList
+          //   postData={Data}
+          //   isCommunityPost={false}
+          //   isPostFullDetailsMode={false}
+          //   isModeratorMode={false}
+          //   post_type="img"
+          //   title="this is sport topic"
+          //   flair_name="Question"
+          // />
+          <ProfileList />
         )
       },
       {
         path: 'upvoted',
-        element: (
-          <ProfilePost
-            postData={Data}
-            isCommunityPost={false}
-            isPostFullDetailsMode={false}
-            isModeratorMode={false}
-            post_type="img"
-            title="this is sport topic"
-            flair_name="Question"
-          />
-        )
+        element: <ProfileList />
       },
       {
         path: 'downvoted',
-        element: (
-          <ProfilePost
-            postData={Data}
-            isCommunityPost={false}
-            isPostFullDetailsMode={false}
-            isModeratorMode={false}
-            post_type="img"
-            title="this is sport topic"
-            flair_name="Question"
-          />
-        )
+        element: <ProfileList />
+      }
+    ]
+  },
+  // {
+  //   path: 'profile_user',
+  //   element: <OtherProfilePage />,
+  //   children: [
+  //     {
+  //       path: 'submitted',
+  //       element: (
+  //         <ProfileUpvotePosts
+  //           postData={Data}
+  //           isCommunityPost={false}
+  //           isPostFullDetailsMode={false}
+  //           isModeratorMode={false}
+  //           post_type="img"
+  //           title="this is sport topic"
+  //           flair_name="Question"
+  //         />
+  //       )
+  //     }
+  //   ]
+  // },
+  {
+    path: '/submit',
+    element: <CreatePost />
+  },
+  {
+    path: '/search',
+    element: <SearchResults />,
+    children: [
+      {
+        path: 'posts',
+        element: <PostsResults />
       },
+      {
+        path: 'comments',
+        element: <CommentsResults />
+      },
+      {
+        path: 'communities',
+        element: <CommunitiesResults />
+      },
+      {
+        path: 'people',
+        element: <PeopleResults />
+      }
     ]
   },
   {
-    path: 'profile_user',
-    element: <OtherProfilePage />,
-    children: [
-      {
-        path: 'submitted',
-        element: (
-          <ProfilePost
-            postData={Data}
-            isCommunityPost={false}
-            isPostFullDetailsMode={false}
-            isModeratorMode={false}
-            post_type="img"
-            title="this is sport topic"
-            flair_name="Question"
-          />
-        )
-      }
-    ]
-
+    path: '/subreddit/about/:item',
+    element: <ModToolsPage />
   }
   // <CommentTap comments={comments} />
   // ,
