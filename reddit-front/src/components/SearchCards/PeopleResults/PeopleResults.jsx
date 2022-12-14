@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable react/no-array-index-key */
@@ -18,21 +19,21 @@ import {
   StyledDescription,
   StyledHeading
 } from './PeopleResults.Style';
-import retrieveResults from '../../../services/requests/Search';
+import { retrieveResults } from '../../../services/requests/Search';
 import Loader from '../../../utilities/Loader/Loader';
 
 /**
  * @typedef PropType
  * @property {bool} isSideBarCard // To show the results in a side bar cards
+ * @property {string} searchKey
  */
 
 /**
  * This Component for the showing the users related to the key of the searching.
  *
  */
-function PeopleResults({ isSideBarCard }) {
+function PeopleResults({ isSideBarCard, searchKey }) {
   // states
-  const searchKey = 'test'; // for testing
   const [result, setResult] = useState([]);
   const slicingSize = isSideBarCard ? 4 : result.length;
   const [statusCode, setStatusCode] = useState(0);
@@ -42,10 +43,11 @@ function PeopleResults({ isSideBarCard }) {
     const fetchResults = async () => {
       const results = await retrieveResults({
         key: searchKey,
-        searchingCategory: 'people'
+        searchingCategory: 'peoples'
       });
       setResult(results.data);
       setStatusCode(results.statusCode);
+      console.log(result);
     };
     fetchResults();
   }, []);
@@ -128,10 +130,10 @@ function PeopleResults({ isSideBarCard }) {
                   </StyledLogoContainer>
                   <div>
                     <StyledUsername data-testid="username-search">
-                      {`u/${item.name}`}
+                      {`u/${item.username}`}
                     </StyledUsername>
                     <StyledDescription>
-                      {!isSideBarCard ? item.description : null}
+                      {!isSideBarCard ? item.about : null}
                     </StyledDescription>
                   </div>
                 </NameLogoContainer>
@@ -140,7 +142,7 @@ function PeopleResults({ isSideBarCard }) {
                   data-testid="community-follow-button"
                   data-isFollowed={item.followed}
                   onClick={() =>
-                    handleFollowButton(this, item.user_id, item.followed)
+                    handleFollowButton(this, item._id, item.followed)
                   }
                   onMouseOver={handleHoveringOnFollowButton}
                   onMouseOut={handleHoveringOutFollowButton}

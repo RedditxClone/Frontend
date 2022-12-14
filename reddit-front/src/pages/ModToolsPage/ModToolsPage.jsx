@@ -17,6 +17,7 @@ import {
   SideBarItem
 } from './ModToolsPage.Style';
 import './ModToolsPage.css';
+import ModQueue from '../../components/ModQueue/ModQueue';
 
 /**
  * This Component for the Moderator Tools Page
@@ -143,21 +144,48 @@ function ModToolsPage() {
             <SideBarItem
               to="/subreddit/about/spam"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem('spam', <Box />)}
+              onClick={handleClickOnSidebarItem(
+                'spam',
+                <ModQueue
+                  sortType="any"
+                  isCommunityPost={false}
+                  isModeratorMode={false}
+                  isHomePagePost={false}
+                  whichQueue="spam"
+                />
+              )}
             >
               spam
             </SideBarItem>
             <SideBarItem
               to="/subreddit/about/edited"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem('edited', <Box />)}
+              onClick={handleClickOnSidebarItem(
+                'edited',
+                <ModQueue
+                  sortType="any"
+                  isCommunityPost={false}
+                  isModeratorMode={false}
+                  isHomePagePost={false}
+                  whichQueue="edited"
+                />
+              )}
             >
               edited
             </SideBarItem>
             <SideBarItem
               to="/subreddit/about/unmoderated"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem('unmoderated', <Box />)}
+              onClick={handleClickOnSidebarItem(
+                'unmoderated',
+                <ModQueue
+                  sortType="any"
+                  isCommunityPost={false}
+                  isModeratorMode={false}
+                  isHomePagePost={false}
+                  whichQueue="unmoderated"
+                />
+              )}
             >
               unmoderated
             </SideBarItem>
