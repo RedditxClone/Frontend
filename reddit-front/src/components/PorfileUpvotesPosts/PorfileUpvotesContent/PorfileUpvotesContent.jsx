@@ -77,14 +77,76 @@ function PostContent({
     const contentType = postContentData.post_type;
     const mediaCount = postContentData.media_count;
     switch (contentType) {
+      // case 'img':
+      //   // if (mediaCount > 1) {
+      //   //   postContent = (
+      //   //     <>
+      //   //       <div className="my-slides fade">
+      //   //         <img
+      //   //           src={Logo}
+      //   //           alt="post image"
+      //   //         />
+      //   //       </div>
+      //   //       <div className="my-slides fade">
+      //   //         <img
+      //   //           src={Logo}
+      //   //           alt="post image"
+      //   //         />
+      //   //       </div>
+      //   //       <div className="my-slides fade">
+      //   //         <img
+      //   //           src={Logo}
+      //   //           alt="post image"
+      //   //         />
+      //   //       </div>
+      //   //       <button
+      //   //         type="button"
+      //   //         className="prev"
+      //   //         onClick={prevSlide}
+      //   //       >
+      //   //         ❮
+      //   //       </button>
+      //   //       <button
+      //   //         type="button"
+      //   //         className="next"
+      //   //         onClick={nextSlide}
+      //   //       >
+      //   //         ❯
+      //   //       </button>
+      //   //     </>
+      //   //   );
+      //   //   // showSlides();
+      //   // } else {
+      //   postContent = (
+      //     <div className="post-image">
+      //       <img
+      //         src={Logo}
+      //         alt="post image"
+      //       />
+      //     </div>
+      //   );
+      //   // }
+      //   break;
+      // case 'video':
+      //   postContent = (
+      //     <video
+      //       controls="true"
+      //       muted="false"
+      //       preload="auto"
+      //       className="post-content-video"
+      //     >
+      //       <source
+      //         src=""
+      //         type="video/mp4"
+      //       />
+      //     </video>
+      //   );
+      //   break;
       case 'img':
         postContent = (
-          <div className="post-image">
-            <img
-              src={Logo}
-              alt="post image"
-            />
-          </div>
+          <a className="post-withoutPic">
+            <TiDocumentText />
+          </a>
         );
         expandPostContent = (
           <div style={{ width: '50%', height: '50%' }}>

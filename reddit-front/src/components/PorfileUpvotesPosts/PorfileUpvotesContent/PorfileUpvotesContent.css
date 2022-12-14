@@ -99,6 +99,24 @@
   display: block;
   border-radius: 3px;
 }
+
+.post-main-content .post-content-core .post-withoutPic{
+  align-items: center;
+  border-radius: 2px;
+  line-height: 1.6rem;
+  box-sizing: border-box;
+  color: #949494;
+  word-break: normal;
+  border: 1px solid rgb(237, 239, 241);
+  /* position: relative; */
+  padding: 50%;
+  font-size: 20px;
+  border-radius: 3px;
+  font-weight: 400;
+ width: 20%;
+  margin:10px;
+  background-color: #F8F8F8;
+}
 .post-content-core .next,
 .post-content-core .prev {
   display: inline-block;
