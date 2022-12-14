@@ -59,7 +59,7 @@
   position: absolute;
   top: 3.8rem;
   left: 0px;
-  width: 20rem;
+  width: 24rem;
   border-radius: 5px;
   display: none;
   visibility: hidden;
@@ -164,7 +164,7 @@
   align-items: center;
   flex-direction: row;
   padding: 1rem 5px;
-  color: #bfc0c1;
+  color: #878787;
 }
 .post-interactions .post-hide span,
 .post-interactions .drop-down-item span {

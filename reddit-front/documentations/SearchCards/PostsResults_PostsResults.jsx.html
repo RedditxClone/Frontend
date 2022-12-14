@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PostsResults/PostsResults.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PostsResults/PostsResults.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/no-array-index-key */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable react/jsx-closing-tag-location */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable no-unused-vars */
+import { ThemeProvider } from '@mui/material';
+import { memo, useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import {
+  RootContainer,
+  SingleResultContainer
+} from '../PeopleResults/PeopleResults.Style';
+
+import { searchTheme } from '../../../pages/SearchResults/SearchCards.Style';
+import {
+  PostInfo,
+  PostStatistics,
+  StyledLogo,
+  Username,
+  StyledSpan,
+  UpVotes,
+  Comments
+} from '../CommentsResults/CommentsResults.Style';
+import CommunitiesResults from '../CommunitiesResults/CommunitiesResults';
+import PeopleResults from '../PeopleResults/PeopleResults';
+import { divideBigNumber } from '../../../utilities/Helpers';
+import retrieveResults from '../../../services/requests/Search';
+import CreateCommunity from '../../CreateCommunity/CreateCommunity';
+
+import {
+  ResultsContainer,
+  SideCardsContainer,
+  PostTitle,
+  SearchResults,
+  Flair,
+  ImageContainer
+} from './PostsResults.Style';
+
+/**
+ * This Component for the showing the posts related to the key of the searching.
+ *
+ */
+function PostsResults() {
+  // states
+  const searchKey = 'test'; // for testing
+  const [result, setResult] = useState([]);
+  const [time, setTime] = useState('');
+  const [sort, setSort] = useState('');
+  const [isFinished, setIsFinished] = useState(false);
+
+  // Fetching the results by calling the fetch service
+  useEffect(() => {
+    const fetchResults = async () => {
+      const results = await retrieveResults({
+        key: searchKey,
+        searchingCategory: 'posts',
+        sort: sort === '' ? null : sort,
+        time: time === '' ? null : time
+      });
+      setResult(results);
+      setIsFinished(true);
+    };
+    fetchResults();
+  }, [time, sort]);
+
+  const handleSorting = (event) => {
+    setSort(event.target.value);
+  };
+  const handleTiming = (event) => {
+    setTime(event.target.value);
+  };
+
+  return (
+    &lt;ThemeProvider theme={searchTheme}>
+      {/* Sorting the posts */}
+      &lt;Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-start'
+        }}
+      >
+        {/* Sorting the posts */}
+        &lt;Box
+          className="sort-relevance"
+          sx={{
+            width: '11rem',
+            marginTop: '2rem',
+            '&amp; > div label': {
+              fontSize: '14px',
+              color: 'black',
+              fontWeight: '500',
+              verticalAlign: 'top'
+            }
+          }}
+        >
+          &lt;FormControl fullWidth>
+            &lt;InputLabel id="select-sort">Sort&lt;/InputLabel>
+            &lt;Select
+              labelId="select-sort"
+              id="demo-simple-select"
+              value={sort}
+              label="Sort"
+              onChange={handleSorting}
+              sx={{
+                borderRadius: '50px',
+                '&amp; svg': {
+                  width: '2rem',
+                  height: '2rem'
+                }
+              }}
+            >
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={0}
+              >
+                Relevance
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={1}
+              >
+                Hot
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={2}
+              >
+                Top
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={3}
+              >
+                New
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={4}
+              >
+                Most Comments
+              &lt;/MenuItem>
+            &lt;/Select>
+          &lt;/FormControl>
+        &lt;/Box>
+
+        {/* Sorting the posts relative to the time */}
+        &lt;Box
+          className="sort-time"
+          sx={{
+            width: '11rem',
+            marginTop: '2rem',
+            marginLeft: '2rem',
+            '&amp; > div label': {
+              fontSize: '14px',
+              color: 'black',
+              fontWeight: '500',
+              verticalAlign: 'top'
+            }
+          }}
+        >
+          &lt;FormControl fullWidth>
+            &lt;InputLabel id="select-time-label">Time&lt;/InputLabel>
+            &lt;Select
+              labelId="select-time-label"
+              id="select-time"
+              value={time}
+              label="Time"
+              onChange={handleTiming}
+              sx={{
+                borderRadius: '50px',
+                '&amp; svg': {
+                  width: '2rem',
+                  height: '2rem'
+                }
+              }}
+            >
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={0}
+              >
+                All Time
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={1}
+              >
+                Past Year
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={2}
+              >
+                Past Month
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={3}
+              >
+                Past Week
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={4}
+              >
+                Past 24 Hours
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={5}
+              >
+                Past Hour
+              &lt;/MenuItem>
+            &lt;/Select>
+          &lt;/FormControl>
+        &lt;/Box>
+      &lt;/Box>
+
+      {/* Posts results  */}
+      &lt;RootContainer
+        sx={{
+          border: 'none',
+          justifyContent: 'space-between'
+        }}
+      >
+        &lt;ResultsContainer
+          sx={{
+            backgroundColor: 'white',
+            marginRight: '1.5rem',
+            flexDirection: 'column',
+            borderRadius: '5px',
+            border: '.5px solid #ccc'
+          }}
+        >
+          {result.length === 0 &amp;&amp; isFinished ? (
+            &lt;h3>No data found.&lt;/h3>
+          ) : (
+            result.map((item, index) => (
+              //  result container
+              &lt;SingleResultContainer
+                key={`people-result-${index}`}
+                sx={{
+                  flexDirection: 'column',
+                  ':hover': {
+                    border: '.5px solid black'
+                    // borderRadius: '5px'
+                  }
+                }}
+              >
+                {/* Post info ( posted by, time, ..) */}
+                &lt;PostInfo>
+                  &lt;StyledLogo>
+                    &lt;img
+                      style={{
+                        width: '100%',
+                        height: '100%'
+                      }}
+                      src="https://styles.redditmedia.com/t5_2rr0e/styles/communityIcon_ylhgbe8ngx481.jpg?width=256&amp;s=1bcbaeab5d6b9e79ad2b820ce7bf7b86b1cf3af5"
+                      alt="community logo"
+                    />
+                  &lt;/StyledLogo>
+                  &lt;Username>{`r/${item.subreddit_name}`}&lt;/Username>
+                  &lt;StyledSpan>
+                    &lt;span>
+                      Posted by
+                      &lt;Username> {` u/${item.posted_by}`}&lt;/Username>
+                      {`${item.posted_since} ago`}
+                    &lt;/span>
+                  &lt;/StyledSpan>
+                &lt;/PostInfo>
+
+                {/* Post search result */}
+                &lt;SearchResults>
+                  &lt;div>
+                    &lt;PostTitle variant="h3">{`${item.post_title}`}&lt;/PostTitle>
+                    {item.post_flairs.length > 0
+                      ? item.post_flairs.map((flair) => &lt;Flair>{flair}&lt;/Flair>)
+                      : null}
+                  &lt;/div>
+                  {item.post_img &amp;&amp; (
+                    &lt;ImageContainer>
+                      &lt;img
+                        src="https://i.redd.it/5ldbdyaihku91.jpg"
+                        style={{ width: '100%', height: '100%' }}
+                      />
+                    &lt;/ImageContainer>
+                  )}
+                &lt;/SearchResults>
+
+                {/* Number of comments and upvotes  */}
+                &lt;PostStatistics>
+                  &lt;UpVotes>
+                    {divideBigNumber(item.upvotes_count)} upvotes
+                  &lt;/UpVotes>
+                  &lt;Comments>
+                    {divideBigNumber(item.comments_count)} Comments
+                  &lt;/Comments>
+                &lt;/PostStatistics>
+              &lt;/SingleResultContainer>
+            ))
+          )}
+        &lt;/ResultsContainer>
+
+        &lt;SideCardsContainer>
+          &lt;div
+            style={{
+              width: '100%',
+              backgroundColor: 'white',
+              borderRadius: '5px'
+            }}
+          >
+            &lt;CommunitiesResults isSideBarCard={true} />
+          &lt;/div>
+
+          &lt;div
+            style={{
+              width: '100%',
+              backgroundColor: 'white',
+              borderRadius: '5px'
+            }}
+          >
+            &lt;PeopleResults isSideBarCard={true} />
+          &lt;/div>
+
+          &lt;div
+            style={{
+              width: '100%',
+              backgroundColor: 'white',
+              borderRadius: '5px'
+            }}
+          >
+            &lt;CreateCommunity />
+          &lt;/div>
+        &lt;/SideCardsContainer>
+      &lt;/RootContainer>
+    &lt;/ThemeProvider>
+  );
+}
+
+export default memo(PostsResults);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Comment">Comment</a></li><li><a href="global.html#CommentContainer">CommentContainer</a></li><li><a href="global.html#CommentContent">CommentContent</a></li><li><a href="global.html#Comments">Comments</a></li><li><a href="global.html#CommentsResults">CommentsResults</a></li><li><a href="global.html#CommunitiesResults">CommunitiesResults</a></li><li><a href="global.html#Flair">Flair</a></li><li><a href="global.html#FollowButton">FollowButton</a></li><li><a href="global.html#GoToThread">GoToThread</a></li><li><a href="global.html#ImageContainer">ImageContainer</a></li><li><a href="global.html#MembersCount">MembersCount</a></li><li><a href="global.html#NameLogoContainer">NameLogoContainer</a></li><li><a href="global.html#PeopleResults">PeopleResults</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostsResults">PostsResults</a></li><li><a href="global.html#PostStatistics">PostStatistics</a></li><li><a href="global.html#PostTitle">PostTitle</a></li><li><a href="global.html#ResultsContainer">ResultsContainer</a></li><li><a href="global.html#RootContainer">RootContainer</a></li><li><a href="global.html#SearchResults">SearchResults</a></li><li><a href="global.html#SideCardsContainer">SideCardsContainer</a></li><li><a href="global.html#SingleResultContainer">SingleResultContainer</a></li><li><a href="global.html#StyledCommunityName">StyledCommunityName</a></li><li><a href="global.html#StyledDescription">StyledDescription</a></li><li><a href="global.html#StyledHeading">StyledHeading</a></li><li><a href="global.html#StyledLogo">StyledLogo</a></li><li><a href="global.html#StyledLogoContainer">StyledLogoContainer</a></li><li><a href="global.html#StyledSpan">StyledSpan</a></li><li><a href="global.html#StyledUsername">StyledUsername</a></li><li><a href="global.html#UpVotes">UpVotes</a></li><li><a href="global.html#Username">Username</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Tue Nov 15 2022 22:37:28 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

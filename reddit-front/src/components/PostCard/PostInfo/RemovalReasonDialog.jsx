@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Input from '@mui/material/Input';
 import { useDispatch } from 'react-redux';
-import { removePost } from '../../../redux/slices/PostInteractionsSlice';
+import { removePost } from '../../../services/requests/Post';
 
 function RemovalReasonDialog({ open, handleClose, postId }) {
   const maxRemovalReasonLength = 100;

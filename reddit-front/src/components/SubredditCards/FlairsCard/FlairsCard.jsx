@@ -1,22 +1,38 @@
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable no-unused-vars */
 import Box from '@mui/material/Box';
-import { memo } from 'react';
+import { useState, useEffect, memo } from 'react';
 import {
   FlairsContainer,
   FlairItemContainer,
   FlairItem
 } from './FlairsCard.Style';
 import CardHeader from '../CardHeader/CardHeader';
-
+import { getFlairsList } from '../../../services/requests/Subreddit';
 /**
  * @typedef PropType
  * @property {string, color} baseColor
+ * @property {Integer} subredditId
  */
 
 /**
  * This Component for the flairs Card.
  *
  */
-function FlairsCard({ baseColor }) {
+function FlairsCard({ baseColor, subredditId }) {
+  const [flairsList, setFlairsList] = useState([]);
+
+  useEffect(() => {
+    // Fetching the data of the flairs
+    const fetchFlairs = async () => {
+      const results = await getFlairsList({ id: subredditId });
+      setFlairsList(results[0].list);
+    };
+
+    fetchFlairs();
+  }, []);
+
   return (
     <FlairsContainer
       className="filter-by-flair"
@@ -42,21 +58,13 @@ function FlairsCard({ baseColor }) {
             className="flairs-content"
           >
             <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-              <FlairItemContainer>
-                <FlairItem>first</FlairItem>
-              </FlairItemContainer>
-              <FlairItemContainer>
-                <FlairItem>second</FlairItem>
-              </FlairItemContainer>
-              <FlairItemContainer>
-                <FlairItem>third</FlairItem>
-              </FlairItemContainer>
-              <FlairItemContainer>
-                <FlairItem>fourth</FlairItem>
-              </FlairItemContainer>
-              <FlairItemContainer>
-                <FlairItem>fifth</FlairItem>
-              </FlairItemContainer>
+              {flairsList.length > 0
+                ? flairsList.map((item) => (
+                    <FlairItemContainer>
+                      <FlairItem>first</FlairItem>
+                    </FlairItemContainer>
+                  ))
+                : null}
             </ul>
           </Box>
         </Box>
