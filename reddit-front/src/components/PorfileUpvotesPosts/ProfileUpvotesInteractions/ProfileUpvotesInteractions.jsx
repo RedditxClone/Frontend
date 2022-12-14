@@ -18,7 +18,13 @@ import { useDispatch } from 'react-redux';
 import { GoComment } from 'react-icons/go';
 import { ImCheckboxChecked } from 'react-icons/im';
 import { VscEdit } from 'react-icons/vsc';
-import { AiOutlineDelete } from 'react-icons/ai';
+import {
+  AiOutlineDelete,
+  AiOutlineFullscreen,
+  AiOutlineFullscreenExit,
+  AiOutlineEyeInvisible,
+  AiOutlineEye
+} from 'react-icons/ai';
 import { RiSpamLine } from 'react-icons/ri';
 import { TiTickOutline } from 'react-icons/ti';
 import { CiNoWaitingSign } from 'react-icons/ci';
@@ -32,10 +38,8 @@ import SmallScreenVoting from '../Voting/SmallScreenVoting/SmallScreenVoting';
 import {
   approvePost,
   unApprovePost,
-  deletePost,
   removePost,
   unRemovePost,
-  hidePost,
   savePost,
   unSavePost,
   lockPost,
@@ -52,10 +56,9 @@ import {
   spoilPost,
   unSpoilPost
 } from '../../../services/requests/Post';
-
+import { deletePost, hidePost } from '../../../services/requests/ProfilePosts';
 /**
  * @typedef PropType
- * @property {function} setHidePost
  * @property {number} commentsCount
  * @property {number} votesCount
  * @property {number} postId
@@ -77,7 +80,6 @@ import {
  *
  */
 function PostInteractions({
-  setHidePost,
   commentsCount,
   votesCount,
   postId,
@@ -95,7 +97,9 @@ function PostInteractions({
   isSpoiled,
   replyNotifications,
   canBeSpoiled,
-  isModerator
+  isModerator,
+  showContent,
+  showContentHandler
 }) {
   const [saveState, setSaveState] = useState(isSaved);
   const [isApproved, setIsApproved] = useState(isPostApproved);
@@ -111,6 +115,10 @@ function PostInteractions({
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [isRemoved, setIsRemoved] = useState(false);
   const [isSpammed, setIsSpammed] = useState(false);
+  const [hidePostt, setHidePost] = useState(false);
+  let hide = hidePost;
+  // request
+  // icon
 
   // Handler Methods
   const handleSavePost = () => {
@@ -124,7 +132,6 @@ function PostInteractions({
       unSavePost(info);
     }
   };
-
   /* This function shows the dropdown for more interactions on the post */
   const handleClickMoreInteractions = () => {
     // showing the dropdown
@@ -151,8 +158,16 @@ function PostInteractions({
   };
 
   const handleHideButton = () => {
-    setHidePost(true);
-    hidePost({ id: postId });
+    hide = !hidePostt;
+
+    setHidePost(hide);
+    const info = {
+      request: {
+        is_hidden: hide
+      },
+      id: postId
+    };
+    hidePost(info);
   };
 
   const handleApproveButton = (id) => {
@@ -232,12 +247,19 @@ function PostInteractions({
 
   const handleDeletePost = () => {
     setOpenConfirmationDialog(false);
-    const request = { id: postId };
-    deletePost(request);
+    const info = {
+      request: {
+        is_deleted: true
+      },
+      id: postId
+    };
+    console.log('nada');
+    console.log(info.request.is_deleted);
+    deletePost(info);
 
     // remove post from ui
-    const postCard = document.getElementById(`post-${postId}`);
-    if (postCard) postCard.style.display = 'none';
+    // const postCard = document.getElementById(`post-${postId}`);
+    // if (postCard) postCard.style.display = 'none';
   };
 
   const handleStickyButton = () => {
@@ -347,8 +369,15 @@ function PostInteractions({
           postId={postId}
           currentVotingState={0}
         />
-        <a className="post-expand">
-          <CgArrowsExpandLeft />
+        <a
+          className="post-expand"
+          onClick={showContentHandler}
+        >
+          {showContent ? (
+            <AiOutlineFullscreenExit style={{ fontSize: '2rem' }} />
+          ) : (
+            <AiOutlineFullscreen style={{ fontSize: '2rem' }} />
+          )}
         </a>
         {/* comments  */}
         <a className="post-comment">
@@ -549,7 +578,11 @@ function PostInteractions({
                 onClick={handleHideButton}
               >
                 <a>
-                  <BiHide fontSize="25px" />
+                  {hidePostt ? (
+                    <AiOutlineEye fontSize="25px" />
+                  ) : (
+                    <AiOutlineEyeInvisible fontSize="25px" />
+                  )}
                   <span> hide</span>
                 </a>
               </div>

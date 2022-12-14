@@ -51,10 +51,8 @@ function ProfileUpvotePosts({
   isCommunityPost,
   isPinned
 }) {
-  const [hidePost, setHidePost] = useState(false);
-
   // Returning the result
-  return !hidePost ? (
+  return (
     <div
       className="post-card"
       key={postData.id}
@@ -70,7 +68,6 @@ function ProfileUpvotePosts({
           isDownvotedd={isDownvoted}
         />
         <PostContent
-          setHidePost={setHidePost}
           postContentData={postData}
           isPostFullDetailsMode={isPostFullDetailsMode}
           isSaved={isSaved}
@@ -92,7 +89,7 @@ function ProfileUpvotePosts({
         />
       </PostContainer>
     </div>
-  ) : null;
+  );
 }
 
 export default ProfileUpvotePosts;

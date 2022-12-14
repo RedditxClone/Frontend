@@ -13,6 +13,7 @@ import { FcApproval, FcLock } from 'react-icons/fc';
 import { BsFillShieldFill } from 'react-icons/bs';
 import { RiSpamLine } from 'react-icons/ri';
 import { CiNoWaitingSign } from 'react-icons/ci';
+import { TbArrowsCross } from 'react-icons/tb';
 import {
   getPostRelatedCommunityInfo,
   getPostRelatedUserInfo,
@@ -58,7 +59,8 @@ function PostInfo({
   isNSFW,
   isLocked,
   isDistinguishedAsMode,
-  isFollowed
+  isFollowed,
+  isCrosspost
 }) {
   const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
   const [isPostFollowed, setIsPostFollowed] = useState(isFollowed);
@@ -156,82 +158,90 @@ function PostInfo({
       data-testid="test-post-info"
     >
       {/* Community logo on the post card  */}
-      {!isCommunityPost ? (
-        <div
-          className="community-logo"
-          data-testid="test-post-logo"
-        >
-          <a className="community-logo-link">
-            <img
-              src={Logo}
-              alt="community Logo"
-            />
-          </a>
-        </div>
-      ) : null}
-
+      {/* <div
+        className="community-logo"
+        data-testid="test-post-logo"
+      >
+        <a className="community-logo-link">
+          <img
+            src={Logo}
+            alt="community Logo"
+          />
+        </a>
+      </div> */}
       {/* post info details -> username, time, community name */}
       <div className="post-info-details">
-        {!isCommunityPost ? (
+        <div
+          className="community-name"
+          onMouseOver={handleHoverOnSubreddit}
+          onFocus={handleHoverOnSubreddit}
+          onMouseOut={handleHoverOutSubreddit}
+          onBlur={handleHoverOutSubreddit}
+          data-testid="test-post-community-name"
+        >
+          <a href="#">{getCommunityName()}</a>
           <div
-            className="community-name"
-            onMouseOver={handleHoverOnSubreddit}
-            onFocus={handleHoverOnSubreddit}
-            onMouseOut={handleHoverOutSubreddit}
-            onBlur={handleHoverOutSubreddit}
-            data-testid="test-post-community-name"
+            className="community-information"
+            id={'community-information-post-' + postId}
           >
-            <a href="#">{getCommunityName()}</a>
-            <div
-              className="community-information"
-              id={'community-information-post-' + postId}
-            >
-              <div className="community-information-header">
-                <div className="community-logo-2">
-                  <img
-                    src={Logo}
-                    alt="community logo"
-                  />
-                </div>
-                <h3 className="community-name-2">
-                  <a href="#">{getCommunityName()}</a>
-                </h3>
+            <div className="community-information-header">
+              <div className="community-logo-2">
+                <img
+                  src={Logo}
+                  alt="community logo"
+                />
               </div>
-              <div className="community-stats">
-                <div className="community-stats-item">
-                  <span className="members-count">
-                    {/* {divideBigNumber(postRelatedCommunityData.members_count)} */}
-                    1234
-                  </span>
-                  <span>members</span>
-                </div>
-                <div className="community-stats-item">
-                  <span className="online-members">
-                    {/* {divideBigNumber(postRelatedCommunityData.online_members)} */}
-                    123
-                  </span>
-                  <span>online</span>
-                </div>
+              <h3 className="community-name-2">
+                <a href="#">{getCommunityName()}</a>
+              </h3>
+            </div>
+            <div className="community-stats">
+              <div className="community-stats-item">
+                <span className="members-count">
+                  {/* {divideBigNumber(postRelatedCommunityData.members_count)} */}
+                  1234
+                </span>
+                <span>members</span>
               </div>
-              <div className="community-description-text">
-                <p>
-                  test
-                  {/* {postRelatedCommunityData.description} */}
-                </p>
-              </div>
-              <div className="community-view-button">
-                <a
-                  href="#"
-                  className="view-community"
-                >
-                  view community
-                </a>
+              <div className="community-stats-item">
+                <span className="online-members">
+                  {/* {divideBigNumber(postRelatedCommunityData.online_members)} */}
+                  123
+                </span>
+                <span>online</span>
               </div>
             </div>
+            <div className="community-description-text">
+              <p>
+                test
+                {/* {postRelatedCommunityData.description} */}
+              </p>
+            </div>
+            <div className="community-view-button">
+              <a
+                href="#"
+                className="view-community"
+              >
+                view community
+              </a>
+            </div>
           </div>
-        ) : null}
-
-        <span className="posted-by">Posted by</span>
+        </div>
+        &ensp;
+        {isCrosspost ? (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center'
+            }}
+          >
+            <TbArrowsCross style={{ fontSize: '1.3rem', color: '#0079D3' }} />
+            <span className="posted-by">crossposted by</span>
+          </div>
+        ) : (
+          <span className="posted-by">Posted by</span>
+        )}
         <div
           className="post-user-info"
           onMouseOver={handleHoverOnUsername}
@@ -390,7 +400,6 @@ function PostInfo({
           </span>
         ) : null}
       </div>
-
       {/* Add removal reason card  */}
       <RemovalReasonDialog
         open={openRemovalDialog}
@@ -406,7 +415,6 @@ function PostInfo({
           Join
         </button>
       ) : null}
-
       {/* showing follow button in the full details mode of the post  */}
       {/* {isPostFullDetailsMode ? (
         <a onClick={handleFollowPost}>

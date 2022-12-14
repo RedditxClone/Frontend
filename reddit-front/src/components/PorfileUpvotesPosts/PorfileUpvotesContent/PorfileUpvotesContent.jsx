@@ -18,7 +18,6 @@ import Logo from './test.png';
 
 /**
  * @typedef PropType
- * @property {bool} setHidePost
  * @property {object} postContentData
  * @property {bool} isCommunityPost
  * @property {bool} isPostFullDetailsMode
@@ -33,7 +32,6 @@ import Logo from './test.png';
  *
  */
 function PostContent({
-  setHidePost,
   postContentData,
   isPostFullDetailsMode,
   isSaved,
@@ -77,75 +75,13 @@ function PostContent({
     const contentType = postContentData.post_type;
     const mediaCount = postContentData.media_count;
     switch (contentType) {
-      // case 'img':
-      //   // if (mediaCount > 1) {
-      //   //   postContent = (
-      //   //     <>
-      //   //       <div className="my-slides fade">
-      //   //         <img
-      //   //           src={Logo}
-      //   //           alt="post image"
-      //   //         />
-      //   //       </div>
-      //   //       <div className="my-slides fade">
-      //   //         <img
-      //   //           src={Logo}
-      //   //           alt="post image"
-      //   //         />
-      //   //       </div>
-      //   //       <div className="my-slides fade">
-      //   //         <img
-      //   //           src={Logo}
-      //   //           alt="post image"
-      //   //         />
-      //   //       </div>
-      //   //       <button
-      //   //         type="button"
-      //   //         className="prev"
-      //   //         onClick={prevSlide}
-      //   //       >
-      //   //         ❮
-      //   //       </button>
-      //   //       <button
-      //   //         type="button"
-      //   //         className="next"
-      //   //         onClick={nextSlide}
-      //   //       >
-      //   //         ❯
-      //   //       </button>
-      //   //     </>
-      //   //   );
-      //   //   // showSlides();
-      //   // } else {
-      //   postContent = (
-      //     <div className="post-image">
-      //       <img
-      //         src={Logo}
-      //         alt="post image"
-      //       />
-      //     </div>
-      //   );
-      //   // }
-      //   break;
-      // case 'video':
-      //   postContent = (
-      //     <video
-      //       controls="true"
-      //       muted="false"
-      //       preload="auto"
-      //       className="post-content-video"
-      //     >
-      //       <source
-      //         src=""
-      //         type="video/mp4"
-      //       />
-      //     </video>
-      //   );
-      //   break;
       case 'img':
         postContent = (
-          <a className="post-withoutPic">
-            <TiDocumentText />
+          <a className="post-image">
+            <img
+              src={Logo}
+              alt="post image"
+            />
           </a>
         );
         expandPostContent = (
@@ -289,11 +225,11 @@ function PostContent({
             isLocked={locked}
             isDistinguishedAsMode={distinguishAsMod}
             isFollowed={postContentData.follow}
+            isCrosspost={isCrosspost}
           />
 
           {/* post interactions -> comment, save, hide, ..  */}
           <PostInteractions
-            setHidePost={setHidePost}
             commentsCount={divideBigNumber(postContentData.comments_count)}
             votesCount={postContentData.votes}
             postId={postContentData.id}
@@ -317,8 +253,9 @@ function PostContent({
             isDownvoted={isDownvoted}
             isDeleted={isDeleted}
             isModerator={isModerator}
-            isCrosspost={isCrosspost}
             isPinned={isPinned}
+            showContent={content}
+            showContentHandler={showContentt}
           />
         </div>
       </div>

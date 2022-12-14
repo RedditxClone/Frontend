@@ -7,7 +7,7 @@
 import { useEffect, useState } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { Box, Divider } from '@mui/material';
-import getPosts from '../../services/requests/ProfilePosts';
+import { getPosts } from '../../services/requests/ProfilePosts';
 // eslint-disable-next-line import/named
 import ProfileUpvotePosts from '../PorfileUpvotesPosts/ProfileUpvotePosts';
 // import StyledHorizontalLine from '../../utilities/StyledHorizontalLine/StyledHorizontalLine';
@@ -38,7 +38,7 @@ function ProfileList() {
   // Preparing the data of the post to get displayed
   const postsData =
     posts.length > 0
-      ? posts.map((post) => (post.is_upvoted ? (
+      ? posts.map((post) => (post.is_upvoted && !post.is_deleted ? (
             <div style={{ width: '100%' }}>
               <ProfileUpvotePosts
                 key={post.id}
