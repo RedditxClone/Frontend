@@ -1,32 +1,6 @@
 import TrafficChart from './TrafficChart';
 import TrafficTable from './TrafficTable';
 
-const tableList = [
-  {
-    time: 'Sun',
-    members: 1500
-  },
-  {
-    time: 'Sun',
-    members: 1500
-  },
-  {
-    time: 'Sun',
-    members: 1500
-  },
-  {
-    time: 'Sun',
-    members: 1500
-  },
-  {
-    time: 'Sun',
-    members: 1500
-  },
-  {
-    time: 'Sun',
-    members: 222222
-  }
-];
 /**
  * @description This component is
  * resposinble to render the Whole Traffic States Components of the Subreddit
@@ -43,7 +17,7 @@ function TrafficStates() {
       </h1>
       <TrafficChart />
 
-      <TrafficTable list={tableList} />
+      <TrafficTable />
     </div>
   );
 }

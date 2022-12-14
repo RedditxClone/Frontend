@@ -43,8 +43,8 @@ function TrafficChart() {
   useEffect(() => {
     async function fetchData() {
       const res = await getTrafficChartData(); /// //////////////?????????????
-      setTrafficChartData(res);
-      // console.log(res);
+      await setTrafficChartData(res);
+      console.log(res);
       console.log(trafficChartData);
       // setLabels(trafficChartData.map((item) => item.day));
       // setJoined(trafficChartData.map((item) => item.joined));
@@ -59,14 +59,14 @@ function TrafficChart() {
     }
     fetchData();
   }, []);
-  const labels2 = ['1', '2', '3', '4', '5', '6', '7'];
+  const labels = trafficChartData.map((item) => item.day);
 
   const data = {
-    labels: labels2, // not working with server
+    labels, // not working with server
     datasets: [
       {
         label: 'Joined',
-        data: ['65', '59', '80', '81', '56', '55', '300'], // also do not work even if data inside use effect , gives error also
+        data: trafficChartData.map((item) => item.joined),
         fill: false,
         borderColor: '#0079D3',
         backgroundColor: '#0079D3',
@@ -77,7 +77,7 @@ function TrafficChart() {
       },
       {
         label: 'Left',
-        data: [200, 400, 3000, 85, 111, 212, 100], // also do not work
+        data: trafficChartData.map((item) => item.left), // also do not work
         fill: false,
         borderColor: '#FFB000',
         backgroundColor: '#FFB000',

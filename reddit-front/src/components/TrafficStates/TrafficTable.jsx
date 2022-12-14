@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect } from 'react';
 import './table.css';
@@ -12,53 +13,55 @@ import { TrafficTab } from './TrafficStates.style';
  * render the Traffic Table in the Traffic States Component
  */
 
-function TrafficTable({ list }) { // did not write param in
+function TrafficTable() { // did not write param in
   // documentation as it should not take in the future
   const [value, setValue] = React.useState('Day Of Week');
+  const [reversed, setReversed] = React.useState(false);
   const [trafficTableJoinedMembers, setTrafficTableJoinedMembers] = React.useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      // undefined behavior ??????????
-
       const results = await getTrafficTableJoinedThisWeek();
-      setTrafficTableJoinedMembers(results);
-      console.log(trafficTableJoinedMembers);
+      console.log(`results: ${results}`);
+      await setTrafficTableJoinedMembers(results);
+      console.log(`trafficTableJoinedMembers: ${trafficTableJoinedMembers}`);
     };
     fetchData();
   }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      // undefined behavior ??????????
-
+      console.log('entered');
       if (value === 'Day Of Week') {
         console.log(value);
         const results = await getTrafficTableJoinedThisWeek();
-        setTrafficTableJoinedMembers(results);
+        if (reversed) {
+          setTrafficTableJoinedMembers(results.reverse());
+          console.log('reversed');
+        } else { setTrafficTableJoinedMembers(results); }
       } else if (value === 'Month') {
         console.log(value);
+
         const results = await getTrafficTableJoinedThisYear();
-        setTrafficTableJoinedMembers(results);
+        if (reversed) { setTrafficTableJoinedMembers(results.reverse()); } else { setTrafficTableJoinedMembers(results); }
       }
       console.log(trafficTableJoinedMembers);
     };
     fetchData();
     console.log(trafficTableJoinedMembers);
-  }, [value]);
+  }, [value, reversed]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const handleClick = () => {
-    const temp = trafficTableJoinedMembers;
-    temp.reverse();
-    setTrafficTableJoinedMembers(temp);
-    // let temp= list ;
-    list.reverse();
-    console.log('chaaaaaaaaaaaaaaa');
+  const handleClick = () => { // ? reversed correctly but doesnot show
+    // const temp = trafficTableJoinedMembers;
+    // temp.reverse();
     // setTrafficTableJoinedMembers(temp);
+    // console.log(trafficTableJoinedMembers);
+    // setTrafficTableJoinedMembers(temp);
+    setReversed(!reversed);
   };
 
   return (
@@ -101,14 +104,14 @@ function TrafficTable({ list }) { // did not write param in
           </tr>
         </thead>
         <tbody>
-          {list.map(
+          {trafficTableJoinedMembers.map(
             (
               item,
               index // data is empty however there is response
             ) => (
               <tr key={index}>
                 <td className="col1">{item.time}</td>
-                <td>{item.members}</td>
+                <td>{item.joined}</td>
               </tr>
             )
           )}
