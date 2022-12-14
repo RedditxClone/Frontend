@@ -36,7 +36,10 @@ import {
 import CommunitiesResults from '../CommunitiesResults/CommunitiesResults';
 import PeopleResults from '../PeopleResults/PeopleResults';
 import { divideBigNumber } from '../../../utilities/Helpers';
-import retrieveResults from '../../../services/requests/Search';
+import {
+  retrieveResults,
+  retrievePostResults
+} from '../../../services/requests/Search';
 import CreateCommunity from '../../CreateCommunity/CreateCommunity';
 import HomeCreatePostCard from '../../HomePageCards/HomeCreatePostCard';
 
@@ -50,36 +53,43 @@ import {
 } from './PostsResults.Style';
 
 /**
+ * @typedef PropType
+ * @property {string} searchKey
+ */
+
+/**
  * This Component for the showing the posts related to the key of the searching.
  *
  */
-function PostsResults() {
+function PostsResults({ searchKey }) {
   // states
-  const searchKey = 'test'; // for testing
   const [result, setResult] = useState([]);
   const [time, setTime] = useState('');
   const [sort, setSort] = useState('');
   const [statusCode, setStatusCode] = useState(0);
 
   // Fetching the results by calling the fetch service
+  const fetchResults = async () => {
+    const results = await retrievePostResults({
+      key: searchKey,
+      searchingCategory: 'posts',
+      sort: sort === '' ? null : sort,
+      time: time === '' ? null : time
+    });
+    setResult(results.data);
+    setStatusCode(results.statusCode);
+  };
+
   useEffect(() => {
-    const fetchResults = async () => {
-      const results = await retrieveResults({
-        key: searchKey,
-        searchingCategory: 'posts',
-        sort: sort === '' ? null : sort,
-        time: time === '' ? null : time
-      });
-      setResult(results.data);
-      setStatusCode(results.statusCode);
-    };
     fetchResults();
   }, [time, sort]);
 
   const handleSorting = (event) => {
+    fetchResults();
     setSort(event.target.value);
   };
   const handleTiming = (event) => {
+    fetchResults();
     setTime(event.target.value);
   };
 
@@ -289,12 +299,12 @@ function PostsResults() {
                         alt="community logo"
                       />
                     </StyledLogo>
-                    <Username>{`r/${item.subreddit_name}`}</Username>
+                    <Username>{`r/${item.subreddit.name}`}</Username>
                     <StyledSpan>
                       <span>
                         Posted by
-                        <Username> {` u/${item.posted_by}`}</Username>
-                        {`${item.posted_since} ago`}
+                        <Username> {` u/${item.user.username}`}</Username>
+                        {`${item.publishedDate} ago`}
                       </span>
                     </StyledSpan>
                   </PostInfo>
@@ -302,30 +312,37 @@ function PostsResults() {
                   {/* Post search result */}
                   <SearchResults>
                     <div>
-                      <PostTitle variant="h3">{`${item.post_title}`}</PostTitle>
-                      {item.post_flairs.length > 0
+                      <PostTitle variant="h3">{`${item.title}`}</PostTitle>
+                      {/* {item.post_flairs.length > 0
                         ? item.post_flairs.map((flair) => (
                             <Flair>{flair}</Flair>
                           ))
-                        : null}
+                        : null} */}
                     </div>
-                    {item.post_img && (
+                    <ImageContainer>
+                      <img
+                        src="https://i.redd.it/5ldbdyaihku91.jpg"
+                        style={{ width: '100%', height: '100%' }}
+                      />
+                    </ImageContainer>
+
+                    {/* {item.post_img && (
                       <ImageContainer>
                         <img
                           src="https://i.redd.it/5ldbdyaihku91.jpg"
                           style={{ width: '100%', height: '100%' }}
                         />
                       </ImageContainer>
-                    )}
+                    )} */}
                   </SearchResults>
 
                   {/* Number of comments and upvotes  */}
                   <PostStatistics>
                     <UpVotes>
-                      {divideBigNumber(item.upvotes_count)} upvotes
+                      {divideBigNumber(item.votesCount)} upvotes
                     </UpVotes>
                     <Comments>
-                      {divideBigNumber(item.comments_count)} Comments
+                      {divideBigNumber(item.commentCount)} Comments
                     </Comments>
                   </PostStatistics>
                 </SingleResultContainer>
@@ -342,7 +359,10 @@ function PostsResults() {
               borderRadius: '5px'
             }}
           >
-            <CommunitiesResults isSideBarCard={true} />
+            <CommunitiesResults
+              isSideBarCard={true}
+              searchKey={searchKey}
+            />
           </div>
 
           <div
@@ -352,7 +372,10 @@ function PostsResults() {
               borderRadius: '5px'
             }}
           >
-            <PeopleResults isSideBarCard={true} />
+            <PeopleResults
+              isSideBarCard={true}
+              searchKey={searchKey}
+            />
           </div>
 
           <div
