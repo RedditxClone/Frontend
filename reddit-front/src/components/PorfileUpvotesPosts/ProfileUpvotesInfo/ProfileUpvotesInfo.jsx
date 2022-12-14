@@ -60,7 +60,8 @@ function PostInfo({
   isLocked,
   isDistinguishedAsMode,
   isFollowed,
-  isCrosspost
+  isCrosspost,
+  isJoined
 }) {
   const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
   const [isPostFollowed, setIsPostFollowed] = useState(isFollowed);
@@ -407,7 +408,7 @@ function PostInfo({
         postId={postId}
       />
       {/* showing join button if the user is not showing the subreddit page  */}
-      {!isCommunityPost ? (
+      {!isJoined ? (
         <button
           type="button"
           className="join-community"

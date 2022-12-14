@@ -8,6 +8,8 @@ a {
   line-height: 1.6rem;
   display: flex;
   flex-flow: row nowrap;
+  flex-direction: row;
+  /* justify-content: flex-start; */
   align-items: start;
   margin: 0;
   position: relative;
@@ -31,12 +33,13 @@ a {
   margin: auto;
   display: block;
 }
-
 .post-info .post-info-details {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  flex: 1 1 auto;
+  /* flex-wrap: wrap;
+  flex: 1 1 auto; */
+  flex-direction: row;
+  justify-content: normal;
 }
 .post-info .community-name {
   display: inline-block;

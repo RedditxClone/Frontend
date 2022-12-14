@@ -38,6 +38,8 @@ import CommentTap from './components/CommentTap/CommentTap';
 //import UpvotePostList from './components/UpvotePostList/UpvotePostList';
 import OtherProfilePage from './pages/OtherProfilePage/OtherProfilePage';
 import ProfileList from './components/PostListProfile/PostListProfile';
+import DownVoteList from './components/DownVoteList/DownVoteList';
+import HiddenList from './components/HiddenList/HiddenList';
 // Routes
 // const communities = [
 //   {
@@ -208,7 +210,7 @@ const routes = createBrowserRouter([
           //   title="this is sport topic"
           //   flair_name="Question"
           // />
-          <ProfileList />
+          <HiddenList />
         )
       },
       {
@@ -217,7 +219,7 @@ const routes = createBrowserRouter([
       },
       {
         path: 'downvoted',
-        element: <ProfileList />
+        element: <DownVoteList />
       }
     ]
   },

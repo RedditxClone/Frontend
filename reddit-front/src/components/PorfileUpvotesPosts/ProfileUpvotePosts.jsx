@@ -49,7 +49,8 @@ function ProfileUpvotePosts({
   isModerator,
   isCrosspost,
   isCommunityPost,
-  isPinned
+  isPinned,
+  isJoined
 }) {
   // Returning the result
   return (
@@ -86,6 +87,7 @@ function ProfileUpvotePosts({
           isCrosspost={isCrosspost}
           isCommunityPost={isCommunityPost}
           isPinned={isPinned}
+          isJoined={isJoined}
         />
       </PostContainer>
     </div>

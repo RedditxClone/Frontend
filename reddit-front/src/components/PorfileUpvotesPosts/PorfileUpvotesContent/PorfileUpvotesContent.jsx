@@ -49,7 +49,8 @@ function PostContent({
   isModerator,
   isCrosspost,
   isCommunityPost,
-  isPinned
+  isPinned,
+  isJoined
 }) {
   let postContent = null;
   let slideIndex = 0;
@@ -226,6 +227,7 @@ function PostContent({
             isDistinguishedAsMode={distinguishAsMod}
             isFollowed={postContentData.follow}
             isCrosspost={isCrosspost}
+            isJoined={isJoined}
           />
 
           {/* post interactions -> comment, save, hide, ..  */}

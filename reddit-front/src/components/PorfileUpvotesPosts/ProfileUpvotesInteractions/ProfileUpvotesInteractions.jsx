@@ -99,7 +99,8 @@ function PostInteractions({
   canBeSpoiled,
   isModerator,
   showContent,
-  showContentHandler
+  showContentHandler,
+  isHidden
 }) {
   const [saveState, setSaveState] = useState(isSaved);
   const [isApproved, setIsApproved] = useState(isPostApproved);
@@ -115,7 +116,7 @@ function PostInteractions({
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [isRemoved, setIsRemoved] = useState(false);
   const [isSpammed, setIsSpammed] = useState(false);
-  const [hidePostt, setHidePost] = useState(false);
+  const [hidePostt, setHidePost] = useState(isHidden);
   let hide = hidePost;
   // request
   // icon
@@ -579,11 +580,16 @@ function PostInteractions({
               >
                 <a>
                   {hidePostt ? (
-                    <AiOutlineEye fontSize="25px" />
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                      <AiOutlineEyeInvisible fontSize="25px" />
+                      <span> unhide</span>
+                    </div>
                   ) : (
-                    <AiOutlineEyeInvisible fontSize="25px" />
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                      <AiOutlineEye fontSize="25px" />
+                      <span> hide</span>
+                    </div>
                   )}
-                  <span> hide</span>
                 </a>
               </div>
 

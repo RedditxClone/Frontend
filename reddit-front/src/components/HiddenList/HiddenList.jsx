@@ -24,7 +24,7 @@ import ProfileUpvotePosts from '../PorfileUpvotesPosts/ProfileUpvotePosts';
  */
 
 // iscommunitypost,is moderator
-function ProfileList() {
+function HiddenList() {
   const isPostFullDetailsMode = true;
   const [posts, setPosts] = useState([]);
   // Dispatching the action to get the posts data from the server
@@ -38,7 +38,7 @@ function ProfileList() {
   // Preparing the data of the post to get displayed
   const postsData =
     posts.length > 0
-      ? posts.map((post) => (post.is_upvoted && !post.is_deleted ? (
+      ? posts.map((post) => (post.is_hidden && !post.is_deleted ? (
             <div style={{ width: '100%' }}>
               <ProfileUpvotePosts
                 key={post.id}
@@ -75,4 +75,4 @@ function ProfileList() {
   // Returning the result
   return <div>{postsData}</div>;
 }
-export default ProfileList;
+export default HiddenList;
