@@ -8,6 +8,11 @@ import StyledHorizontalLine from "../../utilities/StyledHorizontalLine/StyledHor
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { useState } from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { Button } from "@mui/material";
 import { RoundedButton } from "../HomePageCards/HomePageCards.style";
 import { CommentCard, NavLink } from "./CommentsCard.style";
@@ -40,42 +45,41 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import { MdClose } from "react-icons/md";
-const BootstrapTooltip = styled(({ className, ...props }: TooltipProps) => (
-  <Tooltip {...props} arrow classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.arrow}`]: {
-    color: theme.palette.common.black
-  },
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.black
-  }
-}));
-const style = {
-  position: "absolute",
-  top: "100%",
-  left: "50%",
-  //transform: "translate(-50%, -50%)",
+import {
+  spamComment,
+  lockComment,
+  approveComment,
+  removeComment,
+  saveComment,
+  deleteComment
+} from "../../services/requests/Comment";
 
-  backgroundColor: "#FFFFFF",
-  boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
-  borderRadius: "4px",
-  textAlign: "center",
-  zIndex: "2",
-  width: "100%"
-};
-const style2 = {
-  position: "absolute",
-  top: "50%",
-  left: "20%",
-  //transform: "translate(-50%, -50%)",
+// const style = {
+//   position: "absolute",
+//   top: "100%",
+//   left: "50%",
+//   //transform: "translate(-50%, -50%)",
 
-  backgroundColor: "#FFFFFF",
-  boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
-  borderRadius: "4px",
-  textAlign: "center",
-  zIndex: "2",
-  width: "40%"
-};
+//   backgroundColor: "#FFFFFF",
+//   boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+//   borderRadius: "4px",
+//   textAlign: "center",
+//   zIndex: "2",
+//   width: "100%"
+// };
+// const style2 = {
+//   position: "absolute",
+//   top: "50%",
+//   left: "20%",
+//   //transform: "translate(-50%, -50%)",
+
+//   backgroundColor: "#FFFFFF",
+//   boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+//   borderRadius: "4px",
+//   textAlign: "center",
+//   zIndex: "2",
+//   width: "40%"
+// };
 /**
  * @typedef {PropType} cardData
  * @property {object} pic the cover of the communities card that is in the home page
@@ -92,113 +96,140 @@ export default function CommentsForSamePostCard({
   commentsForSamePost,
   postCommentInfo
 }) {
-  const [charactersCount, setCharactersCount] = useState(0);
-  const [addRemovalReasonModalShow, setAddRemovalReasonModalShow] =
-    useState(false);
-  const [deleteModalShow, setDeleteModalShow] = useState(false);
-  const [removalReason, setRemovalReason] = useState("");
-  const textFieldchangeHandler = (e) => {
-    setCharactersCount(e.target.value.length);
-    setRemovalReason(e.target.value);
-  };
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [openMenuArr, setOpenMenuArr] = useState(
+    commentsForSamePost.map((element) => false)
+  );
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+
   const [cardComments, setCardComments] = useState(commentsForSamePost);
-  let deletedComment;
-  const open = Boolean(anchorEl);
+
+  // const open = Boolean(anchorEl);
   /**
    * opens the Rising Menu */
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (index, clicked) => {
+    const temp = [...openMenuArr];
+    temp[index] = clicked;
+    setOpenMenuArr(temp);
+    // console.log(openMenuArr);
+  };
+  const handleOpenConfirmDialog = (id, index) => {
+    handleClose(true, 3, id, index);
+    setOpenConfirmationDialog(true);
+  };
+  const handleCloseConfirmDialog = () => {
+    setOpenConfirmationDialog(false);
   };
   /**
    * closes the Rising Menu */
-  const handleClose = (clicked, clickedItem, index) => {
+  const handleClose = (clicked, clickedItem, id, index) => {
     if (clickedItem == 1) {
-      saveButtonClickHandler(clicked, index);
+      saveButtonClickHandler(clicked, id);
     }
     if (clickedItem == 3) {
-      deleteCommentHandler(clicked, index);
-      deletedComment=index;
+      // setOpenConfirmationDialog(true);
+      // handleOpenConfirmDialog();
+      // deleteCommentHandler(clicked, id);
     }
-    setAnchorEl(null);
+    const temp = [...openMenuArr];
+    temp[index] = false;
+    setOpenMenuArr(temp);
+    // console.log(openMenuArr);
   };
 
-  const [anchorElShare, setAnchorElShare] = useState(null);
-  const openShare = Boolean(anchorElShare);
+  // const [anchorElShare, setAnchorElShare] = useState(null);
+  // const openShare = Boolean(anchorElShare);
   /**
    * opens the Rising Menu */
-  const handleClickShare = (event) => {
-    setAnchorElShare(event.currentTarget);
+  const handleClickShare = (link) => {
+    navigator.clipboard.writeText(link);
   };
-  /**
-   * closes the Rising Menu */
-  const handleCloseShare = (clicked, link) => {
-    if (clicked == 1) {
-      navigator.clipboard.writeText(link);
-    }
-    setAnchorElShare(null);
-  };
-  const spamButtonClickHandler = (clicked, index) => {
+  // /**
+  //  * closes the Rising Menu */
+  // const handleCloseShare = (clicked, link) => {
+  //   if (clicked == 1) {
+  //     navigator.clipboard.writeText(link);
+  //   }
+  //   setAnchorElShare(null);
+  // };
+  const spamButtonClickHandler = (clicked, index,id) => {
     console.log("spaaaaaaaaaaam");
+    const info = {
+      request: {
+        spam: clicked
+      },
+      id: id
+    };
+    spamComment(info);
     const newComments = [...commentsForSamePost];
     newComments[index].spam = clicked;
     commentsForSamePost = [...newComments];
     setCardComments(commentsForSamePost);
+
   };
-  const lockButtonClickHandler = (clicked, index) => {
+  const lockButtonClickHandler = (clicked, index,id) => {
     console.log("lock");
+    const info = {
+      request: {
+        locked: clicked
+      },
+      id: id
+    };
+    lockComment(info);
     const newComments = [...commentsForSamePost];
     newComments[index].locked = clicked;
     commentsForSamePost = [...newComments];
     setCardComments(commentsForSamePost);
   };
-  const approveButtonClickHandler = (clicked, index) => {
+  const approveButtonClickHandler = (clicked, index,id) => {
     console.log("approve");
+    const info = {
+      request: {
+        approved: clicked
+      },
+      id: id
+    };
+    approveComment(info);
     const newComments = [...commentsForSamePost];
     newComments[index].approved = clicked;
     commentsForSamePost = [...newComments];
     setCardComments(commentsForSamePost);
-    spamButtonClickHandler(!clicked, index);
-    removeButtonClickHandler(!clicked, index);
-    submitRemovalReason(!clicked, index, "");
+    spamButtonClickHandler(!clicked, index,id);
+    removeButtonClickHandler(!clicked, index,id);
+    // submitRemovalReason(!clicked, index, "");
   };
-  const removeButtonClickHandler = (clicked, index) => {
+  const removeButtonClickHandler = (clicked, index,id) => {
     console.log("remove");
+    const info = {
+      request: {
+        removed: clicked
+      },
+      id: id
+    };
+    removeComment(info);
     const newComments = [...commentsForSamePost];
     newComments[index].removed = clicked;
     commentsForSamePost = [...newComments];
     setCardComments(commentsForSamePost);
   };
-  const saveButtonClickHandler = (clicked, index) => {
+  const saveButtonClickHandler = (clicked, id) => {
     console.log("saveeeeeeeeeee");
+    console.log(id);
+    const info = {
+      request: {
+        saved: clicked
+      },
+      id: id
+    };
+    saveComment(info);
     const newComments = [...commentsForSamePost];
-    newComments[index].saved = clicked;
+    const commentToBeSaved = newComments.find(
+      (element, index) => element.id == id
+    );
+    commentToBeSaved.saved = clicked;
     commentsForSamePost = [...newComments];
     setCardComments(commentsForSamePost);
   };
 
-  const addRemovalReason = (clicked) => {
-    setAddRemovalReasonModalShow(clicked);
-  };
-  const submitRemovalReason = (clicked, index, removalReason) => {
-    console.log("submiiiiiiited");
-    const newComments = [...commentsForSamePost];
-    newComments[index].hasRemovalReason = clicked;
-    newComments[index].removalReason = removalReason;
-    commentsForSamePost = [...newComments];
-    setCardComments(commentsForSamePost);
-    setAddRemovalReasonModalShow(false);
-  };
-  const deleteCommentHandler = (clicked, index) => {
-    setDeleteModalShow(clicked);
-    // console.log("submiiiiiiited");
-    // const newComments = [...commentsForSamePost];
-    // newComments[index].hasRemovalReason = clicked;
-
-    // commentsForSamePost = [...newComments];
-    // setCardComments(commentsForSamePost);
-    // setAddRemovalReasonModalShow(false);
-  };
   return (
     <CommentCard>
       <Box
@@ -242,7 +273,7 @@ export default function CommentsForSamePostCard({
       >
         {commentsForSamePost.map((comment, index) => (
           <Box
-           id={`comment${index}`}
+            id={`comment${index}`}
             key={index}
             sx={{
               display: "flex",
@@ -301,153 +332,7 @@ export default function CommentsForSamePostCard({
                     <RiSpamLine size={12} color="#ff585b" />
                   ) : null}
                   {comment.removed ? (
-                    <>
-                      <TiCancel size={12} color="#ff585b" />{" "}
-                      <BootstrapTooltip
-                        title={
-                          comment.hasRemovalReason ? comment.removalReason : ""
-                        }
-                        placement="top"
-                        sx={{ "&span": { fontSize: "50px" } }}
-                      >
-                        <span
-                          onClick={() => addRemovalReason(true)}
-                          style={{ color: "#ff585b", cursor: "pointer" }}
-                        >
-                          {comment.hasRemovalReason
-                            ? "Removal Reason"
-                            : "Add a removal reason"}
-                        </span>
-                      </BootstrapTooltip>
-                      {addRemovalReasonModalShow ? (
-                        <div style={style}>
-                          <form>
-                            <div
-                              style={{
-                                padding: "40px 16px",
-                                display: "flex",
-                                flexDirection: "column"
-                              }}
-                            >
-                              <Typography variant="h5" component="h2">
-                                You don't have any removal reasons yet
-                              </Typography>
-                              <RoundedButton
-                                sx={{
-                                  fontSize: "1.4rem",
-                                  textTransform: "none",
-                                  alignSelf: "flex-start"
-                                }}
-                                variant="text"
-                              >
-                                Add a removal reason
-                              </RoundedButton>
-                            </div>
-
-                            <div
-                              style={{
-                                backgroundColor: "#Edeff1",
-                                display: "flex",
-                                alignItems: "flex-start",
-                                flexDirection: "column",
-                                padding: "1.6rem"
-                              }}
-                            >
-                              <Typography
-                                sx={{ padding: "4px" }}
-                                variant="h5"
-                                component="h2"
-                              >
-                                Mod note (Only mods will see the note)
-                              </Typography>
-                              <textarea
-                                type="text"
-                                name="removalreason"
-                                onChange={textFieldchangeHandler}
-                                placeholder="This is a short note to your mod team on why the content was removed"
-                                style={{
-                                  border: "0",
-                                  width: "100%",
-                                  padding: "10px",
-                                  resize: "none",
-                                  fontSize: "14px",
-                                  "& :focus": {
-                                    outline: "blue auto 2px" // ?
-                                  },
-                                  margin: "6px 2px",
-                                  borderRadius: "4px"
-                                }}
-                              />
-                              <div
-                                style={{
-                                  padding: "6px",
-                                  color:
-                                    charactersCount < 100
-                                      ? "#7c7c7c"
-                                      : "#ea0027",
-                                  fontSize: "12px"
-                                }}
-                              >
-                                {100 - charactersCount} characters remaining
-                              </div>
-                              <div
-                                style={{
-                                  alignSelf: "flex-end",
-                                  padding: "6px"
-                                }}
-                              >
-                                <RoundedButton
-                                  sx={{
-                                    marginLeft: "3rem",
-                                    fontSize: "1.6rem",
-                                    padding: "2px 18px",
-                                    margin: "0 0.4rem 0.4rem 0",
-                                    maxWidth: "95px"
-                                  }}
-                                  variant="outlined"
-                                  disableElevation
-                                  onClick={() => addRemovalReason(false)}
-                                >
-                                  Cancel
-                                </RoundedButton>
-                                <RoundedButton
-                                  sx={{
-                                    marginLeft: "3rem",
-                                    fontSize: "1.6rem",
-                                    padding: "2px 18px",
-                                    ":hover": {
-                                      backgroundColor: "#1484D6"
-                                    },
-                                    margin: "0 0.4rem 0.4rem 0",
-                                    "& 	.Mui-disabled:after": {
-                                      backgroundColor: "black"
-                                    }
-                                  }}
-                                  variant="contained"
-                                  disableElevation
-                                  disabled={
-                                    !(
-                                      charactersCount > 0 &&
-                                      charactersCount <= 100
-                                    )
-                                  }
-                                  type="submit"
-                                  onClick={() =>
-                                    submitRemovalReason(
-                                      true,
-                                      index,
-                                      removalReason
-                                    )
-                                  }
-                                >
-                                  Submit
-                                </RoundedButton>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                      ) : null}
-                    </>
+                    <TiCancel size={12} color="#ff585b" />
                   ) : null}
                   {!comment.spam && comment.approved && !comment.removed ? (
                     <AiFillCheckCircle size={12} color="#46D160" />
@@ -491,11 +376,7 @@ export default function CommentsForSamePostCard({
                 </Button>
                 <Button
                   variant="text"
-                  id="basic-buttonShare"
-                  aria-controls={openShare ? "basic-menuShare" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={openShare ? "true" : undefined}
-                  onClick={handleClickShare}
+                  onClick={() => handleClickShare(comment.commentLink)}
                   sx={{
                     padding: "0 4px",
                     minWidth: "3rem",
@@ -509,32 +390,16 @@ export default function CommentsForSamePostCard({
                     }
                   }}
                 >
-                  Share
+                  <BsLink45Deg size={18} color="#7c7c7c" /> Copy Link
                 </Button>
-                <Menu
-                  elevation={1}
-                  id="basic-menuShare"
-                  anchorEl={anchorElShare}
-                  open={openShare}
-                  onClose={() => handleCloseShare(0, " ")}
-                  MenuListProps={{
-                    "aria-labelledby": "basic-buttonShare"
-                  }}
-                >
-                  <StyledMenuItem
-                    onClick={() => handleCloseShare(1, comment.commentLink)}
-                  >
-                    <BsLink45Deg size={18} color="#7c7c7c" /> Copy Link
-                  </StyledMenuItem>
-                </Menu>
 
                 <Button
                   variant="text"
-                  id="basic-button"
-                  aria-controls={open ? "basic-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
-                  onClick={handleClick}
+                  id={`basic-button-${comment.id}`}
+                  // aria-controls={open ? `basic-menu-${comment.id}` : undefined}
+                  // aria-haspopup="true"
+                  // aria-expanded={open ? "true" : undefined}
+                  onClick={() => handleClick(index, !openMenuArr[index])}
                   sx={{
                     padding: "0 4px",
                     minWidth: "3rem"
@@ -542,127 +407,223 @@ export default function CommentsForSamePostCard({
                 >
                   <BsThreeDots size={16} color="#7c7c7c" />
                 </Button>
-                <Menu
+                {openMenuArr[index] && (
+                  <ul
+                    style={{
+                      width: "11.2rem",
+                      padding: "0",
+                      border: "1px solid #EDEFF1",
+                      borderRadius: "4px",
+                      boxShadow: "0 2px 4px 0 rgba(28,28,28,0.2)",
+                      position: "absolute",
+                      zIndex: "10",
+                      top: "8rem",
+                      listStyle: "none",
+                      backgroundColor: "#fff",
+                      left: "12rem"
+                    }}
+                    id={`Menu_${comment.id}`}
+                  >
+                    {!comment.saved ? (
+                      <li
+                        style={{
+                          padding: "0.8rem 1.6rem 0.8rem 0.8rem",
+                          fontSize: "1.4rem",
+                          fontWeight: "501",
+                          lineHeight: "1.8rem",
+                          color: "#878A8C",
+                          cursor: "pointer",
+                          borderBottom: "1px solid #EDEFF1",
+                          "&:hover": {
+                            backgroundColor: "#E9F5FD",
+                            color: "#1c1c1c"
+                          }
+                        }}
+                        onClick={() => handleClose(true, 1, comment.id, index)}
+                      >
+                        <BiSave size={16} color="#7c7c7c" /> &nbsp; Save{" "}
+                        {/* {`${comment.id}`} */}
+                      </li>
+                    ) : (
+                      <li
+                        style={{
+                          padding: "0.8rem 1.6rem 0.8rem 0.8rem",
+                          fontSize: "1.4rem",
+                          fontWeight: "501",
+                          lineHeight: "1.8rem",
+                          color: "#0272C4",
+                          cursor: "pointer",
+                          borderBottom: "1px solid #EDEFF1",
+
+                          ":hover": {
+                            backgroundColor: "#E9F5FD",
+                            color: "#1c1c1c"
+                          }
+                        }}
+                        sx={{ color: "#0272C4" }}
+                        onClick={() => handleClose(false, 1, comment.id, index)}
+                      >
+                        <FaSave size={16} color="#0272C4" /> &nbsp; Unsave
+                      </li>
+                    )}
+
+                    <li
+                      style={{
+                        padding: "0.8rem 1.6rem 0.8rem 0.8rem",
+                        fontSize: "1.4rem",
+                        fontWeight: "501",
+                        lineHeight: "1.8rem",
+                        color: "#878A8C",
+                        cursor: "pointer",
+                        borderBottom: "1px solid #EDEFF1",
+                        "&:hover": {
+                          backgroundColor: "#E9F5FD",
+                          color: "#1c1c1c"
+                        }
+                      }}
+                      onClick={() => handleClose(true, 2, comment.id, index)}
+                    >
+                      <MdOutlineModeEditOutline size={16} color="#7c7c7c" />{" "}
+                      &nbsp; Edit
+                    </li>
+                    <li
+                      style={{
+                        padding: "0.8rem 1.6rem 0.8rem 0.8rem",
+                        fontSize: "1.4rem",
+                        fontWeight: "501",
+                        lineHeight: "1.8rem",
+                        color: "#878A8C",
+                        cursor: "pointer",
+                        borderBottom: "1px solid #EDEFF1",
+                        "&:hover": {
+                          backgroundColor: "#E9F5FD",
+                          color: "#1c1c1c"
+                        }
+                      }}
+                      id={`buttonDelete${index}`}
+                      onClick={() => handleOpenConfirmDialog(comment.id, index)}
+                    >
+                      <MdDeleteOutline size={16} color="#7c7c7c" /> &nbsp;
+                      Delete
+                    </li>
+                    <Dialog
+                      open={openConfirmationDialog}
+                      onClose={handleCloseConfirmDialog}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle
+                        id="alert-dialog-title"
+                        sx={{ fontSize: "18px" }}
+                      >
+                        Delete post?
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText
+                          id="alert-dialog-description"
+                          sx={{ fontSize: "15px" }}
+                        >
+                          Are you sure you want to delete your post? You can not
+                          undo this. {`${comment.id}`}
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button
+                          onClick={handleCloseConfirmDialog}
+                          sx={{
+                            fontSize: "15px",
+                            border: "1px solid #0079d3",
+                            color: "#0079d3",
+                            fontFamily: "Noto Sans, Arial, sans serif",
+                            fontWeight: "700",
+                            lineHeight: "1.6rem",
+                            letterSpacing: "1.5",
+                            minHeight: "2.4rem",
+                            minWidth: "4rem",
+                            padding: "1rem 2rem",
+                            marginLeft: "1rem",
+                            alignItems: "center",
+                            borderRadius: "999.9rem",
+                            boxSizing: "border-box",
+                            cursor: "pointer",
+                            textTransform: "Capitalize",
+                            "&:hover": {
+                              borderColor: "#7c7c7c",
+                              color: "#7c7c7c"
+                            }
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          // onClick={handleDeletePost}
+                          autoFocus
+                          sx={{
+                            fontSize: "15px",
+                            border: "none",
+                            backgroundColor: "#0079d3",
+                            color: "white",
+                            fontFamily: "Noto Sans, Arial, sansserif",
+                            fontWeight: "700",
+                            lineHeight: "1.6rem",
+                            letterSpacing: "1.5",
+                            minHeight: "2.4rem",
+                            minWidth: "4rem",
+                            padding: "1rem 2rem",
+                            marginLeft: "1rem",
+                            alignItems: "center",
+                            borderRadius: "999.9rem",
+                            boxSizing: "border-box",
+                            cursor: "pointer",
+                            textTransform: "Capitalize",
+                            "&:hover": {
+                              backgroundColor: "#f75b5b"
+                            }
+                          }}
+                        >
+                          Delete Post
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </ul>
+                )}
+
+                {/* <Menu
                   elevation={1}
-                  id="basic-menu"
+                  id={`basic-menu-${comment.id}`}
                   anchorEl={anchorEl}
                   open={open}
-                  onClose={() => handleClose(true, 0, index)}
+                  onClose={() => handleClose(true, 0, comment.id)}
                   MenuListProps={{
-                    "aria-labelledby": "basic-button"
+                    "aria-labelledby": `basic-button-${comment.id}`
                   }}
                 >
                   {!comment.saved ? (
-                    <StyledMenuItem onClick={() => handleClose(true, 1, index)}>
-                      <BiSave size={16} color="#7c7c7c" /> &nbsp; Save
+                    <StyledMenuItem onClick={() => handleClose(true, 1, comment.id)}>
+                      <BiSave size={16} color="#7c7c7c" /> &nbsp; Save {`${comment.saved}`}
                     </StyledMenuItem>
                   ) : (
                     <StyledMenuItem
                       sx={{ color: "#0272C4" }}
-                      onClick={() => handleClose(false, 1, index)}
+                      onClick={() => handleClose(false, 1, comment.id)}
                     >
                       <FaSave size={16} color="#0272C4" /> &nbsp; Unsave
                     </StyledMenuItem>
                   )}
-                  <StyledMenuItem onClick={() => handleClose(true, 2, index)}>
+                  <StyledMenuItem onClick={() => handleClose(true, 2, comment.id)}>
                     <MdOutlineModeEditOutline size={16} color="#7c7c7c" />{" "}
                     &nbsp; Edit
                   </StyledMenuItem>
-                  <StyledMenuItem id={`buttonDelete${index}`} onClick={() => handleClose(true, 3, index)}>
+                  <StyledMenuItem id={`buttonDelete${index}`} onClick={() => handleClose(true, 3, comment.id)}>
                     <MdDeleteOutline size={16} color="#7c7c7c" /> &nbsp; Delete
                   </StyledMenuItem>
-                </Menu>
-                {/* {deleteModalShow ? (
-                  <div style={style2}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "flex-start",
-                        flexDirection: "column"
-                      }}
-                    >
-                      <div
-                        style={{
-                          borderBottom: "1px solid #EDEFF1",
-                          width: "100%",
-                          textAlign: "left",
-                          padding: "15px 8px 15px 15px",
-                          display: "flex",
-                          justifyContent: "space-between"
-                        }}
-                      >
-                        <Typography
-                          varient="h2"
-                          sx={{ fontSize: "16px", fontWeight: "500" }}
-                        >
-                          Delete Comment
-                        </Typography>
-                        <MdClose size={24} color="#7c7c7c" />
-                      </div>
-                      <div style={{ padding: "20px 8px 20px 15px" }}>
-                        <Typography
-                          varient="h6"
-                          sx={{ fontSize: "14px", fontWeight: "500" }}
-                        >
-                          Are you sure you want to delete your comment ?
-                        </Typography>
-                      </div>
-                      <div
-                        style={{
-                          width: "100%",
-                          backgroundColor: "#Edeff1",
-                          display: "flex",
-                          justifyContent: "end"
-                        }}
-                      >
-                        <div
-                          style={{
-                            // alignSelf: "flex-end",
-                            padding: "6px",
-                            backgroundColor: "#Edeff1",
-                            padding: "1rem"
-                          }}
-                        >
-                          <RoundedButton
-                            sx={{
-                              marginLeft: "3rem",
-                              fontSize: "1.6rem",
-                              padding: "2px 20px",
-                              margin: "0 0.4rem 0.4rem 0",
-                              maxWidth: "95px"
-                            }}
-                            variant="outlined"
-                            disableElevation
-                          >
-                            Keep
-                          </RoundedButton>
-                          <RoundedButton
-                            sx={{
-                              marginLeft: "3rem",
-                              fontSize: "1.6rem",
-                              padding: "2px 20px",
-                              ":hover": {
-                                backgroundColor: "#1484D6"
-                              },
-                              margin: "0 0.4rem 0.4rem 0"
-                            }}
-                            variant="contained"
-                            disableElevation
-                            type="submit"
-                          >
-                            Delete
-                          </RoundedButton>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ) : null} */}
+                </Menu> */}
                 {comment.isModerator ? (
                   <>
                     {comment.spam || comment.removed ? (
                       <Button
                         variant="text"
-                        onClick={() => approveButtonClickHandler(true, index)}
+                        onClick={() => approveButtonClickHandler(true, index,comment.id)}
                         sx={{
                           padding: "0 4px",
                           minWidth: "3rem",
@@ -684,7 +645,7 @@ export default function CommentsForSamePostCard({
                     {!comment.removed ? (
                       <Button
                         variant="text"
-                        onClick={() => removeButtonClickHandler(true, index)}
+                        onClick={() => removeButtonClickHandler(true, index,comment.id)}
                         sx={{
                           padding: "0 4px",
                           minWidth: "3rem",
@@ -712,7 +673,7 @@ export default function CommentsForSamePostCard({
                     {!comment.removed ? (
                       <Button
                         variant="text"
-                        onClick={() => spamButtonClickHandler(true, index)}
+                        onClick={() => spamButtonClickHandler(true, index,comment.id)}
                         sx={{
                           padding: "0 4px",
                           minWidth: "3rem",
@@ -733,7 +694,7 @@ export default function CommentsForSamePostCard({
                     {!comment.locked ? (
                       <Button
                         variant="text"
-                        onClick={() => lockButtonClickHandler(true, index)}
+                        onClick={() => lockButtonClickHandler(true, index,comment.id)}
                         sx={{
                           padding: "0 4px",
                           minWidth: "3rem",
@@ -753,7 +714,7 @@ export default function CommentsForSamePostCard({
                     ) : (
                       <Button
                         variant="text"
-                        onClick={() => lockButtonClickHandler(false, index)}
+                        onClick={() => lockButtonClickHandler(false, index,comment.id)}
                         sx={{
                           padding: "0 4px",
                           minWidth: "3rem",

@@ -40,6 +40,7 @@ import CommentTap from './components/CommentTap/CommentTap';
 // Routes
 const communities = [
   {
+    id:1,
     name: 'My Community',
     picture: pic,
     growing: true,
@@ -52,6 +53,7 @@ const communities = [
     description: 'For Your Health'
   },
   {
+    id:2,
     name: 'My Community',
     picture: pic,
     growing: false,
@@ -64,6 +66,7 @@ const communities = [
     description: 'For Your Health'
   },
   {
+    id:3,
     name: 'My Community',
     picture: pic,
     growing: false,
@@ -87,6 +90,7 @@ const postCommentInfo = {
 };
 const commentsForSamePost = [
   {
+    Id:1,
     userName: 'Aya_husein',
     noVotes: 3,
     time: '2 minutes ago',
@@ -107,6 +111,7 @@ const commentsForSamePost = [
     }
   },
   {
+    Id:2,
     userName: 'Aya_husein',
     noVotes: 3,
     time: '2 minutes ago',
@@ -123,6 +128,7 @@ const commentsForSamePost = [
     removalReason:''
   },
   {
+    Id:3,
     userName: 'Aya_husein',
     noVotes: 3,
     time: '2 minutes ago',
@@ -143,22 +149,23 @@ const comments=[
   {
     postCommentInfo:postCommentInfo,
     commentsForSamePost:commentsForSamePost  
-  },
-  {
-    postCommentInfo:postCommentInfo,
-    commentsForSamePost:commentsForSamePost  
-  },
-  {
-    postCommentInfo:postCommentInfo,
-    commentsForSamePost:commentsForSamePost  
   }
+  //,
+  // {
+  //   postCommentInfo:postCommentInfo,
+  //   commentsForSamePost:commentsForSamePost  
+  // },
+  // {
+  //   postCommentInfo:postCommentInfo,
+  //   commentsForSamePost:commentsForSamePost  
+  // }
 ];
 const routes = createBrowserRouter([
   {
     path: '/',
     element: (
       // <ProfilePageModerationCard communities={communities} />
-       <CommentTap comments={comments} />
+       <CommentTap  />
       //  <BasicModal />
     )
   },
