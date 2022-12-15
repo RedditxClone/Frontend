@@ -255,15 +255,15 @@ function PostContent({
         </div>
         {postContentData.flairs.length > 0
           ? postContentData.flairs.map((item) => (
-            <div className="flair">
-              <a
-                href="#"
-                className="flair-link"
-              >
-                {item}
-              </a>
-            </div>
-          ))
+              <div className="flair">
+                <a
+                  href="#"
+                  className="flair-link"
+                >
+                  {item}
+                </a>
+              </div>
+            ))
           : null}
       </div>
 

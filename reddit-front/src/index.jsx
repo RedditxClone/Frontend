@@ -24,6 +24,25 @@ import Notifications from './components/Notifications/Notifications';
 import Emails from './components/Emails/Emails';
 import Subscriptions from './components/Subscriptions/Subscriptions';
 import ChatMessaging from './components/ChatMessaging/ChatMessaging';
+// import DefaultUserPage from './pages/DefaultUserPage/DefaultUserPage';
+// import HomePage from './pages/HomePage/HomePage';
+// import Login from './pages/Login/Login';
+// import SignUp from './pages/SignUp/SignUp';
+// import ForgetUserName from './pages/ForgetUserName/ForgetUserName';
+// import ForgetUserPassword from './pages/ForgetUserPassword/ForgetUserPassword';
+// import ResetPassword from './pages/ResetPassword/ResetPassword';
+// import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
+// import ErrorPage from './pages/ErrorPage/ErrorPage';
+// import Subreddit from './pages/Subreddit/Subreddit';
+// import AccountSettings from './components/AccountSettings/AccountSettings';
+// import UserSettings from './pages/UserSettings/UserSettings';
+// import ProfileSettings from './components/ProfileSettings/ProfileSettings';
+// import SafetyPrivacySettings from './components/SafetyPrivacySettings/SafetyPrivacySettings';
+// import FeedSettings from './components/FeedSettings/FeedSettings';
+// import Notifications from './components/Notifications/Notifications';
+// import Emails from './components/Emails/Emails';
+// import Subscriptions from './components/Subscriptions/Subscriptions';
+// import ChatMessaging from './components/ChatMessaging/ChatMessaging';
 import CreatePost from './pages/CreatePost/CreatePost';
 import CommunitiesResults from './components/SearchCards/CommunitiesResults/CommunitiesResults';
 import SearchResults from './pages/SearchResults/SearchResults';
@@ -31,6 +50,15 @@ import PeopleResults from './components/SearchCards/PeopleResults/PeopleResults'
 import CommentsResults from './components/SearchCards/CommentsResults/CommentsResults';
 import PostsResults from './components/SearchCards/PostsResults/PostsResults';
 import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
+import MyProfilePage from './pages/MyProfilePage/MyProfilePage';
+import CommentsForSamePostCard from './components/CommentsCard/CommentsCard';
+import CommentTap from './components/CommentTap/CommentTap';
+// import ProfileUpvotePosts from './components/PorfileUpvotesPosts/ProfileUpvotePosts';
+//import UpvotePostList from './components/UpvotePostList/UpvotePostList';
+import OtherProfilePage from './pages/OtherProfilePage/OtherProfilePage';
+import ProfileList from './components/PostListProfile/PostListProfile';
+import DownVoteList from './components/DownVoteList/DownVoteList';
+import HiddenList from './components/HiddenList/HiddenList';
  import ProfilePageModerationCard from './components/ProfilePageModerationCard/ProfilePageModerationCard';
  import pic from './assets/Images/1166721.jpg';
 import CommentsForSamePostCard from './components/CommentsCard/CommentsCard';
@@ -84,9 +112,7 @@ const postCommentInfo = {
   postTitle: 'test',
   postLink: 'www.google.com',
   communityName: 'quotes',
-  postOwner: 'Aya_husein',
-  
-  
+  postOwner: 'Aya_husein'
 };
 const commentsForSamePost = [
   {
@@ -97,17 +123,17 @@ const commentsForSamePost = [
     content: 'kkkkkkkk',
     reply: true,
     isModerator: true,
-    spam:false,
-    locked:false,
-    approved:false,
-    removed:false,
-    saved:false,
-    commentLink:'www.google.com',
-    hasRemovalReason:false,
-    removalReason:'',
-    removalInfo:{
-      removalTime:'',
-      removerUser:""///??
+    spam: false,
+    locked: false,
+    approved: false,
+    removed: false,
+    saved: false,
+    commentLink: 'www.google.com',
+    hasRemovalReason: false,
+    removalReason: '',
+    removalInfo: {
+      removalTime: '',
+      removerUser: '' ///??
     }
   },
   {
@@ -118,14 +144,14 @@ const commentsForSamePost = [
     content: 'kkkkkkkk',
     reply: false,
     isModerator: false,
-    spam:false,
-    locked:false,
-    approved:false,
-    removed:false,
-    saved:false,
-    commentLink:'www.google.com',
-    hasRemovalReason:false,
-    removalReason:''
+    spam: false,
+    locked: false,
+    approved: false,
+    removed: false,
+    saved: false,
+    commentLink: 'www.google.com',
+    hasRemovalReason: false,
+    removalReason: ''
   },
   {
     Id:3,
@@ -135,20 +161,29 @@ const commentsForSamePost = [
     content: 'kkkkkkkk',
     reply: true,
     isModerator: true,
-    spam:false,
-    locked:false,
-    approved:false,
-    removed:false,
-    saved:false,
-    commentLink:'www.google.com',
-    hasRemovalReason:false,
-    removalReason:''
+    spam: false,
+    locked: false,
+    approved: false,
+    removed: false,
+    saved: false,
+    commentLink: 'www.google.com',
+    hasRemovalReason: false,
+    removalReason: ''
   }
 ];
+const comments = [
+  {
+    postCommentInfo: postCommentInfo,
+    commentsForSamePost: commentsForSamePost
+  },
+  {
+    postCommentInfo: postCommentInfo,
+    commentsForSamePost: commentsForSamePost
+  },
 const comments=[
   {
-    postCommentInfo:postCommentInfo,
-    commentsForSamePost:commentsForSamePost  
+    postCommentInfo: postCommentInfo,
+    commentsForSamePost: commentsForSamePost
   }
   //,
   // {
@@ -160,92 +195,95 @@ const comments=[
   //   commentsForSamePost:commentsForSamePost  
   // }
 ];
+
+// // import PostPorfileList from './components/PostListProfile/PostListProfile';
+// // Routes
+
+const Data = {
+  id: 1,
+  votes: 3,
+  community_id: 4,
+  user_id: 2,
+  community_name: 'quran',
+  posted_by: 'nada osman',
+  posted_at: '1 minute ago',
+  post_type: 'img',
+  title: 'this is sport topic',
+  flair_name: 'Question'
+};
+// const routes = createBrowserRouter([
+//   {
+//     path: '/',
+
+//   },
 const routes = createBrowserRouter([
   {
     path: '/',
-    element: (
-      // <ProfilePageModerationCard communities={communities} />
-       <CommentTap  />
-      //  <BasicModal />
-    )
-  },
-  {
-    path: '/auth',
-    element: <DefaultUserPage />,
-    errorElement: <ErrorPage />,
+    element: <MyProfilePage />,
     children: [
       {
-        path: 'login',
-        element: <Login />
+        path: 'submitted',
+        element: <ProfileList />
+      },
+      // {
+      //   path: 'comments',
+      //   element: (
+      //     <CommentTap comments={comments} />
+      //   )
+      // },
+      {
+        path: 'history',
+        element: <ProfileList />
       },
       {
-        path: 'signup',
-        element: <SignUp />
+        path: 'saved',
+        element: <ProfileList />
       },
       {
-        path: 'forgetuname',
-        element: <ForgetUserName />
+        path: 'hidden',
+        element: (
+          // <UpvotePostList
+          //   postData={Data}
+          //   isCommunityPost={false}
+          //   isPostFullDetailsMode={false}
+          //   isModeratorMode={false}
+          //   post_type="img"
+          //   title="this is sport topic"
+          //   flair_name="Question"
+          // />
+          <HiddenList />
+        )
       },
       {
-        path: 'forgetupassword',
-        element: <ForgetUserPassword />
+        path: 'upvoted',
+        element: <ProfileList />
       },
       {
-        path: 'resetupassword',
-        element: <ResetPassword />
+        path: 'downvoted',
+        element: <DownVoteList />
       }
     ]
   },
-  {
-    path: '/new/chooseuname',
-    element: <ChooseUserName />
-  },
-  {
-    path: '/home',
-    element: <HomePage />
-  },
-  {
-    path: '/subreddit',
-    element: <Subreddit />
-  },
-  {
-    path: '/settings',
-    element: <UserSettings />,
-    children: [
-      {
-        path: 'account',
-        element: <AccountSettings />
-      },
-      {
-        path: 'profile',
-        element: <ProfileSettings />
-      },
-      {
-        path: 'privacy',
-        element: <SafetyPrivacySettings />
-      },
-      {
-        path: 'feed',
-        element: <FeedSettings />
-      },
-      {
-        path: 'notifications',
-        element: <Notifications />
-      },
-      {
-        path: 'emails',
-        element: <Emails />
-      },
-      {
-        path: 'premium',
-        element: <Subscriptions />
-      },
-      {
-        path: 'messaging',
-        element: <ChatMessaging />
-      }
-    ]
-  },
+  // {
+  //   path: 'profile_user',
+  //   element: <OtherProfilePage />,
+  //   children: [
+  //     {
+  //       path: 'submitted',
+  //       element: (
+  //         <ProfileUpvotePosts
+  //           postData={Data}
+  //           isCommunityPost={false}
+  //           isPostFullDetailsMode={false}
+  //           isModeratorMode={false}
+  //           post_type="img"
+  //           title="this is sport topic"
+  //           flair_name="Question"
+  //         />
+  //       )
+  //     }
+  //   ]
+  // },
   {
     path: '/submit',
     element: <CreatePost />
@@ -276,6 +314,85 @@ const routes = createBrowserRouter([
     path: '/subreddit/about/:item',
     element: <ModToolsPage />
   }
+  // <CommentTap comments={comments} />
+  // ,
+  // {
+  //   path: '/auth',
+  //   element: <DefaultUserPage />,
+  //   errorElement: <ErrorPage />,
+  //   children: [
+  //     {
+  //       path: 'login',
+  //       element: <Login />
+  //     },
+  //     {
+  //       path: 'signup',
+  //       element: <SignUp />
+  //     },
+  //     {
+  //       path: 'forgetuname',
+  //       element: <ForgetUserName />
+  //     },
+  //     {
+  //       path: 'forgetupassword',
+  //       element: <ForgetUserPassword />
+  //     },
+  //     {
+  //       path: 'resetupassword',
+  //       element: <ResetPassword />
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/new/chooseuname',
+  //   element: <ChooseUserName />
+  // },
+  // {
+  //   path: '/home',
+  //   element: <HomePage />
+  // },
+  // {
+  //   path: '/subreddit',
+  //   element: <SubredditCards />
+  // },
+  // {
+  //   path: '/settings',
+  //   element: <UserSettings />,
+  //   children: [
+  //     {
+  //       path: 'account',
+  //       element: <AccountSettings />
+  //     },
+  //     {
+  //       path: 'profile',
+  //       element: <ProfileSettings />
+  //     },
+  //     {
+  //       path: 'privacy',
+  //       element: <SafetyPrivacySettings />
+  //     },
+  //     {
+  //       path: 'feed',
+  //       element: <FeedSettings />
+  //     },
+  //     {
+  //       path: 'notifications',
+  //       element: <Notifications />
+  //     },
+  //     {
+  //       path: 'emails',
+  //       element: <Emails />
+  //     },
+  //     {
+  //       path: 'premium',
+  //       element: <Subscriptions />
+  //     },
+  //     {
+  //       path: 'messaging',
+  //       element: <ChatMessaging />
+  //     }
+  //   ]
+  // }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
