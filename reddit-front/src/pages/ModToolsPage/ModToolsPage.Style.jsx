@@ -24,8 +24,7 @@ export const SubredditIcon = styled(Box)({
 
 export const SideBarCategory = styled(Box)({
   marginBottom: '8px',
-  paddingBottom: '8px',
-  fontFamily: "'Noto Sans',Arial,sans-serif"
+  paddingBottom: '8px'
 });
 
 export const SideBarCategoryTitle = styled(Box)({

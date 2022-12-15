@@ -320,7 +320,10 @@ function ModToolsPage() {
             width: 'calc(100vw)',
             display: 'flex',
             justifyContent: 'center',
-            backgroundColor: '#DAE0E6'
+            backgroundColor: '#DAE0E6',
+            paddingLeft: '280px',
+            position: 'relative',
+            top: '45px'
           }}
           data-testid="mod-tool-item"
         >

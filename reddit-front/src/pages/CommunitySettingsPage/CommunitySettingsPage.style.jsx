@@ -1,6 +1,11 @@
 import { Box, styled } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+/**
+ * @param {Box} - the default box
+ * @return {CardsHeaderContainer} - The styled container
+ */
+
 export const BreadCrumbContainer = styled(Box)({
   position: 'fixed',
   padding: '10px',
@@ -19,8 +24,7 @@ export const SubredditIcon = styled(Box)({
 
 export const SideBarCategory = styled(Box)({
   marginBottom: '8px',
-  paddingBottom: '8px',
-  fontFamily: "'Noto Sans',Arial,sans-serif"
+  paddingBottom: '8px'
 });
 
 export const SideBarCategoryTitle = styled(Box)({
@@ -40,7 +44,6 @@ export const SideBarItem = styled(Link)({
   fontSize: '14px',
   fontWeight: '400',
   lineHeight: '18px',
-  textDecoration: 'none',
   flexAlign: 'center',
   alignItems: 'center',
   display: 'flex',

@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/named */
+/* eslint-disable no-console */
 /* eslint-disable no-plusplus */
 import { useState } from 'react';
 import { Box, Link } from '@mui/material';
@@ -13,6 +16,7 @@ import {
   SideBarCategory,
   UpDiv
 } from './CommunitySettingsPage.style';
+import CommunityContainer from '../../components/Container/CommunityContainer';
 //  import communitySettings from '../../services/requests/communitySettings';
 
 export default function CommunitySettingsPage() {
@@ -334,18 +338,8 @@ export default function CommunitySettingsPage() {
               to="/subreddit/about/communitysettings/community"
               className="subreddit-item"
               onClick={handleClickOnSidebarItem(
-                'community',
-                <Community
-                  CommunityName={communityName}
-                  NameHandle={HandleCommmunityName}
-                  CommunityMessage={communityMessage}
-                  MessageHandle={HandleCommmunityMessage}
-                  TypeHandle={CommunityTypeHandler}
-                  CommunityType={communityType}
-                  RestrictedList={restrictedList}
-                  ResListHandle={RestrictedListHandle}
-                  ButHandle={ButtonsHandle}
-                />
+                'communitycontainer',
+                <CommunityContainer />
               )}
             >
               Community

@@ -15,7 +15,11 @@ export default function Community({
   TypeHandle,
   CommunityType,
   RestrictedList,
-  ResListHandle
+  ResListHandle,
+  WelHandle,
+  CommunityWelcom,
+  ShowWelcom,
+  WelHandleButton
 }) {
   const npClasses = [];
   if (!CommunityName.valid) {
@@ -24,6 +28,10 @@ export default function Community({
   const mpClasses = [];
   if (!CommunityMessage.valid) {
     mpClasses.push('red');
+  }
+  const spClasses = [];
+  if (!CommunityWelcom.valid) {
+    spClasses.push('red');
   }
 
   return (
@@ -73,39 +81,51 @@ export default function Community({
           Characters remaining
         </p>
       </div>
-      <div
-        id="WelcomeMessage"
-        style={{ display: 'flex', alignItems: 'center' }}
-      >
-        <div style={{ marginBottom: '0' }}>
-          <h2>
-            <label htmlFor="WelcomeMessageButton">
-              Send welcome message to new members
-            </label>
-          </h2>
-          <p>
-            Create a custom welcome message to greet people the instant they
-            join your community. New community members
-            {' '}
-            <br />
-            will see this in a direct message 1 hour after joining.
-            <a href="https://mods.reddithelp.com/hc/en-us/articles/360002551551-Welcoming-new-members">
-              Learn more.
-            </a>
-            {' '}
+      <div>
+        <div
+          id="WelcomeMessage"
+          style={{ display: 'flex', alignItems: 'center', marginBottom: '0' }}
+        >
+          <div style={{ marginBottom: '0' }}>
+            <h2>
+              <label htmlFor="WelcomeMessageButton">
+                Send welcome message to new members
+              </label>
+            </h2>
+            <p>
+              Create a custom welcome message to greet people the instant they
+              join your community. New community members
+              {' '}
+              <br />
+              will see this in a direct message 1 hour after joining.
+              <a href="https://mods.reddithelp.com/hc/en-us/articles/360002551551-Welcoming-new-members">
+                Learn more.
+              </a>
+              {' '}
+            </p>
+          </div>
+          <div
+            style={{
+              marginBottom: '0',
+              display: 'flex',
+              flexGrow: '1',
+              justifyContent: 'flex-end'
+            }}
+          >
+            <IOSSwitch id="WelcomeMessageButton" onClick={WelHandleButton} />
+          </div>
+        </div>
+        {ShowWelcom && (
+        <div>
+          <textarea maxLength="5000" rows="5" onChange={WelHandle} />
+          <p className={spClasses}>
+            {CommunityWelcom.count}
+            Characters remaining
           </p>
         </div>
-        <div
-          style={{
-            marginBottom: '0',
-            display: 'flex',
-            flexGrow: '1',
-            justifyContent: 'flex-end'
-          }}
-        >
-          <IOSSwitch id="WelcomeMessageButton" />
-        </div>
+        )}
       </div>
+
       <h3>COMMUNITY LOCATION AND MAIN LANGUAGE</h3>
       <p>
         Adding a location helps your community show up in search results and
