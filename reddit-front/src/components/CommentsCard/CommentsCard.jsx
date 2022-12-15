@@ -1,6 +1,7 @@
 /* eslint-disable */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-unescaped-entities */
+import './CommentCard.css'
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Menu from "@mui/material/Menu";
@@ -53,6 +54,7 @@ import {
   saveComment,
   deleteComment
 } from "../../services/requests/Comment";
+import Logo from '../../assets/test.jpg';
 
 // const style = {
 //   position: "absolute",
@@ -102,6 +104,56 @@ export default function CommentsForSamePostCard({
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
 
   const [cardComments, setCardComments] = useState(commentsForSamePost);
+  const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
+
+
+  /* This function shows the subreddit info while hovering on the subreddit name */
+  const handleHoverOnSubreddit = (communityId) => {
+    setIsCommunityNameHovered(true);
+    const communityInformation = document.getElementById(
+      'community-information-post-' + communityId
+    );
+
+    communityInformation.style.display = 'block';
+    communityInformation.style.visibility = 'visible';
+  };
+
+  /* This function hides the subreddit info while hovering out the subreddit name */
+  const handleHoverOutSubreddit = (communityId) => {
+    const communityInformation = document.getElementById(
+      'community-information-post-' + communityId
+    );
+    communityInformation.style.display = 'none';
+    communityInformation.style.visibility = 'hidden';
+  };
+
+  /* This function shows the user info while hovering on the username */
+  const handleHoverOnUsername = (communityId) => {
+    const userInformation = document.getElementById(
+      'user-information-post-' + communityId
+    );
+    userInformation.style.display = 'block';
+    userInformation.style.visibility = 'visible';
+  };
+
+  /* This function hides the user info while hovering out the username */
+  const handleHoverOutUsername = (communityId) => {
+    const userInformation = document.getElementById(
+      'user-information-post-' + communityId
+    );
+    userInformation.style.display = 'none';
+    userInformation.style.visibility = 'hidden';
+  };
+
+  /* This function return the subreddit name concatenated with 'r/' */
+  const getCommunityName = function () {
+    return postCommentInfo.communityName ? 'r/ '.concat(postCommentInfo.communityName) : 'community_name';
+  };
+
+  /* This function return the username of the person that published the post 'u/' */
+  // const getPostedBy = function () {
+  //   return postedBy ? 'u/ '.concat(postedBy) : 'user_name';
+  // };
 
   // const open = Boolean(anchorEl);
   /**
@@ -113,8 +165,11 @@ export default function CommentsForSamePostCard({
     // console.log(openMenuArr);
   };
   const handleOpenConfirmDialog = (id, index) => {
-    handleClose(true, 3, id, index);
+    console.log(openConfirmationDialog);
     setOpenConfirmationDialog(true);
+    if(openConfirmationDialog)
+    handleClose(true, 3, id, index);
+     console.log(openConfirmationDialog);
   };
   const handleCloseConfirmDialog = () => {
     setOpenConfirmationDialog(false);
@@ -122,6 +177,7 @@ export default function CommentsForSamePostCard({
   /**
    * closes the Rising Menu */
   const handleClose = (clicked, clickedItem, id, index) => {
+    console.log(clicked,clickedItem,id,index);
     if (clickedItem == 1) {
       saveButtonClickHandler(clicked, id);
     }
@@ -130,10 +186,12 @@ export default function CommentsForSamePostCard({
       // handleOpenConfirmDialog();
       // deleteCommentHandler(clicked, id);
     }
+    console.log(openConfirmationDialog);
     const temp = [...openMenuArr];
     temp[index] = false;
-    setOpenMenuArr(temp);
-    // console.log(openMenuArr);
+   setOpenMenuArr(temp);
+   setOpenConfirmationDialog(true);
+    console.log(openConfirmationDialog);
   };
 
   // const [anchorElShare, setAnchorElShare] = useState(null);
@@ -244,7 +302,7 @@ export default function CommentsForSamePostCard({
       >
         <FaRegCommentAlt size={24} color="#7c7c7c" />
         &ensp;
-        <Typography variant="h6" sx={{ fontWeight: "300", color: "#9b9b9b" }}>
+        <h6  style={{ fontWeight: "300", color: "#9b9b9b" }}>
           <span style={{ color: "#0079d3" }}> {postCommentInfo.userName} </span>{" "}
           commented on {postCommentInfo.postTitle} &nbsp;{" "}
           <span style={{ color: "#0079d3" }}>
@@ -257,13 +315,67 @@ export default function CommentsForSamePostCard({
               <GoLinkExternal color="#0079d3" size={12} />
             ) : null}
           </span>
-          <span style={{ color: "#1a1a1b", fontWeight: "500" }}>
+          <span className="community-name"
+            onMouseOver={()=>handleHoverOnSubreddit(postCommentInfo.communityId)}
+            onFocus={()=>handleHoverOnSubreddit(postCommentInfo.communityId)}
+            onMouseOut={()=>handleHoverOutSubreddit(postCommentInfo.communityId)}
+            onBlur={()=>handleHoverOutSubreddit(postCommentInfo.communityId)}
+            data-testid="test-post-community-name"
+             style={{ color: "#1a1a1b", fontWeight: "500" }}>
             {" "}
-            {postCommentInfo.communityName}{" "}
+            {/* {postCommentInfo.communityName}{" "} */}
+            <a href="#">{getCommunityName()}</a>
+            <div
+              className="community-information"
+              id={'community-information-post-' + postCommentInfo.communityId}
+            >
+              <div className="community-information-header">
+                <div className="community-logo-2">
+                  <img
+                    src={Logo}
+                    alt="community logo"
+                  />
+                </div>
+                <h3 className="community-name-2">
+                  <a href="#">{getCommunityName()}</a>
+                </h3>
+              </div>
+              <div className="community-stats">
+                <div className="community-stats-item">
+                  <span className="members-count">
+                    {/* {divideBigNumber(postRelatedCommunityData.members_count)} */}
+                    1234
+                  </span>
+                  <span>members</span>
+                </div>
+                <div className="community-stats-item">
+                  <span className="online-members">
+                    {/* {divideBigNumber(postRelatedCommunityData.online_members)} */}
+                    123
+                  </span>
+                  <span>online</span>
+                </div>
+              </div>
+              <div className="community-description-text">
+                <p>
+                  test
+                  {/* {postRelatedCommunityData.description} */}
+                </p>
+              </div>
+              <div className="community-view-button">
+                <a
+                  href="#"
+                  className="view-community"
+                >
+                  view community
+                </a>
+              </div>
+            </div>
           </span>{" "}
           . Posted by
           <span> {postCommentInfo.postOwner} </span>
-        </Typography>
+          
+        </h6>
       </Box>
       <List
         sx={{

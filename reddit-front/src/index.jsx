@@ -61,8 +61,8 @@ import DownVoteList from './components/DownVoteList/DownVoteList';
 import HiddenList from './components/HiddenList/HiddenList';
  import ProfilePageModerationCard from './components/ProfilePageModerationCard/ProfilePageModerationCard';
  import pic from './assets/Images/1166721.jpg';
-import CommentsForSamePostCard from './components/CommentsCard/CommentsCard';
-import CommentTap from './components/CommentTap/CommentTap';
+// import CommentsForSamePostCard from './components/CommentsCard/CommentsCard';
+// import CommentTap from './components/CommentTap/CommentTap';
 // import BasicModal from './components/CommentsCard/DeleteModal/DeleteModal';
 // import AddRemovalReasonModal from './components/CommentsCard/AddRemovalReasonModal/AddRemovalReasonModal';
 // Routes
@@ -171,30 +171,30 @@ const commentsForSamePost = [
     removalReason: ''
   }
 ];
-const comments = [
-  {
-    postCommentInfo: postCommentInfo,
-    commentsForSamePost: commentsForSamePost
-  },
-  {
-    postCommentInfo: postCommentInfo,
-    commentsForSamePost: commentsForSamePost
-  },
-const comments=[
-  {
-    postCommentInfo: postCommentInfo,
-    commentsForSamePost: commentsForSamePost
-  }
-  //,
-  // {
-  //   postCommentInfo:postCommentInfo,
-  //   commentsForSamePost:commentsForSamePost  
-  // },
-  // {
-  //   postCommentInfo:postCommentInfo,
-  //   commentsForSamePost:commentsForSamePost  
-  // }
-];
+// const comments = [
+//   {
+//     postCommentInfo: postCommentInfo,
+//     commentsForSamePost: commentsForSamePost
+//   },
+//   {
+//     postCommentInfo: postCommentInfo,
+//     commentsForSamePost: commentsForSamePost
+//   },
+// const comments=[
+//   {
+//     postCommentInfo: postCommentInfo,
+//     commentsForSamePost: commentsForSamePost
+//   }
+//   //,
+//   // {
+//   //   postCommentInfo:postCommentInfo,
+//   //   commentsForSamePost:commentsForSamePost  
+//   // },
+//   // {
+//   //   postCommentInfo:postCommentInfo,
+//   //   commentsForSamePost:commentsForSamePost  
+//   // }
+// ];
 
 // // import PostPorfileList from './components/PostListProfile/PostListProfile';
 // // Routes
@@ -219,11 +219,11 @@ const Data = {
 const routes = createBrowserRouter([
   {
     path: '/',
-    element: <MyProfilePage />,
+    element: <CommentTap />,
     children: [
       {
         path: 'submitted',
-        element: <ProfileList />
+        element: <CommentTap />
       },
       // {
       //   path: 'comments',
