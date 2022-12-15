@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/jsx-curly-brace-presence */
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -27,6 +28,8 @@ import ChatMessaging from './components/ChatMessaging/ChatMessaging';
 import CreatePost from './pages/CreatePost/CreatePost';
 import SearchResults from './pages/SearchResults/SearchResults';
 import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
+import PostFullPage from './pages/PostFullPage/PostFullPage';
+import Error404 from './pages/Error404/Error404';
 
 // Routes
 const routes = createBrowserRouter([
@@ -70,8 +73,12 @@ const routes = createBrowserRouter([
     element: <HomePage />
   },
   {
-    path: '/subreddit',
+    path: '/r/:subredditName',
     element: <Subreddit />
+  },
+  {
+    path: '/r/:subredditName/posts/:postId',
+    element: <PostFullPage />
   },
   {
     path: '/settings',
@@ -137,8 +144,12 @@ const routes = createBrowserRouter([
     ]
   },
   {
-    path: '/subreddit/about/:item',
+    path: '/:subredditName/about/:activeItem',
     element: <ModToolsPage />
+  },
+  {
+    path: '/error',
+    element: <Error404 />
   }
 ]);
 
