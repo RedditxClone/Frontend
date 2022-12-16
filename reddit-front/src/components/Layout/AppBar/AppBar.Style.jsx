@@ -210,30 +210,21 @@ export const LogInBox = styled('div')(({ theme }) => ({
 }));
 
 export const BackToTop = styled('div')(({ theme }) => ({
-  borderRadius: '1rem',
+  borderRadius: '2rem',
   backgroundColor: '#1484D6',
   padding: '0.3rem 1.5rem',
   position: 'fixed',
+  'button:hover': {
+    color: 'white'
+  },
   [theme.breakpoints.up('xs')]: {
-    top: '48.5rem',
-    left: '11rem'
+    top: '95%',
+    left: '50%'
   },
   [theme.breakpoints.up('sm')]: {
-    top: '48.5rem',
-    left: '26rem'
-  },
-  [theme.breakpoints.up('md')]: {
-    top: '48.5rem',
-    left: '40rem'
-  },
-  [theme.breakpoints.up('lg')]: {
-    top: '48.5rem',
-    left: '55rem'
+    top: '94.5%',
+    left: '70%'
   }
-  // [theme.breakpoints.up('xl')]: {
-  //   top: '44rem',
-  //   left: '65rem'
-  // }
 }));
 
 export const MessageAlert = styled('div')(({ theme }) => ({

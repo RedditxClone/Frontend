@@ -14,12 +14,12 @@ import ProfileLogin from '../ProfileLogging/ProfileLogging';
 * @param {string} topid this an id for nav bar used when back to top button to scroll up to it
 * @return {React.Component} the navigation bar of the site
 */
-function AppBarReddit({ topid }) {
+function AppBarReddit() {
   const { isAuth, user } = useSelector((state) => state.auth);
   // const user = useSelector((state) => state.user);
 
   return (
-    <StyledToolBar id={topid}>
+    <StyledToolBar id="navbar">
       <Logo />
       {isAuth && <HomeBox allkindcomm={user} />}
       <SearchBox login={isAuth} />

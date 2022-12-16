@@ -14,7 +14,7 @@ import HomeCreatePostCard from '../../components/HomePageCards/HomeCreatePostCar
 import { useEffect, useState } from 'react';
 import getUser from '../../services/requests/getUser';
 import { AuthActions } from '../../store/slices/AuthSlice';
-
+import BackTop from '../../components/BackToTop/BackToTop';
 const communities = [
   {
     name: 'My Community',
@@ -132,6 +132,7 @@ export default function HomePage() {
             </div>
           )}
         </div>
+        <BackTop id="navbar" />
       </main>
     </>
   );
