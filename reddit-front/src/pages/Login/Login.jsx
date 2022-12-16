@@ -21,6 +21,10 @@ import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import useInput from '../../hooks/use-input';
 import continueInWithGoogle from '../../services/requests/continueWithGoogle';
+import {
+  getMyCommunities,
+  getModeratedCommunities
+} from '../../store/slices/UserCommunitiesSlice';
 
 /**
  * This component returns a login page contains:
@@ -69,6 +73,8 @@ function Login() {
   /** If the authentication changes, run the useEffect to redirect to the home page  */
   useEffect(() => {
     if (isAuth) {
+      dispatch(getMyCommunities());
+      dispatch(getModeratedCommunities());
       navigate('/');
     }
   }, [isAuth]);
