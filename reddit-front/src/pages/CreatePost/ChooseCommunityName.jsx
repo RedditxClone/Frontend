@@ -16,7 +16,7 @@ const communities = [
   }
 ];
 
-function ChooseCommunityName({ setChoosedCommunity }) {
+function ChooseCommunityName({ setChoosedCommunity, communityName }) {
   const { user } = useSelector((state) => state.auth);
   const inputRef = useRef();
   const [openList, setOpenList] = useState(false);

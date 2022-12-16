@@ -4,13 +4,12 @@ import { MdOutlineDone } from 'react-icons/md';
 import { useState } from 'react';
 import classes from './CreatePost.module.css';
 import AppBar from '../../components/Layout/AppBar/AppBar';
-// import AboutCard from '../../components/SubredditCards/AboutCard/AboutCard';
 import PostingRules from './PostingRules';
 import ChooseCommunityName from './ChooseCommunityName';
 import { RoundedButton } from '../../components/HomePageCards/HomePageCards.style';
 import PostTag from './PostTag';
 import CreatePostTabs from './CreatePostTabs';
-import CommunityInfo from './CommunityInfo';
+// import CommunityInfo from './CommunityInfo';
 
 function CreatePost() {
   const [postTitle, setPostTitle] = useState('');
@@ -25,7 +24,8 @@ function CreatePost() {
 
   const validPost =
     validTitle &&
-    choosedCommunity.communityName.length > 0 &&
+    choosedCommunity &&
+    choosedCommunity.name.length > 0 &&
     (postContent.trim().length > 0 || validUrl || postMedia.length > 0);
 
   console.log(validPost);
@@ -35,10 +35,10 @@ function CreatePost() {
       postMedia,
       postTitle,
       postUrl,
-      choosedCommunity.communityName
+      choosedCommunity.name
     );
   };
-  const baseColor = '#0079D3';
+  // const baseColor = '#0079D3';
 
   return (
     <div>
@@ -49,7 +49,10 @@ function CreatePost() {
         <div className={classes['left-part']}>
           <header className={classes['left-part_header']}>Create a post</header>
           <div>
-            <ChooseCommunityName setChoosedCommunity={setChoosedCommunity} />
+            <ChooseCommunityName
+              communityName={choosedCommunity ? choosedCommunity.name : ''}
+              setChoosedCommunity={setChoosedCommunity}
+            />
           </div>
           <div className={classes['create-post']}>
             <CreatePostTabs
@@ -110,7 +113,7 @@ function CreatePost() {
         </div>
         <div className={classes['right-part']}>
           <div>
-            <CommunityInfo
+            {/* <CommunityInfo
               baseColor={baseColor}
               communityName={choosedCommunity.name}
               communityIcon={choosedCommunity.icon}
@@ -118,7 +121,7 @@ function CreatePost() {
               communityDate={choosedCommunity.date}
               communityMembers={choosedCommunity.members}
               communityOnlineMembers={choosedCommunity.online}
-            />
+            /> */}
             <PostingRules />
           </div>
         </div>
