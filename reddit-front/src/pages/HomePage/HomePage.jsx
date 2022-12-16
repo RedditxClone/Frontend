@@ -13,7 +13,6 @@ import HomeLanguagesCard from '../../components/HomePageCards/HomeLanguagesCard'
 import HomeCreatePostCard from '../../components/HomePageCards/HomeCreatePostCard';
 import { useEffect, useState } from 'react';
 import getUser from '../../services/requests/getUser';
-import { AuthActions } from '../../store/slices/AuthSlice';
 
 const communities = [
   {
