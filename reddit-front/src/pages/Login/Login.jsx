@@ -80,7 +80,6 @@ function Login() {
   }, [isAuth]);
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log('heare');
     dispatch(login({ username: userName, password }));
   };
 
