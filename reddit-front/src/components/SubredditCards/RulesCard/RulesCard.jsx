@@ -19,8 +19,6 @@ import StyledHorizontalLine from '../../../utilities/StyledHorizontalLine/Styled
 import { getRulesList } from '../../../services/requests/Subreddit';
 /**
  * @typedef PropType
- * @property {string, color} baseColor
- * @property {Integer} subredditId
  */
 
 /**
@@ -28,19 +26,8 @@ import { getRulesList } from '../../../services/requests/Subreddit';
  *
  */
 
-function RulesCard({ baseColor, subredditId }) {
+function RulesCard({ rulesList }) {
   const [showDescription, setShowDescription] = useState(false);
-  const [rulesList, setRulesList] = useState([]);
-
-  useEffect(() => {
-    // Fetching the data of the subreddit rules
-    const fetchRules = async () => {
-      const results = await getRulesList({ id: subredditId });
-      setRulesList(results);
-    };
-
-    fetchRules();
-  }, []);
 
   /**
    * This function divides handles the displaying of a rule description
@@ -66,7 +53,6 @@ function RulesCard({ baseColor, subredditId }) {
       {/* Card Header  */}
       <CardHeader
         title="r/AyahEveryDay Rules"
-        baseColor={baseColor}
         hasDropDownMenu={false}
       />
       {/* Card Body  */}
@@ -83,7 +69,7 @@ function RulesCard({ baseColor, subredditId }) {
                   <RuleNumber className="rule-number">
                     {`${index + 1}.`}
                   </RuleNumber>
-                  <RuleTitle className="rule-title">{item.name}</RuleTitle>
+                  <RuleTitle className="rule-title">{item.rule}</RuleTitle>
                   {item.description && (
                     <ShowRuleDescription className="show-rule-description">
                       <AiOutlineDown fontSize="1.3rem" />
