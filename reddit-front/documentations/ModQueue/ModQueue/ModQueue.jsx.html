@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ModQueue.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ModQueue.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
+/* eslint-disable prefer-template */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable operator-linebreak */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+import { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
+import { getPosts } from '../../services/requests/Post';
+import PostCard from './PostCard/PostCard';
+/**
+ * @typedef PropType
+ * @property {string} sortType
+ * @property {bool} isCommunityPost
+ * @property {bool} isModeratorMode
+ * @property {bool} isHomePagePost
+ */
+
+/**
+ * This Component for the spammed posts List.
+ * It fetches the api data for the posts, then looping on each post data to display it.
+ *
+ */
+
+function ModQueue({
+  sortType,
+  isCommunityPost,
+  isModeratorMode,
+  isHomePagePost,
+  whichQueue
+}) {
+  const isPostFullDetailsMode = false;
+  const [posts, setPosts] = useState([]);
+  const [sort, setSort] = useState(0);
+  const [time, setTime] = useState(0);
+  const [showComments, setShowComments] = useState(false);
+
+  // Fetching the results by calling the fetch service
+  const fetchPosts = async (timeState, sortState) => {
+    const results = await getPosts({ sortType });
+    setPosts(results);
+  };
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const handleSorting = (event) => {
+    setSort(event.target.value);
+    fetchPosts(time, event.target.value);
+  };
+  const handleTiming = (event) => {
+    setTime(event.target.value);
+    fetchPosts(event.target.value, sort);
+  };
+  // Preparing the data of the post to get displayed
+  const postsData =
+    posts.length > 0
+      ? posts.map((post) => (
+          &lt;PostCard
+            key={post.id}
+            postData={post}
+            isCommunityPost={isCommunityPost}
+            isPostFullDetailsMode={isPostFullDetailsMode}
+            isHomePagePost={isHomePagePost}
+            isModeratorMode={isModeratorMode}
+            isSaved={post.is_saved}
+            isLocked={post.is_locked}
+            isPostApproved={post.is_postApproved}
+            isPostSticky={post.is_postSticky}
+            isDistinguishedAsMode={post.is_distinguishedAsMode}
+            isNSFW={post.is_NSFW}
+            isSpoiled={post.is_spoiled}
+            replyNotifications={post.reply_notifications}
+            showComments={showComments}
+            whichQueue={whichQueue}
+          />
+        ))
+      : null;
+
+  // Returning the result
+  return (
+    &lt;div
+      style={{ width: '640px' }}
+      id="spammed-container"
+    >
+      &lt;h1 style={{ margin: '4rem 0', textTransform: 'capitalize' }}>
+        {whichQueue}
+      &lt;/h1>
+
+      {/* Sorting the content */}
+      &lt;Box
+        data-testid="search-posts-results"
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-start'
+        }}
+      >
+        {/* Sorting the results */}
+        &lt;Box
+          className="sort-relevance"
+          sx={{
+            width: '11rem',
+            marginBottom: '2rem',
+            '&amp; > div label': {
+              fontSize: '14px',
+              color: 'black',
+              fontWeight: '500',
+              verticalAlign: 'top'
+            }
+          }}
+        >
+          &lt;FormControl fullWidth>
+            &lt;InputLabel id="select-time-label">Time&lt;/InputLabel>
+            &lt;Select
+              labelId="select-time-label"
+              id="select-time"
+              value={time}
+              label="Time"
+              onChange={handleTiming}
+              sx={{
+                borderRadius: '50px',
+                '&amp; svg': {
+                  width: '2rem',
+                  height: '2rem'
+                }
+              }}
+            >
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={0}
+              >
+                Newest First
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={1}
+              >
+                Oldest First
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={2}
+              >
+                Most Reported First
+              &lt;/MenuItem>
+            &lt;/Select>
+          &lt;/FormControl>
+        &lt;/Box>
+
+        {/* Sorting the posts relative to the time */}
+        &lt;Box
+          className="sort-time"
+          sx={{
+            width: '11rem',
+            marginBottom: '2rem',
+            marginLeft: '2rem',
+            '&amp; > div label': {
+              fontSize: '14px',
+              color: 'black',
+              fontWeight: '500',
+              verticalAlign: 'top'
+            }
+          }}
+        >
+          &lt;FormControl fullWidth>
+            &lt;InputLabel id="select-sort">Content&lt;/InputLabel>
+            &lt;Select
+              labelId="select-sort"
+              id="demo-simple-select"
+              value={sort}
+              label="Sort"
+              onChange={handleSorting}
+              sx={{
+                borderRadius: '50px',
+                '&amp; svg': {
+                  width: '2rem',
+                  height: '2rem'
+                }
+              }}
+            >
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={0}
+              >
+                Posts
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={1}
+              >
+                Comments
+              &lt;/MenuItem>
+              &lt;MenuItem
+                sx={{ fontSize: '13px' }}
+                value={2}
+              >
+                Posts and Comments
+              &lt;/MenuItem>
+            &lt;/Select>
+          &lt;/FormControl>
+        &lt;/Box>
+      &lt;/Box>
+
+      &lt;div>{postsData}&lt;/div>
+    &lt;/div>
+  );
+}
+
+export default ModQueue;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ModQueue">ModQueue</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 09 2022 00:06:55 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

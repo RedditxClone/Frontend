@@ -1,3 +1,6 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable block-spacing */
 /* eslint-disable indent */
 /* eslint-disable operator-linebreak */
@@ -30,10 +33,11 @@ import {
   updateSubredditSubtopics,
   updateSubredditActiveSubtopics
 } from '../../../services/requests/Subreddit';
+
+import { topicsList } from './TopicsList';
+
 /**
  * @typedef PropType
- * @property {string} baseColor
- * @property {string} highlightColor
  * @property {array} subTopicsList
  * @property {array} setSubTopicsList
  * @property {array} chosenSubTopicsList
@@ -50,8 +54,6 @@ import {
  */
 
 function CommunityTopics({
-  highlightColor,
-  baseColor,
   subTopicsList,
   setSubTopicsList,
   chosenSubTopicsList,
@@ -59,6 +61,7 @@ function CommunityTopics({
   trackUserChosenSubTopic,
   trackUserRemovedSubTopic,
   subredditId,
+  subredditName,
   activeSubredditTopic
 }) {
   // states
@@ -69,31 +72,70 @@ function CommunityTopics({
   const [subTopicsCounter, setSubTopicsCounter] = useState(
     chosenSubTopicsList.length
   );
-  const [activeTopic, setActiveTopic] = useState(activeSubredditTopic);
+  const [activeTopic, setActiveTopic] = useState(
+    activeSubredditTopic === null ? 'Add a Primary Topic' : activeSubredditTopic
+  );
   const [editSubTopics, setEditSubTopics] = useState(false);
   const maxTopics = 25;
   const maxNumOfShownSubTopics = 7;
 
-  const topicsList = ['Activism', 'Anime', 'Art', 'Careers'];
-
   const [rerender, setRerender] = useState(false);
 
   useEffect(() => {
-    setActiveTopic(activeSubredditTopic);
-  }, [activeSubredditTopic]);
+    if (activeSubredditTopic) {
+      setActiveTopic(activeSubredditTopic);
+    } else {
+      setActiveTopic('Add a Primary Topic');
+    }
+  }, []);
 
   // Event listeners
+  /**
+   * This Method executes the actions that made by the user (moderator)
+   *
+   */
+  const saveNewTopics = () => {
+    console.log('save chosenSubTopicsList', chosenSubTopicsList);
+    // Update the counter value
+    setSubTopicsCounter(chosenSubTopicsList.length);
+
+    // update the api
+    let request = {
+      subredditName,
+      request: {
+        subTopics: chosenSubTopicsList
+      }
+    };
+
+    // update chosen sub-topics list
+    updateSubredditSubtopics(request);
+    setChosenSubTopicsList(chosenSubTopicsList);
+
+    // closing the edit mode
+    setEditSubTopics(false);
+    setShowSubTopics(false);
+  };
+
   const activateTopic = (e) => {
     const chosenTopic = e.target.innerHTML;
     setActiveTopic(chosenTopic);
     // call api to update it in the database
     const request = {
-      id: subredditId,
+      subredditName,
       request: {
-        active_topic: chosenTopic
+        activeTopic: chosenTopic
       }
     };
     updateSubredditTopic(request);
+
+    // removing it from subtopics
+    let newList = [...chosenSubTopicsList];
+    const index = newList.indexOf(chosenTopic);
+    if (index >= 0) {
+      newList.splice(index, 1);
+    }
+    setChosenSubTopicsList(newList);
+    saveNewTopics();
   };
   /**
    * This Method returns the list of topics to be shown,
@@ -122,41 +164,6 @@ function CommunityTopics({
       // TODO: sweet alert here
       console.log('Max numbers allowed is ', maxTopics);
     }
-  };
-
-  /**
-   * This Method executes the actions that made by the user (moderator)
-   *
-   */
-  const saveNewTopic = () => {
-    // Update the counter value
-    setSubTopicsCounter(chosenSubTopicsList.length);
-
-    // update the api
-    let request = {
-      id: subredditId,
-      request: {
-        active_subtopics: chosenSubTopicsList
-      }
-    };
-
-    // update chosen sub-topics list
-    updateSubredditActiveSubtopics(request);
-    setChosenSubTopicsList(chosenSubTopicsList);
-
-    // update the original sub-topics list
-    request = {
-      id: subredditId,
-      request: {
-        subtopics: subTopicsList
-      }
-    };
-    updateSubredditSubtopics(request);
-    setSubTopicsList(subTopicsList);
-
-    // closing the edit mode
-    setEditSubTopics(false);
-    setShowSubTopics(false);
   };
 
   /**
@@ -286,7 +293,7 @@ function CommunityTopics({
             display: 'inline-block',
             marginRight: '10px',
             fontSize: '14px',
-            color: highlightColor,
+            color: '#0079D3',
             fontWeight: '600'
           }}
         >
@@ -297,7 +304,7 @@ function CommunityTopics({
           fontSize="18px"
           style={{
             fontWeight: '600',
-            color: highlightColor
+            color: '#0079D3'
           }}
         />
 
@@ -311,9 +318,9 @@ function CommunityTopics({
                   id={index}
                   variant="paragraph"
                   sx={{
-                    color: highlightColor,
+                    color: '#0079D3',
                     '&:hover': {
-                      backgroundColor: highlightColor,
+                      backgroundColor: '#0079D3',
                       color: 'white'
                     }
                   }}
@@ -330,7 +337,7 @@ function CommunityTopics({
                   sx={{
                     color: 'black',
                     '&:hover': {
-                      backgroundColor: highlightColor,
+                      backgroundColor: '#0079D3',
                       color: 'white'
                     }
                   }}
@@ -348,7 +355,7 @@ function CommunityTopics({
         className="community-sub-topics"
         sx={{
           '&:hover': {
-            border: `1px solid ${highlightColor}`
+            border: '1px solid #0079D3'
           }
         }}
         onClick={() => {
@@ -365,10 +372,10 @@ function CommunityTopics({
             <SubTopic
               key={index}
               sx={{
-                color: highlightColor,
+                color: '#0079D3',
                 '&:hover': {
-                  backgroundColor: editSubTopics ? baseColor : '#ccc',
-                  color: editSubTopics ? 'white' : highlightColor
+                  backgroundColor: editSubTopics ? '#0079D3' : '#ccc',
+                  color: editSubTopics ? 'white' : '#0079D3'
                 }
               }}
               onClick={handleClickOnChosenSubTopic}
@@ -402,7 +409,7 @@ function CommunityTopics({
               marginTop: '8px',
               marginLeft: '4px',
               padding: '2px',
-              color: highlightColor
+              color: '#0079D3'
             }}
           >
             {`+ ${chosenSubTopicsList.length - maxNumOfShownSubTopics}`}
@@ -427,13 +434,14 @@ function CommunityTopics({
 
         {!editSubTopics && chosenSubTopicsList.length === 0 ? (
           <SubTopic
+            className="add-for-empy-sub-topics"
             sx={{
-              color: highlightColor,
+              color: '#0079D3',
               padding: '5px 5px 8px 5px',
               fontWeight: '500',
               '&:hover': {
-                backgroundColor: editSubTopics ? baseColor : '#ccc',
-                color: editSubTopics ? 'white' : highlightColor
+                backgroundColor: editSubTopics ? '#0079D3' : '#ccc',
+                color: editSubTopics ? 'white' : '#0079D3'
               }
             }}
             onClick={handleClickOnChosenSubTopic}
@@ -456,13 +464,13 @@ function CommunityTopics({
             <Box sx={{ float: 'right' }}>
               <StyledActionButton
                 onClick={cancelModification}
-                sx={{ color: highlightColor }}
+                sx={{ color: '#0079D3' }}
               >
                 Cancel
               </StyledActionButton>
               <StyledActionButton
-                onClick={saveNewTopic}
-                sx={{ color: highlightColor }}
+                onClick={saveNewTopics}
+                sx={{ color: '#0079D3' }}
               >
                 Save
               </StyledActionButton>
@@ -472,26 +480,31 @@ function CommunityTopics({
 
         {/* List of the suggested sub topics */}
         {showSubTopics ? (
-          <SuggestedSubTopicsContainer>
-            {subTopicsList.map((topic, index) => {
-              return (
-                <SuggestedSubTopic
-                  key={`topic-${index}`}
-                  id={index}
-                  variant="paragraph"
-                  sx={{
-                    '&:hover': {
-                      backgroundColor: baseColor,
-                      color: 'white'
-                    }
-                  }}
-                  onClick={choseSubTopic}
-                >
-                  {topic}
-                </SuggestedSubTopic>
-              );
-            })}
-          </SuggestedSubTopicsContainer>
+          <div
+            className="helper-div"
+            style={{ position: 'relative' }}
+          >
+            <SuggestedSubTopicsContainer>
+              {subTopicsList.map((topic, index) => {
+                return (
+                  <SuggestedSubTopic
+                    key={`topic-${index}`}
+                    id={index}
+                    variant="paragraph"
+                    sx={{
+                      '&:hover': {
+                        backgroundColor: '#0079D3',
+                        color: 'white'
+                      }
+                    }}
+                    onClick={choseSubTopic}
+                  >
+                    {topic}
+                  </SuggestedSubTopic>
+                );
+              })}
+            </SuggestedSubTopicsContainer>
+          </div>
         ) : null}
       </SubTopicsContainer>
     </Box>

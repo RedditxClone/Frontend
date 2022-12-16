@@ -1,8 +1,8 @@
 /* eslint-disable */
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import pic from '../../assets/Images/1166721.jpg';
 import './HomePage.style.css';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import { AuthActions } from '../../store/slices/AuthSlice';
 import AppBar from '../../components/Layout/AppBar/AppBar';
 import BestHotNewCard from '../../components/HomePageCards/BestHotNewCard';
@@ -11,7 +11,8 @@ import PostsList from '../../components/PostsList/PostsList';
 import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesCard';
 import HomeLanguagesCard from '../../components/HomePageCards/HomeLanguagesCard';
 import HomeCreatePostCard from '../../components/HomePageCards/HomeCreatePostCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import getUser from '../../services/requests/getUser';
 
 const communities = [
   {
@@ -79,10 +80,23 @@ const communities = [
 const buttons1 = ['Top', 'Food', 'Near You'];
 const buttonText = 'Near You';
 export default function HomePage() {
-  // const dispatch = useDispatch();
-  const { user, isAuth } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  let { user, isAuth } = useSelector((state) => state.auth);
+
   const [sortButton, setSortButton] = useState({ sort: null, time: null });
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  useEffect(() => {
+    async function fetchData() {
+      const userData = await getUser();
+      console.log(userData, typeof userData);
+      if (userData) {
+        dispatch(AuthActions.setIsAuthenticated(true));
+        dispatch(AuthActions.setUser(userData));
+        navigate('/');
+      }
+    }
+    fetchData();
+  }, []);
   console.log(user);
   return (
     <>
