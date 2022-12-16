@@ -1,28 +1,42 @@
+/* eslint-disable operator-linebreak */
 import { AiOutlinePlus } from 'react-icons/ai';
 import { MdOutlineDone } from 'react-icons/md';
 import { useState } from 'react';
 import classes from './CreatePost.module.css';
 import AppBar from '../../components/Layout/AppBar/AppBar';
-import AboutCard from '../../components/SubredditCards/AboutCard/AboutCard';
+// import AboutCard from '../../components/SubredditCards/AboutCard/AboutCard';
 import PostingRules from './PostingRules';
 import ChooseCommunityName from './ChooseCommunityName';
 import { RoundedButton } from '../../components/HomePageCards/HomePageCards.style';
 import PostTag from './PostTag';
 import CreatePostTabs from './CreatePostTabs';
+import CommunityInfo from './CommunityInfo';
 
 function CreatePost() {
   const [postTitle, setPostTitle] = useState('');
   const [postContent, setPostContent] = useState('');
   const [postUrl, setPostUrl] = useState('');
-  const [communityName, setCommunityName] = useState('');
   const [postMedia, setPostMedia] = useState([]);
   const [spoiler, setSpoiler] = useState(false);
   const [nsfw, setNsfw] = useState(false);
-  const [validUrl, setValidUrl] = useState(true);
-  const [validTitle, setValidTitle] = useState(true);
+  const [validUrl, setValidUrl] = useState(false);
+  const [validTitle, setValidTitle] = useState(false);
+  const [choosedCommunity, setChoosedCommunity] = useState(null);
 
+  const validPost =
+    validTitle &&
+    choosedCommunity.communityName.length > 0 &&
+    (postContent.trim().length > 0 || validUrl || postMedia.length > 0);
+
+  console.log(validPost);
   const onPostHandler = () => {
-    console.log(postContent, postMedia);
+    console.log(
+      postContent,
+      postMedia,
+      postTitle,
+      postUrl,
+      choosedCommunity.communityName
+    );
   };
   const baseColor = '#0079D3';
 
@@ -35,10 +49,7 @@ function CreatePost() {
         <div className={classes['left-part']}>
           <header className={classes['left-part_header']}>Create a post</header>
           <div>
-            <ChooseCommunityName
-              communityName={communityName}
-              setCommunityName={setCommunityName}
-            />
+            <ChooseCommunityName setChoosedCommunity={setChoosedCommunity} />
           </div>
           <div className={classes['create-post']}>
             <CreatePostTabs
@@ -53,6 +64,7 @@ function CreatePost() {
               setValidUrl={setValidUrl}
               validTitle={validTitle}
               setValidTitle={setValidTitle}
+              postContent={postContent}
             />
 
             <div>
@@ -89,6 +101,7 @@ function CreatePost() {
                 disableElevation
                 sx={{ fontSize: '1.2rem', fontWeight: '700' }}
                 onClick={onPostHandler}
+                disabled={!validPost}
               >
                 Post
               </RoundedButton>
@@ -97,10 +110,14 @@ function CreatePost() {
         </div>
         <div className={classes['right-part']}>
           <div>
-            <AboutCard
+            <CommunityInfo
               baseColor={baseColor}
-              isModeratorMode={false}
-              inCreatePost
+              communityName={choosedCommunity.name}
+              communityIcon={choosedCommunity.icon}
+              communityDiscription={choosedCommunity.description}
+              communityDate={choosedCommunity.date}
+              communityMembers={choosedCommunity.members}
+              communityOnlineMembers={choosedCommunity.online}
             />
             <PostingRules />
           </div>

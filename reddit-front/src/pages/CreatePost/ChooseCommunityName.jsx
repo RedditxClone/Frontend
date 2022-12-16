@@ -16,14 +16,17 @@ const communities = [
   }
 ];
 
-function ChooseCommunityName({ communityName, setCommunityName }) {
+function ChooseCommunityName({ setChoosedCommunity }) {
   const { user } = useSelector((state) => state.auth);
   const inputRef = useRef();
   const [openList, setOpenList] = useState(false);
   const [currentIcon, setCurrentIcon] = useState(null);
-  const onBlurInputHandler = () => {
+  const onChooseCommunity = (community) => {
+    setChoosedCommunity(community);
+    setCurrentIcon(community.icon);
     setOpenList(false);
   };
+
   return (
     <>
       <div className={classes['choose-community_container']}>
@@ -35,7 +38,6 @@ function ChooseCommunityName({ communityName, setCommunityName }) {
         </span>
         <input
           ref={inputRef}
-          onBlur={onBlurInputHandler}
           onFocus={() => setOpenList(true)}
           className={classes['choose-community_input']}
           placeholder="Choose Community"
@@ -56,9 +58,7 @@ function ChooseCommunityName({ communityName, setCommunityName }) {
               type="button"
               className={classes.communities_item}
               onClick={() => {
-                setCommunityName(user.username);
-                setCurrentIcon(user.icon);
-                setOpenList(false);
+                onChooseCommunity(user);
               }}
             >
               <span className={classes['community-logo']}>
@@ -87,9 +87,7 @@ function ChooseCommunityName({ communityName, setCommunityName }) {
                 type="button"
                 className={classes.communities_item}
                 onClick={() => {
-                  setCommunityName(comm.name);
-                  setCurrentIcon(comm.logo);
-                  setOpenList(false);
+                  onChooseCommunity(comm);
                 }}
               >
                 <span className={classes['community-logo']}>

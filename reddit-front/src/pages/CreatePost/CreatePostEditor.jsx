@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Draft /* convertToRaw */ from 'draft-js';
 import './CreatePost.module.css';
 import { stateToMarkdown } from 'draft-js-export-markdown';
+import { stateFromMarkdown } from 'draft-js-import-markdown';
 import BlockStyleControls from './BlockStyleControls';
 import InlineStyleControls from './InlineStyleControls';
 import './CreatePostEditor.css';
@@ -12,17 +13,23 @@ const { Editor, EditorState, RichUtils, getDefaultKeyBinding } = Draft;
 // Custom overrides for "code" style.
 const styleMap = {
   CODE: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    backgroundColor: 'rgba(0, 0, 150, 0.05)',
     fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
     fontSize: 16,
-    padding: 2
+    padding: 2,
+    maxWidth: '100%',
+    wordWrap: 'break-word',
+    wordBreak: 'break-word'
   }
 };
 
-function CreatePostEditor({ setPostContent }) {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+function CreatePostEditor({ setPostContent, postContent }) {
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(stateFromMarkdown(postContent))
+  );
   // const editorRef = useRef();
-
+  console.log('here1', stateFromMarkdown(postContent));
+  console.log('here2', editorState);
   const getBlockStyle = (block) => {
     switch (block.getType()) {
       case 'blockquote':

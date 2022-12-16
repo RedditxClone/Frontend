@@ -2,7 +2,6 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-props-no-spreading */
-import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -13,13 +12,13 @@ import { BsImage } from 'react-icons/bs';
 import { TfiLink } from 'react-icons/tfi';
 import { BiPoll } from 'react-icons/bi';
 import { HiOutlineMicrophone } from 'react-icons/hi';
-// import ImagesAndVideos from './Dropzone';
 import { useState } from 'react';
 import CreatePostEditor from './CreatePostEditor';
 import classes from './CreatePost.module.css';
 import DragAndDrop from './DragAndDrop';
 import validURL from '../../services/logic/validUrl';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
+import validateTitle from '../../services/logic/validateTitle';
 
 const TABS_OPTIONS = [
   {
@@ -82,6 +81,7 @@ function a11yProps(index) {
 
 function CreatePostTabs({
   setPostContent,
+  postContent,
   postMedia,
   setPostMedia,
   postTitle,
@@ -93,7 +93,7 @@ function CreatePostTabs({
   setValidUrl,
   setValidTitle
 }) {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const [visitUrl, setVisitUrl] = useState(false);
   const [visitTitle, setVisitTitle] = useState(false);
   const handleChangeTab = (event, newValue) => {
@@ -103,13 +103,16 @@ function CreatePostTabs({
   const onChangePostTitle = (event) => {
     const title = event.target.value;
     setPostTitle(title);
-    setValidTitle(visitTitle && title.length > 3);
+    console.log(title);
+    const check = validateTitle(title);
+    console.log(check);
+    setValidTitle(validateTitle(title));
   };
 
   const onChangePostUrl = (event) => {
     const url = event.target.value;
     setPostUrl(url);
-    setValidUrl(url.length > 0 && validURL(url) && visitUrl);
+    setValidUrl(url.length > 0 && visitUrl && validURL(url));
   };
   return (
     <Box sx={{ width: '100%' }}>
@@ -144,12 +147,12 @@ function CreatePostTabs({
             required
             placeholder="Title"
             onChange={onChangePostTitle}
-            onBlur={() => setVisitTitle(true)}
+            onFocus={() => setVisitTitle(true)}
           />
           <span className={classes['post-title-length']}>
             {`${postTitle.length}/300`}
           </span>
-          {!validTitle && (
+          {postTitle.length > 0 && visitTitle && !validTitle && (
             <ErrorMessage>Please, Enter Valid title</ErrorMessage>
           )}
         </div>
@@ -157,7 +160,10 @@ function CreatePostTabs({
           value={value}
           index={0}
         >
-          <CreatePostEditor setPostContent={setPostContent} />
+          <CreatePostEditor
+            setPostContent={setPostContent}
+            postContent={postContent}
+          />
         </TabPanel>
         <TabPanel
           value={value}
@@ -178,9 +184,11 @@ function CreatePostTabs({
             value={postUrl}
             className={classes['post-url']}
             onChange={onChangePostUrl}
-            onBlur={() => setVisitUrl(true)}
+            onFocus={() => setVisitUrl(true)}
           />
-          {!validUrl && <ErrorMessage>Please, Enter Valid URL</ErrorMessage>}
+          {postUrl.length > 0 && visitUrl && !validUrl && (
+            <ErrorMessage>Please, Enter Valid URL</ErrorMessage>
+          )}
         </TabPanel>
       </div>
     </Box>
