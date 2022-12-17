@@ -38,7 +38,7 @@ function SignUp() {
     hasError: errorEmail
   } = useInput((value) => checkEmail(value));
 
-  const formIsValid = !errorEmail || signUpWithGoggle || signUpWithFacebook;
+  const formIsValid = !errorEmail;
 
   const navigate = useNavigate();
 
