@@ -12,6 +12,7 @@ import getCookie from './getCookie';
  */
 export const getSubreddit = async (subredditName) => {
   const token = getCookie('Authorization');
+  console.log(`/api/subreddit/r/${subredditName}`);
   const response = await api.get(`/api/subreddit/r/${subredditName}`, {
     headers: { Authorization: token }
   });
@@ -131,10 +132,15 @@ export const updateDescription = async (data) => {
  * @param {object} data - The request data
  */
 export const updateSubredditTopic = async (data) => {
-  const { subredditName, request } = data;
-  const response = await api.patch(
-    `/api/subreddit/r/${subredditName}`,
-    request
+  const token = getCookie('Authorization');
+
+  const { subredditId, request } = data;
+  const response = await api.post(
+    `/api/subreddit/${subredditId}/activetopic`,
+    request,
+    {
+      headers: { Authorization: token }
+    }
   );
   return response.data;
 };
@@ -144,10 +150,14 @@ export const updateSubredditTopic = async (data) => {
  * @param {object} data - The request data
  */
 export const updateSubredditSubtopics = async (data) => {
-  const { subredditName, request } = data;
-  const response = await api.patch(
-    `/api/subreddit/r/${subredditName}`,
-    request
+  const token = getCookie('Authorization');
+  const { subredditId, request } = data;
+  const response = await api.post(
+    `/api/subreddit/${subredditId}/subtopics`,
+    request,
+    {
+      headers: { Authorization: token }
+    }
   );
   return response.data;
 };

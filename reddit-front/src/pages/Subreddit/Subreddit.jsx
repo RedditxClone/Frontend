@@ -69,12 +69,13 @@ export default function Subreddit() {
               isJoined={subredditInfo.joined}
               subredditId={subredditInfo._id}
               subredditName={subredditName}
+              subredditTitle={subredditInfo.title}
               name={subredditInfo.name}
               title={subredditInfo.name}
               notificationsStyle={subredditInfo.notificationType}
               logo={subredditInfo.icon}
             />
-            <CardsContainer style={{ backgroundColor: '#ccc' }}>
+            <CardsContainer style={{ backgroundColor: '#ccc', height: '100%' }}>
               <PostsContainer>
                 <CreatePostCard />
                 <BestHotNewCard />
