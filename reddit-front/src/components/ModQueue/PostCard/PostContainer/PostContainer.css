@@ -1,0 +1,7 @@
+div.post-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  border-radius: 5px;
+}

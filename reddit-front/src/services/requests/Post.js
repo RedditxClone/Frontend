@@ -7,9 +7,48 @@ import api from './api';
  * This service for fetching the posts
  * @param {object} data - The request data
  */
+export const getPost = async (id) => {
+  const response = await api.get(`/api/post/${id}`);
+  return response.data;
+};
+
+/**
+ * This service for fetching the posts
+ * @param {object} data - The request data
+ */
 export const getPosts = async (data) => {
   const { sortType } = data;
   const response = await api.get(`/api/posts/${sortType}`);
+  return response.data;
+};
+
+/**
+ * This service for fetching the spammed posts
+ * @param {object} data - The request data
+ */
+export const getSpammedPosts = async (data) => {
+  const { sortType } = data;
+  const response = await api.get('/api/posts/spammed');
+  return response.data;
+};
+
+/**
+ * This service for fetching the un-moderated posts
+ * @param {object} data - The request data
+ */
+export const getUnModeratedPosts = async (data) => {
+  const { sortType } = data;
+  const response = await api.get('/api/posts/unmoderated');
+  return response.data;
+};
+
+/**
+ * This service for fetching the edited posts
+ * @param {object} data - The request data
+ */
+export const getEditedPosts = async (data) => {
+  const { sortType } = data;
+  const response = await api.get('/api/posts/edited');
   return response.data;
 };
 

@@ -16,7 +16,6 @@ import {
 /**
  * @typedef PropType
  * @property {string} title
- * @property {string} baseColor
  * @property {boolean} hasDropDownMenu
  * @property {boolean} isModeratorMode
  */
@@ -26,13 +25,18 @@ import {
  *
  */
 
-function CardHeader({ title, baseColor, hasDropDownMenu, isModeratorMode }) {
+function CardHeader({
+  title,
+  hasDropDownMenu,
+  isModeratorMode,
+  subredditName
+}) {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
   return (
     <CardsHeaderContainer
       data-testid="card-header-container"
-      sx={{ backgroundColor: baseColor, border: `1px solid ${baseColor}` }}
+      sx={{ backgroundColor: '#0079D3', border: '1px solid #0079D3' }}
     >
       {/* The header title  */}
       <Typography
@@ -48,7 +52,11 @@ function CardHeader({ title, baseColor, hasDropDownMenu, isModeratorMode }) {
 
       {/* Mod tools button  */}
       {isModeratorMode ? (
-        <ModToolsButton>
+        <ModToolsButton
+          onClick={() => {
+            window.location.replace(`/${subredditName}/about/spam`);
+          }}
+        >
           <BsShield
             fontSize="2rem"
             style={{
