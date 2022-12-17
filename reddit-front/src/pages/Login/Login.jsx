@@ -35,10 +35,6 @@ import {
  * 3- submit button
  * @returns {React.Component}
  */
-// const GOOGLE_ID = process.env.REACT_APP_GOOGLE_ID;
-// const GOOGLE_SECRET = process.env.REACT_APP_GOOGLE_SECRET;
-// const GITHUB_ID = process.env.REACT_APP_GITHUB_ID;
-// const GITHUB_SECRET = process.env.REACT_APP_GITHUB_SECRET;
 
 function Login() {
   /**
@@ -67,11 +63,8 @@ function Login() {
     hasError: errorPassword
   } = useInput((value) => value.length >= 8);
 
-  // const [loginWithGithub, setLoginWithGithub] = useState(false);
-  // const [loginWithGoogle, setLoginWithGoogle] = useState(false);
   /** To check if the form is valid or not */
-  const formIsValid =
-    (!errorPassword && !errorUserName) || loginWithGoogle || loginWithFacebook;
+  const formIsValid = !errorPassword && !errorUserName;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -86,7 +79,6 @@ function Login() {
   }, [isAuth]);
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log('heare');
     dispatch(login({ username: userName, password }));
   };
 
@@ -97,70 +89,6 @@ function Login() {
     resetPasswordInput();
     resetUserNameInput();
   };
-
-  /**
-   *
-   * @param {Object} response - response from Google API for being registered with google email
-   */
-  // const handleCallBackResponse = (response) => {
-  //   /** Should be sent to API */
-  //   console.log(response);
-
-  //   // continueInWithGoogle(response);
-  //   setLoginWithGoogle(true);
-  // };
-
-  /** Render the Google button only once the page is first renedered */
-  // useEffect(() => {
-  //   const queryString = window.location.search;
-  //   const urlparams = new URLSearchParams(queryString);
-  //   const code = urlparams.get('code');
-  //   const params = `?client_id=${GITHUB_ID}&client_secret=${GITHUB_SECRET}&code=${code}`;
-  //   console.log(params);
-  //   // const getAccessToken = async () => {
-  //   //   try {
-  //   //     const response = await axios.post(
-  //   //       `https://github.com/login/oauth/access_token${params}`,
-
-  //   //       {
-  //   //         headers: {
-  //   //           'Content-Type': 'application/json',
-  //   //           'Access-Control-Allow-Origin': '*',
-  //   //           'Access-Control-Allow-Credentials': 'true',
-  //   //           'Access-Control-Max-Age': '1800',
-  //   //           'Access-Control-Allow-Headers': 'content-type',
-  //   //           'Access-Control-Allow-Methods':
-  //   //             'PUT, POST, GET, DELETE, PATCH, OPTIONS'
-  //   //         }
-  //   //       }
-  //   //     );
-  //   //     const accessToken = response.data;
-  //   //     console.log(data);
-  //   //     return accessToken;
-  //   //   } catch (err) {
-  //   //     console.log(err.message);
-  //   //     return null;
-  //   //   }
-  //   // };
-  //   // getAccessToken();
-
-  //   google.accounts.id.initialize({
-  //     client_id: GOOGLE_ID,
-  //     client_secret: GOOGLE_SECRET,
-  //     callback: handleCallBackResponse
-  //   });
-
-  //   google.accounts.id.renderButton(
-  //     document.getElementById('continueWithGoggle'),
-  //     {
-  //       type: 'icon',
-  //       theme: 'standard',
-  //       size: 'large',
-  //       shape: 'recatangular',
-  //       width: '40px'
-  //     }
-  //   );
-  // }, []);
 
   const len = 28;
   const lhlen = 3;

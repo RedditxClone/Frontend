@@ -25,7 +25,6 @@ function ContinueWithGoogle() {
   });
 
   const onSuccess = async (res) => {
-    console.log(res);
     const userData = await continueWithGoogle(res.tokenObj.id_token);
     if (userData) {
       setUnAuthorized(false);
@@ -52,7 +51,7 @@ function ContinueWithGoogle() {
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy="single_host_origin"
-        isSignedIn
+        isSignedIn={false}
       />
       {unAuthorized && <ErrorMessage>Error in authorization</ErrorMessage>}
     </>
