@@ -1,7 +1,8 @@
 /* eslint-disable operator-linebreak */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../services/requests/api';
-import removeCookie from '../../services/requests/removeCookie';
+import deleteAllCookies from '../../services/requests/removeAllCookies';
+// import removeCookie from '../../services/requests/removeCookie';
 /**
  * @typedef AuthState - This describes the current authentication state
  * @property {Objec} user - the current authenticated user with its
@@ -157,7 +158,7 @@ const AuthSlice = createSlice({
       state.user = {};
       state.userToken = null;
       state.isAuth = false;
-      removeCookie();
+      deleteAllCookies();
     },
 
     setUser(state, action) {
