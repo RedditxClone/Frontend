@@ -29,12 +29,12 @@ function SubredditInfo({
   isJoined,
   subredditId,
   subredditName,
+  subredditTitle,
   name,
   title,
   notificationsStyle,
   logo
 }) {
-  console.log('subredditId in info', subredditId);
   const [hasLogo, setHasLogo] = useState(logo !== null);
   const SubredditLogo = (
     <LogoImg src="https://styles.redditmedia.com/t5_2rr0e/styles/communityIcon_ylhgbe8ngx481.jpg?width=256&format=pjpg&s=fb6c14e5b6e326a13bdff84d7e0aac38511df59c" />
@@ -73,6 +73,7 @@ function SubredditInfo({
           <SubredditName
             subredditId={subredditId}
             srName={subredditName}
+            subredditTitle={subredditTitle}
             isJoined={isJoined}
             name={name}
             title={title}
