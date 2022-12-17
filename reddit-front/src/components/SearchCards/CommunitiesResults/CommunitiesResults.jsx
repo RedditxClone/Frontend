@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/aria-role */
 /* eslint-disable react/jsx-curly-newline */
@@ -68,25 +69,40 @@ function CommunitiesResults({ isSideBarCard, searchKey }) {
    * @param {int} subredditId - The number to be divided.
    * @param {bool} currentState - true : joined, false: not joined
    */
-  const handleJoinButton = (e, subredditId, currentState) => {
-    if (currentState) {
-      leaveSubreddit({ id: subredditId });
+  const handleJoinButton = (subredditId) => {
+    const btn = document.getElementById(`join-button-${subredditId}`);
+    const currentState = btn.dataset.isjoined;
+
+    if (currentState === 'true' || currentState === true) {
+      btn.dataset.isjoined = false;
+      btn.innerHTML = 'Leave';
+      leaveSubreddit(subredditId);
     } else {
-      joinSubreddit({ id: subredditId });
+      btn.dataset.isjoined = true;
+      btn.innerHTML = 'Join';
+      joinSubreddit(subredditId);
     }
   };
 
-  const handleHoveringOnJoinButton = (e) => {
-    if (e.target.dataset.isjoined) {
-      e.target.innerHTML = 'Leave';
+  const handleHoveringOnJoinButton = (id) => {
+    const btn = document.getElementById(`join-button-${id}`);
+    const currentState = btn.dataset.isjoined;
+
+    if (currentState === 'true' || currentState === true) {
+      btn.innerHTML = 'Leave';
+    } else {
+      btn.innerHTML = 'Join';
     }
   };
 
-  const handleHoveringOutJoinButton = (e) => {
-    if (e.target.dataset.isjoined) {
-      e.target.innerHTML = 'Joined';
+  const handleHoveringOutJoinButton = (id) => {
+    const btn = document.getElementById(`join-button-${id}`);
+    const currentState = btn.dataset.isjoined;
+
+    if (currentState === 'true' || currentState === true) {
+      btn.innerHTML = 'Joined';
     } else {
-      e.target.innerHTML = 'Join';
+      btn.innerHTML = 'Join';
     }
   };
 
@@ -131,7 +147,12 @@ function CommunitiesResults({ isSideBarCard, searchKey }) {
                       />
                     </StyledLogoContainer>
                     <div>
-                      <StyledCommunityName data-testid="community-search">
+                      <StyledCommunityName
+                        data-testid="community-search"
+                        onClick={() => {
+                          window.location.replace(`/r/${item.name}`);
+                        }}
+                      >
                         {`r/${item.name}`}
                       </StyledCommunityName>
                       {!isSideBarCard ? (
@@ -152,11 +173,10 @@ function CommunitiesResults({ isSideBarCard, searchKey }) {
                   <FollowButton
                     role="community-join-button"
                     data-isJoined={item.joined}
-                    onClick={() =>
-                      handleJoinButton(this, item._id, item.joined)
-                    }
-                    onMouseOver={handleHoveringOnJoinButton}
-                    onMouseOut={handleHoveringOutJoinButton}
+                    id={`join-button-${item._id}`}
+                    onClick={() => handleJoinButton(item._id)}
+                    onMouseOver={() => handleHoveringOnJoinButton(item._id)}
+                    onMouseOut={() => handleHoveringOutJoinButton(item._id)}
                   >
                     {item.joined ? 'Joined' : 'Join'}
                   </FollowButton>
