@@ -37,8 +37,8 @@ import CommentTap from './components/CommentTap/CommentTap';
 // import ProfileUpvotePosts from './components/PorfileUpvotesPosts/ProfileUpvotePosts';
 //import UpvotePostList from './components/UpvotePostList/UpvotePostList';
 import OtherProfilePage from './pages/OtherProfilePage/OtherProfilePage';
-import ProfileList from './components/PostListProfile/PostListProfile';
-import DownVoteList from './components/DownVoteList/DownVoteList';
+// import ProfileList from './components/PostListProfile/PostListProfile';
+// import DownVoteList from './components/DownVoteList/DownVoteList';
 import HiddenList from './components/HiddenList/HiddenList';
 // Routes
 // const communities = [
@@ -180,24 +180,24 @@ const routes = createBrowserRouter([
     path: '/',
     element: <MyProfilePage />,
     children: [
-      {
-        path: 'submitted',
-        element: <ProfileList />
-      },
+      // {
+      //   path: 'submitted',
+      //   element: <HiddenList />
+      // },
       // {
       //   path: 'comments',
       //   element: (
       //     <CommentTap comments={comments} />
       //   )
       // },
-      {
-        path: 'history',
-        element: <ProfileList />
-      },
-      {
-        path: 'saved',
-        element: <ProfileList />
-      },
+      // {
+      //   path: 'history',
+      //   element: <ProfileList />
+      // },
+      // {
+      //   path: 'saved',
+      //   element: <ProfileList />
+      // },
       {
         path: 'hidden',
         element: (
@@ -212,15 +212,15 @@ const routes = createBrowserRouter([
           // />
           <HiddenList />
         )
-      },
-      {
-        path: 'upvoted',
-        element: <ProfileList />
-      },
-      {
-        path: 'downvoted',
-        element: <DownVoteList />
       }
+      // {
+      //   path: 'upvoted',
+      //   element: <ProfileList />
+      // },
+      // {
+      //   path: 'downvoted',
+      //   element: <DownVoteList />
+      // }
     ]
   },
   // {

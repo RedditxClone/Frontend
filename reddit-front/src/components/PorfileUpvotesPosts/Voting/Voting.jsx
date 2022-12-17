@@ -9,7 +9,11 @@ import { useState, memo } from 'react';
 import './Voting.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { divideBigNumber } from '../../../utilities/Helpers';
-import { votePost } from '../../../services/requests/Post';
+import {
+  unVoteGo,
+  downVoteGo,
+  upVoteGo
+} from '../../../services/requests/ProfilePosts';
 
 /**
  * @typedef PropType
@@ -29,96 +33,54 @@ function Voting({
   votesCount,
   postId,
   currentVotingState,
-  isUpvotedd,
-  isDownvotedd
+  // isUpvotedd,
+  // isDownvotedd
+  voteType
 }) {
   const [votesCountColor, setVotesCountColor] = useState('black');
-  const [isUpVoted, setIsUpVoted] = useState(isUpvotedd);
-  const [isDownVoted, setIsDownVoted] = useState(isDownvotedd);
+  const [isUpVoted, setIsUpVoted] = useState(voteType === 'upvote');
+  const [isDownVoted, setIsDownVoted] = useState(voteType === 'downvote');
   const [votes, setVotes] = useState(votesCount);
   let upVote;
   let downVote;
   const handleUpVoting = () => {
-    votesCount = votes;
     if (isUpVoted) {
-      setVotes(votesCount - 1);
-      votesCount -= 1;
-      setIsUpVoted(false);
-      setIsDownVoted(false);
-      upVote = false;
-      downVote = false;
-      currentVotingState = 0;
+      const info = {
+        id: postId
+      };
       setVotesCountColor('black');
-    } else if (isDownVoted) {
-      setVotes(votesCount + 2);
-      votesCount += 2;
-      setIsDownVoted(false);
-      setIsUpVoted(true);
-      upVote = true;
-      downVote = false;
-      currentVotingState = 1;
-      setVotesCountColor('#ff6830');
+      unVoteGo(info);
+      setIsUpVoted(false);
     } else {
-      setVotes(votesCount + 1);
-      votesCount += 1;
+      const info = {
+        id: postId
+      };
+      upVoteGo(info);
       setIsUpVoted(true);
-      setIsDownVoted(false);
-      upVote = true;
-      downVote = false;
-      currentVotingState = 1;
       setVotesCountColor('#ff6830');
+      if (isDownVoted) {
+        setIsDownVoted(false);
+      }
     }
-    const info = {
-      request: {
-        votes: votesCount,
-        is_upvoted: upVote,
-        is_downvoted: downVote
-      },
-      id: postId
-    };
-    votePost(info);
   };
 
   const handleDownVoting = () => {
-    votesCount = votes;
-    if (isUpVoted) {
-      setVotes(votesCount - 2);
-      votesCount -= 2;
-      setIsUpVoted(false);
-      setIsDownVoted(true);
-      upVote = false;
-      downVote = true;
-      currentVotingState = -1;
-      setVotesCountColor('#0272c4');
-    } else if (isDownVoted) {
-      setVotes(votesCount + 1);
-      votesCount += 1;
-      setIsDownVoted(false);
-      setIsUpVoted(false);
-      upVote = false;
-      downVote = false;
-      currentVotingState = 0;
+    if (isDownVoted) {
       setVotesCountColor('black');
+      const info = {
+        id: postId
+      };
+      unVoteGo(info);
+      setIsDownVoted(false);
     } else {
-      setVotes(votesCount - 1);
-      votesCount -= 1;
-      setIsUpVoted(false);
+      const info = {
+        id: postId
+      };
+      downVoteGo(info);
       setIsDownVoted(true);
-      upVote = false;
-      downVote = true;
-      currentVotingState = -1;
       setVotesCountColor('#0272c4');
+      if (isUpVoted) setIsUpVoted(false);
     }
-
-    const info = {
-      request: {
-        votes: votesCount,
-        is_upvoted: upVote,
-        is_downvoted: downVote
-      },
-      id: postId
-    };
-    votePost(info);
   };
 
   // Returning the result

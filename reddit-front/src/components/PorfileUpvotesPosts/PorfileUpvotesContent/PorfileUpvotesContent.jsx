@@ -33,39 +33,43 @@ import Logo from './test.png';
  */
 function PostContent({
   postContentData,
-  isPostFullDetailsMode,
+  isJoined,
   isSaved,
-  isLocked,
   isPostApproved,
-  isPostSticky,
-  isDistinguishedAsMode,
   isNSFW,
   isSpoiled,
   replyNotifications,
-  isHidden,
-  isUpvoted,
-  isDownvoted,
-  isDeleted,
+  voteType,
   isModerator,
-  isCrosspost,
-  isCommunityPost,
-  isPinned,
-  isJoined
+  userPostedByInfo,
+  postImages
+  // isPostFullDetailsMode,
+  // isLocked,
+  // isPostSticky,
+  // isDistinguishedAsMode,
+  // isHidden,
+  // isUpvoted,
+  // isDownvoted,
+  // isDeleted,
+  // isCrosspost,
+  // isCommunityPost,
+  // isPinned,
 }) {
   let postContent = null;
   let slideIndex = 0;
   let expandPostContent = null;
   const [modAction, setModAction] = useState(0);
   const [content, setContent] = useState(false);
-  const [locked, setLocked] = useState(postContentData.is_locked);
-  const [distinguishAsMod, setDistinguishAsMod] = useState(
-    postContentData.is_distinguishedAsMode
-  );
-  const [nsfw, setNsfw] = useState(postContentData.is_NSFW);
-  const [isVisited, setIsVisited] = useState(postContentData.visited);
   const [canBeSpoiled, setCanBeSpoiled] = useState(
-    postContentData.post_type === 'img'
+    // postContentData.post_type === 'img'
+    isSpoiled
   );
+  const [nsfw, setNsfw] = useState(isNSFW);
+  // const [locked, setLocked] = useState(postContentData.is_locked);
+  // const [distinguishAsMod, setDistinguishAsMod] = useState(
+  //   postContentData.is_distinguishedAsMode
+  // );
+  // const [isVisited, setIsVisited] = useState(postContentData.visited);
 
   const showContentt = () => {
     const temp = !content;
@@ -80,19 +84,22 @@ function PostContent({
         postContent = (
           <a className="post-image">
             <img
-              src={Logo}
+              src={postImages[0]}
               alt="post image"
             />
           </a>
         );
-        expandPostContent = (
-          <div style={{ width: '50%', height: '50%' }}>
+        expandPostContent = postImages.map((img) => (
+          <div
+            style={{ width: '50%', height: '50%' }}
+            className="my-slides"
+          >
             <img
-              src={Logo}
+              src={img}
               alt="post image"
             />
           </div>
-        );
+        ));
         // }
         break;
       case 'video': ///we deleted the video element until decide what we will do with its screenshot???
@@ -124,7 +131,22 @@ function PostContent({
           />
         );
         expandPostContent = (
-          <p style={{ fontSize: '1.5rem' }}>{postContentData.content}</p>
+          <p style={{ fontSize: '1.5rem' }}>{postContentData.text}</p>
+        );
+        break;
+
+      case 'link':
+        postContent = (
+          <TiDocumentText
+            style={{
+              fontSize: '2.5rem',
+              margin: content ? '3.5rem' : '2.5rem',
+              color: '#949494'
+            }}
+          />
+        );
+        expandPostContent = (
+          <p style={{ fontSize: '1.5rem' }}>{postContentData.text}</p>
         );
         break;
       default:
@@ -137,7 +159,7 @@ function PostContent({
   /* show the image slider if the post has multiple images */
   const showSlides = () => {
     let slides = document.querySelectorAll('.my-slides');
-
+    // let slides = postImages;
     const slidesLength = slides.length;
     if (slideIndex === slidesLength) {
       slideIndex = 0;
@@ -183,7 +205,6 @@ function PostContent({
             }}
           >
             {getPostContent()}
-            {showSlides()}
           </div>
         </div>
 
@@ -262,6 +283,7 @@ function PostContent({
         </div>
       </div>
       {content ? expandPostContent : null}
+      {showSlides()}
     </div>
   );
 }

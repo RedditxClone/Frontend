@@ -32,25 +32,28 @@ import Voting from './Voting/Voting';
 
 function ProfileUpvotePosts({
   postData,
-  isPostFullDetailsMode,
-  isModeratorMode,
-  isSaved,
-  isLocked,
   isPostApproved,
-  isPostSticky,
-  isDistinguishedAsMode,
   isNSFW,
   isSpoiled,
-  replyNotifications,
-  isHidden,
-  isUpvoted,
-  isDownvoted,
-  isDeleted,
-  isModerator,
-  isCrosspost,
-  isCommunityPost,
-  isPinned,
-  isJoined
+  voteType,
+  subredditInfo,
+  userPostedByInfo,
+  postImages
+  // isPostFullDetailsMode,
+  // isModeratorMode,
+  // isSaved,
+  // isLocked,
+  // isPostSticky,
+  // isDistinguishedAsMode,
+  // replyNotifications,
+  // isHidden,
+  // isUpvoted,
+  // isDownvoted,
+  // isDeleted,
+  // isModerator,
+  // isCrosspost,
+  // isCommunityPost,
+  // isPinned,
 }) {
   // Returning the result
   return (
@@ -62,32 +65,36 @@ function ProfileUpvotePosts({
     >
       <PostContainer>
         <Voting
-          votesCount={postData.votes}
+          votesCount={postData.votesCount}
           postId={postData.id}
           currentVotingState={0}
-          isUpvotedd={isUpvoted}
-          isDownvotedd={isDownvoted}
+          // isUpvotedd={isUpvoted}
+          // isDownvotedd={isDownvoted}
+          voteType={voteType}
         />
         <PostContent
           postContentData={postData}
-          isPostFullDetailsMode={isPostFullDetailsMode}
-          isSaved={isSaved}
-          isLocked={isLocked}
+          isJoined={subredditInfo.isJoin}
+          isSaved={postData.isSaved}
           isPostApproved={isPostApproved}
-          isPostSticky={isPostSticky}
-          isDistinguishedAsMode={isDistinguishedAsMode}
           isNSFW={isNSFW}
           isSpoiled={isSpoiled}
-          replyNotifications={replyNotifications}
-          isHidden={isHidden}
-          isUpvoted={isUpvoted}
-          isDownvoted={isDownvoted}
-          isDeleted={isDeleted}
-          isModerator={isModerator}
-          isCrosspost={isCrosspost}
-          isCommunityPost={isCommunityPost}
-          isPinned={isPinned}
-          isJoined={isJoined}
+          replyNotifications={postData.replyNotifications}
+          voteType={voteType}
+          isModerator={subredditInfo.isModerator}
+          userPostedByInfo={userPostedByInfo}
+          postImages={postImages}
+          // isPostFullDetailsMode={isPostFullDetailsMode}
+          // isLocked={isLocked}
+          // isPostSticky={isPostSticky}
+          // isDistinguishedAsMode={isDistinguishedAsMode}
+          // isHidden={isHidden}
+          // isUpvoted={isUpvoted}
+          // isDownvoted={isDownvoted}
+          // isDeleted={isDeleted}
+          // isCrosspost={isCrosspost}
+          // isCommunityPost={isCommunityPost}
+          // isPinned={isPinned}
         />
       </PostContainer>
     </div>

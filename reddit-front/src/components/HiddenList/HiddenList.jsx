@@ -7,7 +7,7 @@
 import { useEffect, useState } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { Box, Divider } from '@mui/material';
-import { getPosts } from '../../services/requests/ProfilePosts';
+import { getHiddenPosts } from '../../services/requests/ProfilePosts';
 // eslint-disable-next-line import/named
 import ProfileUpvotePosts from '../PorfileUpvotesPosts/ProfileUpvotePosts';
 // import StyledHorizontalLine from '../../utilities/StyledHorizontalLine/StyledHorizontalLine';
@@ -25,12 +25,11 @@ import ProfileUpvotePosts from '../PorfileUpvotesPosts/ProfileUpvotePosts';
 
 // iscommunitypost,is moderator
 function HiddenList() {
-  const isPostFullDetailsMode = true;
   const [posts, setPosts] = useState([]);
   // Dispatching the action to get the posts data from the server
   useEffect(() => {
     const fetchPosts = async () => {
-      const results = await getPosts();
+      const results = await getHiddenPosts();
       setPosts(results);
     };
     fetchPosts();
@@ -38,39 +37,42 @@ function HiddenList() {
   // Preparing the data of the post to get displayed
   const postsData =
     posts.length > 0
-      ? posts.map((post) => (post.is_hidden && !post.is_deleted ? (
-            <div style={{ width: '100%' }}>
-              <ProfileUpvotePosts
-                key={post.id}
-                postData={post}
-                isPostFullDetailsMode={isPostFullDetailsMode}
-                isSaved={post.is_saved}
-                isLocked={post.is_locked}
-                isPostApproved={post.is_postApproved}
-                isPostSticky={post.is_postSticky}
-                isDistinguishedAsMode={post.is_distinguishedAsMode}
-                isNSFW={post.is_NSFW}
-                isSpoiled={post.is_spoiled}
-                replyNotifications={post.reply_notifications}
-                isHidden={post.is_hidden}
-                isUpvoted={post.is_upvoted}
-                isDownvoted={post.is_downvoted}
-                isDeleted={post.is_deleted}
-                isModerator={post.is_moderator}
-                isCrosspost={post.is_crosspost}
-                isCommunityPost={post.is_communitypost}
-                isPinned={post.is_pinned}
-                isJoined={post.is_joined}
-              />
-              {/* <StyledHorizontalLine
+      ? posts.map((post) => (
+          <div style={{ width: '100%' }}>
+            <ProfileUpvotePosts
+              key={post.id}
+              postData={post}
+              subredditInfo={post.subredditInfo}
+              userPostedByInfo={post.user}
+              postImages={post.images}
+              isPostApproved={post.approvedBy}
+              isNSFW={post.nsfw}
+              isSpoiled={post.spoiler}
+              voteType={post.voteType}
+              // isPostFullDetailsMode={isPostFullDetailsMode}
+              // isSaved={post.is_saved}
+              // isLocked={post.is_locked}
+              // isPostSticky={post.is_postSticky}
+              // isDistinguishedAsMode={post.is_distinguishedAsMode}
+              // replyNotifications={post.reply_notifications}
+              // isHidden={post.is_hidden}
+              // isUpvoted={post.is_upvoted}
+              // isDownvoted={post.is_downvoted}
+              // isDeleted={post.is_deleted}
+              // isModerator={post.subredditInfo.isModerator}
+              // isCrosspost={post.is_crosspost}
+              // isCommunityPost={post.is_communitypost} /// /checked????
+              // isJoined={post.is_joined}
+            />
+            {/* <StyledHorizontalLine
                 marginBottom="0"
                 marginLeft="4.2"
                 marginTop="0.3"
                 marginRight="0.6"
                 height="1.5"
               /> */}
-            </div>
-          ) : null))
+          </div>
+        ))
       : null;
   // Returning the result
   return <div>{postsData}</div>;
