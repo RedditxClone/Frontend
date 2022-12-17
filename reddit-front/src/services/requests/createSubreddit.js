@@ -10,12 +10,12 @@ const createSubreddit = async (communityName, communityType, isOver18) => {
       over18: isOver18
     }, { headers: { Authorization: token } });
     if (response.status >= 200 && response.status < 300) {
-      console.log(response.data);
+      // console.log(response.data);
       return true;
     }
     return false;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return false;
   }
 };
