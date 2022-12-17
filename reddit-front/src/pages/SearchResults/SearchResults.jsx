@@ -21,6 +21,7 @@ import PeopleResults from '../../components/SearchCards/PeopleResults/PeopleResu
 import PostsResults from '../../components/SearchCards/PostsResults/PostsResults';
 import CommentsResults from '../../components/SearchCards/CommentsResults/CommentsResults';
 import AppBar from '../../components/Layout/AppBar/AppBar';
+import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
