@@ -103,11 +103,26 @@ function CommentsResults({ searchKey }) {
                       alt="community logo"
                     />
                   </StyledLogo>
-                  <Username>{`r/${item.subreddit.name}`}</Username>
+                  <Username
+                    onClick={() => {
+                      window.location.replace(`/r/${item.subreddit.name}`);
+                    }}
+                  >
+                    {`r/${item.subreddit.name}`}
+                  </Username>
                   <StyledSpan>
                     <span>
                       Posted by
-                      <Username> {` u/${item.user.name} `}</Username>
+                      <Username
+                        onClick={() => {
+                          window.location.replace(
+                            `/user/${item.user.username}`
+                          );
+                        }}
+                      >
+                        {' '}
+                        {` u/${item.user.username} `}
+                      </Username>
                       {`${item.post.publishedDate} ago`}
                     </span>
                   </StyledSpan>

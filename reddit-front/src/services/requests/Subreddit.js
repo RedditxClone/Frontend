@@ -18,39 +18,19 @@ export const getSubreddit = async (subredditName) => {
   return response.data;
 };
 
-// /**
-//  * This service for getting the subreddit info
-//  * @param {object} data - The request data
-//  */
-// export const getSubreddit = async (subredditName) => {
-//   try {
-//     // fetching the results
-//     const response = await api.get(`/api/subreddit/r/${subredditName}`);
-//     return { data: response.data, statusCode: 200 };
-//     // Work with the response...
-//   } catch (err) {
-//     if (err.response) {
-//       // The client was given an error response (5xx, 4xx)
-//       return { data: [], statusCode: 400 };
-//     } else if (err.request) {
-//       // The client never received a response, and the request was never left
-//       return { data: [], statusCode: 400 };
-//     } else {
-//       // Anything else
-//       console.log('Error', err.message);
-//       return { data: [], statusCode: 400 };
-//     }
-//   }
-// };
-
 /**
  * This service for joining a subreddit
  * @param {object} data - The request data
  */
 export const joinSubreddit = async (id) => {
-  const response = await api.post(`/api/subreddit/${id}/join`, {
-    joined: true
-  });
+  const token = getCookie('Authorization');
+  const response = await api.post(
+    `/api/subreddit/${id}/join`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -58,8 +38,15 @@ export const joinSubreddit = async (id) => {
  * This service for leaving a subreddit
  * @param {object} data - The request data
  */
-export const leaveSubreddit = async (subredditName) => {
-  const response = await api.post(`/api/subreddit/${id}/leave`);
+export const leaveSubreddit = async (id) => {
+  const token = getCookie('Authorization');
+  const response = await api.post(
+    `/api/subreddit/${id}/leave`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 

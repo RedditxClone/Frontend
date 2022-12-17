@@ -14,7 +14,6 @@ import ForgetUserName from './pages/ForgetUserName/ForgetUserName';
 import ForgetUserPassword from './pages/ForgetUserPassword/ForgetUserPassword';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
-import ErrorPage from './pages/ErrorPage/ErrorPage';
 import Subreddit from './pages/Subreddit/Subreddit';
 import AccountSettings from './components/AccountSettings/AccountSettings';
 import UserSettings from './pages/UserSettings/UserSettings';
@@ -40,7 +39,7 @@ const routes = createBrowserRouter([
   {
     path: '/auth',
     element: <DefaultUserPage />,
-    errorElement: <ErrorPage />,
+    errorElement: <Error404 />,
     children: [
       {
         path: 'login',
