@@ -1,22 +1,20 @@
-import { useDispatch } from 'react-redux';
 import api from './api';
-import { AuthActions } from '../../store/slices/AuthSlice';
 
-const signInWithGoogle = async (body) => {
-  const dispatch = useDispatch();
+const continueWithGoogle = async (accessToken) => {
   try {
-    const response = await api.post('/api/auth/google/login', {
-      token: body.credential
-    });
+    console.log('Token: ', accessToken);
+    const response = await api.post('/api/auth/google', { token: accessToken });
     console.log(response);
     if (response.status >= 200 && response.status < 300) {
-      dispatch(AuthActions.setIsAuthenticated(true));
-      dispatch(AuthActions.setUser(response.data));
+      console.log('Authenticated', response.data);
+      document.cookie = `Authorization=Bearer ${response.data.token}`;
+      return response.data;
     }
+    return null;
   } catch (e) {
-    setAuthenticatedUser(false);
     console.log(e);
+    return null;
   }
 };
 
-export default signInWithGoogle;
+export default continueWithGoogle;
