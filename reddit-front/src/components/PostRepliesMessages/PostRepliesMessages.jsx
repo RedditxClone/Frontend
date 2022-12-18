@@ -5,15 +5,7 @@ import PostReply from './PostReply';
 export default function PostRepliesMessages() {
   const show = false;
   return (
-    <div
-      style={{
-        width: '70%',
-        minHeight: '55px',
-        backgroundColor: '#ffffff',
-        margin: '20px auto',
-        minWidth: '700px'
-      }}
-    >
+    <div>
       {show ? (
         <div>
           <p
