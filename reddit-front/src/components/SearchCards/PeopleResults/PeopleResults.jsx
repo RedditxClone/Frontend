@@ -1,3 +1,5 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable react/no-array-index-key */
@@ -18,21 +20,22 @@ import {
   StyledDescription,
   StyledHeading
 } from './PeopleResults.Style';
-import retrieveResults from '../../../services/requests/Search';
+import { retrieveResults } from '../../../services/requests/Search';
 import Loader from '../../../utilities/Loader/Loader';
+import { followUser, unFollowUser } from '../../../services/requests/User';
 
 /**
  * @typedef PropType
  * @property {bool} isSideBarCard // To show the results in a side bar cards
+ * @property {string} searchKey
  */
 
 /**
  * This Component for the showing the users related to the key of the searching.
  *
  */
-function PeopleResults({ isSideBarCard }) {
+function PeopleResults({ isSideBarCard, searchKey }) {
   // states
-  const searchKey = 'test'; // for testing
   const [result, setResult] = useState([]);
   const slicingSize = isSideBarCard ? 4 : result.length;
   const [statusCode, setStatusCode] = useState(0);
@@ -42,7 +45,7 @@ function PeopleResults({ isSideBarCard }) {
     const fetchResults = async () => {
       const results = await retrieveResults({
         key: searchKey,
-        searchingCategory: 'people'
+        searchingCategory: 'peoples'
       });
       setResult(results.data);
       setStatusCode(results.statusCode);
@@ -56,11 +59,18 @@ function PeopleResults({ isSideBarCard }) {
    * @param {int} subredditId - The number to be divided.
    * @param {bool} currentState - true : followed, false: not followed
    */
-  const handleFollowButton = (e, userId, currentState) => {
-    if (currentState) {
-      // unfollowUser({ id: userId });
+  const handleFollowButton = (userId) => {
+    const btn = document.getElementById(`follow-button-${userId}`);
+    const currentState = btn.dataset.isfollowed;
+
+    if (currentState === 'true' || currentState === true) {
+      btn.dataset.isfollowed = false;
+      btn.innerHTML = 'Unfollow';
+      unFollowUser(userId);
     } else {
-      // followUser({ id: userId });
+      btn.dataset.isfollowed = true;
+      btn.innerHTML = 'Follow';
+      followUser(userId);
     }
   };
 
@@ -127,11 +137,16 @@ function PeopleResults({ isSideBarCard }) {
                     />
                   </StyledLogoContainer>
                   <div>
-                    <StyledUsername data-testid="username-search">
-                      {`u/${item.name}`}
+                    <StyledUsername
+                      data-testid="username-search"
+                      onClick={() => {
+                        window.location.replace(`/user/${item.username}`);
+                      }}
+                    >
+                      {`u/${item.username}`}
                     </StyledUsername>
                     <StyledDescription>
-                      {!isSideBarCard ? item.description : null}
+                      {!isSideBarCard ? item.about : null}
                     </StyledDescription>
                   </div>
                 </NameLogoContainer>
@@ -139,9 +154,8 @@ function PeopleResults({ isSideBarCard }) {
                 <FollowButton
                   data-testid="community-follow-button"
                   data-isFollowed={item.followed}
-                  onClick={() =>
-                    handleFollowButton(this, item.user_id, item.followed)
-                  }
+                  id={`follow-button-${item._id}`}
+                  onClick={() => handleFollowButton(item._id)}
                   onMouseOver={handleHoveringOnFollowButton}
                   onMouseOut={handleHoveringOutFollowButton}
                 >

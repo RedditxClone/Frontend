@@ -1,3 +1,6 @@
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { memo } from 'react';
 import { SideBarContainer, SideBarContent } from './SubredditSideBar.Style';
@@ -8,8 +11,6 @@ import ModeratorsCard from '../ModeratorsCard/ModeratorsCard';
 
 /**
  * @typedef PropType
- * @property {string, color} baseColor
- * @property {string, color} highlightColor
  * @property {boolean} isModeratorMode
  * @property {Array} aboutInfo
  * @property {Array} flairsList
@@ -23,36 +24,40 @@ import ModeratorsCard from '../ModeratorsCard/ModeratorsCard';
  */
 
 function SubredditSideBar({
-  baseColor,
-  highlightColor,
   isModeratorMode,
-  subredditId
+  subredditId,
+  subredditName,
+  isJoined,
+  aboutInfo,
+  flairsList,
+  rulesList,
+  moderatorsList
 }) {
   return (
     <SideBarContainer>
       <SideBarContent>
-        <AboutCard
-          baseColor={baseColor}
-          highlightColor={highlightColor}
-          isModeratorMode={isModeratorMode}
-          subredditId={subredditId}
-        />
-        {!isModeratorMode ? (
-          <FlairsCard
-            baseColor={baseColor}
+        {aboutInfo && (
+          <AboutCard
+            isModeratorMode={isModeratorMode}
+            isJoined={isJoined}
             subredditId={subredditId}
+            subredditName={subredditName}
+            aboutInfo={aboutInfo}
           />
-        ) : null}
+        )}
 
-        <RulesCard
-          baseColor={baseColor}
-          subredditId={subredditId}
-        />
-        <ModeratorsCard
-          baseColor={baseColor}
-          highlightColor={highlightColor}
-          subredditId={subredditId}
-        />
+        {!isModeratorMode
+          ? flairsList && <FlairsCard flairsList={flairsList} />
+          : null}
+
+        {rulesList && <RulesCard rulesList={rulesList} />}
+
+        {moderatorsList && isModeratorMode && (
+          <ModeratorsCard
+            moderatorsList={moderatorsList}
+            subredditName={subredditName}
+          />
+        )}
       </SideBarContent>
     </SideBarContainer>
   );

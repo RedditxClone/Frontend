@@ -142,7 +142,7 @@ export const CancelSaveContainer = styled(Box)({
 export const SuggestedSubTopicsContainer = styled(Box)({
   zIndex: '10000',
   position: 'absolute',
-  top: '11.5rem',
+  top: '31px',
   right: '-10px',
   width: '300px',
   display: 'flex',
