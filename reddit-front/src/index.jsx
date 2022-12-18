@@ -27,6 +27,14 @@ import ChatMessaging from './components/ChatMessaging/ChatMessaging';
 import CreatePost from './pages/CreatePost/CreatePost';
 import SearchResults from './pages/SearchResults/SearchResults';
 import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
+import AllMessages from './components/AllMessages/AllMessages';
+import UnreadMessages from './components/UnreadMessages/UnreadMessages';
+import MessagesComponent from './components/MessagesComponent/MessagesComponent';
+import PostRepliesMessages from './components/PostRepliesMessages/PostRepliesMessages';
+import UsernameMentionsMessages from './components/UsernameMentionsMessages/UsernameMentionsMessages';
+import SentPrivateMessage from './components/SentPrivateMessage/SentPrivateMessage';
+import SentMessage from './components/SentMessage/SentMessage';
+import Messages from './pages/Messages/Messages';
 import PostFullPage from './pages/PostFullPage/PostFullPage';
 import Error404 from './pages/Error404/Error404';
 
@@ -147,6 +155,38 @@ const routes = createBrowserRouter([
     element: <ModToolsPage />
   },
   {
+    path: '/message/',
+    element: <Messages />,
+    children: [
+      {
+        path: '/message/inbox',
+        element: <AllMessages />
+      },
+      {
+        path: '/message/unread',
+        element: <UnreadMessages />
+      },
+      {
+        path: '/message/messages',
+        element: <MessagesComponent />
+      },
+      {
+        path: '/message/selfreply',
+        element: <PostRepliesMessages />
+      },
+      {
+        path: '/message/mentions',
+        element: <UsernameMentionsMessages />
+      },
+      {
+        path: '/message/compose',
+        element: <SentPrivateMessage />
+      },
+      {
+        path: '/message/sent',
+        element: <SentMessage />
+      }
+    ]
     path: '/error',
     element: <Error404 />
   }

@@ -21,6 +21,10 @@ import {
   SideBarItem
 } from './ModToolsPage.Style';
 import './ModToolsPage.css';
+import Banned from '../../components/Banned/Banned';
+import Muted from '../../components/Muted/Muted';
+import Approved from '../../components/Approved/Approved';
+import Moderators from '../../components/Moderators/Moderators';
 import ModQueue from '../../components/ModQueue/ModQueue';
 import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
 
@@ -293,7 +297,7 @@ function ModToolsPage() {
                       }`}
                       onClick={handleClickOnSidebarItem(
                         'banned',
-                        <Box>banned</Box>
+                        <Banned />
                       )}
                     >
                       banned
@@ -305,7 +309,7 @@ function ModToolsPage() {
                       }`}
                       onClick={handleClickOnSidebarItem(
                         'muted',
-                        <Box>muted</Box>
+                        <Muted />
                       )}
                     >
                       muted
@@ -317,7 +321,7 @@ function ModToolsPage() {
                       }`}
                       onClick={handleClickOnSidebarItem(
                         'approved',
-                        <Box>approved</Box>
+                        <Approved />
                       )}
                     >
                       approved
@@ -331,7 +335,7 @@ function ModToolsPage() {
                       }`}
                       onClick={handleClickOnSidebarItem(
                         'moderators',
-                        <Box>moderators</Box>
+                        <Moderators />
                       )}
                     >
                       moderators
