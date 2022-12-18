@@ -187,9 +187,8 @@ const routes = createBrowserRouter([
         element: <SentMessage />
       }
     ]
-    path: '/error',
-    element: <Error404 />
-  }
+  },
+  { path: '/error', element: <Error404 /> }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
