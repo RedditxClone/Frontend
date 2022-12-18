@@ -111,7 +111,7 @@ function ModToolsPage() {
         <Box
           data-testid="mod-tools-sidebar"
           sx={{
-            width: '29rem',
+            width: '28rem',
             overflowY: 'scroll',
             padding: '1.2rem 0 0 0',
             height: '65rem',
@@ -142,24 +142,21 @@ function ModToolsPage() {
             <SideBarItem
               to="/subreddit/about/spam"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem('spam', <Box>spam</Box>)}
+              onClick={handleClickOnSidebarItem('spam', <Box />)}
             >
               spam
             </SideBarItem>
             <SideBarItem
               to="/subreddit/about/edited"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem('edited', <Box>edited</Box>)}
+              onClick={handleClickOnSidebarItem('edited', <Box />)}
             >
               edited
             </SideBarItem>
             <SideBarItem
               to="/subreddit/about/unmoderated"
               className="subreddit-item"
-              onClick={handleClickOnSidebarItem(
-                'unmoderated',
-                <Box>unmoderated</Box>
-              )}
+              onClick={handleClickOnSidebarItem('unmoderated', <Box />)}
             >
               unmoderated
             </SideBarItem>
@@ -311,8 +308,15 @@ function ModToolsPage() {
           </SideBarCategory>
         </Box>
         <div
+          style={{
+            width: 'calc(100vw)',
+            display: 'flex',
+            justifyContent: 'center',
+            backgroundColor: '#DAE0E6',
+            position: 'relative',
+            top: '45px'
+          }}
           data-testid="mod-tool-item"
-          style={{ width: '85vw' }}
         >
           {currentComponent}
         </div>

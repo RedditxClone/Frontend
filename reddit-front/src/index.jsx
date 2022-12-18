@@ -30,6 +30,14 @@ import PeopleResults from './components/SearchCards/PeopleResults/PeopleResults'
 import CommentsResults from './components/SearchCards/CommentsResults/CommentsResults';
 import PostsResults from './components/SearchCards/PostsResults/PostsResults';
 import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
+import AllMessages from './components/AllMessages/AllMessages';
+import UnreadMessages from './components/UnreadMessages/UnreadMessages';
+import MessagesComponent from './components/MessagesComponent/MessagesComponent';
+import PostRepliesMessages from './components/PostRepliesMessages/PostRepliesMessages';
+import UsernameMentionsMessages from './components/UsernameMentionsMessages/UsernameMentionsMessages';
+import SentPrivateMessage from './components/SentPrivateMessage/SentPrivateMessage';
+import SentMessage from './components/SentMessage/SentMessage';
+import Messages from './pages/Messages/Messages';
 
 // Routes
 const routes = createBrowserRouter([
@@ -143,6 +151,40 @@ const routes = createBrowserRouter([
   {
     path: '/subreddit/about/:item',
     element: <ModToolsPage />
+  },
+  {
+    path: '/message/',
+    element: <Messages />,
+    children: [
+      {
+        path: '/message/inbox',
+        element: <AllMessages />
+      },
+      {
+        path: '/message/unread',
+        element: <UnreadMessages />
+      },
+      {
+        path: '/message/messages',
+        element: <MessagesComponent />
+      },
+      {
+        path: '/message/selfreply',
+        element: <PostRepliesMessages />
+      },
+      {
+        path: '/message/mentions',
+        element: <UsernameMentionsMessages />
+      },
+      {
+        path: '/message/compose',
+        element: <SentPrivateMessage />
+      },
+      {
+        path: '/message/sent',
+        element: <SentMessage />
+      }
+    ]
   }
 ]);
 
