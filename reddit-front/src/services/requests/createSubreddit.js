@@ -4,7 +4,6 @@ import getCookie from './getCookie';
 const createSubreddit = async (communityName, communityType, isOver18) => {
   const token = getCookie('Authorization');
   try {
-    const token = getCookie('Authorization');
     const response = await api.post('/api/subreddit/', {
       name: communityName,
       type: communityType,
@@ -16,7 +15,7 @@ const createSubreddit = async (communityName, communityType, isOver18) => {
     }
     return false;
   } catch (err) {
-    // console.log(err);
+    console.log(err);
     return false;
   }
 };

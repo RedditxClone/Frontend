@@ -91,13 +91,15 @@ function CreatePostTabs({
   validUrl,
   validTitle,
   setValidUrl,
-  setValidTitle
+  setValidTitle,
+  setCurrentTab
 }) {
   const [value, setValue] = useState(0);
   const [visitUrl, setVisitUrl] = useState(false);
   const [visitTitle, setVisitTitle] = useState(false);
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
+    setCurrentTab(newValue);
   };
 
   const onChangePostTitle = (event) => {
@@ -116,7 +118,12 @@ function CreatePostTabs({
   };
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider'
+        }}
+      >
         <Tabs
           value={value}
           onChange={handleChangeTab}
@@ -124,6 +131,7 @@ function CreatePostTabs({
         >
           {TABS_OPTIONS.map((tab, idx) => (
             <Tab
+              sx={{ display: 'flex', flexShrink: '1' }}
               key={tab.text}
               label={
                 <div

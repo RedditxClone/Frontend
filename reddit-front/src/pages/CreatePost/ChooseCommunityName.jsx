@@ -1,29 +1,31 @@
+/* eslint-disable no-underscore-dangle */
 import { useRef, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useSelector } from 'react-redux';
 import classes from './CreatePost.module.css';
 
-const communities = [
-  {
-    logo: '/src/assts/2y2pftyz87981.png',
-    name: 'comm1',
-    members: '12356'
-  },
-  {
-    logo: '../../assts/snoo-small.png',
-    name: 'comm2',
-    members: '156'
-  }
-];
-
-function ChooseCommunityName({ setChoosedCommunity, communityName }) {
+function ChooseCommunityName({
+  setChoosedPageName,
+  setChoosedPageId,
+  communityName
+}) {
   const { user } = useSelector((state) => state.auth);
+  const { moderatedCommunities, myCommunities } = useSelector(
+    (state) => state.communities
+  );
   const inputRef = useRef();
   const [openList, setOpenList] = useState(false);
   const [currentIcon, setCurrentIcon] = useState(null);
   const onChooseCommunity = (community) => {
-    setChoosedCommunity(community);
+    setChoosedPageId(community._id);
+    setChoosedPageName(community.name);
     setCurrentIcon(community.icon);
+    setOpenList(false);
+  };
+  const onChooseUserProfile = () => {
+    setChoosedPageId(user._id);
+    setChoosedPageName(user.username);
+    setCurrentIcon(user.profilePhoto);
     setOpenList(false);
   };
 
@@ -58,17 +60,17 @@ function ChooseCommunityName({ setChoosedCommunity, communityName }) {
               type="button"
               className={classes.communities_item}
               onClick={() => {
-                onChooseCommunity(user);
+                onChooseUserProfile();
               }}
             >
               <span className={classes['community-logo']}>
                 <img
-                  src="#"
+                  src={user.profilePhoto}
                   alt=""
                 />
               </span>
               <div className={classes['community-info']}>
-                <span>u/usernmae</span>
+                <span>{user.username}</span>
               </div>
             </button>
           </div>
@@ -82,7 +84,7 @@ function ChooseCommunityName({ setChoosedCommunity, communityName }) {
                 Create New
               </button>
             </span>
-            {communities.map((comm) => (
+            {[...moderatedCommunities, ...myCommunities].map((comm) => (
               <button
                 type="button"
                 className={classes.communities_item}

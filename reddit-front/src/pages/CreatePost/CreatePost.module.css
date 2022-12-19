@@ -3,6 +3,7 @@
     justify-content: center;
     padding: 2rem 5rem;
     background-color: #ccc;
+    min-height: 91vh;
 }
 
 /**************************************** left Part ********************************/
@@ -79,8 +80,11 @@
     background-color: #fff;
     width: 300px;
     padding: 2rem;
+    max-height: 300px;
     z-index: 100;
     position: absolute;
+    overflow-y: auto;
+    border-bottom: 1px solid var(--newCommunityTheme-line);
 }
 
 .communities_item {
@@ -138,6 +142,8 @@
 
 .icon-tab {
     font-size: 1.3rem;
+    display: flex;
+    flex-shrink: 1;
     /* transition: all 0.2s; */
 }
 
@@ -280,6 +286,10 @@
 
     .left-part {
         width: 100%;
+    }
+
+    .icon-tab {
+        font-size: 1rem;
     }
 
 }

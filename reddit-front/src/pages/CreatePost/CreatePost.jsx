@@ -10,6 +10,7 @@ import { RoundedButton } from '../../components/HomePageCards/HomePageCards.styl
 import PostTag from './PostTag';
 import CreatePostTabs from './CreatePostTabs';
 // import CommunityInfo from './CommunityInfo';
+import createPost from '../../services/requests/createPost';
 
 function CreatePost() {
   const [postTitle, setPostTitle] = useState('');
@@ -20,23 +21,44 @@ function CreatePost() {
   const [nsfw, setNsfw] = useState(false);
   const [validUrl, setValidUrl] = useState(false);
   const [validTitle, setValidTitle] = useState(false);
-  const [choosedCommunity, setChoosedCommunity] = useState(null);
+  const [choosedPageName, setChoosedPageName] = useState('');
+  const [choosedPageId, setChoosedPageId] = useState('');
+  const [currentTab, setCurrentTab] = useState(0);
 
   const validPost =
     validTitle &&
-    choosedCommunity &&
-    choosedCommunity.name.length > 0 &&
+    choosedPageId !== '' &&
+    choosedPageName.length > 0 &&
     (postContent.trim().length > 0 || validUrl || postMedia.length > 0);
 
   console.log(validPost);
-  const onPostHandler = () => {
-    console.log(
-      postContent,
-      postMedia,
-      postTitle,
-      postUrl,
-      choosedCommunity.name
-    );
+  const onPostHandler = async () => {
+    let currentContent;
+    switch (currentTab) {
+      case 0:
+        currentContent = postContent;
+        break;
+      case 1:
+        currentContent = postMedia;
+        break;
+      case 2:
+        currentContent = postUrl;
+        break;
+      default:
+        currentContent = postContent;
+    }
+
+    if (currentTab !== 1) {
+      const postResponse = await createPost(
+        choosedPageId,
+        postTitle,
+        currentContent,
+        nsfw,
+        spoiler,
+        ''
+      );
+      console.log(postResponse);
+    }
   };
   // const baseColor = '#0079D3';
 
@@ -50,8 +72,9 @@ function CreatePost() {
           <header className={classes['left-part_header']}>Create a post</header>
           <div>
             <ChooseCommunityName
-              communityName={choosedCommunity ? choosedCommunity.name : ''}
-              setChoosedCommunity={setChoosedCommunity}
+              communityName={choosedPageName}
+              setChoosedPageName={setChoosedPageName}
+              setChoosedPageId={setChoosedPageId}
             />
           </div>
           <div className={classes['create-post']}>
@@ -68,6 +91,7 @@ function CreatePost() {
               validTitle={validTitle}
               setValidTitle={setValidTitle}
               postContent={postContent}
+              setCurrentTab={setCurrentTab}
             />
 
             <div>

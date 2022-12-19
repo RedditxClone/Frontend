@@ -17,7 +17,7 @@ export const getMyCommunities = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const response = api.get('/api/subreddit/join/me', {
+      const response = await api.get('/api/subreddit/join/me', {
         headers: { Authorization: token }
       });
       const { data } = response;
@@ -36,7 +36,7 @@ export const getModeratedCommunities = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const response = api.get('/api/subreddit/moderation/me', {
+      const response = await api.get('/api/subreddit/moderation/me', {
         headers: { Authorization: token }
       });
       const { data } = response;
@@ -78,6 +78,7 @@ const UserCommunitiesSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.moderatedCommunities = action.payload;
+      console.log(action);
     },
     [getModeratedCommunities.rejected]: (state, action) => {
       state.fulfilled = false;
