@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/jsx-indent-props */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable indent */
@@ -51,6 +53,8 @@ import {
   Flair,
   ImageContainer
 } from './PostsResults.Style';
+import '../../PostCard/PostInfo/PostInfo.css';
+import Logo from '../../../assets/Images/test.png';
 
 /**
  * @typedef PropType
@@ -299,12 +303,26 @@ function PostsResults({ searchKey }) {
                         alt="community logo"
                       />
                     </StyledLogo>
-                    <Username>{`r/${item.subreddit.name}`}</Username>
+                    <Username
+                      onClick={() => {
+                        window.location.replace(`/r/${item.subreddit.name}`);
+                      }}
+                    >
+                      {`r/${item.subreddit.name}`}
+                    </Username>
+
                     <StyledSpan>
                       <span>
                         Posted by
-                        <Username> {` u/${item.user.username}`}</Username>
-                        {`${item.publishedDate} ago`}
+                        <Username
+                          onClick={() => {
+                            window.location.replace(
+                              `/user/${item.user.username}`
+                            );
+                          }}
+                        >
+                          {` u/${item.user.username}`}
+                        </Username>
                       </span>
                     </StyledSpan>
                   </PostInfo>
@@ -313,11 +331,16 @@ function PostsResults({ searchKey }) {
                   <SearchResults>
                     <div>
                       <PostTitle variant="h3">{`${item.title}`}</PostTitle>
-                      {/* {item.post_flairs.length > 0
-                        ? item.post_flairs.map((flair) => (
-                            <Flair>{flair}</Flair>
-                          ))
-                        : null} */}
+                      {item.flair && (
+                        <Flair
+                          style={{
+                            backgroundColor: item.flair.backgroundColor,
+                            color: item.flair.textColor
+                          }}
+                        >
+                          {item.flair.text}
+                        </Flair>
+                      )}
                     </div>
                     <ImageContainer>
                       <img

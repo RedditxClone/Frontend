@@ -95,15 +95,16 @@ function CommunityTopics({
    *
    */
   const saveNewTopics = () => {
-    console.log('save chosenSubTopicsList', chosenSubTopicsList);
     // Update the counter value
     setSubTopicsCounter(chosenSubTopicsList.length);
 
     // update the api
+    const requestTopicsList = [...chosenSubTopicsList];
+    requestTopicsList.push(activeTopic);
     let request = {
-      subredditName,
+      subredditId,
       request: {
-        subTopics: chosenSubTopicsList
+        subTopics: requestTopicsList
       }
     };
 
@@ -121,21 +122,20 @@ function CommunityTopics({
     setActiveTopic(chosenTopic);
     // call api to update it in the database
     const request = {
-      subredditName,
+      subredditId,
       request: {
         activeTopic: chosenTopic
       }
     };
     updateSubredditTopic(request);
 
-    // removing it from subtopics
-    let newList = [...chosenSubTopicsList];
-    const index = newList.indexOf(chosenTopic);
+    // remove this topic from the list of subtopics
+    const index = chosenSubTopicsList.indexOf(activeTopic);
     if (index >= 0) {
-      newList.splice(index, 1);
+      chosenSubTopicsList.splice(index, 1);
+      setRerender(!rerender);
+      subTopicsList.push(chosenTopic);
     }
-    setChosenSubTopicsList(newList);
-    saveNewTopics();
   };
   /**
    * This Method returns the list of topics to be shown,
@@ -311,7 +311,7 @@ function CommunityTopics({
         {/* All topics dropdown list */}
         {showTopics ? (
           <TopicDropdownList>
-            {topicsList.map((topic, index) => {
+            {chosenSubTopicsList.map((topic, index) => {
               return activeTopic === index ? (
                 <SelectListOption
                   key={`topic-${index}`}

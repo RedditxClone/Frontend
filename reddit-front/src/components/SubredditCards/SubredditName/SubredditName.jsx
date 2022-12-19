@@ -32,6 +32,8 @@ import {
   joinSubreddit,
   leaveSubreddit
 } from '../../../services/requests/Subreddit';
+import { subredditTheme } from '../../../pages/Subreddit/Subreddit.Style';
+
 /**
  * @typedef PropType
  * @property {int} subredditId
@@ -50,12 +52,11 @@ function SubredditName({
   subredditId,
   isJoined,
   name,
-  title,
+  subredditTitle,
   notificationsStyle,
   srName
 }) {
   const { isAuth } = useSelector((state) => state.auth);
-  console.log('isAuth', isAuth);
   const [joined, setJoined] = useState(isJoined);
 
   const [activeNotificationType, setActiveNotificationType] =
@@ -75,14 +76,28 @@ function SubredditName({
       {alert}
       {/* Subreddit Name  */}
       <StyledSubredditName>
-        <SubredditTitle variant="h1">{title}</SubredditTitle>
+        <SubredditTitle>{subredditTitle || name}</SubredditTitle>
         <SubTitle>{`r/${name}`}</SubTitle>
       </StyledSubredditName>
 
       {/* Buttons -> Join, Notifications  */}
-      <ButtonsContainer>
+      <ButtonsContainer
+        sx={{
+          [subredditTheme.breakpoints.down('sm_4')]: {
+            justifyContent: 'flex-start'
+          }
+        }}
+      >
         {/* Join Button  */}
-        <Box sx={{ width: '9.6rem' }}>
+        <Box
+          sx={{
+            width: '9.6rem',
+            [subredditTheme.breakpoints.down('sm_4')]: {
+              width: '6.6rem',
+              marginRight: '5px'
+            }
+          }}
+        >
           <JoinButton
             data-testid="join-community-button"
             id="join-community-button"

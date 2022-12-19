@@ -10,12 +10,12 @@ const getUser = async () => {
     });
     if (response.status >= 200 && response.status < 300) {
       const { data } = response;
-      // console.log(data, typeof data);
+      console.log(data, typeof data);
       return data;
     }
     return null;
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
     return null;
   }
 };
