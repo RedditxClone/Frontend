@@ -1,40 +1,33 @@
 import api from './api';
 
-const communitySettings = async (
-  CommunityName,
-  CommunityDescription,
-  WelcomeMessage,
-  IsWelcome,
-  TypeOfCommunity,
-  isOver18,
-  ApprovedUserAbility,
-  isAcceptNewPostReq,
-  isAcceptReqToJoin
-) => {
+export const getCommunitySettings = async (subredditName) => {
   try {
-    const response = await api.post(
-      '/api/subreddit/communitySettings/community',
-      {
-        communityName: CommunityName,
-        communityDescription: CommunityDescription,
-        welcomeMessage: WelcomeMessage,
-        isWelcome: IsWelcome,
-        typeOfCommunity: TypeOfCommunity,
-        over18: isOver18,
-        approvedUserAbility: ApprovedUserAbility,
-        acceptNewPostReq: isAcceptNewPostReq,
-        acceptReqToJoin: isAcceptReqToJoin
-      }
-    );
+    console.log(`/api/subreddit/r/${subredditName}`);
+    const response = await api.get(`/api/subreddit/r/${subredditName}`);
     if (response.status >= 200 && response.status < 300) {
-      console.log(response.data);
-      return true;
+      const { data } = response;
+      console.log('salma');
+      return data;
     }
-    return false;
-  } catch (err) {
-    console.log(err);
-    return false;
+    console.log('salma ragab');
+    return null;
+  } catch (e) {
+    console.log('salma ragab hassan');
+    console.log(e.message);
+    // return null;
+    return data;
   }
 };
 
-export default communitySettings;
+export const updateCommunitySettings = async (data) => {
+  try {
+    const { subredditName, request } = data;
+    const response = await api.patch(`/api/subreddit/r/${subredditName}`, request);
+    return response.data;
+  } catch (e) {
+    console.log('ssss');
+    console.log(e.message);
+    // return null;
+    return data;
+  }
+};

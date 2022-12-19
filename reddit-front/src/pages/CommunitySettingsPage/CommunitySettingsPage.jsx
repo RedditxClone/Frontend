@@ -65,10 +65,7 @@ export default function CommunitySettingsPage() {
     buttonName: 'POST ONLY (DEFAULT)',
     paragraphBelow: 'Only approved users can post. Anyone can comment.'
   });
-  const [suggestedSortList, setSuggestedSortList] = useState({
-    showList: false,
-    buttonName: ' '
-  });
+
   const [spoilerButton, setSpoilerButton] = useState({
     clicked: false
   });
@@ -143,55 +140,6 @@ export default function CommunitySettingsPage() {
         showList: !restrictedList.showList,
         buttonName: restrictedList.buttonName,
         paragraphBelow: restrictedList.paragraphBelow
-      });
-    }
-  };
-
-  const SuggestedSortListHandle = (event) => {
-    if (event.target.id === 'None') {
-      setSuggestedSortList({
-        showList: false,
-        buttonName: 'NONE (RECOMMENDED)'
-      });
-    } else if (event.target.id === 'Best') {
-      setSuggestedSortList({
-        showList: false,
-        buttonName: 'BEST'
-      });
-    } else if (event.target.id === 'Old') {
-      setSuggestedSortList({
-        showList: false,
-        buttonName: 'OLD'
-      });
-    } else if (event.target.id === 'Top') {
-      setSuggestedSortList({
-        showList: false,
-        buttonName: 'TOP'
-      });
-    } else if (event.target.id === 'QandA') {
-      setSuggestedSortList({
-        showList: false,
-        buttonName: 'Q&A'
-      });
-    } else if (event.target.id === 'Beta') {
-      setSuggestedSortList({
-        showList: false,
-        buttonName: 'LIVE (BETA)'
-      });
-    } else if (event.target.id === 'Controversial') {
-      setSuggestedSortList({
-        showList: false,
-        buttonName: 'CONTROVERSIAL'
-      });
-    } else if (event.target.id === 'New') {
-      setSuggestedSortList({
-        showList: false,
-        buttonName: 'NEW'
-      });
-    } else {
-      setSuggestedSortList({
-        showList: !suggestedSortList.showList,
-        buttonName: suggestedSortList.buttonName
       });
     }
   };

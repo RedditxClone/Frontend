@@ -5,7 +5,10 @@ import { IoPerson } from 'react-icons/io5';
 import { HiEye, HiLockClosed } from 'react-icons/hi';
 import { IoMdArrowRoundForward } from 'react-icons/io';
 import { BsBoxArrowUpRight, BsFillCaretDownFill } from 'react-icons/bs';
-import { CommunityDiv, Down, IOSSwitch } from './Community.style';
+import {
+  CommunityDiv, Down, IOSSwitch
+} from './Community.style';
+import MultipleSelectChip from '../MultipleSelectChip';
 
 export default function Community({
   CommunityName,
@@ -16,10 +19,18 @@ export default function Community({
   CommunityType,
   RestrictedList,
   ResListHandle,
+  ButHandle,
   WelHandle,
   CommunityWelcom,
   ShowWelcom,
-  WelHandleButton
+  Name,
+  Description,
+  WelcomMes,
+  Over,
+  WelEnable,
+  AccPostReq,
+  AccReqtoJoin,
+  Save
 }) {
   const npClasses = [];
   if (!CommunityName.valid) {
@@ -44,6 +55,8 @@ export default function Community({
           type="text"
           maxLength={100}
           onChange={NameHandle}
+          placeholder={Name}
+          id="InputName"
         />
         <p className={npClasses}>
           {CommunityName.count}
@@ -66,6 +79,7 @@ export default function Community({
           <span> Add a Primary Topic</span>
           <Down />
         </button>
+        <MultipleSelectChip />
       </div>
 
       <div id="CommunityDescription">
@@ -75,6 +89,8 @@ export default function Community({
           maxLength={500}
           rows="3"
           onChange={MessageHandle}
+          placeholder={Description}
+          id="InputDescription"
         />
         <p className={mpClasses}>
           {CommunityMessage.count}
@@ -112,12 +128,12 @@ export default function Community({
               justifyContent: 'flex-end'
             }}
           >
-            <IOSSwitch id="WelcomeMessageButton" onClick={WelHandleButton} />
+            <IOSSwitch id="WelcomeMessageButton" onChange={ButHandle} checked={WelEnable} />
           </div>
         </div>
         {ShowWelcom && (
         <div>
-          <textarea maxLength="5000" rows="5" onChange={WelHandle} />
+          <textarea maxLength="5000" rows="5" onChange={WelHandle} placeholder={WelcomMes} id="InputWel" />
           <p className={spClasses}>
             {CommunityWelcom.count}
             Characters remaining
@@ -243,7 +259,7 @@ export default function Community({
             justifyContent: 'flex-end'
           }}
         >
-          <IOSSwitch />
+          <IOSSwitch id="PlusButton" checked={Over} onChange={ButHandle} />
         </div>
       </div>
       {/* restrictedCommunity */}
@@ -311,7 +327,7 @@ export default function Community({
                 justifyContent: 'flex-end'
               }}
             >
-              <IOSSwitch />
+              <IOSSwitch id="AcceptNewReqButton" checked={AccPostReq} onChange={ButHandle} />
             </div>
           </div>
         </div>
@@ -341,7 +357,7 @@ export default function Community({
                 justifyContent: 'flex-end'
               }}
             >
-              <IOSSwitch />
+              <IOSSwitch id="AcceptToJoinButton" checked={AccReqtoJoin} onChange={ButHandle} />
             </div>
           </div>
         </div>
@@ -383,6 +399,12 @@ export default function Community({
             <IoMdArrowRoundForward />
           </a>
         </div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <button id="SaveButton" type="submit" onClick={Save}>
+          Save Changes
+        </button>
+
       </div>
     </CommunityDiv>
   );

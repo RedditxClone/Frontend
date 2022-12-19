@@ -146,8 +146,24 @@ const CommunityDiv = styled('div')({
     margin: '0 4px 0 8px',
     padding: '0 4px',
     backgroundColor: '#ff585b'
+  },
+  '& #SaveButton': {
+    position: 'relative',
+    backgroundColor: '#0079D3',
+    border: '1px solid #0079D3',
+    color: '#ffffff',
+    borderRadius: '9999px',
+    fontFamily: "'Noto Sans',Arial,sans-serif",
+    fontSize: '1.4rem',
+    fontWeight: '700',
+    lineHeight: '1.7rem',
+    minHeight: '3rem',
+    minWidth: '3.2rem',
+    padding: '4px 16px'
   }
+
 });
+
 const Down = styled(BsChevronDown)({
   fontSize: '1.2rem',
   fontWeight: '400',
@@ -208,4 +224,6 @@ const IOSSwitch = styled((props) => (
     })
   }
 }));
-export { CommunityDiv, Down, IOSSwitch };
+export {
+  CommunityDiv, Down, IOSSwitch
+};

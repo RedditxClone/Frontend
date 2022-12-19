@@ -1,8 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getCommunitySettings, updateCommunitySettings } from '../../services/requests/communitySettings';
 // eslint-disable-next-line import/no-named-as-default-member
 import Community from '../CommunitySettings/Community';
 
-export default function CommunityContainer() {
+// eslint-disable-next-line no-unused-vars
+export default function CommunityContainer({ SubredditName }) {
+  const [settings, setSettings] = useState([]);
+  const [welcomeMessageButton, setWelcomeMessageButton] = useState({
+    clicked: false
+  });
+  const [plusButton, setPlusButton] = useState({
+    clicked: false
+  });
+  const [acceptNewReqButton, setAcceptNewReqButton] = useState({
+    clicked: false
+  });
+  const [acceptToJoinButton, setAcceptToJoinButton] = useState({
+    clicked: false
+  });
+  const [commType, setCommType] = useState('Public');
   const [communityName, setCommunityName] = useState({
     name: '',
     count: 100,
@@ -19,18 +35,6 @@ export default function CommunityContainer() {
     valid: true
   });
   const [showWelcom, setShowWelcom] = useState(false);
-  const [welcomeMessageButton, setWelcomeMessageButton] = useState({
-    clicked: false
-  });
-  const [plusButton, setPlusButton] = useState({
-    clicked: false
-  });
-  const [acceptNewReqButton, setAcceptNewReqButton] = useState({
-    clicked: false
-  });
-  const [acceptToJoinButton, setAcceptToJoinButton] = useState({
-    clicked: false
-  });
   const [communityType, setCommunityType] = useState({
     private: false,
     restricted: false,
@@ -41,6 +45,40 @@ export default function CommunityContainer() {
     buttonName: 'POST ONLY (DEFAULT)',
     paragraphBelow: 'Only approved users can post. Anyone can comment.'
   });
+  // Fetching the results by calling the fetch service
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const results = await getCommunitySettings(SubredditName);
+      setSettings(results);
+      setCommType(results.type);
+      const chosed = true;
+      if (results.type === 'Private') {
+        setCommunityType({
+          private: chosed,
+          restricted: !chosed,
+          public: !chosed
+        });
+      } else if (results.type === 'Restricted') {
+        setCommunityType({
+          private: !chosed,
+          restricted: chosed,
+          public: !chosed
+        });
+      } else {
+        setCommunityType({
+          private: !chosed,
+          restricted: !chosed,
+          public: chosed
+        });
+      }
+      setWelcomeMessageButton({ clicked: results.welcomeMessageEnabled });
+      setPlusButton({ clicked: results.over18 });
+      setAcceptNewReqButton({ clicked: results.acceptPostingRequests });
+      setAcceptToJoinButton({ clicked: results.acceptingRequestsToJoin });
+    };
+    fetchSettings();
+  }, []);
+
   const HandleCommmunityName = (event) => {
     let num = 0;
     if (event.target.value.trim() === '') {
@@ -77,22 +115,27 @@ export default function CommunityContainer() {
   const HandleCommmunityWelcomMessagebutton = () => {
     const temp = !showWelcom;
     setShowWelcom(temp);
+    const tmp2 = !welcomeMessageButton.clicked;
+    setWelcomeMessageButton({ clicked: tmp2 });
   };
   const CommunityTypeHandler = (event) => {
     const chosed = true;
     if (event.target.id === 'Private') {
+      setCommType('Private');
       setCommunityType({
         private: chosed,
         restricted: !chosed,
         public: !chosed
       });
     } else if (event.target.id === 'Restricted') {
+      setCommType('Restricted');
       setCommunityType({
         private: !chosed,
         restricted: chosed,
         public: !chosed
       });
     } else {
+      setCommType('Private');
       setCommunityType({
         private: !chosed,
         restricted: !chosed,
@@ -129,30 +172,23 @@ export default function CommunityContainer() {
   };
 
   //  buttons handle
-  const WelcomeMessageButtonHandle = () => {
-    setWelcomeMessageButton({ clicked: !welcomeMessageButton.clicked });
-  };
   const PlusButtonHandle = () => {
-    setPlusButton({ clicked: !plusButton.clicked });
+    const tmp = !plusButton.clicked;
+    setPlusButton({ clicked: tmp });
   };
   const AcceptNewReqButtonHandle = () => {
-    setAcceptNewReqButton({ clicked: !acceptNewReqButton.clicked });
+    const tmp = !acceptNewReqButton.clicked;
+    setAcceptNewReqButton({ clicked: tmp });
   };
   const AcceptToJoinButtonHandle = () => {
-    setAcceptToJoinButton({ clicked: !acceptToJoinButton.clicked });
-  };
-
-  const SpoilerButtonHandle = () => {
-    setSpoilerButton({ clicked: !spoilerButton.clicked });
-  };
-  const ImgCommentButtonHandle = () => {
-    setImgCommentButton({ clicked: !imgCommentButton.clicked });
+    const tmp = !acceptToJoinButton.clicked;
+    setAcceptToJoinButton({ clicked: tmp });
   };
 
   const ButtonsHandle = (event) => {
     if (event.target.id === 'WelcomeMessageButton') {
       console.log(welcomeMessageButton.clicked);
-      WelcomeMessageButtonHandle();
+      HandleCommmunityWelcomMessagebutton();
       console.log(welcomeMessageButton.clicked);
     } else if (event.target.id === 'PlusButton') {
       PlusButtonHandle();
@@ -165,6 +201,25 @@ export default function CommunityContainer() {
     } else {
       ImgCommentButtonHandle();
     }
+  };
+  const SaveHandle = () => {
+    const nam = document.getElementById('InputName').value;
+    const des = document.getElementById('InputDescription').value;
+    const wel = document.getElementById('InputWel').value;
+    const info = {
+      request: {
+        name: nam,
+        type: commType,
+        description: des,
+        welcomeMessageText: wel,
+        welcomeMessageEnabled: welcomeMessageButton.clicked,
+        over18: plusButton.clicked,
+        acceptPostingRequests: acceptNewReqButton.clicked,
+        acceptingRequestsToJoin: acceptToJoinButton.clicked
+      },
+      subredditName: SubredditName
+    };
+    updateCommunitySettings(info);
   };
   return (
     <Community
@@ -180,7 +235,14 @@ export default function CommunityContainer() {
       WelHandle={HandleCommmunityWelcomMessage}
       CommunityWelcom={communityWelcom}
       ShowWelcom={showWelcom}
-      WelHandleButton={HandleCommmunityWelcomMessagebutton}
+      Name={settings.name}
+      Description={settings.description}
+      WelcomMes={settings.welcomeMessageEnabled}
+      Over={plusButton.clicked}
+      WelEnable={welcomeMessageButton.clicked}
+      AccPostReq={acceptNewReqButton.clicked}
+      AccReqtoJoin={acceptToJoinButton.clicked}
+      Save={SaveHandle}
     />
   );
 }

@@ -5,7 +5,14 @@ import { BsFillCaretDownFill } from 'react-icons/bs';
 import { PostsAndCommentsDiv } from './PostsAndComments.style';
 import { IOSSwitch } from './Community.style';
 
-export default function PostsAndComments({ SuggestedSortList, SugListHandle }) {
+export default function PostsAndComments({
+  SuggestedSortList,
+  SugListHandle,
+  ButHandle,
+  Save,
+  Spoiled,
+  Img
+}) {
   return (
     <PostsAndCommentsDiv>
       <h1>Post and Comment settings</h1>
@@ -42,13 +49,19 @@ export default function PostsAndComments({ SuggestedSortList, SugListHandle }) {
             {' '}
             <span id="SpoilerFlair">SPOILER</span>
           </h2>
-          <p style={{ margin: '0' }}>Media on posts with the spoiler tag are blurred</p>
+          <p style={{ margin: '0' }}>
+            Media on posts with the spoiler tag are blurred
+          </p>
         </div>
-        <div style={{
-          marginBottom: '0', display: 'flex', flexGrow: '1', justifyContent: 'flex-end'
-        }}
+        <div
+          style={{
+            marginBottom: '0',
+            display: 'flex',
+            flexGrow: '1',
+            justifyContent: 'flex-end'
+          }}
         >
-          <IOSSwitch />
+          <IOSSwitch id="SpoilerButton" onChange={ButHandle} checked={Spoiled} />
         </div>
       </div>
       {/* comments */}
@@ -56,51 +69,125 @@ export default function PostsAndComments({ SuggestedSortList, SugListHandle }) {
       <div style={{ display: 'flex' }}>
         <div style={{ margin: '0' }}>
           <h2 style={{ margin: '0' }}>Suggested sort</h2>
-          <p style={{ margin: '0' }}>All comment feeds in community will default to this sort setting</p>
+          <p style={{ margin: '0' }}>
+            All comment feeds in community will default to this sort setting
+          </p>
         </div>
 
-        <div style={{
-          marginBottom: '0', display: 'flex', flexGrow: '1', justifyContent: 'flex-end'
-        }}
+        <div
+          style={{
+            marginBottom: '0',
+            display: 'flex',
+            flexGrow: '1',
+            justifyContent: 'flex-end'
+          }}
         >
           <div style={{ margin: '0', position: 'relative' }}>
-            <button onClick={SugListHandle} style={{ margin: '0' }}>
+            <button
+              onClick={SugListHandle}
+              style={{ margin: '0' }}
+            >
               {SuggestedSortList.buttonName}
               {' '}
               <BsFillCaretDownFill style={{ marginLeft: '6px' }} />
             </button>
             {SuggestedSortList.showList && (
-              <ul id="Menu" style={{ width: '18rem' }}>
-                <li onClick={SugListHandle} id="None">None(Recommended)</li>
-                <li onClick={SugListHandle} id="Best">Best</li>
-                <li onClick={SugListHandle} id="Old">Old</li>
-                <li onClick={SugListHandle} id="Top">TOP</li>
-                <li onClick={SugListHandle} id="QandA">Q&A</li>
-                <li onClick={SugListHandle} id="Beta">Live (Beta)</li>
-                <li onClick={SugListHandle} id="Controversial">Controversial</li>
-                <li onClick={SugListHandle} id="New">New</li>
+              <ul
+                id="Menu"
+                style={{ width: '18rem' }}
+              >
+                <li
+                  onClick={SugListHandle}
+                  id="None"
+                >
+                  None(Recommended)
+                </li>
+                <li
+                  onClick={SugListHandle}
+                  id="Best"
+                >
+                  Best
+                </li>
+                <li
+                  onClick={SugListHandle}
+                  id="Old"
+                >
+                  Old
+                </li>
+                <li
+                  onClick={SugListHandle}
+                  id="Top"
+                >
+                  TOP
+                </li>
+                <li
+                  onClick={SugListHandle}
+                  id="QandA"
+                >
+                  Q&A
+                </li>
+                <li
+                  onClick={SugListHandle}
+                  id="Beta"
+                >
+                  Live (Beta)
+                </li>
+                <li
+                  onClick={SugListHandle}
+                  id="Controversial"
+                >
+                  Controversial
+                </li>
+                <li
+                  onClick={SugListHandle}
+                  id="New"
+                >
+                  New
+                </li>
               </ul>
             )}
-
           </div>
         </div>
       </div>
       {/* Media in comments */}
-      <div><h2>Media in comments</h2></div>
-      <div style={{ display: 'flex', alignItems: 'center', padding: '0 0 0 3.4rem' }}>
+      <div>
+        <h2>Media in comments</h2>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 0 0 3.4rem'
+        }}
+      >
         <div style={{ margin: '0' }}>
           <h2 style={{ margin: '0' }}>Images</h2>
           <p style={{ margin: '0' }}>Allow comments with uploaded images.</p>
         </div>
-        <div style={{
-          marginBottom: '0', display: 'flex', flexGrow: '1', justifyContent: 'flex-end'
-        }}
+        <div
+          style={{
+            marginBottom: '0',
+            display: 'flex',
+            flexGrow: '1',
+            justifyContent: 'flex-end'
+          }}
         >
-          <IOSSwitch />
+          <IOSSwitch
+            onChange={ButHandle}
+            checked={Img}
+          />
         </div>
       </div>
       {/* comments */}
-
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <button
+          id="SaveButton"
+          type="submit"
+          onClick={Save}
+        >
+          Save Changes
+        </button>
+      </div>
     </PostsAndCommentsDiv>
   );
 }

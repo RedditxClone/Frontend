@@ -23,6 +23,8 @@ import {
 } from './ModToolsPage.Style';
 import './ModToolsPage.css';
 import ModQueue from '../../components/ModQueue/ModQueue';
+import CommunityContainer from '../../components/Container/CommunityContainer';
+import PostsAndCommentsContainer from '../../components/Container/PostsAndCommentsContainer';
 
 /**
  * This Component for the Moderator Tools Page
@@ -70,8 +72,8 @@ function ModToolsPage() {
     rules: <Box>rules</Box>,
     communitysettings: <Box>communitysettings</Box>,
     trafficstats: <Box>trafficstats</Box>,
-    community: <Box>community</Box>,
-    postsandcomments: <Box>postsandcomments</Box>
+    community: <CommunityContainer SubredditName={subredditName} />,
+    postsandcomments: <PostsAndCommentsContainer SubredditName={subredditName} />
   };
 
   // States
@@ -487,7 +489,7 @@ function ModToolsPage() {
                     </span>
                   </SideBarItem>
                   <SideBarItem
-                    to="/subreddit/about/community"
+                    to="/mustafa_hamzawy/about/community"
                     className={`subreddit-item ${
                       activeItem === 'communitysettings'
                         ? 'active-sidebar-item'
@@ -495,7 +497,7 @@ function ModToolsPage() {
                     }`}
                     onClick={handleClickOnSidebarItem(
                       'community settings',
-                      <Box>community</Box>
+                      <CommunityContainer SubredditName={subredditName} />
                     )}
                   >
                     community
@@ -508,6 +510,10 @@ function ModToolsPage() {
                         ? 'active-sidebar-item'
                         : null
                     }`}
+                    onClick={handleClickOnSidebarItem(
+                      'postsandcomments',
+                      <PostsAndCommentsContainer SubredditName={subredditName} />
+                    )}
                   >
                     Posts and Comments
                   </SideBarItem>
