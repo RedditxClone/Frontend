@@ -1,9 +1,9 @@
 import api from './api';
 import getCookie from './getCookie';
 
-const token = getCookie('Authorization');
 const createSubreddit = async (communityName, communityType, isOver18) => {
   try {
+    const token = getCookie('Authorization');
     const response = await api.post('/api/subreddit/', {
       name: communityName,
       type: communityType,
