@@ -39,7 +39,6 @@ function SentPrivateMessage() {
 
   let alertResponse;
   if (sendResponse.includes('Error')) {
-    console.log(alertResponse);
     alertResponse = (
       <AlertMessage
         opnAlertMessage
