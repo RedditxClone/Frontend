@@ -2,8 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../services/requests/api';
 import getCookie from '../../services/requests/getCookie';
 
-const token = getCookie('Authorization');
-
 const INITIAL_STATE = {
   isLoading: false,
   error: null,
@@ -15,7 +13,8 @@ const INITIAL_STATE = {
 export const getMyCommunities = createAsyncThunk(
   'communities/getMyCommunities',
   async (_, thunkAPI) => {
-    console.log('in get communities', token);
+    const token = getCookie('Authorization');
+
     const { rejectWithValue } = thunkAPI;
 
     try {
@@ -33,6 +32,8 @@ export const getMyCommunities = createAsyncThunk(
 export const getModeratedCommunities = createAsyncThunk(
   'communities/getModeratedCommunities',
   async (_, thunkAPI) => {
+    const token = getCookie('Authorization');
+
     const { rejectWithValue } = thunkAPI;
 
     try {
