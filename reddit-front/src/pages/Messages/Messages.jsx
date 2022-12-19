@@ -141,7 +141,10 @@ export default function Messages() {
             minHeight: '55px',
             backgroundColor: '#ffffff',
             margin: '20px auto',
-            minWidth: '700px'
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            flexShrink: '1'
           }}
         >
           <Outlet />
