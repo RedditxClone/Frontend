@@ -14,7 +14,6 @@ export const getMyCommunities = createAsyncThunk(
   'communities/getMyCommunities',
   async (_, thunkAPI) => {
     const token = getCookie('Authorization');
-    console.log('in get communities', token);
     const { rejectWithValue } = thunkAPI;
 
     try {
