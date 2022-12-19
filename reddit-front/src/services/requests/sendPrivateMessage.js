@@ -11,9 +11,9 @@ const sendPrivateMessage = async (toUserName, messageSubject, messageBody) => {
     if (response.status >= 200 && response.status < 300) {
       return 'Message sent successfully';
     }
-    return 'Error, Message has not been sent';
+    return `Error, ${response.statusText}`;
   } catch (err) {
-    return 'Error, Message has not been sent';
+    return `Error, ${err.message}`;
   }
 };
 

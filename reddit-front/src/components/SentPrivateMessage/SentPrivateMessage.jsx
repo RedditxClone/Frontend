@@ -1,12 +1,15 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import classes from './SentPrivateMessage.style.module.css';
 import sendPrivateMessage from '../../services/requests/sendPrivateMessage';
 import AlertMessage from '../../utilities/AlertMessage/AlertMessage';
+import removeSlashFromUserName from '../../services/requests/logic/removeSlashFromUserName';
 
 function SentPrivateMessage() {
+  const { user } = useSelector((state) => state.auth);
   const [toUserName, setToUserName] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
@@ -33,7 +36,11 @@ function SentPrivateMessage() {
       setErrorMessage(true);
       return;
     }
-    const response = await sendPrivateMessage(toUserName, subject, message);
+    const response = await sendPrivateMessage(
+      removeSlashFromUserName(toUserName),
+      subject,
+      message
+    );
     setSendResponse(response);
   };
 
@@ -73,7 +80,7 @@ function SentPrivateMessage() {
         <input
           readOnly
           id="from"
-          value="/u/username"
+          value={`/u/${user.username}`}
           className={classes['form-input']}
         />
         <label
@@ -117,7 +124,7 @@ function SentPrivateMessage() {
           className={classes['form-btn']}
           disabled={disabledButton}
         >
-          Submit
+          Send
         </button>
         {alertResponse}
       </form>

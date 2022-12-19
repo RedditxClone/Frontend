@@ -38,6 +38,7 @@
     font-weight: bold;
     transition: all 0.2s;
     cursor: pointer;
+    margin-bottom: 1rem;
 }
 
 .form-btn:hover {
