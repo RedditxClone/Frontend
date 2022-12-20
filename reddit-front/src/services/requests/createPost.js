@@ -24,10 +24,10 @@ const createPost = async (
     if (response.status >= 200 && response.status < 300) {
       return { fulfilled: true, data: response.data };
     }
-    return false;
+    return { fulfilled: false, data: response.data };
   } catch (err) {
     console.log(err);
-    return { fulfilled: true, data: err };
+    return { fulfilled: false, data: err };
   }
 };
 

@@ -16,6 +16,7 @@ import CreatePostTabs from './CreatePostTabs';
 import createPost, {
   createPostWithMedia
 } from '../../services/requests/createPost';
+import AlertMessage from '../../utilities/AlertMessage/AlertMessage';
 
 function CreatePost() {
   const [postTitle, setPostTitle] = useState('');
@@ -30,6 +31,7 @@ function CreatePost() {
   const [choosedPageId, setChoosedPageId] = useState('');
   const [currentTab, setCurrentTab] = useState(0);
   const [postOnUserProfile, setPostOnUserProfile] = useState(false);
+  const [unableToPost, setUnableToPost] = useState(false);
   const navigate = useNavigate();
 
   const validPost =
@@ -82,6 +84,7 @@ function CreatePost() {
     }
     console.log(postResponse);
     if (postResponse.fulfilled) {
+      setUnableToPost(false);
       if (postOnUserProfile) {
         navigate(
           `/r/${choosedPageName}/posts/${postResponse.data.subredditId}`
@@ -91,6 +94,8 @@ function CreatePost() {
           `/u/${choosedPageName}/posts/${postResponse.data.subredditId}`
         );
       }
+    } else {
+      setUnableToPost(true);
     }
   };
   // const baseColor = '#0079D3';
@@ -167,6 +172,13 @@ function CreatePost() {
                 Post
               </RoundedButton>
             </div>
+            {unableToPost && (
+              <AlertMessage
+                type="error"
+                message="Error, unable to post for server error"
+                opnAlertMessage={unableToPost}
+              />
+            )}
           </div>
         </div>
         <div className={classes['right-part']}>

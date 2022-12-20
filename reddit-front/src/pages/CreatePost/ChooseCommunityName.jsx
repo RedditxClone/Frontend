@@ -98,14 +98,11 @@ function ChooseCommunityName({
                 <span className={classes['community-logo']}>
                   <img
                     src={comm.logo}
-                    alt={comm.name}
+                    alt=""
                   />
                 </span>
                 <div className={classes['community-info']}>
                   <span>{comm.name}</span>
-                  <span className={classes['community-members']}>
-                    {`${comm.members} members`}
-                  </span>
                 </div>
               </button>
             ))}
