@@ -14,7 +14,6 @@ import Voting from './Voting/Voting';
  * @param {mixed}  postData
  * @param {bool}  isCommunityPost
  * @param {bool}  isPostFullDetailsMode
- * @param {bool}  isHomePagePost
  * @param {bool}  isModeratorMode
  * @param {bool}  isSaved
  * @param {bool}  isLocked
@@ -32,21 +31,15 @@ import Voting from './Voting/Voting';
  *
  */
 
-function PostCard({
-  postData,
-  isCommunityPost,
-  isPostFullDetailsMode,
-  isHomePagePost,
-  isModeratorMode
-}) {
+function PostCard({ postData, isCommunityPost, isModeratorMode }) {
   const [hidePost, setHidePost] = useState(false);
 
   // Returning the result
-  return !hidePost ? (
+  return (
     <div
       className="post-card"
-      key={postData.id}
-      id={'post-' + postData.id}
+      key={postData._id}
+      id={'post-' + postData._id}
       data-testid="test-post-card"
     >
       <PostContainer>
@@ -56,17 +49,16 @@ function PostCard({
           currentVotingState={
             postData.voteType === null ? 0 : postData.voteType
           }
-          isHomePagePost={isHomePagePost}
         />
         <PostContent
           setHidePost={setHidePost}
-          postContentData={postData}
+          postData={postData}
           isCommunityPost={isCommunityPost}
           isModeratorMode={isModeratorMode}
         />
       </PostContainer>
     </div>
-  ) : null;
+  );
 }
 
 export default PostCard;
