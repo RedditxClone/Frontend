@@ -1,7 +1,7 @@
 /* eslint-disable */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-unescaped-entities */
-import './CommentCard.css'
+import "./CommentCard.css";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Menu from "@mui/material/Menu";
@@ -54,7 +54,7 @@ import {
   saveComment,
   deleteComment
 } from "../../services/requests/Comment";
-import Logo from '../../assets/test.jpg';
+import Logo from "../../assets/test.jpg";
 
 // const style = {
 //   position: "absolute",
@@ -106,48 +106,49 @@ export default function CommentsForSamePostCard({
   const [cardComments, setCardComments] = useState(commentsForSamePost);
   const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
 
-
   /* This function shows the subreddit info while hovering on the subreddit name */
   const handleHoverOnSubreddit = (communityId) => {
     setIsCommunityNameHovered(true);
     const communityInformation = document.getElementById(
-      'community-information-post-' + communityId
+      "community-information-post-" + communityId
     );
 
-    communityInformation.style.display = 'block';
-    communityInformation.style.visibility = 'visible';
+    communityInformation.style.display = "block";
+    communityInformation.style.visibility = "visible";
   };
 
   /* This function hides the subreddit info while hovering out the subreddit name */
   const handleHoverOutSubreddit = (communityId) => {
     const communityInformation = document.getElementById(
-      'community-information-post-' + communityId
+      "community-information-post-" + communityId
     );
-    communityInformation.style.display = 'none';
-    communityInformation.style.visibility = 'hidden';
+    communityInformation.style.display = "none";
+    communityInformation.style.visibility = "hidden";
   };
 
   /* This function shows the user info while hovering on the username */
   const handleHoverOnUsername = (communityId) => {
     const userInformation = document.getElementById(
-      'user-information-post-' + communityId
+      "user-information-post-" + communityId
     );
-    userInformation.style.display = 'block';
-    userInformation.style.visibility = 'visible';
+    userInformation.style.display = "block";
+    userInformation.style.visibility = "visible";
   };
 
   /* This function hides the user info while hovering out the username */
   const handleHoverOutUsername = (communityId) => {
     const userInformation = document.getElementById(
-      'user-information-post-' + communityId
+      "user-information-post-" + communityId
     );
-    userInformation.style.display = 'none';
-    userInformation.style.visibility = 'hidden';
+    userInformation.style.display = "none";
+    userInformation.style.visibility = "hidden";
   };
 
   /* This function return the subreddit name concatenated with 'r/' */
   const getCommunityName = function () {
-    return postCommentInfo.communityName ? 'r/ '.concat(postCommentInfo.communityName) : 'community_name';
+    return postCommentInfo.communityName
+      ? "r/ ".concat(postCommentInfo.communityName)
+      : "community_name";
   };
 
   /* This function return the username of the person that published the post 'u/' */
@@ -167,9 +168,8 @@ export default function CommentsForSamePostCard({
   const handleOpenConfirmDialog = (id, index) => {
     console.log(openConfirmationDialog);
     setOpenConfirmationDialog(true);
-    if(openConfirmationDialog)
-    handleClose(true, 3, id, index);
-     console.log(openConfirmationDialog);
+    if (openConfirmationDialog) handleClose(true, 3, id, index);
+    console.log(openConfirmationDialog);
   };
   const handleCloseConfirmDialog = () => {
     setOpenConfirmationDialog(false);
@@ -177,7 +177,7 @@ export default function CommentsForSamePostCard({
   /**
    * closes the Rising Menu */
   const handleClose = (clicked, clickedItem, id, index) => {
-    console.log(clicked,clickedItem,id,index);
+    console.log(clicked, clickedItem, id, index);
     if (clickedItem == 1) {
       saveButtonClickHandler(clicked, id);
     }
@@ -189,8 +189,8 @@ export default function CommentsForSamePostCard({
     console.log(openConfirmationDialog);
     const temp = [...openMenuArr];
     temp[index] = false;
-   setOpenMenuArr(temp);
-   setOpenConfirmationDialog(true);
+    setOpenMenuArr(temp);
+    setOpenConfirmationDialog(true);
     console.log(openConfirmationDialog);
   };
 
@@ -209,7 +209,7 @@ export default function CommentsForSamePostCard({
   //   }
   //   setAnchorElShare(null);
   // };
-  const spamButtonClickHandler = (clicked, index,id) => {
+  const spamButtonClickHandler = (clicked, index, id) => {
     console.log("spaaaaaaaaaaam");
     const info = {
       request: {
@@ -222,9 +222,8 @@ export default function CommentsForSamePostCard({
     newComments[index].spam = clicked;
     commentsForSamePost = [...newComments];
     setCardComments(commentsForSamePost);
-
   };
-  const lockButtonClickHandler = (clicked, index,id) => {
+  const lockButtonClickHandler = (clicked, index, id) => {
     console.log("lock");
     const info = {
       request: {
@@ -238,7 +237,7 @@ export default function CommentsForSamePostCard({
     commentsForSamePost = [...newComments];
     setCardComments(commentsForSamePost);
   };
-  const approveButtonClickHandler = (clicked, index,id) => {
+  const approveButtonClickHandler = (clicked, index, id) => {
     console.log("approve");
     const info = {
       request: {
@@ -251,11 +250,11 @@ export default function CommentsForSamePostCard({
     newComments[index].approved = clicked;
     commentsForSamePost = [...newComments];
     setCardComments(commentsForSamePost);
-    spamButtonClickHandler(!clicked, index,id);
-    removeButtonClickHandler(!clicked, index,id);
+    spamButtonClickHandler(!clicked, index, id);
+    removeButtonClickHandler(!clicked, index, id);
     // submitRemovalReason(!clicked, index, "");
   };
-  const removeButtonClickHandler = (clicked, index,id) => {
+  const removeButtonClickHandler = (clicked, index, id) => {
     console.log("remove");
     const info = {
       request: {
@@ -302,7 +301,7 @@ export default function CommentsForSamePostCard({
       >
         <FaRegCommentAlt size={24} color="#7c7c7c" />
         &ensp;
-        <h6  style={{ fontWeight: "300", color: "#9b9b9b" }}>
+        <h6 style={{ fontWeight: "300", color: "#9b9b9b",position:'relative' }}>
           <span style={{ color: "#0079d3" }}> {postCommentInfo.userName} </span>{" "}
           commented on {postCommentInfo.postTitle} &nbsp;{" "}
           <span style={{ color: "#0079d3" }}>
@@ -315,26 +314,38 @@ export default function CommentsForSamePostCard({
               <GoLinkExternal color="#0079d3" size={12} />
             ) : null}
           </span>
-          <span className="community-name"
-            onMouseOver={()=>handleHoverOnSubreddit(postCommentInfo.communityId)}
-            onFocus={()=>handleHoverOnSubreddit(postCommentInfo.communityId)}
-            onMouseOut={()=>handleHoverOutSubreddit(postCommentInfo.communityId)}
-            onBlur={()=>handleHoverOutSubreddit(postCommentInfo.communityId)}
+          <span
+            className="community-name"
+            onMouseOver={() =>
+              handleHoverOnSubreddit(postCommentInfo.communityId)
+            }
+            onFocus={() => handleHoverOnSubreddit(postCommentInfo.communityId)}
+            onMouseOut={() =>
+              handleHoverOutSubreddit(postCommentInfo.communityId)
+            }
+            onBlur={() => handleHoverOutSubreddit(postCommentInfo.communityId)}
             data-testid="test-post-community-name"
-             style={{ color: "#1a1a1b", fontWeight: "500" }}>
+            style={{
+              color: "#1a1a1b",
+              fontWeight: "500",
+              position: "absolute",
+              zIndex: "10000",
+              backgroundColor: "white",
+              width: "100%",
+              top: "20px",
+              left: "20%"
+            }}
+          >
             {" "}
             {/* {postCommentInfo.communityName}{" "} */}
             <a href="#">{getCommunityName()}</a>
             <div
               className="community-information"
-              id={'community-information-post-' + postCommentInfo.communityId}
+              id={"community-information-post-" + postCommentInfo.communityId}
             >
               <div className="community-information-header">
                 <div className="community-logo-2">
-                  <img
-                    src={Logo}
-                    alt="community logo"
-                  />
+                  <img src={Logo} alt="community logo" />
                 </div>
                 <h3 className="community-name-2">
                   <a href="#">{getCommunityName()}</a>
@@ -363,10 +374,7 @@ export default function CommentsForSamePostCard({
                 </p>
               </div>
               <div className="community-view-button">
-                <a
-                  href="#"
-                  className="view-community"
-                >
+                <a href="#" className="view-community">
                   view community
                 </a>
               </div>
@@ -374,7 +382,6 @@ export default function CommentsForSamePostCard({
           </span>{" "}
           . Posted by
           <span> {postCommentInfo.postOwner} </span>
-          
         </h6>
       </Box>
       <List
@@ -735,7 +742,9 @@ export default function CommentsForSamePostCard({
                     {comment.spam || comment.removed ? (
                       <Button
                         variant="text"
-                        onClick={() => approveButtonClickHandler(true, index,comment.id)}
+                        onClick={() =>
+                          approveButtonClickHandler(true, index, comment.id)
+                        }
                         sx={{
                           padding: "0 4px",
                           minWidth: "3rem",
@@ -757,7 +766,9 @@ export default function CommentsForSamePostCard({
                     {!comment.removed ? (
                       <Button
                         variant="text"
-                        onClick={() => removeButtonClickHandler(true, index,comment.id)}
+                        onClick={() =>
+                          removeButtonClickHandler(true, index, comment.id)
+                        }
                         sx={{
                           padding: "0 4px",
                           minWidth: "3rem",
@@ -785,7 +796,9 @@ export default function CommentsForSamePostCard({
                     {!comment.removed ? (
                       <Button
                         variant="text"
-                        onClick={() => spamButtonClickHandler(true, index,comment.id)}
+                        onClick={() =>
+                          spamButtonClickHandler(true, index, comment.id)
+                        }
                         sx={{
                           padding: "0 4px",
                           minWidth: "3rem",
@@ -806,7 +819,9 @@ export default function CommentsForSamePostCard({
                     {!comment.locked ? (
                       <Button
                         variant="text"
-                        onClick={() => lockButtonClickHandler(true, index,comment.id)}
+                        onClick={() =>
+                          lockButtonClickHandler(true, index, comment.id)
+                        }
                         sx={{
                           padding: "0 4px",
                           minWidth: "3rem",
@@ -826,7 +841,9 @@ export default function CommentsForSamePostCard({
                     ) : (
                       <Button
                         variant="text"
-                        onClick={() => lockButtonClickHandler(false, index,comment.id)}
+                        onClick={() =>
+                          lockButtonClickHandler(false, index, comment.id)
+                        }
                         sx={{
                           padding: "0 4px",
                           minWidth: "3rem",

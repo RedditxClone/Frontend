@@ -219,18 +219,18 @@ const Data = {
 const routes = createBrowserRouter([
   {
     path: '/',
-    element: <CommentTap />,
+    element: <HomePage  />,
     children: [
       {
         path: 'submitted',
-        element: <CommentTap />
+        element: <ProfileList />
       },
-      // {
-      //   path: 'comments',
-      //   element: (
-      //     <CommentTap comments={comments} />
-      //   )
-      // },
+      {
+        path: 'comments',
+        element: (
+          <CommentTap  />
+        )
+      },
       {
         path: 'history',
         element: <ProfileList />
