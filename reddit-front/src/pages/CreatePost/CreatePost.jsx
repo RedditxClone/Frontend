@@ -42,16 +42,20 @@ function CreatePost() {
 
   console.log(validPost);
   const onPostHandler = async () => {
+    let postType;
     let currentContent;
     switch (currentTab) {
       case 0:
         currentContent = postContent;
+        postType = 'text';
         break;
       case 1:
         currentContent = postMedia;
+        postType = 'images';
         break;
       case 2:
         currentContent = postUrl;
+        postType = 'link';
         break;
       default:
         currentContent = postContent;
@@ -64,7 +68,8 @@ function CreatePost() {
         currentContent,
         nsfw,
         spoiler,
-        ''
+        '',
+        postType
       );
     } else {
       const formData = new FormData();
@@ -79,7 +84,8 @@ function CreatePost() {
         formData,
         nsfw,
         spoiler,
-        ''
+        '',
+        postType
       );
     }
     console.log(postResponse);

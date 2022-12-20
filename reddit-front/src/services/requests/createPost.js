@@ -8,7 +8,8 @@ const createPost = async (
   postText,
   isNsfw,
   isSpoiler,
-  postFlair
+  postFlair,
+  myPostType
 ) => {
   const token = getCookie('Authorization');
 
@@ -19,7 +20,8 @@ const createPost = async (
       text: postText,
       nsfw: isNsfw,
       spoiler: isSpoiler,
-      flair: postFlair === '' ? null : postFlair
+      flair: postFlair === '' ? null : postFlair,
+      postType: myPostType
     }, { headers: { Authorization: token } });
     if (response.status >= 200 && response.status < 300) {
       return { fulfilled: true, data: response.data };
@@ -37,7 +39,8 @@ export const createPostWithMedia = async (
   postMedia,
   isNsfw,
   isSpoiler,
-  postFlair
+  postFlair,
+  postType
 ) => {
   const token = getCookie('Authorization');
   // console.log(
@@ -48,7 +51,7 @@ export const createPostWithMedia = async (
   //   isSpoiler,
   //   postFlair
   // );
-  const emptyPostResponse = await createPost(communityId, postTitle, 'media', isNsfw, isSpoiler, postFlair);
+  const emptyPostResponse = await createPost(communityId, postTitle, 'media', isNsfw, isSpoiler, postFlair, postType);
   const { fulfilled } = emptyPostResponse;
   const postId = emptyPostResponse.data._id;
   console.log(postId);

@@ -42,7 +42,7 @@ function DragAndDrop({ setCurrentFiles, currentFiles }) {
           >
             <label htmlFor="icon-button-file">
               <input
-                accept="image/*,video/*"
+                accept="image/*"
                 id="icon-button-file"
                 type="file"
                 onChange={handleImages}
