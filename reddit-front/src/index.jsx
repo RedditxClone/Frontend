@@ -153,6 +153,7 @@ const routes = createBrowserRouter([
         element: <SearchResults type={3} />
       }
     ]
+    // here
   },
   {
     path: '/:subredditName/about/:activeItem',
