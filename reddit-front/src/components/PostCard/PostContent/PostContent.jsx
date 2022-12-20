@@ -22,7 +22,6 @@ import PostInteractions from '../PostInteractions/PostInteractions';
 import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
 import { divideBigNumber, getDateDiff } from '../../../utilities/Helpers';
-import { flagPostAsVisited } from '../../../services/requests/Post';
 
 /**
  * @typedef PropType
