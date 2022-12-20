@@ -1,12 +1,23 @@
+/* eslint-disable indent */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable object-curly-newline */
+/* eslint-disable no-unreachable */
+/* eslint-disable no-lone-blocks */
+/* eslint-disable operator-linebreak */
 /* eslint-disable react/prop-types */
 import { useState, memo } from 'react';
 import './Voting.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
+import { divideBigNumber } from '../../../utilities/Helpers';
+import { upVote, downVote, unVote } from '../../../services/requests/Post';
 
 /**
  * @typedef PropType
  * @property {number} votesCount
- * @property {function} divideBigNumber
+ * @property {number} postId
+ * @property {number} currentVotingState  // 0 : not voted, 1 -> up, -1 -> down
+ * @property {bool} isHomePagePost
  */
 
 /**
@@ -15,81 +26,75 @@ import { BiUpvote, BiDownvote } from 'react-icons/bi';
  *
  */
 
-function Voting({ votesCount, divideBigNumber }) {
-  const [votingCounter, setVotingCounter] = useState(votesCount);
-  const [votesCountColor, setVotesCountColor] = useState('black');
-  // voting states : 0 -> not voted, 1 -> up, -1 -> down
-  const [votingCurrentState, setVotingCurrentState] = useState(0);
-  const [votingCurrentColors, setVotingCurrentColors] = useState({
-    up: '#c0c2c4',
-    down: '#c0c2c4'
-  });
+function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
+  const [votesCountColor, setVotesCountColor] = useState(
+    currentVotingState === 'upvote'
+      ? '#ff6830'
+      : currentVotingState === 'downvote'
+      ? '#0272c4'
+      : 'black'
+  );
+  const [isUpVoted, setIsUpVoted] = useState(currentVotingState === 'upvote');
+  const [isDownVoted, setIsDownVoted] = useState(
+    currentVotingState === 'downvote'
+  );
+  const [votes, setVotes] = useState(votesCount);
 
   const handleUpVoting = () => {
-    switch (votingCurrentState) {
-      case 0:
-        setVotingCounter(votingCounter + 1);
-        setVotingCurrentState(1);
-        setVotingCurrentColors({
-          up: '#ff6830',
-          down: votingCurrentColors.down
-        });
-        setVotesCountColor('#ff6830');
-        break;
-      case 1:
-        setVotingCounter(votingCounter - 1);
-        setVotingCurrentState(0);
-        setVotingCurrentColors({
-          up: '#c0c2c4',
-          down: '#c0c2c4'
-        });
-        setVotesCountColor('black');
-        break;
-      case -1:
-        setVotingCounter(votingCounter + 2);
-        setVotingCurrentState(1);
-        setVotingCurrentColors({
-          up: '#ff6830',
-          down: '#c0c2c4'
-        });
-        setVotesCountColor('#ff6830');
-        break;
-      default:
-        break;
+    votesCount = votes;
+    if (isUpVoted) {
+      setVotes(votesCount - 1);
+      votesCount -= 1;
+      setIsUpVoted(false);
+      setIsDownVoted(false);
+      currentVotingState = 0;
+      setVotesCountColor('black');
+      unVote({ id: postId });
+    } else if (isDownVoted) {
+      setVotes(votesCount + 2);
+      votesCount += 2;
+      setIsDownVoted(false);
+      setIsUpVoted(true);
+      currentVotingState = 1;
+      setVotesCountColor('#ff6830');
+      upVote({ id: postId });
+    } else {
+      setVotes(votesCount + 1);
+      votesCount += 1;
+      setIsUpVoted(true);
+      setIsDownVoted(false);
+      currentVotingState = 1;
+      setVotesCountColor('#ff6830');
+      downVote({ id: postId });
     }
   };
 
   const handleDownVoting = () => {
-    switch (votingCurrentState) {
-      case 0:
-        setVotingCounter(votingCounter - 1);
-        setVotingCurrentState(-1);
-        setVotingCurrentColors({
-          up: votingCurrentColors.up,
-          down: '#0272c4'
-        });
-        setVotesCountColor('#0272c4');
-        break;
-      case 1:
-        setVotingCounter(votingCounter - 2);
-        setVotingCurrentState(-1);
-        setVotingCurrentColors({
-          up: '#c0c2c4',
-          down: '#0272c4'
-        });
-        setVotesCountColor('#0272c4');
-        break;
-      case -1:
-        setVotingCounter(votingCounter + 1);
-        setVotingCurrentState(0);
-        setVotingCurrentColors({
-          up: '#c0c2c4',
-          down: '#c0c2c4'
-        });
-        setVotesCountColor('black');
-        break;
-      default:
-        break;
+    votesCount = votes;
+    if (isUpVoted) {
+      setVotes(votesCount - 2);
+      votesCount -= 2;
+      setIsUpVoted(false);
+      setIsDownVoted(true);
+      currentVotingState = -1;
+      setVotesCountColor('#0272c4');
+      downVote({ id: postId });
+    } else if (isDownVoted) {
+      setVotes(votesCount + 1);
+      votesCount += 1;
+      setIsDownVoted(false);
+      setIsUpVoted(false);
+      currentVotingState = 0;
+      setVotesCountColor('black');
+      unVote({ id: postId });
+    } else {
+      setVotes(votesCount - 1);
+      votesCount -= 1;
+      setIsUpVoted(false);
+      setIsDownVoted(true);
+      currentVotingState = -1;
+      setVotesCountColor('#0272c4');
+      downVote({ id: postId });
     }
   };
 
@@ -105,7 +110,7 @@ function Voting({ votesCount, divideBigNumber }) {
           data-testid="test-up-vote"
         >
           <BiUpvote
-            color={votingCurrentColors.up}
+            color={isUpVoted ? '#ff6830' : '#c0c2c4'}
             fontSize="24"
             onClick={handleUpVoting}
             data-testid="test-up-voting-button"
@@ -116,14 +121,18 @@ function Voting({ votesCount, divideBigNumber }) {
           data-testid="test-votes-count"
           style={{ color: votesCountColor }}
         >
-          {votingCounter > 0 ? divideBigNumber(votingCounter) : 'Vote'}
+          {isHomePagePost
+            ? votes > 0
+              ? divideBigNumber(votes)
+              : 'Vote'
+            : null}
         </div>
         <span
           className="down-vote-icon"
           data-testid="test-down-vote"
         >
           <BiDownvote
-            color={votingCurrentColors.down}
+            color={isDownVoted ? '#0272c4' : '#c0c2c4'}
             fontSize="24"
             onClick={handleDownVoting}
             data-testid="test-down-voting-button"

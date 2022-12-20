@@ -62,3 +62,14 @@ export const RuleDescription = styled(Box)({
   padding: '0 8px 0 1.6rem',
   cursor: 'pointer'
 });
+
+/**
+ * @param {Box} - the default Box
+ * @return {RuleNumber} - The styled container for the rule number
+ */
+export const RuleNumber = styled(Box)({
+  flex: '0 0',
+  margin: 0,
+  padding: '0 6px 0 0',
+  fontSize: '1.5rem'
+});

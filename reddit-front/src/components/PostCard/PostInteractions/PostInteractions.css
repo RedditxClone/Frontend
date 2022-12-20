@@ -1,3 +1,20 @@
+.interaction-item {
+  padding: 5px 8px;
+  border-radius: 999px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  font-size: 15px;
+  color: #949494;
+}
+.interaction-item:hover {
+  background-color: #e8e8e8ed;
+  color: black;
+}
+.interaction-text {
+  margin-right: 5px;
+  text-transform: capitalize;
+}
 .post-interactions {
   display: flex;
   align-items: center;
@@ -20,7 +37,8 @@
 .post-interactions .post-comment,
 .post-interactions .post-share,
 .post-interactions .post-save,
-.post-interactions .post-unsave {
+.post-interactions .post-unsave,
+.post-interactions .post-interaction-button {
   display: inline-block;
   display: flex;
   align-items: center;
@@ -33,11 +51,9 @@
   padding-left: 8px;
   left: -8px;
 }
-.post-interactions .post-more-interactions {
-  z-index: 1000;
-}
 
 .post-interactions .post-hide button,
+.post-interactions .drop-down-item button,
 .post-interactions .post-more-interactions button {
   background: transparent;
   border: none;
@@ -47,7 +63,8 @@
   padding: 4px;
   margin-top: 3px;
 }
-.post-interactions .post-hide {
+.post-interactions .post-hide,
+.post-interactions .drop-down-item:first-of-type {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
@@ -57,14 +74,15 @@
 }
 .interactions-dropdown {
   position: absolute;
-  top: 3.8rem;
+  top: 2.8rem;
   left: 0px;
-  width: 27rem;
+  width: 24rem;
   border-radius: 5px;
   display: none;
   visibility: hidden;
   background-color: white;
   border: 1px solid #ccc;
+  z-index: 1000;
 }
 
 .post-more-interactions .is-visible,
@@ -97,9 +115,14 @@
 .post-interactions .post-unsave span,
 .post-interactions .post-save span,
 .post-interactions .post-hide span,
+.post-interactions .drop-down-item span,
 .post-interactions .post-share-2 span,
 .post-interactions .post-save-2 span,
-.post-interactions .post-unsave-2 span {
+.post-interactions .post-approve-2 span,
+.post-interactions .post-spam-2 span,
+.post-interactions .post-remove-2 span,
+.post-interactions .post-unsave-2 span,
+.post-interactions .post-interaction-button span {
   display: inline-block;
   text-transform: capitalize;
   vertical-align: middle;
@@ -107,18 +130,26 @@
   margin-left: 5px;
   font-weight: 700;
   padding: 2px 4px;
+  z-index: 10;
 }
 .post-interactions .post-share-2 span,
 .post-interactions .post-save-2 span,
+.post-interactions .post-approve-2 span,
+.post-interactions .post-remove-2 span,
+.post-interactions .post-spam-2 span,
 .post-interactions .post-unsave-2 span {
   padding-bottom: 8px;
 }
 .post-interactions .post-share-2 svg,
 .post-interactions .post-save-2 svg,
+.post-interactions .post-approve-2 svg,
+.post-interactions .post-remove-2 svg,
+.post-interactions .post-spam-2 svg,
 .post-interactions .post-unsave-2 svg {
   margin-top: 5px;
 }
 
+.post-interactions .drop-down-item:hover,
 .post-interactions .post-hide:hover,
 .post-interactions .post-share:hover,
 .post-interactions .post-comment:hover,
@@ -127,13 +158,21 @@
 .post-interactions .post-more-interactions:hover,
 .post-interactions .post-share-2:hover,
 .post-interactions .post-unsave-2:hover,
-.post-interactions .post-save-2:hover {
+.post-interactions .post-save-2:hover,
+.post-interactions .post-approve-2:hover,
+.post-interactions .post-spam-2:hover,
+.post-interactions .post-remove-2:hover,
+.post-interactions .post-interaction-button:hover {
   background-color: #e8e8e8ed;
 }
 .post-interactions .post-hide a,
+.post-interactions .drop-down-item a,
 .post-interactions .post-share a,
 .post-interactions .post-share-2,
 .post-interactions .post-save-2,
+.post-interactions .post-approve-2,
+.post-interactions .post-spam-2,
+.post-interactions .post-remove-2,
 .post-interactions .post-unsave-2 {
   display: inline-block;
   text-align: left;
@@ -142,16 +181,21 @@
   align-items: center;
   flex-direction: row;
   padding: 1rem 5px;
-  color: #bfc0c1;
+  color: #878787;
 }
-.post-interactions .post-hide span {
+.post-interactions .post-hide span,
+.post-interactions .drop-down-item span {
   margin-bottom: 0;
 }
 .post-interactions .post-hide a:hover,
+.post-interactions .drop-down-item a:hover,
 .post-interactions .post-share a:hover,
 .post-interactions .post-save a:hover,
 .post-interactions .post-share-2:hover,
 .post-interactions .post-unsave-2:hover,
+.post-interactions .post-remove-2:hover,
+.post-interactions .post-spam-2:hover,
+.post-interactions .post-approve-2:hover,
 .post-interactions .post-save-2:hover {
   color: black;
 }
@@ -166,17 +210,51 @@
 }
 
 .post-interactions .post-save-2,
+.post-interactions .post-approve-2,
+.post-interactions .post-spam-2,
+.post-interactions .post-remove-2,
 .post-interactions .post-unsave-2,
 .post-interactions .post-share-2 {
   display: none;
   visibility: hidden;
 }
 
+.delete-post-button {
+  border: none;
+  background-color: #0079d3;
+  color: white;
+  font-family: Noto Sans, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6rem;
+  letter-spacing: 1.5;
+  min-height: 2.4rem;
+  min-width: 4rem;
+  padding: 1rem 2rem;
+  margin-left: 1rem;
+  align-items: center;
+  border-radius: 999.9rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-transform: 'Capitalize';
+}
+
+.delete-post-button:hover {
+  backgroundcolor: '#f75b5b';
+}
+@media (max-width: 890px) {
+  .post-interactions .interactions-dropdown {
+    left: -15vw;
+  }
+}
 @media (max-width: 640px) {
   .post-interactions .interactions-dropdown {
-    width: 150px;
+    width: 180px;
   }
   .post-interactions .post-save-2,
+  .post-interactions .post-approve-2,
+  .post-interactions .post-remove-2,
+  .post-interactions .post-spam-2,
   .post-interactions .post-unsave-2,
   .post-interactions .post-share-2 {
     display: block;
@@ -195,5 +273,117 @@
 @media (max-width: 420px) {
   .post-interactions .post-more-interactions button {
     padding-top: 0.8rem;
+  }
+  .post-interactions .interactions-dropdown {
+    width: 120px;
+  }
+}
+@media (max-width: 1230px) and (min-width: 970px) {
+  .post-approve,
+  .post-approve span {
+    width: 0;
+    padding: 0;
+    display: none;
+    visibility: hidden;
+  }
+  .post-interactions .post-approve-2 {
+    display: block;
+    visibility: visible;
+  }
+}
+
+@media (max-width: 1100px) and (min-width: 970px) {
+  .post-spam,
+  .post-remove {
+    width: 0;
+    padding: 0;
+    display: none;
+    visibility: hidden;
+  }
+
+  .post-options,
+  .post-more-interactions {
+    position: relative;
+    left: -2.5rem;
+  }
+
+  .post-interactions .post-remove-2,
+  .post-interactions .post-spam-2 {
+    display: block;
+    visibility: visible;
+  }
+}
+
+@media (max-width: 760px) {
+  .post-approve,
+  .post-approve span {
+    width: 0;
+    padding: 0;
+    display: none;
+    visibility: hidden;
+  }
+  .post-interactions .post-approve-2 {
+    display: block;
+    visibility: visible;
+  }
+}
+
+@media (max-width: 660px) {
+  .post-approve,
+  .post-approve span {
+    width: 0;
+    padding: 0;
+    display: none;
+    visibility: hidden;
+  }
+
+  .post-spam,
+  .post-remove {
+    width: 0;
+    padding: 0;
+    display: none;
+    visibility: hidden;
+  }
+
+  .post-options,
+  .post-more-interactions {
+    position: relative;
+    left: -2.5rem;
+  }
+
+  .post-options,
+  .post-more-interactions {
+    position: relative;
+    left: -2.5rem;
+  }
+
+  .post-interactions .post-remove-2,
+  .post-interactions .post-spam-2 {
+    display: block;
+    visibility: visible;
+  }
+}
+
+@media (max-width: 420px) {
+  .post-approve,
+  .post-approve span {
+    width: 0;
+    padding: 0;
+    display: none;
+    visibility: hidden;
+  }
+
+  .post-spam,
+  .post-remove {
+    width: 0;
+    padding: 0;
+    display: none;
+    visibility: hidden;
+  }
+
+  .post-options,
+  .post-more-interactions {
+    position: relative;
+    left: -2.5rem;
   }
 }

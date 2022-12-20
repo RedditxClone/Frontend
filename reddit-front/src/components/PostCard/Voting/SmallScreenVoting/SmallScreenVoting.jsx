@@ -1,12 +1,18 @@
+/* eslint-disable indent */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import './SmallScreenVoting.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
+import { upVote, unVote, downVote } from '../../../../services/requests/Post';
+import { divideBigNumber } from '../../../../utilities/Helpers';
 
 /**
  * @typedef PropType
  * @property {number} votesCount
- * @property {function} divideBigNumber
+ * @property {number} postId
+ * @property {number} currentVotingState  // 0 : not voted, 1 -> up, -1 -> down
  */
 
 /**
@@ -15,74 +21,79 @@ import { BiUpvote, BiDownvote } from 'react-icons/bi';
  *
  */
 
-export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
-  const [votingCounter, setVotingCounter] = useState(votesCount);
-  // voting status : 0 -> no voted, 1 -> up, -1 -> down
-  const [votingCurrentState, setVotingCurrentState] = useState(0);
-  const [votingCurrentColors, setVotingCurrentColors] = useState({
-    up: '#c0c2c4',
-    down: '#c0c2c4'
-  });
+export default function SmallScreenVoting({
+  votesCount,
+  postId,
+  currentVotingState
+}) {
+  const [votesCountColor, setVotesCountColor] = useState(
+    currentVotingState === 'upvote'
+      ? '#ff6830'
+      : currentVotingState === 'downvote'
+      ? '#0272c4'
+      : 'black'
+  );
+  const [isUpVoted, setIsUpVoted] = useState(currentVotingState === 'upvote');
+  const [isDownVoted, setIsDownVoted] = useState(
+    currentVotingState === 'downvote'
+  );
+  const [votes, setVotes] = useState(votesCount);
 
   const handleUpVoting = () => {
-    switch (votingCurrentState) {
-      case 0:
-        setVotingCounter(votingCounter + 1);
-        setVotingCurrentState(1);
-        setVotingCurrentColors({
-          up: '#ff6830',
-          down: votingCurrentColors.down
-        });
-        break;
-      case 1:
-        setVotingCounter(votingCounter - 1);
-        setVotingCurrentState(0);
-        setVotingCurrentColors({
-          up: '#c0c2c4',
-          down: '#c0c2c4'
-        });
-        break;
-      case -1:
-        setVotingCounter(votingCounter + 2);
-        setVotingCurrentState(1);
-        setVotingCurrentColors({
-          up: '#ff6830',
-          down: '#c0c2c4'
-        });
-        break;
-      default:
-        break;
+    votesCount = votes;
+    if (isUpVoted) {
+      setVotes(votesCount - 1);
+      votesCount -= 1;
+      setIsUpVoted(false);
+      setIsDownVoted(false);
+      currentVotingState = 0;
+      setVotesCountColor('black');
+      unVote({ id: postId });
+    } else if (isDownVoted) {
+      setVotes(votesCount + 2);
+      votesCount += 2;
+      setIsDownVoted(false);
+      setIsUpVoted(true);
+      currentVotingState = 1;
+      setVotesCountColor('#ff6830');
+      upVote({ id: postId });
+    } else {
+      setVotes(votesCount + 1);
+      votesCount += 1;
+      setIsUpVoted(true);
+      setIsDownVoted(false);
+      currentVotingState = 1;
+      setVotesCountColor('#ff6830');
+      downVote({ id: postId });
     }
   };
 
   const handleDownVoting = () => {
-    switch (votingCurrentState) {
-      case 0:
-        setVotingCounter(votingCounter - 1);
-        setVotingCurrentState(-1);
-        setVotingCurrentColors({
-          up: votingCurrentColors.up,
-          down: '#0272c4'
-        });
-        break;
-      case 1:
-        setVotingCounter(votingCounter - 2);
-        setVotingCurrentState(-1);
-        setVotingCurrentColors({
-          up: '#c0c2c4',
-          down: '#0272c4'
-        });
-        break;
-      case -1:
-        setVotingCounter(votingCounter + 1);
-        setVotingCurrentState(0);
-        setVotingCurrentColors({
-          up: '#c0c2c4',
-          down: '#c0c2c4'
-        });
-        break;
-      default:
-        break;
+    votesCount = votes;
+    if (isUpVoted) {
+      setVotes(votesCount - 2);
+      votesCount -= 2;
+      setIsUpVoted(false);
+      setIsDownVoted(true);
+      currentVotingState = -1;
+      setVotesCountColor('#0272c4');
+      downVote({ id: postId });
+    } else if (isDownVoted) {
+      setVotes(votesCount + 1);
+      votesCount += 1;
+      setIsDownVoted(false);
+      setIsUpVoted(false);
+      currentVotingState = 0;
+      setVotesCountColor('black');
+      unVote({ id: postId });
+    } else {
+      setVotes(votesCount - 1);
+      votesCount -= 1;
+      setIsUpVoted(false);
+      setIsDownVoted(true);
+      currentVotingState = -1;
+      setVotesCountColor('#0272c4');
+      downVote({ id: postId });
     }
   };
 
@@ -92,17 +103,20 @@ export default function SmallScreenVoting({ votesCount, divideBigNumber }) {
       <div className="small-voting-content">
         <span className="up-vote-icon">
           <BiUpvote
-            color={votingCurrentColors.up}
+            color={isUpVoted ? '#ff6830' : '#c0c2c4'}
             fontSize="24"
             onClick={handleUpVoting}
           />
         </span>
-        <span className="votes-count">
-          {votingCounter > 0 ? divideBigNumber(votingCounter) : 'Vote'}
+        <span
+          className="votes-count"
+          style={{ color: votesCountColor }}
+        >
+          {votes > 0 ? divideBigNumber(votes) : 'Vote'}
         </span>
         <span className="down-vote-icon">
           <BiDownvote
-            color={votingCurrentColors.down}
+            color={isDownVoted ? '#0272c4' : '#c0c2c4'}
             fontSize="24"
             onClick={handleDownVoting}
           />

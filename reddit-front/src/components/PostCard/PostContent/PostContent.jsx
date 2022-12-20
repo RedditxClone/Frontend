@@ -1,3 +1,10 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable no-use-before-define */
+/* eslint-disable prefer-const */
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
@@ -6,22 +13,32 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
+import ReactMarkdown from 'https://esm.sh/react-markdown@7';
+import { Link } from '@mui/material';
+import { FiExternalLink } from 'react-icons/fi';
+import Logo3 from '../../../assets/Images/test.png';
+import Logo from '../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
+import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
-import Logo from './test.png';
-/**
- * @typedef PropType
- * @property {number} comments_count
- * @property {object} postContentData
- * @property {string} post_type
- * @property {string} title
- * @property {string} flair_name
- * @property {mixed} content
- */
+import { divideBigNumber } from '../../../utilities/Helpers';
+import { flagPostAsVisited } from '../../../services/requests/Post';
 
 /**
- *
- * @param {PropType}  props
+ * @typedef PropType
+ * @property {bool} setHidePost
+ * @property {object} postContentData
+ * @property {bool} isCommunityPost
+ * @property {bool} isPostFullDetailsMode
+ * @property {bool} isModeratorMode
+ * @property {bool} isSaved
+ * @property {bool} isLocked
+ * @property {bool} isPostApproved
+ * @property {bool} isPostSticky
+ * @property {bool} isDistinguishedAsMode
+ * @property {bool} isNSFW
+ * @property {bool} isSpoiled
+ * @property {bool} replyNotifications
  */
 
 /**
@@ -31,43 +48,34 @@ import Logo from './test.png';
  * the method 'showSlides' to render a slideshow for the images
  *
  */
-function PostContent(props) {
+function PostContent({
+  setHidePost,
+  postContentData,
+  isCommunityPost,
+  isModeratorMode
+}) {
   let postContent = null;
   let slideIndex = 0;
-
-  const showSlides = () => {
-    const slides = document.getElementsByClassName('my-slides');
-    const slidesLength = slides.length;
-    if (slideIndex === slidesLength) {
-      slideIndex = 0;
-    }
-    if (slideIndex < 0) {
-      slideIndex = slidesLength - 1;
-    }
-
-    let i;
-    for (i = 0; i < slidesLength; i += 1) {
-      slides[i].style.display = 'none';
-    }
-    if (slides[slideIndex] != null) {
-      slides[slideIndex].style.display = 'block';
-    }
-  };
-
-  const nextSlide = () => {
-    slideIndex += 1;
-    showSlides();
-  };
-  const prevSlide = () => {
-    slideIndex -= 1;
-    showSlides();
-  };
+  const [modAction, setModAction] = useState(0);
+  const [locked, setLocked] = useState(postContentData.commentsLocked);
+  const [nsfw, setNsfw] = useState(postContentData.nsfw);
+  const [isVisited, setIsVisited] = useState(postContentData.visited);
+  const [isSaved, setIsSaved] = useState(postContentData.isSaved);
+  const [isSpoiled, setIsSpoiled] = useState(postContentData.spoiler);
+  const [isPostApproved, setIsPostApproved] = useState(
+    postContentData.replyNotifications
+  );
+  const [replyNotifications, setReplyNotifications] = useState(
+    postContentData.visited
+  );
+  const [canBeSpoiled, setCanBeSpoiled] = useState(
+    postContentData.post_type === 'img'
+  );
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
-  const getPostContent = function () {
-    const contentType = props.postContentData.post_type;
-    const mediaCount = props.postContentData.media_count;
-
+  const getPostContent = () => {
+    const contentType = postContentData.post_type;
+    const mediaCount = postContentData.media_count;
     switch (contentType) {
       case 'img':
         if (mediaCount > 1) {
@@ -83,11 +91,12 @@ function PostContent(props) {
                 <img
                   src={Logo}
                   alt="post image"
+                  className={`post-image-${postContentData.id}`}
                 />
               </div>
               <div className="my-slides fade">
                 <img
-                  src={Logo}
+                  src={Logo3}
                   alt="post image"
                 />
               </div>
@@ -107,13 +116,17 @@ function PostContent(props) {
               </button>
             </>
           );
-          showSlides(1);
+          // showSlides();
         } else {
           postContent = (
             <div className="post-image">
               <img
-                src={Img2}
+                className={`post-image-${postContentData.id}`}
+                src={Logo}
                 alt="post image"
+                style={{
+                  filter: postContentData.is_spoiled ? 'blur(60px)' : 'none'
+                }}
               />
             </div>
           );
@@ -135,7 +148,26 @@ function PostContent(props) {
         );
         break;
       case 'text':
-        postContent = <p>{props.postContentData.content}</p>;
+        postContent = (
+          <div className="post-content-text">
+            <p style={{ color: isVisited ? '#949494' : 'black' }}>
+              {postContentData.content}
+            </p>
+          </div>
+        );
+        break;
+      case 'link':
+        postContent = (
+          <div className="post-content-link">
+            <a>
+              {postContentData.content}
+              <FiExternalLink
+                className="external-link-icon"
+                style={{ marginLeft: '4px', color: '#3f9ade' }}
+              />
+            </a>
+          </div>
+        );
         break;
       default:
         break;
@@ -144,47 +176,136 @@ function PostContent(props) {
     return postContent;
   };
 
+  /* show the image slider if the post has multiple images */
+  const showSlides = () => {
+    let slides = document.querySelectorAll('.my-slides');
+
+    const slidesLength = slides.length;
+    if (slideIndex === slidesLength) {
+      slideIndex = 0;
+    }
+    if (slideIndex < 0) {
+      slideIndex = slidesLength - 1;
+    }
+
+    let i;
+    for (i = 0; i < slidesLength; i += 1) {
+      slides.item(i).style.display = 'none';
+    }
+    if (slides[slideIndex] != null) {
+      slides.item(slideIndex).style.display = 'block';
+    }
+  };
+
+  const nextSlide = () => {
+    slideIndex += 1;
+    showSlides();
+  };
+
+  const prevSlide = () => {
+    slideIndex -= 1;
+    showSlides();
+  };
+
+  const handleClickOnPost = () => {
+    window.location.href = `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`;
+  };
+
   // Returning the result
   return (
     <div
       className="post-content"
       data-testid="test-post-content"
+      // onClick={handleClickOnPost}
     >
-      {props.children}
+      {/* Post info -> community, username, time */}
+      <PostInfo
+        userInfo={postContentData.user}
+        subredditInfo={postContentData.subredditInfo}
+        postedAt={postContentData.publishedDate}
+        postId={postContentData._id}
+        isCommunityPost={isCommunityPost}
+        modAction={modAction}
+        isNSFW={nsfw}
+        isLocked={locked}
+        isFollowed={postContentData.follow}
+        approvedBy={postContentData.approvedBy}
+        approvedAt={postContentData.approvedAt}
+        removedBy={postContentData.removedBy}
+        removedAt={postContentData.removedAt}
+        spammedBy={postContentData.spammedBy}
+        spammedAt={postContentData.spammedAt}
+      />
+
+      {/* Post title & flairs  */}
       <div
         className="post-title-container"
         data-testid="test-post-title"
       >
         <div className="post-title">
-          <a
+          <Link
             className="post-link"
-            href="#"
+            sx={{ textDecoration: 'none' }}
           >
-            <h3 className="post-title-heading">
-              {props.postContentData.title}
+            <h3
+              className="post-title-heading"
+              style={{ color: isVisited ? '#949494' : 'black' }}
+            >
+              {postContentData.title}
             </h3>
-          </a>
+          </Link>
         </div>
-        <div className="flair">
+
+        {postContentData.flair ? (
           <a
             href="#"
             className="flair-link"
+            style={{
+              color: postContentData.flair.textColor,
+              backgroundColor: postContentData.flair.backgroundColor
+            }}
           >
-            {props.postContentData.flair_name}
+            {postContentData.flair.text}
           </a>
+        ) : null}
+      </div>
+
+      {/* post content  */}
+      <div className="post-main-content">
+        <div className="post-content-core">
+          {/* <ReactMarkdown>### testing readme</ReactMarkdown> */}
+
+          {getPostContent()}
+          {showSlides()}
         </div>
       </div>
-      <div className="post-main-content">
-        <div className="post-content-core">{getPostContent()}</div>
-      </div>
+
+      {/* post interactions -> comment, save, hide, ..  */}
       <PostInteractions
-        setHidePost={props.setHidePost}
-        commentsCount={props.divideBigNumber(
-          props.postContentData.comments_count
-        )}
-        votesCount={props.postContentData.votes}
-        divideBigNumber={props.divideBigNumber}
-        postId={props.postContentData.id}
+        setHidePost={setHidePost}
+        commentsCount={divideBigNumber(postContentData.commentCount)}
+        votesCount={postContentData.votesCount}
+        postId={postContentData._id}
+        communityName={postContentData.subredditInfo.name}
+        isCommunityPost={isCommunityPost}
+        changeModAction={setModAction}
+        setModAction={setModAction}
+        setNsfw={setNsfw}
+        setLocked={setLocked}
+        isModeratorMode={isModeratorMode}
+        isSaved={isSaved}
+        isLocked={locked}
+        isPostApproved={isPostApproved}
+        isNSFW={nsfw}
+        isSpoiled={isSpoiled}
+        replyNotifications={replyNotifications}
+        canBeSpoiled={canBeSpoiled}
+        approved={postContentData.approvedAt ? true : false}
+        removed={postContentData.removedAt ? true : false}
+        spammed={postContentData.spammedAt ? true : false}
+        currentVotingState={
+          postContentData.voteType === null ? 0 : postContentData.voteType
+        }
       />
     </div>
   );

@@ -1,0 +1,300 @@
+.create-post_container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 5rem;
+    background-color: #ccc;
+}
+
+/**************************************** Right Part ********************************/
+.left-part {
+    flex: 1 1 100%
+}
+
+.left-part_header {
+    padding: 4px;
+    margin: 16px 0;
+    border-bottom: 1px solid var(--newCommunityTheme-line);
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/****************** Choose community part **************************************/
+
+.choose-community_container {
+    display: flex;
+    padding: 0.8rem;
+    align-items: center;
+    max-width: 300px;
+    margin-bottom: 1px;
+    background-color: #fff;
+    position: relative;
+}
+
+.choose-community_icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px dashed var(--newCommunityTheme-actionIcon);
+}
+
+.choose-community_input {
+    border: none;
+    flex: 1;
+    padding-left: 8px;
+}
+
+.choose-community_input:focus {
+    outline: none;
+}
+
+.select-button {
+    cursor: pointer;
+}
+
+.community-logo {
+    margin-right: 5px;
+    width: 3rem;
+    height: 3rem;
+    margin-right: 8px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}
+
+.create-community_btn {
+    background-color: transparent;
+    color: var(--newCommunityTheme-button);
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px transparent;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.create-community_btn:hover {
+    background-color: var(--newCommunityTheme-line);
+}
+/****************************** Community list ********************************/
+.communities-list {
+    background-color: #fff;
+    width: 300px;
+    padding: 2rem;
+    z-index: 100;
+    position: absolute;
+}
+
+.communities_item {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    transition: all 0.2s;
+    padding: 0.8rem;  
+}
+
+.communities_item:hover {
+    background-color: var(--newCommunityTheme-line);
+}
+
+.section-label {
+    color: var(--newCommunityTheme-metaText);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between  ;
+}
+
+.community-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.community-members {
+    font-size: 9px;
+    color: var(--newCommunityTheme-metaText);
+
+}
+
+/******************************** Create Post *******************************/
+.create-post {
+    background-color: #fff;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.buttons-list {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.icon-button {
+    display: flex;
+    flex: 1 1;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.5rem;
+    cursor: pointer;
+    outline: none;
+    padding: 1.5rem ;
+    text-align: center;
+    border-color: var(--newRedditTheme-line);
+    color: var(--newCommunityTheme-actionIcon);
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    border-radius: 0;
+    background-color: transparent;
+    /* transition: all 0.2s; */
+}
+
+.icon-button:disabled,
+.icon-button[disabled] {
+    cursor: not-allowed;
+    color: #ccc;
+}
+
+.icon-button:hover:not(:disabled) {
+    background-color: var(--newCommunityTheme-line);
+}
+
+.icon-button:focus {
+    color: var(--newCommunityTheme-button);
+    border-bottom: 2.5px solid var(--newCommunityTheme-button);
+}
+
+/*post content*/
+.post-content {
+    padding: 1rem;
+    width: 100%;
+}
+
+.post-title {
+    width: 100%;
+    position: relative;
+}
+
+.post-title_textarea {
+  background-color: #fff;
+  border: 1px solid #edeff1;
+  color: #1c1c1c;
+  margin-bottom: 0.8rem;
+  border-radius: 0.4rem;
+  width: 100%;
+  padding: 1.2rem 1.2rem 1.2rem 2rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding: 1rem;
+  resize: none;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
+  border-radius: 4px;
+  height: 3.5rem;
+
+}
+.post-title_textarea::-webkit-scrollbar {
+    display: none;
+}
+
+.post-title_textarea:focus {
+    outline: 1px solid #000
+}
+
+.post-title-length {
+    position: absolute;
+    right: 10px;
+    top: 20px;
+}
+
+.post-title:focus {
+    outline: none;
+}
+
+/********************************** Editor Part *************************************/
+.editor-toolbar {
+    padding: 6px 5px 0;
+    border-radius: 2px;
+    border: 1px solid #F1F1F1;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    font-size: 15px;
+    margin-bottom: 5px;
+    -webkit-user-select: none;
+    user-select: none;
+    background-color: var(--newCommunityTheme-field);
+}
+
+/*///////////////////////////////////////////////////////////////////////////////////////*/
+
+
+/******************************* Right part ***********************************/
+.right-part {
+    margin-left: 10.4rem;
+    margin-top: 0px;
+    padding-top: 3rem;
+    flex: 0 0 31.2rem;
+}
+
+.posting-rules_container {
+    background-color: #fff;
+    margin-top: '1rem';
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 4px 1.4rem rgb(0 0 0 / 10%);
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.posting-rules_header {
+    font-size: 1.6rem;
+    font-weight: 600;
+    padding-bottom: 1rem;
+    display: flex;
+    align-items: center; 
+    border-bottom: 1px solid var(--newRedditTheme-line);
+}
+
+
+.posting-rule_element {
+    padding: 8px 5px;
+    border-bottom: 1px solid var(--newRedditTheme-line);
+    font-size: '1.4rem';
+    font-weight: 500;
+}
+
+
+
+
+
+@media screen and (max-width: 590px) {
+    .choose-community_container {
+        width: 100%;
+    }
+    .icon-button {
+        font-size: 1.2rem;
+        padding: 0.5rem;
+        line-height: 1rem;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .right-part {
+        display: none;
+    }
+
+    .create-post_container {
+        justify-content: flex-start;
+    }
+
+
+}

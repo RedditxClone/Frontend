@@ -1,0 +1,15 @@
+.advanced-security {
+    margin-top:32px;
+}
+
+.advanced-security a {
+    display: flex;
+    text-decoration: none;
+}
+
+.advanced-security a p {
+    margin-right: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+}

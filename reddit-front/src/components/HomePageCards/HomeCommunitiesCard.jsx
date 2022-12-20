@@ -13,6 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import { Box } from '@mui/material';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import { useState } from 'react';
+import NavLink from '../SideList/SideList.style';
 import {
   RoundedButton,
   OverButton,
@@ -20,7 +21,7 @@ import {
   LargeRoundedButton,
   StyledCard
 } from './HomePageCards.style';
-import { NavLink } from '../CategoriesCard/CategoriesCard.style';
+
 /**
  * @description This component is resposinble to render the
  * communities card
@@ -40,8 +41,7 @@ function HomeCommunitiesCard({
   buttons1,
   buttons2,
   homePageCard,
-  buttonText,
-  textChangedToLink
+  buttonText
 }) {
   const activeStyle = {
     color: 'black'
@@ -79,7 +79,7 @@ function HomeCommunitiesCard({
 
   return (
     <Root>
-      <StyledCard sx={{ width: 310, marginBottom: '2rem' }} elevation={0}>
+      <StyledCard sx={{ width: 345, marginBottom: '2rem' }} elevation={0}>
         <CardMedia data-testid="communities_card_media" component="img" height="70" image={pic} alt="green iguana" />
         <CardContent
           sx={{
@@ -106,10 +106,10 @@ function HomeCommunitiesCard({
               <Box key={index}>
                 <NavLink
                   style={({ isActive }) => (isActive ? activeStyle : activeStyle)}
-                  to="/food"
+                  to="/"
 
                 >
-                  <ListItem data-testid="communities_items" alignItems="flex-start" sx={{ padding: '4px 16px' }}>
+                  <ListItem data-testid="communities_items" alignItems="flex-start" sx={{ padding: '4px 16px', width: '100%' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <ListItemText
                         sx={{
@@ -138,18 +138,27 @@ function HomeCommunitiesCard({
                       <ListItemAvatar sx={{ paddingLeft: '0.5rem' }}>
                         <Avatar alt={community.name} src={community.picture} />
                       </ListItemAvatar>
-                      <ListItemText
-                        sx={{
-                          '& span': {
-                            fontSize: '1.6rem',
-                            marginTop: '1rem'
-                          }
-                        }}
-                        primary={community.name}
-                      />
-                      {homePageCard == true
+                      <div
+                        style={{ display: 'flex', alignItems: 'center' }}
+                      >
+                        <ListItemText
+                          sx={{
+                            '& span': {
+                              fontSize: '1.4rem'
+                              // marginTop: '1rem',
+                              // paddingRight: '1rem'
+
+                            }
+                          }}
+                          primary={community.name}
+                        />
+                        <div
+                          style={{ alignSelf: 'flex-end' }}
+                        >
+                          {homePageCard == true
                       && !community.userCommunity
                       && community.joined == false ? (
+
                         <RoundedButton
                           sx={{
                             marginLeft: '3rem',
@@ -157,17 +166,21 @@ function HomeCommunitiesCard({
                             padding: '2px 7px',
                             ':hover': {
                               backgroundColor: '#1484D6'
-                            }
+                            },
+                            // alignSelf: 'flex-end',//?
+                            zIndex: '2'
                           }}
                           variant="contained"
                           disableElevation
                           onClick={() => joinButtonClickHandler(true, index)}
                         >
                           join
-                        </RoundedButton>
-                        ) : homePageCard == true
+                        </RoundedButton>// how to exept join from nav link
+
+                            ) : homePageCard == true
                         && !community.userCommunity
                         && community.joined == true ? (
+
                           <RoundedButton
                             sx={{
                               marginLeft: '3rem',
@@ -186,8 +199,12 @@ function HomeCommunitiesCard({
                           >
                             <span>joined</span>
                           </RoundedButton>
-                          ) : null}
+
+                              ) : null}
+                        </div>
+                      </div>
                     </Box>
+
                   </ListItem>
                 </NavLink>
                 {index < communities.length - 1 ? (
@@ -210,7 +227,7 @@ function HomeCommunitiesCard({
               View All
             </LargeRoundedButton>
           ) : (
-            <NavLink to={`${buttonTextToLinkMap(buttonText)}`} onClick={() => textChangedToLink(buttonText)}>
+            <NavLink to={`${buttonTextToLinkMap(buttonText)}`}>
               <LargeRoundedButton
                 sx={{
                   margin: '1rem 0 1.5rem 1.5rem',

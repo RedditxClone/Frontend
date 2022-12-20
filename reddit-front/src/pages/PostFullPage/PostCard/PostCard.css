@@ -1,0 +1,32 @@
+div.post-card {
+  width: 100%;
+  border-radius: 5px;
+  transition: all 0.1s;
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 1030px) {
+  div.post-card {
+    width: auto;
+    border-radius: 5px;
+    transition: all 0.1s;
+    margin-bottom: 3rem;
+  }
+}
+@media (max-width: 1080px) {
+  div.post-card {
+    margin-left: 2%;
+  }
+}
+
+@media (max-width: 1030px) {
+  div.post-card {
+    margin-left: 10rem;
+  }
+}
+
+@media (max-width: 970px) {
+  div.post-card {
+    margin-left: 2%;
+  }
+}

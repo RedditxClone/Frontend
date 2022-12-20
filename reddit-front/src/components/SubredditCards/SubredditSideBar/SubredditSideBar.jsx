@@ -1,6 +1,9 @@
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Box from '@mui/material/Box';
-import { SideBarContainer } from './SubredditSideBar.Style';
+import { memo } from 'react';
+import { SideBarContainer, SideBarContent } from './SubredditSideBar.Style';
 import AboutCard from '../AboutCard/AboutCard';
 import RulesCard from '../RulesCard/RulesCard';
 import FlairsCard from '../FlairsCard/FlairsCard';
@@ -8,9 +11,11 @@ import ModeratorsCard from '../ModeratorsCard/ModeratorsCard';
 
 /**
  * @typedef PropType
- * @property {string, color} baseColor
- * @property {string, color} highlightColor
  * @property {boolean} isModeratorMode
+ * @property {Array} aboutInfo
+ * @property {Array} flairsList
+ * @property {Array} rulesList
+ * @property {Integer} subredditId
  */
 
 /**
@@ -18,35 +23,44 @@ import ModeratorsCard from '../ModeratorsCard/ModeratorsCard';
  *
  */
 
-export default function SubredditSideBar({
-  baseColor,
-  highlightColor,
-  isModeratorMode
+function SubredditSideBar({
+  isModeratorMode,
+  subredditId,
+  subredditName,
+  isJoined,
+  aboutInfo,
+  flairsList,
+  rulesList,
+  moderatorsList
 }) {
   return (
-    <Box
-      sx={{
-        marginLeft: '2.4rem',
-        marginTop: 0,
-        flex: '0 0 31.2rem',
-        width: '31.2rem',
-        display: { xs: 'none', sm: 'block' }
-      }}
-    >
-      <SideBarContainer>
-        <AboutCard
-          baseColor={baseColor}
-          highlightColor={highlightColor}
-          isModeratorMode={isModeratorMode}
-        />
-        {!isModeratorMode ? <FlairsCard baseColor={baseColor} /> : null}
+    <SideBarContainer>
+      <SideBarContent>
+        {aboutInfo && (
+          <AboutCard
+            isModeratorMode={isModeratorMode}
+            isJoined={isJoined}
+            subredditId={subredditId}
+            subredditName={subredditName}
+            aboutInfo={aboutInfo}
+          />
+        )}
 
-        <RulesCard baseColor={baseColor} />
-        <ModeratorsCard
-          baseColor={baseColor}
-          highlightColor={highlightColor}
-        />
-      </SideBarContainer>
-    </Box>
+        {!isModeratorMode
+          ? flairsList && <FlairsCard flairsList={flairsList} />
+          : null}
+
+        {rulesList && <RulesCard rulesList={rulesList} />}
+
+        {moderatorsList && isModeratorMode && (
+          <ModeratorsCard
+            moderatorsList={moderatorsList}
+            subredditName={subredditName}
+          />
+        )}
+      </SideBarContent>
+    </SideBarContainer>
   );
 }
+
+export default memo(SubredditSideBar);

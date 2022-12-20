@@ -1,26 +1,29 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unused-vars */
 /* eslint-disable prefer-template */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import './PostCard.css';
 import PostContainer from './PostContainer/PostContainer';
-import PostInfo from './PostInfo/PostInfo';
 import PostContent from './PostContent/PostContent';
 import Voting from './Voting/Voting';
-/**
- * @typedef PropType
- * @property {number} id
- * @property {number} votes
- * @property {number} community_id
- * @property {number} user_id
- * @property {string} community_name
- * @property {string} posted_by
- * @property {timestamp} posted_at
- */
 
 /**
  *
- * @param {PropType}  postData
+ * @param {mixed}  postData
+ * @param {bool}  isCommunityPost
+ * @param {bool}  isPostFullDetailsMode
+ * @param {bool}  isHomePagePost
+ * @param {bool}  isModeratorMode
+ * @param {bool}  isSaved
+ * @param {bool}  isLocked
+ * @param {bool}  isPostApproved
+ * @param {bool}  isPostSticky
+ * @param {bool}  isDistinguishedAsMode
+ * @param {bool}  isNSFW
+ * @param {bool}  isSpoiled
+ * @param {bool}  replyNotifications
  */
 
 /**
@@ -29,22 +32,14 @@ import Voting from './Voting/Voting';
  *
  */
 
-export default function PostCard({ postData }) {
+function PostCard({
+  postData,
+  isCommunityPost,
+  isPostFullDetailsMode,
+  isHomePagePost,
+  isModeratorMode
+}) {
   const [hidePost, setHidePost] = useState(false);
-
-  /**
-   * This function divides the number and gives it the right label.
-   * Ex: 532834 = 532.8K, 999 = 999
-   * @param {int} number - The number to be divided.
-   */
-  const divideBigNumber = function divideBigNumber(number) {
-    if (number < 1000) return number;
-    if (number >= 1000000) {
-      return (number / 1000000).toFixed(1).toString().concat(' M');
-    }
-
-    return (number / 1000).toFixed(1).toString().concat(' K');
-  };
 
   // Returning the result
   return !hidePost ? (
@@ -56,25 +51,22 @@ export default function PostCard({ postData }) {
     >
       <PostContainer>
         <Voting
-          votesCount={postData.votes}
-          divideBigNumber={divideBigNumber}
+          votesCount={postData.votesCount}
+          postId={postData._id}
+          currentVotingState={
+            postData.voteType === null ? 0 : postData.voteType
+          }
+          isHomePagePost={isHomePagePost}
         />
         <PostContent
           setHidePost={setHidePost}
           postContentData={postData}
-          divideBigNumber={divideBigNumber}
-        >
-          <PostInfo
-            communityName={postData.community_name}
-            communityId={postData.community_id}
-            userId={postData.user_id}
-            postedBy={postData.posted_by}
-            postedAt={postData.posted_at}
-            divideBigNumber={divideBigNumber}
-            postId={postData.id}
-          />
-        </PostContent>
+          isCommunityPost={isCommunityPost}
+          isModeratorMode={isModeratorMode}
+        />
       </PostContainer>
     </div>
   ) : null;
 }
+
+export default PostCard;

@@ -1,21 +1,26 @@
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable no-unused-vars */
 import Box from '@mui/material/Box';
+import { useState, useEffect, memo } from 'react';
 import {
   FlairsContainer,
   FlairItemContainer,
   FlairItem
 } from './FlairsCard.Style';
 import CardHeader from '../CardHeader/CardHeader';
-
+import { getFlairsList } from '../../../services/requests/Subreddit';
 /**
  * @typedef PropType
- * @property {string, color} baseColor
+ * @property {Integer} subredditId
+ * @property {Integer} flairsList
  */
 
 /**
  * This Component for the flairs Card.
  *
  */
-export default function FlairsCard({ baseColor }) {
+function FlairsCard({ subredditId, flairsList }) {
   return (
     <FlairsContainer
       className="filter-by-flair"
@@ -23,7 +28,6 @@ export default function FlairsCard({ baseColor }) {
     >
       <CardHeader
         title="Filter by flair"
-        baseColor={baseColor}
         hasDropDownMenu={false}
       />
       <Box sx={{ padding: '12px' }}>
@@ -41,21 +45,20 @@ export default function FlairsCard({ baseColor }) {
             className="flairs-content"
           >
             <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-              <FlairItemContainer>
-                <FlairItem>first</FlairItem>
-              </FlairItemContainer>
-              <FlairItemContainer>
-                <FlairItem>tessdfsdft</FlairItem>
-              </FlairItemContainer>
-              <FlairItemContainer>
-                <FlairItem>tesdfsdfsdfsdfst</FlairItem>
-              </FlairItemContainer>
-              <FlairItemContainer>
-                <FlairItem>test</FlairItem>
-              </FlairItemContainer>
-              <FlairItemContainer>
-                <FlairItem>teffffsdsdfsdfsdfsdfsdfsdfdsfsdfdst</FlairItem>
-              </FlairItemContainer>
+              {flairsList.length > 0
+                ? flairsList.map((item) => (
+                    <FlairItemContainer>
+                      <FlairItem
+                        sx={{
+                          color: item.textColor,
+                          backgroundColor: item.backgroundColor
+                        }}
+                      >
+                        {item.text}
+                      </FlairItem>
+                    </FlairItemContainer>
+                  ))
+                : null}
             </ul>
           </Box>
         </Box>
@@ -63,3 +66,5 @@ export default function FlairsCard({ baseColor }) {
     </FlairsContainer>
   );
 }
+
+export default memo(FlairsCard);

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Login.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Login.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable operator-linebreak */
+// eslint-disable-next-line camelcase
+import jwt_decode from 'jwt-decode';
+import { Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import FacebookLogin from 'react-facebook-login';
+import { GrFacebook } from 'react-icons/gr';
+import { login } from '../../store/slices/AuthSlice';
+import InfoButton from '../../components/InfoButton/InfoButton';
+import { DividerDiv } from './Login.style';
+import {
+  ContentDiv,
+  UserAggrementDiv,
+  DotDiv,
+  StyledFooter,
+  LinkWithMargin
+} from '../../components/GlobalStyles/GlobalStyles.style';
+import LoginInputField from '../../components/LoginInputField/LoginInputField';
+import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
+import useInput from '../../hooks/use-input';
+import Recaptcha from '../../components/Recaptcha/Recaptcha';
+
+/**
+ * This component returns a login page contains:
+ * 1- two inputs for username and password
+ * 2- two buttons for continue with google or facebook
+ * 3- submit button
+ * @returns {React.Component}
+ */
+
+function Login() {
+  /**
+   * use the custom-hook useInput to handle username input
+   */
+  const {
+    value: userName,
+    valueChangeHandler: onChangeUserNameInputHandler,
+    inputBlurHandler: onBlurUserNameInput,
+    inputFocusHandler: onFocusUserNameInput,
+    isTouched: touchedUserNameInput,
+    reset: resetUserNameInput,
+    hasError: errorUserName
+  } = useInput((value) => value.length >= 3 &amp;&amp; value.length &lt;= 20);
+
+  /**
+   * use the custom-hook useInput to handle password input
+   */
+  const {
+    value: password,
+    valueChangeHandler: onChangePasswordInputHandler,
+    inputBlurHandler: onBlurPasswordInput,
+    inputFocusHandler: onFocusPasswordInput,
+    isTouched: touchedPasswordInput,
+    reset: resetPasswordInput,
+    hasError: errorPassword
+  } = useInput((value) => value.length >= 8);
+
+  const [recaptcha, setRecaptcha] = useState(false);
+  const [loginWithFacebook, setLoginWithFacebook] = useState(false);
+  const [loginWithGoogle, setLoginWithGoogle] = useState(false);
+  /** To check if the form is valid or not */
+  const formIsValid =
+    (!errorPassword &amp;&amp; !errorUserName &amp;&amp; recaptcha) ||
+    loginWithGoogle ||
+    loginWithFacebook;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isLoading, error, isAuth } = useSelector((state) => state.auth);
+  /** If the authentication changes, run the useEffect to redirect to the home page  */
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/home');
+    }
+  }, [isAuth]);
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+    dispatch(login({ username: userName, password }));
+  };
+
+  /**
+   * Reset the inputs of the form
+   */
+  const resetInputs = () => {
+    resetPasswordInput();
+    resetUserNameInput();
+  };
+
+  const facebookClicked = (data) => {
+    console.log(data);
+  };
+
+  const responseFacebook = (response) => {
+    console.log('response result: ', response);
+    setLoginWithFacebook(true);
+  };
+
+  /**
+   *
+   * @param {Object} response - response from Google API for being registered with google email
+   */
+  const handleCallBackResponse = (response) => {
+    const userObject = jwt_decode(response.credential);
+
+    /** Should be sent to API */
+    console.log(userObject);
+    setLoginWithGoogle(true);
+  };
+
+  /** Render the Google button only once the page is first renedered */
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id:
+        '543234829301-2pgqtk6133g5k2l6nbhbfn1dq21ffvi0.apps.googleusercontent.com',
+      callback: handleCallBackResponse
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById('signInWithGoggle'),
+      {
+        theme: 'filled_blue',
+        size: 'large',
+        text: 'continue_with',
+        shape: 'recatangular',
+        width: '280px'
+      }
+    );
+  }, []);
+
+  const len = 28;
+  const lhlen = 3;
+  return (
+    &lt;ContentDiv>
+      &lt;Typography variant="h3">Log in&lt;/Typography>
+      &lt;UserAggrementDiv>
+        &lt;p>
+          By continuing, you agree to our
+          &lt;LinkWithMargin href="https://www.redditinc.com/policies/user-agreement">
+            User Agreement
+          &lt;/LinkWithMargin>
+          and
+          &lt;LinkWithMargin href="https://www.reddit.com/policies/privacy-policy">
+            Privacy Policy
+          &lt;/LinkWithMargin>
+        &lt;/p>
+      &lt;/UserAggrementDiv>
+      &lt;form onSubmit={onSubmitHandler}>
+        &lt;div className="AnotherWayToLogin">
+          &lt;div id="signInWithGoggle" />
+          &lt;div style={{ marginTop: '1.2rem' }}>
+            &lt;FacebookLogin
+              appId="1156172054987935"
+              size="small"
+              fields="name,email,picture"
+              onClick={facebookClicked}
+              callback={responseFacebook}
+              icon={
+                &lt;span style={{ marginRight: '1rem' }}>
+                  &lt;GrFacebook />
+                &lt;/span>
+              }
+              textButton="CONTINUE WITH FACEBOOK"
+            />
+          &lt;/div>
+        &lt;/div>
+        &lt;DividerDiv>
+          &lt;span className="DividerLine"> &lt;/span>
+          &lt;span className="DividerText">OR&lt;/span>
+          &lt;span className="DividerLine"> &lt;/span>
+        &lt;/DividerDiv>
+        &lt;DotDiv>
+          &lt;LoginInputField
+            label="username"
+            id="username"
+            success={!errorUserName &amp;&amp; touchedUserNameInput}
+            error={errorUserName}
+            onChange={onChangeUserNameInputHandler}
+            onBlur={onBlurUserNameInput}
+            onFocus={onFocusUserNameInput}
+            value={userName}
+          />
+          {errorUserName &amp;&amp; (
+            &lt;ErrorMessage>
+              Username must be between 3 and 20 characters
+            &lt;/ErrorMessage>
+          )}
+          {error &amp;&amp; &lt;ErrorMessage>Incorrect username or password&lt;/ErrorMessage>}
+        &lt;/DotDiv>
+        &lt;DotDiv>
+          &lt;LoginInputField
+            id="password"
+            success={!errorPassword &amp;&amp; touchedPasswordInput}
+            label="password"
+            error={errorPassword}
+            onChange={onChangePasswordInputHandler}
+            onBlur={onBlurPasswordInput}
+            onFocus={onFocusPasswordInput}
+            value={password}
+            type="password"
+            disabled={!formIsValid}
+          />
+          {errorPassword &amp;&amp; &lt;ErrorMessage> Invalid Password&lt;/ErrorMessage>}
+        &lt;/DotDiv>
+        {!errorUserName &amp;&amp;
+          !errorPassword &amp;&amp;
+          touchedPasswordInput &amp;&amp;
+          touchedUserNameInput &amp;&amp; &lt;Recaptcha setRecaptcha={setRecaptcha} />}
+        &lt;InfoButton
+          len={len}
+          hlen={lhlen}
+          loading={isLoading}
+          type="submit"
+          disabled={!formIsValid}
+        >
+          LOG IN
+        &lt;/InfoButton>
+        &lt;StyledFooter>
+          &lt;p id="forget">
+            Forgot your
+            &lt;Link
+              to="/forgetuname"
+              onClick={resetInputs}
+            >
+              {' '}
+              username
+            &lt;/Link>
+            or
+            &lt;Link
+              to="/forgetupassword"
+              onClick={resetInputs}
+            >
+              {' '}
+              password
+            &lt;/Link>
+          &lt;/p>
+          &lt;p id="Newto">
+            New to Reddit?
+            &lt;Link
+              to="/signup"
+              id="BottomLink"
+              onClick={resetInputs}
+            >
+              SIGN UP
+            &lt;/Link>
+          &lt;/p>
+        &lt;/StyledFooter>
+      &lt;/form>
+    &lt;/ContentDiv>
+  );
+}
+
+export default Login;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Login">Login</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Nov 11 2022 10:43:54 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-unused-vars */
 /**
@@ -12,4 +13,11 @@ export const divideBigNumber = function divideBigNumber(number) {
   }
 
   return (number / 1000).toFixed(1).toString().concat(' K');
+};
+
+export const checkEmail = (email) => {
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  return re.test(String(email).toLowerCase());
 };

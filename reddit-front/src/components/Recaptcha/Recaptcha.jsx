@@ -7,15 +7,15 @@ import ReCAPTCHA from 'react-google-recaptcha';
  * @returns Google Recaptcha component
  */
 
-function Recaptcha(props) {
+function Recaptcha({ setRecaptcha }) {
   /**
    * @description The handler for changing the recaptch state,
    * it set the props from the parent depending on the value of the recaptcha
    * @param {token} value
    */
   const onChange = (value) => {
-    if (value) props.setRecaptch(true);
-    else props.setRecaptch(false);
+    if (value) setRecaptcha(true);
+    else setRecaptcha(false);
   };
   return (
     <ReCAPTCHA

@@ -1,4 +1,4 @@
-import StyledTextField from './InfoIput.style';
+import StyledTextField from './InfoInput.style';
 
 /**
  * @description This component is resposinble for styling mui input

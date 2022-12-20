@@ -1,9 +1,15 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable array-callback-return */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable object-curly-newline */
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 /* eslint-disable operator-linebreak */
 /* eslint-disable consistent-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable prefer-const */
-import { useState } from 'react';
+import { useState, memo, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Switch from '@mui/material/Switch';
@@ -27,12 +33,18 @@ import {
   StyledActionButton,
   EditCommunityActionsContainer
 } from './AboutCard.Style';
+import {
+  getAboutInfo,
+  updateDescription
+} from '../../../services/requests/Subreddit';
+import { topicsList } from '../CommunityTopics/TopicsList';
 
 /**
  * @typedef PropType
- * @property {string, color} baseColor
- * @property {string, color} highlightColor
  * @property {boolean} isModeratorMode
+ * @property {Integer} subredditId
+ * @property {boolean} inCreatePost
+ * @property {array} aboutInfo
  */
 
 /**
@@ -40,42 +52,57 @@ import {
  *
  */
 
-export default function AboutCard({
-  baseColor,
-  highlightColor,
-  isModeratorMode
+function AboutCard({
+  isModeratorMode,
+  isPostFullDetailsMode,
+  isJoined,
+  subredditId,
+  subredditName,
+  inCreatePost,
+  aboutInfo
 }) {
-  // For testing purposes
-  const subTopicsList = [
-    'first',
-    'second',
-    'third',
-    'fourth',
-    'fifth',
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9'
-  ];
-  const chosenSubTopicsList = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
   let paragraphColor = '#7c7c7c';
   const maxDescriptionLength = 500;
   const trackUserChosenSubTopic = [];
   const trackUserRemovedSubTopic = [];
-
   // States
-  const [showThemeOption, setShowThemeOption] = useState(false);
-  const [editDescription, setEditDescription] = useState(false);
-  const [communityDescription, setCommunityDescription] =
-    useState('old Description');
-  const [charCounter, setCharCounter] = useState(
-    maxDescriptionLength - communityDescription.length
+  const [joined, setJoined] = useState(isJoined);
+  const [subTopicsList, setSubTopicsList] = useState(aboutInfo.subTopics);
+  const [chosenSubTopicsList, setChosenSubTopicsList] = useState(
+    aboutInfo.subTopics
   );
+  const [editDescription, setEditDescription] = useState(false);
+  const [communityDescription, setCommunityDescription] = useState(
+    aboutInfo.description ? aboutInfo.description : ''
+  );
+  const [charCounter, setCharCounter] = useState(0);
+
+  useEffect(() => {
+    // initialize counter
+    if (aboutInfo.description) {
+      setCharCounter(maxDescriptionLength - aboutInfo.description.length);
+    } else {
+      setCharCounter(0);
+    }
+    // preparing the subTopics list
+    let subTopics = [...topicsList];
+
+    // removing the activeTopic from the available subtopics list
+    if (aboutInfo.activeTopic) {
+      const index = subTopics.indexOf(aboutInfo.activeTopic);
+      subTopics.splice(index, 1);
+    }
+
+    // removing the active sub topics from the available subtopics list
+    if (subTopicsList.length > 0) {
+      let index = -1;
+      for (let i = 0; i < subTopicsList.length; i++) {
+        index = subTopics.indexOf(subTopicsList[i]);
+        subTopics.splice(index, 1);
+      }
+    }
+    setSubTopicsList(subTopics);
+  }, []);
 
   // Event Listeners
   /**
@@ -93,6 +120,26 @@ export default function AboutCard({
     }
   };
 
+  const handleHoverOnJoinButton = (e) => {
+    if (joined) {
+      e.target.innerHTML = 'Leave';
+    }
+  };
+
+  const handleHoverOutJoinButton = (e) => {
+    if (joined) {
+      e.target.innerHTML = 'Joined';
+    }
+  };
+
+  const handleClickJoinButton = (e) => {
+    if (joined) {
+      setJoin(false);
+    } else {
+      setJoin(true);
+    }
+  };
+
   /**
    * This Method executes the actions that made by the user (moderator)
    *
@@ -103,6 +150,14 @@ export default function AboutCard({
     ).value;
     setCommunityDescription(newDescription);
     setEditDescription(false);
+    // update the database
+    const request = {
+      subredditName,
+      request: {
+        description: newDescription
+      }
+    };
+    updateDescription(request);
   };
 
   /**
@@ -120,10 +175,10 @@ export default function AboutCard({
   return (
     <AboutCardContainer data-testid="about-card-container">
       <CardHeader
-        title="About Community"
-        baseColor={baseColor}
-        hasDropDownMenu={1}
+        title={inCreatePost ? '' : 'About Community'}
+        hasDropDownMenu={0}
         isModeratorMode={isModeratorMode}
+        subredditName={subredditName}
       />
 
       <Box sx={{ padding: '1.2rem' }}>
@@ -137,14 +192,16 @@ export default function AboutCard({
             visibility: !editDescription ? 'visible' : 'hidden',
             cursor: isModeratorMode ? 'pointer' : 'auto',
             backgroundColor:
-              communityDescription.length === 0 ? '#F6F7F8' : 'white',
+              communityDescription.length === 0 && isModeratorMode
+                ? '#F6F7F8'
+                : 'white',
             border:
-              communityDescription.length === 0
-                ? `1px solid ${highlightColor}`
+              communityDescription.length === 0 && isModeratorMode
+                ? '1px solid #0079D3'
                 : 'none',
             '&:hover': isModeratorMode
               ? {
-                  border: `1px solid ${highlightColor}`,
+                  border: '1px solid #0079D3',
                   borderRadius: '10px',
                   paddingBottom: '10px',
                   paddingLeft: '15px'
@@ -157,16 +214,19 @@ export default function AboutCard({
         >
           {communityDescription.length > 0 ? (
             communityDescription
+          ) : !isModeratorMode ? (
+            <span>{`Welcome to ${subredditName}`}</span>
           ) : (
-            <span style={{ color: highlightColor, fontWeight: 'bold' }}>
+            <span style={{ color: '#0079D3', fontWeight: 'bold' }}>
               Add description
             </span>
           )}
+
           {isModeratorMode ? (
             <BsPencil
               fontSize="18px"
               style={{
-                color: highlightColor,
+                color: '#0079D3',
                 marginLeft: '5px'
               }}
             />
@@ -178,7 +238,7 @@ export default function AboutCard({
           className="edit-community-description"
           sx={{
             position: 'relative',
-            border: `1px solid ${highlightColor}`,
+            border: '1px solid #0079D3',
             borderRadius: '4px',
             display: editDescription ? 'block' : 'none',
             visibility: editDescription ? 'visible' : 'hidden'
@@ -203,13 +263,13 @@ export default function AboutCard({
             <Box sx={{ float: 'right' }}>
               <StyledActionButton
                 onClick={cancelModification}
-                sx={{ color: highlightColor }}
+                sx={{ color: '#0079D3' }}
               >
                 Cancel
               </StyledActionButton>
               <StyledActionButton
                 onClick={saveNewDescription}
-                sx={{ color: highlightColor }}
+                sx={{ color: '#0079D3' }}
               >
                 Save
               </StyledActionButton>
@@ -227,10 +287,15 @@ export default function AboutCard({
               marginLeft: '1rem'
             }}
           >
-            Created Oct 11, 2022
+            {`Created ${aboutInfo.createdDate}`}
           </Typography>
         </CommunityCreatedDate>
-        <StyledHorizontalLine />
+        <StyledHorizontalLine
+          marginTop="1.5"
+          marginBottom="1.5"
+          marginLeft="0"
+          marginRight="0"
+        />
 
         <Box
           className="members-count"
@@ -254,7 +319,7 @@ export default function AboutCard({
                 lineHeight: '2rem'
               }}
             >
-              {divideBigNumber(6254)}
+              {divideBigNumber(aboutInfo.memberCount)}
             </span>
             <MembersTypography
               variant="paragraph"
@@ -286,7 +351,7 @@ export default function AboutCard({
               >
                 ●
               </span>
-              {divideBigNumber(12344)}
+              {divideBigNumber(aboutInfo.onlineCount)}
             </Box>
             <MembersTypography
               variant="paragraph"
@@ -297,77 +362,72 @@ export default function AboutCard({
           </OnlineMembersBox>
         </Box>
 
-        <StyledHorizontalLine />
-
         {/* Community Topics  */}
-        {isModeratorMode ? (
+        {isModeratorMode && !inCreatePost && (
           <>
+            <StyledHorizontalLine
+              marginTop="1.5"
+              marginBottom="1.5"
+              marginLeft="0"
+              marginRight="0"
+            />
             <CommunityTopics
-              highlightColor={highlightColor}
-              baseColor={baseColor}
               subTopicsList={subTopicsList}
+              setSubTopicsList={setSubTopicsList}
               chosenSubTopicsList={chosenSubTopicsList}
+              setChosenSubTopicsList={setChosenSubTopicsList}
               trackUserChosenSubTopic={trackUserChosenSubTopic}
               trackUserRemovedSubTopic={trackUserRemovedSubTopic}
+              subredditId={subredditId}
+              subredditName={subredditName}
+              activeSubredditTopic={aboutInfo.activeTopic}
             />
-            <StyledHorizontalLine />
           </>
-        ) : null}
-
-        {/* Create Post Button  */}
+        )}
         <Box
           className="subreddit-create-post"
           data-testid="create-post-inside-community"
         >
-          <CreatePostButton sx={{ backgroundColor: highlightColor }}>
-            Create post
-          </CreatePostButton>
-        </Box>
-        <StyledHorizontalLine />
-
-        {/* Community options  */}
-        <Box
-          className="community-options"
-          sx={{
-            paddingTop: '1.6rem',
-            marginTop: '1.6rem'
-          }}
-        >
-          <ShowOptionsButton
-            data-testid="community-options-button"
-            sx={{ backgroundColor: 'transparent', color: highlightColor }}
-            onClick={() => {
-              setShowThemeOption(!showThemeOption);
-            }}
-          >
-            Community options
-            {!showThemeOption ? (
-              <AiOutlineDown fontSize="1.3rem" />
-            ) : (
-              <AiOutlineUp fontSize="1.3rem" />
-            )}
-          </ShowOptionsButton>
-          {showThemeOption ? (
-            <CommunityThemeOption
-              className="community-theme-option"
-              data-testid="community-theme-option"
+          {isPostFullDetailsMode ? (
+            <CreatePostButton
+              onMouseOver={handleHoverOnJoinButton}
+              onMouseOut={handleHoverOutJoinButton}
+              onClick={handleClickJoinButton}
+              sx={{
+                backgroundColor: joined ? 'white' : '#0079D3',
+                border: joined ? '1px solid #0079D3' : 'none',
+                color: joined ? '#0079D3' : 'white'
+              }}
             >
-              <span
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  margin: '8px 0'
+              {joined ? 'Joined' : 'Join'}
+            </CreatePostButton>
+          ) : isJoined ? (
+            <>
+              <StyledHorizontalLine
+                marginTop="1.5"
+                marginBottom="1.5"
+                marginLeft="0"
+                marginRight="0"
+              />
+              <CreatePostButton
+                sx={{ backgroundColor: '#0079D3' }}
+                onClick={() => {
+                  // checking if not authenticated
+                  if (false) {
+                    window.location.replace('/auth/login');
+                  } else {
+                    window.location.replace(`/${subredditName}/submit`);
+                  }
                 }}
               >
-                <AiOutlineEye fontSize="2rem" />
-                <span style={{ marginLeft: '1rem' }}>Community theme</span>
-              </span>
-              <Switch defaultChecked />
-            </CommunityThemeOption>
+                Create post
+              </CreatePostButton>
+            </>
           ) : null}
         </Box>
       </Box>
     </AboutCardContainer>
   );
 }
+
+export default memo(AboutCard);

@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import { BsFillImageFill, BsLink45Deg } from 'react-icons/bs';
 import { SiReddit } from 'react-icons/si';
+import { useNavigate } from 'react-router-dom';
 import {
   StyledTextField,
   CreatePostCardRoot,
@@ -12,6 +13,10 @@ import {
  * Create Post Card , the one that is displayed in the home screen
  */
 function CreatePostCard() {
+  const navigate = useNavigate();
+  const onFocusHandler = () => {
+    navigate('/submit');
+  };
   return (
     <CreatePostCardRoot>
       <StyledBox>
@@ -21,12 +26,16 @@ function CreatePostCard() {
             marginTop: '6px'
           }}
         >
-          <SiReddit size={32} color="#9DA0A1" />
+          <SiReddit
+            size={32}
+            color="#9DA0A1"
+          />
         </Box>
         <StyledTextField
           placeholder="Create Post"
           variant="outlined"
           fullWidth
+          onFocus={onFocusHandler}
         />
         <Box
           sx={{
@@ -37,7 +46,13 @@ function CreatePostCard() {
             }
           }}
         >
-          <BsFillImageFill size={22} color="#9DA0A1" />
+          <BsFillImageFill
+            size={22}
+            color="#9DA0A1"
+            onClick={() => {
+              navigate('/submit');
+            }}
+          />
         </Box>
         <Box
           sx={{
@@ -48,7 +63,13 @@ function CreatePostCard() {
             }
           }}
         >
-          <BsLink45Deg size={22} color="#9DA0A1" />
+          <BsLink45Deg
+            size={22}
+            color="#9DA0A1"
+            onClick={() => {
+              navigate('/submit');
+            }}
+          />
         </Box>
       </StyledBox>
     </CreatePostCardRoot>

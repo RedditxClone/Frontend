@@ -14,12 +14,14 @@ import { Box, Typography } from '@mui/material';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 
 import { useState } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { NavLink, CategoriesCardBar } from './CategoriesCard.style';
 import {
   RoundedButton,
   StyledCard
 } from '../HomePageCards/HomePageCards.style';
 import CommunityHoverCard from './CommunityHoverCard';
+import ActionMessage from '../ActionMessage/ActionMessage';
 
 /**
  * @description This component is resposinble to render the Categories page Card,
@@ -33,19 +35,25 @@ import CommunityHoverCard from './CommunityHoverCard';
 
 function CategoriesCard({ communities, topText }) {
   const [cardCommunities, setCardCommunities] = useState(communities);
-  const activeStyle = {
-    color: 'black'
-  };
+  // const activeStyle = {
+  //   color: 'black'
+  // };
   /**
    * @description this function handles the click on the join button
    * @pr {boolean} clicked represents whether the button is clicked or not
    * @param {int} index represents the index of the community that the user wants to join
    */
   const joinButtonClickHandler = (clicked, index) => {
+    const joinedORLeft = clicked ? 'joined' : 'left';
+    const sh = true;
     const newCommunities = [...cardCommunities];
     newCommunities[index].joined = clicked;
     communities = [...newCommunities];
     setCardCommunities(communities);
+      <ActionMessage
+        message={`Successfully ${joinedORLeft} ${newCommunities[index]}`}
+        show={sh}
+      />;
   };
   return (
     <StyledCard sx={{ width: '50%' }} elevation={0}>
@@ -80,147 +88,149 @@ function CategoriesCard({ communities, topText }) {
         >
           {communities.map((community, index) => (
             <Box sx={{ width: '100%' }}>
-              <NavLink
+              {/* <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : activeStyle)}
                 to="/food"
+              > */}
+              <ListItem
+                key={index}
+                alignItems="flex-start"
+                sx={{
+                  paddingBottom: '4px',
+                  paddingTop: '4px',
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+                data-testid="communities_items"
               >
-                <ListItem
-                  key={index}
-                  alignItems="flex-start"
+                <Box
                   sx={{
-                    paddingBottom: '4px',
-                    paddingTop: '4px',
-                    width: '100%',
                     display: 'flex',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    width: '100%'
                   }}
-                  data-testid="communities_items"
                 >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      width: '100%'
-                    }}
-                  >
-                    <Box sx={{ display: 'flex' }}>
-                      <ListItemText
-                        sx={{
-                          '& span': {
-                            fontSize: '1.6rem',
-                            paddingRight: '1rem',
-                            marginTop: '1rem',
-                            lineHeight: '2rem',
-                            width: '1rem'
-                          }
-                        }}
-                        primary={index + 1}
-                      />
-                      {community.growing == true ? (
-                        <Box sx={{ marginTop: '1rem', padding: '0.5rem' }}>
-                          <MdKeyboardArrowUp size={23} color="#46d15f" />
-                        </Box>
-                      ) : null}
-                      {community.goingDown == true ? (
-                        <Box sx={{ marginTop: '1rem', padding: '0.5rem' }}>
-                          <MdKeyboardArrowDown size={23} color="#EA0027" />
-                        </Box>
-                      ) : null}
-                      {community.goingDown == false
-                    && community.growing == false ? (
-                      <div style={{ width: '3rem' }} />
-                        ) : null}
-                      <ListItemAvatar sx={{ paddingLeft: '0.5rem' }}>
-                        <Avatar alt={community.name} src={community.picture} />
-                      </ListItemAvatar>
-                      <div style={{
-                        '& :hover': {
-                          '& .comm_card': {
-                            display: 'inline'
-                          }
+                  <Box sx={{ display: 'flex' }}>
+                    <ListItemText
+                      sx={{
+                        '& span': {
+                          fontSize: '1.6rem',
+                          paddingRight: '1rem',
+                          marginTop: '1rem',
+                          lineHeight: '2rem',
+                          width: '1rem'
                         }
                       }}
-                      >
-                        <ListItemText
-                          sx={{
-                            '& span': {
-                              fontSize: '1.6rem',
-                              marginTop: '1.7rem',
-                              lineHeight: '2rem'
-                            },
-                            position: 'relative'
-                          }}
-                          primary={community.name}
-                        >
-                          <div
-                            className="comm_card"
-                            style={{
-
-                              position: 'absolute',
-                              width: '100px',
-                              height: '100px',
-                              display: 'none'
-                            }}
-                          >
-                            <CommunityHoverCard community={communities[0]} />
-                          </div>
-                        </ListItemText>
-                      </div>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      {!community.userCommunity && community.joined == false ? (
-                        <RoundedButton
-                          sx={{
-                            marginLeft: '3rem',
-                            fontSize: '1.3rem',
-                            padding: '2px 7px',
-                            ':hover': {
-                              backgroundColor: '#1484D6'
-                            }
-                          }}
-                          variant="contained"
-                          disableElevation
-                          onClick={() => joinButtonClickHandler(true, index)}
-                        >
-                          join
-                        </RoundedButton>
-                      ) : !community.userCommunity && community.joined == true ? (
-                        <RoundedButton
-                          sx={{
-                            marginLeft: '3rem',
-                            fontSize: '1.3rem',
-                            padding: '2px 7px',
-                            '&:hover span': {
-                              display: 'none'
-                            },
-                            '&:hover:before': {
-                              content: '\'Leave\''
-                            }
-                          }}
-                          variant="outlined"
-                          disableElevation
-                          onClick={() => joinButtonClickHandler(false, index)}
-                        >
-                          <span>joined</span>
-                        </RoundedButton>
+                      primary={index + 1}
+                    />
+                    {community.growing == true ? (
+                      <Box sx={{ marginTop: '1rem', padding: '0.5rem' }}>
+                        <MdKeyboardArrowUp size={23} color="#46d15f" />
+                      </Box>
+                    ) : null}
+                    {community.goingDown == true ? (
+                      <Box sx={{ marginTop: '1rem', padding: '0.5rem' }}>
+                        <MdKeyboardArrowDown size={23} color="#EA0027" />
+                      </Box>
+                    ) : null}
+                    {community.goingDown == false
+                    && community.growing == false ? (
+                      <div style={{ width: '3rem' }} />
                       ) : null}
+                    <ListItemAvatar sx={{ paddingLeft: '0.5rem' }}>
+                      <Avatar alt={community.name} src={community.picture} />
+                    </ListItemAvatar>
+                    <div style={{
+                      '& :hover': {
+                        '& .comm_card': {
+                          display: 'inline'
+                        }
+                      }
+                    }}
+                    >
                       <ListItemText
                         sx={{
                           '& span': {
                             fontSize: '1.6rem',
-                            padding: '1rem 1rem',
-                            marginTop: '1rem',
-                            lineHeight: '2rem',
-                            width: '3rem'
+                            marginTop: '1.7rem',
+                            lineHeight: '2rem'
+                          },
+                          position: 'relative'
+                        }}
+                        primary={community.name}
+                      >
+                        <div
+                          className="comm_card"
+                          style={{
+
+                            position: 'absolute',
+                            width: '100px',
+                            height: '100px',
+                            display: 'none'
+                          }}
+                        >
+                          <CommunityHoverCard community={communities[0]} />
+                        </div>
+                      </ListItemText>
+                    </div>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {!community.userCommunity && community.joined == false ? (
+                      <RoundedButton
+                        sx={{
+                          marginLeft: '3rem',
+                          fontSize: '1.3rem',
+                          padding: '2px 7px',
+                          zIndex: 1000,
+                          ':hover': {
+                            backgroundColor: '#1484D6'
                           }
                         }}
-                        primary={community.rank}
-                      />
-                    </Box>
+                        variant="contained"
+                        disableElevation
+                        onClick={() => joinButtonClickHandler(true, index)}
+                      >
+                        join
+                      </RoundedButton>
+                    ) : !community.userCommunity && community.joined == true ? (
+                      <RoundedButton
+                        sx={{
+                          marginLeft: '3rem',
+                          fontSize: '1.3rem',
+                          padding: '2px 7px',
+                          zIndex: 1000,
+                          '&:hover span': {
+                            display: 'none'
+                          },
+                          '&:hover:before': {
+                            content: '\'Leave\''
+                          }
+                        }}
+                        variant="outlined"
+                        disableElevation
+                        onClick={() => joinButtonClickHandler(false, index)}
+                      >
+                        <span>joined</span>
+                      </RoundedButton>
+                    ) : null}
+                    <ListItemText
+                      sx={{
+                        '& span': {
+                          fontSize: '1.6rem',
+                          padding: '1rem 1rem',
+                          marginTop: '1rem',
+                          lineHeight: '2rem',
+                          width: '3rem'
+                        }
+                      }}
+                      primary={community.rank}
+                    />
                   </Box>
-                </ListItem>
-              </NavLink>
+                </Box>
+              </ListItem>
+              {/* </NavLink> */}
               {index < communities.length - 1 ? (
                 <Divider variant="fullwidth" component="li" />
               ) : null}

@@ -9,6 +9,7 @@ import {
   Modal
 } from '@mui/material';
 import { GrFormClose } from 'react-icons/gr';
+import { useNavigate } from 'react-router-dom';
 import theme, {
   CenteredCard,
   CardHeaderUnderlined,
@@ -17,7 +18,8 @@ import theme, {
 import CommunityNameField from './CommunityNameField';
 import ChooseCommunityType from './ChooseCommunityType';
 import AdultContentCheckBox from './AdultContentCheckBox';
-
+import createSubreddit from '../../services/requests/createSubreddit';
+import AlertMessage from '../../utilities/AlertMessage/AlertMessage';
 /**
  * This Card appears when click on create community button
  * , and you choose the properties for your community like name and type and the ability
@@ -25,15 +27,40 @@ import AdultContentCheckBox from './AdultContentCheckBox';
  * @returns {React.Component}
  */
 
-function CreateCommunity() {
-  const [open, setOpen] = useState(true);
+function CreateCommunity({ open, setOpen }) {
+  // const [open, setOpen] = useState(show);
   const [communityType, setCommunityType] = useState('public');
   const [communityName, setCommunityName] = useState('');
   const [isAdultContent, setIsAdultContent] = useState(false);
+  const [errorCommunityName, setErrorCommunityName] = useState(false);
+  const [openAlertMessage, setOpenAlertMessage] = useState(false);
+  const navigate = useNavigate();
+  const onCloseHandler = () => {
+    setOpenAlertMessage(false);
+    setOpen(false);
+    setCommunityName('');
+  };
 
-  const onSubmitHandler = () => {
-    // For Test only
-    console.log(communityName, communityType, isAdultContent);
+  const validCreation = communityName.length > 0 && !errorCommunityName;
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+    if (validCreation) {
+      const fulfilled = await createSubreddit(
+        communityName,
+        communityType,
+        isAdultContent
+      );
+      console.log('fulfilled', fulfilled);
+      if (fulfilled) {
+        onCloseHandler();
+        navigate(`r/${communityName}`);
+      } else {
+        setOpenAlertMessage(true);
+        console.log('error in creating community');
+      }
+    } else {
+      setOpenAlertMessage(true);
+    }
   };
 
   return (
@@ -41,13 +68,20 @@ function CreateCommunity() {
       <Typography variant="subtitle1">
         <Modal
           open={open}
-          onClose={() => setOpen(false)}
+          onClose={onCloseHandler}
         >
           <CenteredCard variant="outlined">
+            {openAlertMessage && (
+              <AlertMessage
+                type="error"
+                message="server error, Cannot Create a community for"
+                opnAlertMessage={openAlertMessage}
+              />
+            )}
             <CardHeaderUnderlined
               title={<Typography variant="h1">Create Community</Typography>}
               action={
-                <IconButton onClick={() => setOpen(false)}>
+                <IconButton onClick={onCloseHandler}>
                   <GrFormClose />
                 </IconButton>
               }
@@ -56,6 +90,7 @@ function CreateCommunity() {
               <CommunityNameField
                 onChangeCommunityName={setCommunityName}
                 communityNameLength={communityName.length}
+                setErrorCommunityName={setErrorCommunityName}
               />
               <ChooseCommunityType onChangeCommunityType={setCommunityType} />
               <AdultContentCheckBox
@@ -76,7 +111,7 @@ function CreateCommunity() {
               <StyledButton
                 variant="outlined"
                 color="primary"
-                onClick={() => setOpen(false)}
+                onClick={onCloseHandler}
               >
                 Cancel
               </StyledButton>
@@ -84,6 +119,7 @@ function CreateCommunity() {
                 variant="contained"
                 color="primary"
                 onClick={onSubmitHandler}
+                disabled={!validCreation}
               >
                 Create Community
               </StyledButton>

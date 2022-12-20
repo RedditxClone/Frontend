@@ -5,6 +5,7 @@ import Link from '@mui/material/Link';
 import { Card, styled } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
+import { NavLink as NavLinkBase } from 'react-router-dom';
 /**
  * @description Global style for Home Page Cards
  */
@@ -70,7 +71,7 @@ export const StyledBox = styled(Box)({
   borderRadius: '0.5rem',
   height: '5rem',
   justifyContent: 'center',
-  margin: '2rem'
+  margin: '2rem 0'
 });
 /**
  * @description Modify the style of the default TextField
@@ -166,29 +167,56 @@ export const LargeRoundedButton = styled(RoundedButton)({
   }
 });
 
+export const StyledCard = styled(Card)({
+  padding: '0',
+  width: 345,
+  border: '1px solid #1a1a1b12',
+  borderRadius: '5px'
+});
 /**
  * @description Modify the style of the default Card
  * @param {Card} Card - the default Card
  * @return {Card} - The styled Card
  */
 
-export const StyledCard = styled(Card)({
-  padding: '0', border: '1px solid #1a1a1b12', borderRadius: '5px'
-});
-
-/**
- * @description Responsively changing the width of the Create Post Card
- * and Best Hot New Card that is displayed in the home screen
- */
-
 export const CreatePostCardRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
-    width: '50%'
-  },
-  [theme.breakpoints.down('lg')]: {
-    width: '65%'
-  },
-  [theme.breakpoints.down('md')]: {
-    width: '95%'
+    width: '100%'
   }
+  // [theme.breakpoints.down('lg')]: {
+  //   width: '65%'
+  // },
+  // [theme.breakpoints.down('md')]: {
+  //   width: '95%'
+  // }
+}));
+
+/**
+ * @description this function styles the default NavLinkBase
+ * @param {NavLinkBase} NavLinkBase - the default NavLinkBase
+ * @return {NavLinkBase} - The styled NavLinkBase
+ */
+
+export const NavLink = styled(NavLinkBase)({
+  textDecoration: 'none'
+});
+
+export const CreatePostCardButtonsRoot = styled('div')(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    display: 'none'
+  },
+  [theme.breakpoints.up('sm')]: {
+    display: 'block'
+  }
+
+}));
+
+export const CreatePostCardOneButtonRoot = styled('div')(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    display: 'block'
+  },
+  [theme.breakpoints.up('sm')]: {
+    display: 'none'
+  }
+
 }));

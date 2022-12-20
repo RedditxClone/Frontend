@@ -1,0 +1,32 @@
+
+.advanced .parent-div {
+    display: flex;
+    flex-flow: nowrap;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.advanced .parent-div-1 {
+    display: flex;
+    flex-flow: nowrap;
+    margin-bottom: 0;
+    margin-top: 25px;
+}
+
+.advanced .p {
+    margin-bottom: 32px;
+}
+
+.advanced .child-div {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-items: flex-start;
+}
+
+.advanced .child-b {
+    justify-content: flex-end;
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+}

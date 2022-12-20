@@ -26,8 +26,6 @@ function CategoriesPage({
   pic,
   communitiesCardCommunities
 }) {
-  let clickedCardButton = 'dummy';
-
   const [button, buttonState] = useState({
     title: 'Show More',
     showMore: false,
@@ -165,12 +163,12 @@ function CategoriesPage({
       showLessHandler();
     }
   };
-  const ClickedCardHandler = (text) => {
-    clickedCardButton = text;
-    if (restOfListItems.includes(clickedCardButton)) {
-      showLessHandler();
-    }
-  };
+  // const ClickedCardHandler = (text) => {
+  //   clickedCardButton = text;
+  //   if (restOfListItems.includes(clickedCardButton)) {
+  //     showLessHandler();
+  //   }
+  // };
   return (
     <ColoredBody>
       <CategoryHeader>
@@ -204,7 +202,6 @@ function CategoriesPage({
             communities={communitiesCardCommunities}
             homePageCard={false}
             buttonText={buttonText}
-            textChangedToLink={ClickedCardHandler}
           />
           <HomeCommunitiesCard
             data-testid="HomeCard"
@@ -214,7 +211,6 @@ function CategoriesPage({
             communities={communitiesCardCommunities}
             homePageCard={false}
             buttonText={buttonText}
-            textChangedToLink={ClickedCardHandler}
             sx={{
               position: 'sticky'
             }}

@@ -1,3 +1,6 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable block-spacing */
 /* eslint-disable indent */
 /* eslint-disable operator-linebreak */
@@ -6,7 +9,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from 'react';
+import { useState, memo, useEffect } from 'react';
 import { Box, Typography, Link } from '@mui/material';
 import { BsInfoCircle, BsPencil } from 'react-icons/bs';
 import { AiOutlineDown } from 'react-icons/ai';
@@ -25,15 +28,23 @@ import {
   SuggestedSubTopic,
   HeadingContainer
 } from './CommunityTopics.Style';
+import {
+  updateSubredditTopic,
+  updateSubredditSubtopics,
+  updateSubredditActiveSubtopics
+} from '../../../services/requests/Subreddit';
+
+import { topicsList } from './TopicsList';
 
 /**
  * @typedef PropType
- * @property {string} baseColor
- * @property {string} highlightColor
  * @property {array} subTopicsList
+ * @property {array} setSubTopicsList
  * @property {array} chosenSubTopicsList
+ * @property {array} setChosenSubTopicsList
  * @property {array} trackUserChosenSubTopic
  * @property {array} trackUserRemovedSubTopic
+ * @property {number} subredditId
  */
 
 /**
@@ -42,13 +53,16 @@ import {
  *
  */
 
-export default function CommunityTopics({
-  highlightColor,
-  baseColor,
+function CommunityTopics({
   subTopicsList,
+  setSubTopicsList,
   chosenSubTopicsList,
+  setChosenSubTopicsList,
   trackUserChosenSubTopic,
-  trackUserRemovedSubTopic
+  trackUserRemovedSubTopic,
+  subredditId,
+  subredditName,
+  activeSubredditTopic
 }) {
   // states
   const [infoIconColor, setInfoIconColor] = useState('#aaa');
@@ -58,20 +72,70 @@ export default function CommunityTopics({
   const [subTopicsCounter, setSubTopicsCounter] = useState(
     chosenSubTopicsList.length
   );
-  const [activeTopic, setActiveTopic] = useState(2); // this will depend on the data form api
+  const [activeTopic, setActiveTopic] = useState(
+    activeSubredditTopic === null ? 'Add a Primary Topic' : activeSubredditTopic
+  );
   const [editSubTopics, setEditSubTopics] = useState(false);
   const maxTopics = 25;
   const maxNumOfShownSubTopics = 7;
 
-  const topicsList = ['Activism', 'Anime', 'Art', 'Careers'];
-
   const [rerender, setRerender] = useState(false);
 
+  useEffect(() => {
+    if (activeSubredditTopic) {
+      setActiveTopic(activeSubredditTopic);
+    } else {
+      setActiveTopic('Add a Primary Topic');
+    }
+  }, []);
+
   // Event listeners
+  /**
+   * This Method executes the actions that made by the user (moderator)
+   *
+   */
+  const saveNewTopics = () => {
+    // Update the counter value
+    setSubTopicsCounter(chosenSubTopicsList.length);
+
+    // update the api
+    const requestTopicsList = [...chosenSubTopicsList];
+    requestTopicsList.push(activeTopic);
+    let request = {
+      subredditId,
+      request: {
+        subTopics: requestTopicsList
+      }
+    };
+
+    // update chosen sub-topics list
+    updateSubredditSubtopics(request);
+    setChosenSubTopicsList(chosenSubTopicsList);
+
+    // closing the edit mode
+    setEditSubTopics(false);
+    setShowSubTopics(false);
+  };
 
   const activateTopic = (e) => {
-    const topicId = e.target.id;
-    setActiveTopic(topicId);
+    const chosenTopic = e.target.innerHTML;
+    setActiveTopic(chosenTopic);
+    // call api to update it in the database
+    const request = {
+      subredditId,
+      request: {
+        activeTopic: chosenTopic
+      }
+    };
+    updateSubredditTopic(request);
+
+    // remove this topic from the list of subtopics
+    const index = chosenSubTopicsList.indexOf(activeTopic);
+    if (index >= 0) {
+      chosenSubTopicsList.splice(index, 1);
+      setRerender(!rerender);
+      subTopicsList.push(chosenTopic);
+    }
   };
   /**
    * This Method returns the list of topics to be shown,
@@ -81,8 +145,9 @@ export default function CommunityTopics({
   const getSubTopicsToShow = (isEditingMode) => {
     if (isEditingMode) return chosenSubTopicsList;
 
-    if (chosenSubTopicsList.length <= 7) return chosenSubTopicsList;
-
+    if (chosenSubTopicsList.length <= 7) {
+      return chosenSubTopicsList;
+    }
     return chosenSubTopicsList.slice(0, 7);
   };
 
@@ -99,37 +164,6 @@ export default function CommunityTopics({
       // TODO: sweet alert here
       console.log('Max numbers allowed is ', maxTopics);
     }
-  };
-
-  /**
-   * This Method executes the actions that made by the user (moderator)
-   *
-   */
-  const saveNewTopic = () => {
-    // // Saving Modifications for the chosen sub topics
-    // trackUserChosenSubTopic.forEach((item) => {
-    //   // Store the item in the chosen list
-    //   chosenSubTopicsList.push(item);
-    //   // remove it from the original list
-    //   subTopicsList.splice(subTopicsList.indexOf(item), 1);
-    // });
-    // trackUserChosenSubTopic.splice(0, trackUserChosenSubTopic.length);
-
-    // // Saving Modifications for the removed sub topics
-    // trackUserRemovedSubTopic.forEach((item) => {
-    //   // return the item to the original list
-    //   subTopicsList.push(item);
-    //   // Remove the item from the chosen list
-    //   ChosenSubTopicsList.splice(ChosenSubTopicsList.indexOf(item), 1);
-    // });
-    // trackUserRemovedSubTopic.splice(0, trackUserRemovedSubTopic.length);
-
-    // Update the counter value
-    setSubTopicsCounter(chosenSubTopicsList.length);
-
-    // closing the edit mode
-    setEditSubTopics(false);
-    setShowSubTopics(false);
   };
 
   /**
@@ -166,10 +200,11 @@ export default function CommunityTopics({
   const handleClickOnChosenSubTopic = (e) => {
     if (editSubTopics) {
       let value = e.target.innerHTML.trim();
-      const i = chosenSubTopicsList.indexOf(value);
+      let i = chosenSubTopicsList.indexOf(value);
 
       if (value === 'x') {
         value = e.target.previousSibling.innerHTML.trim();
+        i = chosenSubTopicsList.indexOf(value);
       }
 
       trackUserRemovedSubTopic.push(value);
@@ -258,34 +293,34 @@ export default function CommunityTopics({
             display: 'inline-block',
             marginRight: '10px',
             fontSize: '14px',
-            color: highlightColor,
+            color: '#0079D3',
             fontWeight: '600'
           }}
         >
-          {topicsList[activeTopic]}
+          {activeTopic}
         </Link>
 
         <AiOutlineDown
           fontSize="18px"
           style={{
             fontWeight: '600',
-            color: highlightColor
+            color: '#0079D3'
           }}
         />
 
         {/* All topics dropdown list */}
         {showTopics ? (
           <TopicDropdownList>
-            {topicsList.map((topic, index) => {
+            {chosenSubTopicsList.map((topic, index) => {
               return activeTopic === index ? (
                 <SelectListOption
                   key={`topic-${index}`}
                   id={index}
                   variant="paragraph"
                   sx={{
-                    color: highlightColor,
+                    color: '#0079D3',
                     '&:hover': {
-                      backgroundColor: highlightColor,
+                      backgroundColor: '#0079D3',
                       color: 'white'
                     }
                   }}
@@ -295,14 +330,14 @@ export default function CommunityTopics({
                 </SelectListOption>
               ) : (
                 <SelectListOption
-                  onClick={activateTopic}
+                  onClick={(e) => activateTopic(e, index)}
                   key={`topic-${index}`}
-                  id={index}
+                  id={`topic-${index}`}
                   variant="paragraph"
                   sx={{
                     color: 'black',
                     '&:hover': {
-                      backgroundColor: highlightColor,
+                      backgroundColor: '#0079D3',
                       color: 'white'
                     }
                   }}
@@ -320,7 +355,7 @@ export default function CommunityTopics({
         className="community-sub-topics"
         sx={{
           '&:hover': {
-            border: `1px solid ${highlightColor}`
+            border: '1px solid #0079D3'
           }
         }}
         onClick={() => {
@@ -335,13 +370,12 @@ export default function CommunityTopics({
         {getSubTopicsToShow(editSubTopics).map((subTopic, index) => {
           return (
             <SubTopic
-              id={`sub-topic-item-${index}`}
               key={index}
               sx={{
-                color: highlightColor,
+                color: '#0079D3',
                 '&:hover': {
-                  backgroundColor: editSubTopics ? baseColor : '#ccc',
-                  color: editSubTopics ? 'white' : highlightColor
+                  backgroundColor: editSubTopics ? '#0079D3' : '#ccc',
+                  color: editSubTopics ? 'white' : '#0079D3'
                 }
               }}
               onClick={handleClickOnChosenSubTopic}
@@ -375,7 +409,7 @@ export default function CommunityTopics({
               marginTop: '8px',
               marginLeft: '4px',
               padding: '2px',
-              color: highlightColor
+              color: '#0079D3'
             }}
           >
             {`+ ${chosenSubTopicsList.length - maxNumOfShownSubTopics}`}
@@ -400,13 +434,14 @@ export default function CommunityTopics({
 
         {!editSubTopics && chosenSubTopicsList.length === 0 ? (
           <SubTopic
+            className="add-for-empy-sub-topics"
             sx={{
-              color: highlightColor,
+              color: '#0079D3',
               padding: '5px 5px 8px 5px',
               fontWeight: '500',
               '&:hover': {
-                backgroundColor: editSubTopics ? baseColor : '#ccc',
-                color: editSubTopics ? 'white' : highlightColor
+                backgroundColor: editSubTopics ? '#0079D3' : '#ccc',
+                color: editSubTopics ? 'white' : '#0079D3'
               }
             }}
             onClick={handleClickOnChosenSubTopic}
@@ -429,13 +464,13 @@ export default function CommunityTopics({
             <Box sx={{ float: 'right' }}>
               <StyledActionButton
                 onClick={cancelModification}
-                sx={{ color: highlightColor }}
+                sx={{ color: '#0079D3' }}
               >
                 Cancel
               </StyledActionButton>
               <StyledActionButton
-                onClick={saveNewTopic}
-                sx={{ color: highlightColor }}
+                onClick={saveNewTopics}
+                sx={{ color: '#0079D3' }}
               >
                 Save
               </StyledActionButton>
@@ -445,28 +480,35 @@ export default function CommunityTopics({
 
         {/* List of the suggested sub topics */}
         {showSubTopics ? (
-          <SuggestedSubTopicsContainer>
-            {subTopicsList.map((topic, index) => {
-              return (
-                <SuggestedSubTopic
-                  key={`topic-${index}`}
-                  id={index}
-                  variant="paragraph"
-                  sx={{
-                    '&:hover': {
-                      backgroundColor: baseColor,
-                      color: 'white'
-                    }
-                  }}
-                  onClick={choseSubTopic}
-                >
-                  {topic}
-                </SuggestedSubTopic>
-              );
-            })}
-          </SuggestedSubTopicsContainer>
+          <div
+            className="helper-div"
+            style={{ position: 'relative' }}
+          >
+            <SuggestedSubTopicsContainer>
+              {subTopicsList.map((topic, index) => {
+                return (
+                  <SuggestedSubTopic
+                    key={`topic-${index}`}
+                    id={index}
+                    variant="paragraph"
+                    sx={{
+                      '&:hover': {
+                        backgroundColor: '#0079D3',
+                        color: 'white'
+                      }
+                    }}
+                    onClick={choseSubTopic}
+                  >
+                    {topic}
+                  </SuggestedSubTopic>
+                );
+              })}
+            </SuggestedSubTopicsContainer>
+          </div>
         ) : null}
       </SubTopicsContainer>
     </Box>
   );
 }
+
+export default memo(CommunityTopics);

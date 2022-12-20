@@ -1,9 +1,11 @@
+/* eslint-disable operator-linebreak */
 import { Typography } from '@mui/material';
-import SideImage from '../../components/SideImage/SideImage';
-import InfoInput from '../../components/InfoInput/InfoInput';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import InfoButton from '../../components/InfoButton/InfoButton';
 import {
-  AllDiv,
   ContentDiv,
   DotDiv
 } from '../../components/GlobalStyles/GlobalStyles.style';
@@ -12,54 +14,163 @@ import {
   DescriptionDiv,
   ForgetFooterDiv
 } from './ForgetUserPassword.style';
+import Recaptcha from '../../components/Recaptcha/Recaptcha';
+import ErrorMessage, {
+  ErrorResponse,
+  FulfilledMessage
+} from '../../utilities/CustomStyling/CustomStyling';
+import useInput from '../../hooks/use-input';
+import { checkEmail } from '../../utilities/Helpers';
+import { forgetPassword, AuthActions } from '../../store/slices/AuthSlice';
 
-export default function ForgetUserPassword() {
-  const outLined = true;
-  const len = 38;
+/**
+ * This component returns a Forget Password page contains:
+ * 1- two inputs for username and Email address
+ * 2- reset button
+ * @returns {React.Component}
+ */
+
+function ForgetUserPassword() {
+  const {
+    value: userName,
+    valueChangeHandler: onChangeUserNameInputHandler,
+    inputBlurHandler: onBlurUserNameInput,
+    inputFocusHandler: onFocusUserNameInput,
+    isTouched: touchedUserNameInput,
+    reset: resetUserNameInput,
+    hasError: errorUserName
+  } = useInput((value) => value.length >= 3 && value.length <= 20);
+
+  const {
+    value: email,
+    valueChangeHandler: onChangeEmailHandler,
+    inputBlurHandler: onBlurEmailHandler,
+    inputFocusHandler: onFocusEmailHandler,
+    isTouched: touchedEmailInput,
+    reset: resetEmailInput,
+    hasError: errorEmail
+  } = useInput((value) => checkEmail(value));
+  const [recaptcha, setRecaptcha] = useState(false);
+  const formIsValid = recaptcha && !errorEmail && !errorUserName;
+  const dispatch = useDispatch();
+  const { error, fulfilled, isLoading } = useSelector((state) => state.auth);
+  const resetRequest = () => {
+    dispatch(AuthActions.resetRequest());
+    resetEmailInput();
+    resetUserNameInput();
+  };
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    dispatch(forgetPassword({ username: userName, email }));
+  };
+
   const blen = 15;
-  const dlen = 10.5;
-  const ulen = 8;
   const lhlen = 3;
   return (
-    <AllDiv>
-      <SideImage />
-      <ContentDiv>
-        <RedditImageDiv />
-        <Typography variant="h1">Recover your password</Typography>
-        <DescriptionDiv>
+    <ContentDiv>
+      <RedditImageDiv />
+      <Typography variant="h4">Reset your password</Typography>
+      <DescriptionDiv>
+        <p>
+          Tell us the username and email address associated with
+          <br />
+          your Reddit account, and we&#8217;ll send you an email with a link
+          <br />
+          to reset your password.
+        </p>
+      </DescriptionDiv>
+      <form onSubmit={onSubmitHandler}>
+        <DotDiv>
+          <LoginInputField
+            label="username"
+            error={errorUserName}
+            success={!errorUserName && touchedUserNameInput}
+            onChange={onChangeUserNameInputHandler}
+            onBlur={onBlurUserNameInput}
+            onFocus={onFocusUserNameInput}
+            value={userName}
+          />
+          {errorUserName && (
+            <ErrorMessage>
+              Username must be between 3 and 20 characters
+            </ErrorMessage>
+          )}
+        </DotDiv>
+        <DotDiv>
+          <LoginInputField
+            value={email}
+            onChange={onChangeEmailHandler}
+            onBlur={onBlurEmailHandler}
+            onFocus={onFocusEmailHandler}
+            error={errorEmail}
+            success={!errorEmail && touchedEmailInput}
+            label="Email address"
+          />
+          {errorEmail && (
+            <ErrorMessage>Please fix your email to continue</ErrorMessage>
+          )}
+        </DotDiv>
+        {!errorUserName &&
+          !errorEmail &&
+          touchedEmailInput &&
+          touchedUserNameInput && <Recaptcha setRecaptcha={setRecaptcha} />}
+        <InfoButton
+          len={blen}
+          hlen={lhlen}
+          type="submit"
+          disabled={!formIsValid}
+          loading={isLoading}
+        >
+          RESET PASSWORD
+        </InfoButton>
+        {fulfilled && (
+          <FulfilledMessage msg="Thanks! If your Reddit username and email address match, you will get an email with a link to reset your password shortly." />
+        )}
+        {error && (
+          <ErrorResponse
+            msg="
+Looks like you've been doing that a lot. Take a break for 8 minutes before trying again. "
+          />
+        )}
+        <ForgetFooterDiv>
           <p>
-            Tell us the username and email address associated with
-            <br />
-            your Reddit account, and we&#8217;ll send you an email with a link
-            <br />
-            to reset your password.
+            <Link
+              className="BottomLink"
+              to="/auth/forgetuname"
+              onClick={resetRequest}
+            >
+              FORGOT USERNAME?
+            </Link>
           </p>
-        </DescriptionDiv>
-        <form action="/forgetuserpassword" method="post">
-          <DotDiv len={ulen}>
-            <InfoInput id="loginUserName" label="username" len={len} />
-            <span className="Dot"> </span>
-          </DotDiv>
-          <DotDiv len={dlen}>
-            <InfoInput id="loginUserEmail" label="email address" len={len} />
-            <span className="Dot"> </span>
-          </DotDiv>
-          <InfoButton outlined={!outLined} len={blen} align="center" hlen={lhlen}>RESET PASSWORD</InfoButton>
-          <ForgetFooterDiv>
-            <p>
-              <a className="BottomLink" href=" ">FORGOT USERNAME?</a>
-            </p>
-            <p id="Forget">
-              Don&#8217;t have an email or need assistance logging in?
-              <a className="BottomLink" href="https://reddithelp.com/hc/en-us/sections/360008917491-Account-Security"> GET HELP </a>
-            </p>
-            <p>
-              <a className="BottomLink" href=" ">LOG IN .</a>
-              <a className="BottomLink" href=" "> SIGN UP</a>
-            </p>
-          </ForgetFooterDiv>
-        </form>
-      </ContentDiv>
-    </AllDiv>
+          <p id="Forget">
+            Don&#8217;t have an email or need assistance logging in?
+            <a
+              className="BottomLink"
+              href="https://reddithelp.com/hc/en-us/sections/360008917491-Account-Security"
+            >
+              {' '}
+              GET HELP
+            </a>
+          </p>
+          <p>
+            <Link
+              onClick={resetRequest}
+              className="BottomLink"
+              to="/auth/login"
+            >
+              LOG IN .
+            </Link>
+            <Link
+              onClick={resetRequest}
+              className="BottomLink"
+              to="/auth/signup"
+            >
+              SIGN UP
+            </Link>
+          </p>
+        </ForgetFooterDiv>
+      </form>
+    </ContentDiv>
   );
 }
+export default ForgetUserPassword;

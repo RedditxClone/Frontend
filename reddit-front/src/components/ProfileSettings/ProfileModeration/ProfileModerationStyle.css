@@ -1,0 +1,13 @@
+.profile-mod .pm-h3 {
+    margin-right: 4px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.profile-mod .ctn-div {
+    display: flex;
+    align-items: center;
+    margin-top: -7px;
+    font-size: 15px;
+    font-weight: 500;
+}

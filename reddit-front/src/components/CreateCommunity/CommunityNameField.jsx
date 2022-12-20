@@ -7,12 +7,21 @@ import { CommunityNameTextField, InfoBox } from './CreateCommunity.style';
  * Modified TextField with its label
  * @param {Number} communityNameLength The length of the community name to check on the
  * maximum length
+ * @param {Function} onChangeCommunityName to set the remainig characters in community name field
+ * @param {Function} setErrorCommunityName To check for validity of community name
  * @returns {React.Component}  - modified input for community name
  */
 
-function CommunityNameField({ communityNameLength }) {
+function CommunityNameField({
+  communityNameLength,
+  onChangeCommunityName,
+  setErrorCommunityName
+}) {
+  // Regex to check that community name has only chars or numbers or underscores
+  const COMMUNITY_NAME_REGEX = /^\w+$/;
   const [visited, setVisited] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [regexErrorName, setRegexErrorName] = useState(false);
 
   const onHoveringHandler = () => {
     setTimeout(setIsHovering(true), 20000);
@@ -20,7 +29,13 @@ function CommunityNameField({ communityNameLength }) {
   const helperText = `${21 - communityNameLength} Characters remaining`;
 
   const changeCommunityNameHandler = (event) => {
-    props.onChangeCommunityName(event.target.value);
+    onChangeCommunityName(event.target.value);
+  };
+
+  const onBlurCommunityNameInput = (event) => {
+    const regexError = !COMMUNITY_NAME_REGEX.test(event.target.value);
+    setRegexErrorName(regexError);
+    setErrorCommunityName(regexError || communityNameLength < 3);
   };
   return (
     <Box sx={{ marginBottom: '3rem' }}>
@@ -61,7 +76,8 @@ function CommunityNameField({ communityNameLength }) {
           testId
           maxLength={21}
           required
-          onBlur={() => setVisited(true)}
+          onBlur={onBlurCommunityNameInput}
+          onFocus={() => setVisited(true)}
           onChange={changeCommunityNameHandler}
         />
         <span
@@ -88,6 +104,16 @@ function CommunityNameField({ communityNameLength }) {
           color="error"
         >
           A community name is required
+        </Typography>
+      )}
+
+      {(regexErrorName || communityNameLength < 3) && communityNameLength > 0 && (
+        <Typography
+          variant="subtitle1"
+          color="error"
+        >
+          Community names must be between 3–21 characters, and can only contain
+          letters, numbers, or underscores.
         </Typography>
       )}
     </Box>

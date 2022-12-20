@@ -9,6 +9,10 @@
   --newCommunityTheme-monospaceColor: #ff006d;
   --newRedditTheme-titleText: #1A1A1B;
   --newRedditTheme-linkText: #0079D3;
+  --newCommunityTheme-actionIcon: #878A8C;
+  --newRedditTheme-line: #EDEFF1;
+  --newCommunityTheme-field: #F6F7F8;
+
 }
 * {
   box-sizing: border-box;
@@ -21,4 +25,6 @@ html {
 
 body {
   margin: 0;
+  background-color: #fff;
+  color: #1a1a1b;
 }

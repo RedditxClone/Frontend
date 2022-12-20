@@ -1,0 +1,117 @@
+
+.box-1,.box-2,.box-4,.box-5 {
+    border: 1px solid #EDEF;
+    box-sizing: border-box;
+    max-width: 432px;
+    padding: 24px 32px;
+    padding-top: 0;
+    background-color: #ffffff;
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+    border-radius: 4px;
+    -webkit-transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+    -moz-transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+    -ms-transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+    -o-transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+}
+
+.box-3 {
+    border: 1px solid #EDEF;
+    box-sizing: border-box;
+    max-width: 532px;
+    max-height: 185px;
+    padding: 24px 32px;
+    position: fixed;
+    padding-top: 0;
+    top: 0;
+    left: 0;
+    transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+    border-radius: 4px;
+    background-color: #ffffff;
+    z-index: 5;
+    padding-left: 16px;
+}
+
+.icon-1 {
+    height: 20px;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.msg-icon {
+    color:#24a0ed;
+}
+
+.box-1-icon-2,.box-2-icon-2,.box-4-icon-2,.box-5-icon-2 {
+    margin-top: 20px;
+    font-size: 50px;
+    margin-right: 12px;
+}
+
+.box-1-parent,.box-2-parent,.box-4-parent,.box-5-parent {
+    display: flex;
+    align-items: center;
+    flex-flow: nowrap; 
+    margin-bottom: 10px;
+}
+
+.box-p ,.box-1-p,.box-2-p,.box-4-p,.box-5-p {
+    font-family: Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    margin-top: -13px;
+    max-width: 90%;
+    margin-bottom: 10px;
+}
+
+.box-1-p,.box-2-p,.box-4-p,.box-5-p {
+    margin-bottom: 14px;
+}
+
+.box-1-h2,.box-2-h2,.box-4-h2,.box-5-h2 {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 26px;
+    margin-top: 40px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.h2-h {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    border-bottom: 1px solid #e4e5e7;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    padding-bottom: 18px;
+    margin-top: 16px;
+}
+
+.box-3 .p-p {
+    font-size: 14px; 
+    margin-bottom: 20px;
+    margin-top: 24px;
+}
+
+.buttons Button {
+    -o-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    border-radius: 50px;
+}
+
+.btn-1 {
+    margin-right: 10px;
+}

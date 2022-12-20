@@ -1,20 +1,21 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-vars */
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Link } from '@mui/material';
 import { BsShield } from 'react-icons/bs';
 import Typography from '@mui/material/Typography';
 import {
   CardsHeaderContainer,
   DropDownMenuContainer,
-  DropDownMenuItem
+  DropDownMenuItem,
+  ModToolsButton
 } from './CardHeader.Style';
 
 /**
  * @typedef PropType
  * @property {string} title
- * @property {string} baseColor
  * @property {boolean} hasDropDownMenu
  * @property {boolean} isModeratorMode
  */
@@ -24,19 +25,20 @@ import {
  *
  */
 
-export default function CardHeader({
+function CardHeader({
   title,
-  baseColor,
   hasDropDownMenu,
-  isModeratorMode
+  isModeratorMode,
+  subredditName
 }) {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
   return (
     <CardsHeaderContainer
       data-testid="card-header-container"
-      sx={{ backgroundColor: baseColor, border: `1px solid ${baseColor}` }}
+      sx={{ backgroundColor: '#0079D3', border: '1px solid #0079D3' }}
     >
+      {/* The header title  */}
       <Typography
         variant="h2"
         style={{
@@ -48,22 +50,11 @@ export default function CardHeader({
         {title}
       </Typography>
 
+      {/* Mod tools button  */}
       {isModeratorMode ? (
-        <Link
-          sx={{
-            padding: '4px',
-            display: 'flex',
-            alignItems: 'center',
-            position: 'relative',
-            right: '-6.5rem',
-            textDecoration: 'none',
-            color: 'black',
-            textTransform: 'uppercase',
-            cursor: 'pointer',
-            fontWeight: '600',
-            '&:hover': {
-              backgroundColor: '#1a1a1b1a'
-            }
+        <ModToolsButton
+          onClick={() => {
+            window.location.replace(`/${subredditName}/about/spam`);
           }}
         >
           <BsShield
@@ -73,13 +64,13 @@ export default function CardHeader({
             }}
           />
           <span>Mod Tools</span>
-        </Link>
+        </ModToolsButton>
       ) : null}
 
       {hasDropDownMenu ? (
         <Box
           sx={{
-            margin: 'auto 0 auto auto',
+            margin: isModeratorMode ? 'auto 0 auto 2rem' : 'auto 0 auto 14rem',
             verticalAlign: 'middle',
             cursor: 'pointer',
             borderRadius: '1px',
@@ -113,7 +104,9 @@ export default function CardHeader({
                   variant="h5"
                   sx={{
                     borderTopLeftRadius: '6px',
-                    borderTopRightRadius: '6px'
+                    borderTopRightRadius: '6px',
+                    paddingLeft: '1rem',
+                    textAlign: 'left'
                   }}
                 >
                   add to custom feed
@@ -122,10 +115,12 @@ export default function CardHeader({
                   variant="h5"
                   sx={{
                     borderBottomLeftRadius: '6px',
-                    borderBottomRightRadius: '6px'
+                    borderBottomRightRadius: '6px',
+                    paddingLeft: '1rem',
+                    textAlign: 'left'
                   }}
                 >
-                  add to custom feed
+                  add to favorites
                 </DropDownMenuItem>
               </DropDownMenuContainer>
             ) : null}
@@ -135,3 +130,5 @@ export default function CardHeader({
     </CardsHeaderContainer>
   );
 }
+
+export default memo(CardHeader);

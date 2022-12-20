@@ -1,8 +1,14 @@
+/* eslint-disable no-lonely-if */
+/* eslint-disable no-constant-condition */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable react/jsx-indent */
 /* eslint-disable operator-linebreak */
 /* eslint-disable indent */
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
+import { useState, memo, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
 import {
   MdOutlineNotificationsActive,
@@ -15,12 +21,26 @@ import {
   ButtonsContainer,
   SubredditTitle,
   NotificationTypesContainer,
-  SingleNotificationTypeContainer
+  SingleNotificationTypeContainer,
+  TitleLogoContainer,
+  SubTitle,
+  JoinButton
 } from './SubredditName.Style';
+import ActionMessage from '../../ActionMessage/ActionMessage';
+import {
+  updateNotificationType,
+  joinSubreddit,
+  leaveSubreddit
+} from '../../../services/requests/Subreddit';
+import { subredditTheme } from '../../../pages/Subreddit/Subreddit.Style';
 
 /**
  * @typedef PropType
- * @property {string} highlightColor
+ * @property {int} subredditId
+ * @property {bool} isJoined
+ * @property {bool} name
+ * @property {bool} title
+ * @property {bool} notificationsStyle
  */
 
 /**
@@ -28,73 +48,85 @@ import {
  *
  */
 
-export default function SubredditName({ highlightColor }) {
-  const [joined, setJoined] = useState(false);
-  const [activeNotificationType, setActiveNotificationType] = useState(1);
+function SubredditName({
+  subredditId,
+  isJoined,
+  name,
+  subredditTitle,
+  notificationsStyle,
+  srName
+}) {
+  const { isAuth } = useSelector((state) => state.auth);
+  const [joined, setJoined] = useState(isJoined);
+
+  const [activeNotificationType, setActiveNotificationType] =
+    useState(notificationsStyle);
+  const [showJoinedMsg, setShowJoinedMsg] = useState(false);
+  const [showLeftMsg, setShowLeftMsg] = useState(false);
   const [showNotificationsTypeList, setShowNotificationsTypeList] =
     useState(false);
 
+  useEffect(() => {
+    setJoined(isJoined);
+    setActiveNotificationType(notificationsStyle);
+  }, [isJoined, notificationsStyle]);
+
   return (
-    <Box
-      data-testid="subreddit-title-logo-container"
-      sx={{
-        boxSizing: 'border-box',
-        alignItems: 'flex-start',
-        display: 'flex',
-        flex: 1,
-        paddingLeft: '1.6rem',
-        marginTop: '2.6rem',
-        justifyContent: 'space-between',
-        position: 'relative',
-        width: 'calc(100% - 8rem)'
-      }}
-    >
+    <TitleLogoContainer data-testid="subreddit-title-logo-container">
+      {alert}
+      {/* Subreddit Name  */}
       <StyledSubredditName>
-        <SubredditTitle variant="h1">AyahEveryDay</SubredditTitle>
-        <h2
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            lineHeight: '1.8rem',
-            color: '#7c7c7c',
-            margin: 0,
-            padding: 0
+        <SubredditTitle>{subredditTitle || name}</SubredditTitle>
+        <SubTitle>{`r/${name}`}</SubTitle>
+      </StyledSubredditName>
+
+      {/* Buttons -> Join, Notifications  */}
+      <ButtonsContainer
+        sx={{
+          [subredditTheme.breakpoints.down('sm_4')]: {
+            justifyContent: 'flex-start'
+          }
+        }}
+      >
+        {/* Join Button  */}
+        <Box
+          sx={{
+            width: '9.6rem',
+            [subredditTheme.breakpoints.down('sm_4')]: {
+              width: '6.6rem',
+              marginRight: '5px'
+            }
           }}
         >
-          r/AyahEveryDay
-        </h2>
-      </StyledSubredditName>
-      <ButtonsContainer>
-        <Box sx={{ width: '9.6rem' }}>
-          <Button
+          <JoinButton
             data-testid="join-community-button"
+            id="join-community-button"
             size="medium"
             sx={{
-              width: '100%',
-              border: `1px solid ${highlightColor}`,
-              color: joined ? highlightColor : 'white',
-              fill: highlightColor,
-              fontFamily: 'Noto Sans,Arial,sans-serif',
-              fontSize: '1.4rem',
-              fontWeight: 700,
-              letterSpacing: 'unset',
-              minHeigh: '3.2rem',
-              minWidth: '3.2rem',
-              padding: '4px 16px',
-              borderRadius: '9999px',
-              boxSizing: 'border-box',
-              backgroundColor: joined ? 'transparent' : highlightColor,
+              border: '1px solid #0079D3',
+              color: joined ? '#0079D3' : 'white',
+              fill: '#0079D3',
+              backgroundColor: joined ? 'transparent' : '#0079D3',
               '&:hover': {
                 opacity: joined ? '1' : '.9',
-                backgroundColor: joined ? 'transparent' : highlightColor
+                backgroundColor: joined ? 'transparent' : '#0079D3'
               }
             }}
             onClick={(e) => {
               if (joined) {
                 setJoined(!joined);
                 e.target.innerHTML = 'Join';
+                leaveSubreddit(subredditId);
+                setShowLeftMsg(!showLeftMsg);
               } else {
-                setJoined(!joined);
+                // checking if not authenticated
+                if (!isAuth) {
+                  window.location.replace('/auth/login');
+                } else {
+                  setJoined(!joined);
+                  joinSubreddit(subredditId);
+                  setShowJoinedMsg(!showJoinedMsg);
+                }
               }
             }}
             onMouseOver={(e) => {
@@ -105,146 +137,175 @@ export default function SubredditName({ highlightColor }) {
             }}
           >
             {joined ? 'Joined' : 'Join'}
-          </Button>
+          </JoinButton>
+          {showJoinedMsg ? (
+            <ActionMessage
+              message="Successfully joined r/test_community2022"
+              show={true}
+            />
+          ) : null}
+
+          {showLeftMsg ? (
+            <ActionMessage
+              message="Successfully left r/test_community2022"
+              show={true}
+            />
+          ) : null}
         </Box>
+        {/* Notifications Button  */}
+        {isJoined ? (
+          <Box sx={{ position: 'relative' }}>
+            <Button
+              data-testid="notify-button"
+              size="medium"
+              sx={{
+                maxWidth:
+                  '3.2rem' /** min & max ? to overwrite the style of mui */,
+                minWidth: '3.2rem',
+                maxHeight: '3.2rem',
+                minHeight: '3.2rem',
+                padding: '2px',
+                border: '1px solid #0079D3',
+                color: '#0079D3',
+                fill: '#0079D3',
+                borderRadius: '100%',
+                backgroundColor: 'transparent',
+                '&:hover': {
+                  // backgroundColor: 'transparent'
+                }
+              }}
+              onClick={() => {
+                setShowNotificationsTypeList(!showNotificationsTypeList);
+              }}
+            >
+              {activeNotificationType === 1 ? (
+                <IoIosNotifications fontSize="18px" />
+              ) : null}
 
-        <Box sx={{ position: 'relative' }}>
-          <Button
-            data-testid="notify-button"
-            size="medium"
-            sx={{
-              maxWidth:
-                '3.2rem' /** min & max ? to overwrite the style of mui */,
-              minWidth: '3.2rem',
-              maxHeight: '3.2rem',
-              minHeight: '3.2rem',
-              padding: '2px',
-              border: `1px solid ${highlightColor}`,
-              color: highlightColor,
-              fill: highlightColor,
-              borderRadius: '100%',
-              backgroundColor: 'transparent',
-              '&:hover': {
-                // backgroundColor: 'transparent'
-              }
-            }}
-            onClick={() => {
-              setShowNotificationsTypeList(!showNotificationsTypeList);
-            }}
-          >
-            {activeNotificationType === 1 ? (
-              <IoIosNotifications fontSize="18px" />
-            ) : null}
+              {activeNotificationType === 0 ? (
+                <MdNotificationsActive fontSize="18px" />
+              ) : null}
 
-            {activeNotificationType === 0 ? (
-              <MdNotificationsActive fontSize="18px" />
-            ) : null}
+              {activeNotificationType === 2 ? (
+                <MdNotificationsOff fontSize="18px" />
+              ) : null}
 
-            {activeNotificationType === 2 ? (
-              <MdNotificationsOff fontSize="18px" />
-            ) : null}
+              {/* Notification Types  */}
+              {showNotificationsTypeList ? (
+                <NotificationTypesContainer>
+                  <SingleNotificationTypeContainer
+                    sx={{
+                      borderTopLeftRadius: '5px',
+                      borderTopRightRadius: '5px',
+                      color:
+                        activeNotificationType === 0 ? '#0079D3' : '#878A8C',
+                      '&:hover':
+                        activeNotificationType !== 0
+                          ? {
+                              backgroundColor: '#ccc'
+                            }
+                          : {}
+                    }}
+                    onClick={() => {
+                      setActiveNotificationType(0);
+                      updateNotificationType({
+                        subredditName: srName,
+                        type: 0
+                      });
+                    }}
+                  >
+                    {activeNotificationType !== 0 ? (
+                      <MdOutlineNotificationsActive
+                        style={{ marginRight: '5px' }}
+                        fontSize="28px"
+                      />
+                    ) : (
+                      <MdNotificationsActive
+                        style={{ marginRight: '5px' }}
+                        fontSize="28px"
+                      />
+                    )}
 
-            {/* Notification Types  */}
-            {showNotificationsTypeList ? (
-              <NotificationTypesContainer>
-                <SingleNotificationTypeContainer
-                  sx={{
-                    borderTopLeftRadius: '5px',
-                    borderTopRightRadius: '5px',
-                    color:
-                      activeNotificationType === 0 ? highlightColor : '#878A8C',
-                    '&:hover':
-                      activeNotificationType !== 0
-                        ? {
-                            backgroundColor: '#ccc'
-                          }
-                        : {}
-                  }}
-                  onClick={() => {
-                    setActiveNotificationType(0);
-                  }}
-                >
-                  {activeNotificationType !== 0 ? (
-                    <MdOutlineNotificationsActive
-                      style={{ marginRight: '5px' }}
-                      fontSize="28px"
-                    />
-                  ) : (
-                    <MdNotificationsActive
-                      style={{ marginRight: '5px' }}
-                      fontSize="28px"
-                    />
-                  )}
+                    <span style={{}}>Frequent</span>
+                  </SingleNotificationTypeContainer>
 
-                  <span style={{}}>Frequent</span>
-                </SingleNotificationTypeContainer>
+                  <SingleNotificationTypeContainer
+                    sx={{
+                      color:
+                        activeNotificationType === 1 ? '#0079D3' : '#878A8C',
+                      '&:hover':
+                        activeNotificationType !== 1
+                          ? {
+                              backgroundColor: '#ccc'
+                            }
+                          : {}
+                    }}
+                    onClick={() => {
+                      setActiveNotificationType(1);
+                      updateNotificationType({
+                        subredditName: srName,
+                        type: 1
+                      });
+                    }}
+                  >
+                    {activeNotificationType !== 1 ? (
+                      <IoMdNotificationsOutline
+                        style={{ marginRight: '5px' }}
+                        fontSize="28px"
+                      />
+                    ) : (
+                      <IoIosNotifications
+                        fontSize="28px"
+                        style={{ marginRight: '5px' }}
+                      />
+                    )}
 
-                <SingleNotificationTypeContainer
-                  sx={{
-                    color:
-                      activeNotificationType === 1 ? highlightColor : '#878A8C',
-                    '&:hover':
-                      activeNotificationType !== 1
-                        ? {
-                            backgroundColor: '#ccc'
-                          }
-                        : {}
-                  }}
-                  onClick={() => {
-                    setActiveNotificationType(1);
-                  }}
-                >
-                  {activeNotificationType !== 1 ? (
-                    <IoMdNotificationsOutline
-                      style={{ marginRight: '5px' }}
-                      fontSize="28px"
-                    />
-                  ) : (
-                    <IoIosNotifications
-                      fontSize="28px"
-                      style={{ marginRight: '5px' }}
-                    />
-                  )}
+                    <span>Low</span>
+                  </SingleNotificationTypeContainer>
 
-                  <span>Low</span>
-                </SingleNotificationTypeContainer>
+                  <SingleNotificationTypeContainer
+                    sx={{
+                      borderBottomLeftRadius: '5px',
+                      borderBottomRightRadius: '5px',
+                      color:
+                        activeNotificationType === 2 ? '#0079D3' : '#878A8C',
+                      '&:hover':
+                        activeNotificationType !== 2
+                          ? {
+                              backgroundColor: '#ccc'
+                            }
+                          : {}
+                    }}
+                    onClick={() => {
+                      setActiveNotificationType(2);
+                      updateNotificationType({
+                        subredditName: srName,
+                        type: 2
+                      });
+                    }}
+                  >
+                    {activeNotificationType !== 2 ? (
+                      <MdOutlineNotificationsOff
+                        fontSize="28px"
+                        style={{ marginRight: '5px' }}
+                      />
+                    ) : (
+                      <MdNotificationsOff
+                        style={{ marginRight: '5px' }}
+                        fontSize="28px"
+                      />
+                    )}
 
-                <SingleNotificationTypeContainer
-                  sx={{
-                    borderBottomLeftRadius: '5px',
-                    borderBottomRightRadius: '5px',
-                    color:
-                      activeNotificationType === 2 ? highlightColor : '#878A8C',
-                    '&:hover':
-                      activeNotificationType !== 2
-                        ? {
-                            backgroundColor: '#ccc'
-                          }
-                        : {}
-                  }}
-                  onClick={() => {
-                    setActiveNotificationType(2);
-                  }}
-                >
-                  {activeNotificationType !== 2 ? (
-                    <MdOutlineNotificationsOff
-                      fontSize="28px"
-                      style={{ marginRight: '5px' }}
-                    />
-                  ) : (
-                    <MdNotificationsOff
-                      style={{ marginRight: '5px' }}
-                      fontSize="28px"
-                    />
-                  )}
-
-                  <span>Off</span>
-                </SingleNotificationTypeContainer>
-              </NotificationTypesContainer>
-            ) : null}
-          </Button>
-        </Box>
+                    <span>Off</span>
+                  </SingleNotificationTypeContainer>
+                </NotificationTypesContainer>
+              ) : null}
+            </Button>
+          </Box>
+        ) : null}
       </ButtonsContainer>
-    </Box>
+    </TitleLogoContainer>
   );
 }
+
+export default SubredditName;

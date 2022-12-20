@@ -140,8 +140,9 @@ export const CancelSaveContainer = styled(Box)({
  * @return {SuggestedSubTopicsContainer} - The styled container
  */
 export const SuggestedSubTopicsContainer = styled(Box)({
+  zIndex: '10000',
   position: 'absolute',
-  bottom: '-161px',
+  top: '31px',
   right: '-10px',
   width: '300px',
   display: 'flex',

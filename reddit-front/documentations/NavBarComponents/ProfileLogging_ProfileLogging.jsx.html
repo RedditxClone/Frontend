@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ProfileLogging/ProfileLogging.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ProfileLogging/ProfileLogging.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable object-curly-newline */
+import { MenuItem, FormControl, InputLabel, Divider } from '@mui/material';
+import { BsClock, BsToggleOn } from 'react-icons/bs';
+import { CgProfile } from 'react-icons/cg';
+import { MdExpandLess, MdExpandMore } from 'react-icons/md';
+import { IoSettingsOutline } from 'react-icons/io5';
+// import { MdExpandMore } from 'react-icons/md';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {
+  StyledSelect,
+  StyledButton,
+  ProfileLogging
+} from '../AppBar/AppBar.Style';
+
+/**
+ * @description this is the profie box in the nav bar in case u are not logged in
+ * @return {React.Component} progileLogin select
+ */
+
+function ProfileLogin() {
+  const [opencommunity, setOpencom] = useState(false);
+  const [opensettings, setOpensett] = useState(false);
+  const navigate = useNavigate();
+  const { isAuth } = useSelector((state) => state.auth);
+
+  /**
+   * description : this handler for openCommunity in the profile box
+   * which controls it is opened or not
+   */
+
+  function handleComClick() {
+    setOpencom(!opencommunity);
+  }
+
+  const clickSignUpHandler = () => {
+    navigate('/auth/login');
+  };
+  /**
+   * description : this handler for opensettings in the profile box
+   * which controls it is opened or not
+   */
+
+  function handleSettingClick() {
+    setOpensett(!opensettings);
+  }
+  return (
+    &lt;ProfileLogging>
+      &lt;FormControl
+        sx={{
+          width: '100%',
+          p: '0',
+          height: '100%'
+        }}
+      >
+        &lt;InputLabel
+          sx={{
+            mt: '13px',
+            color: 'black',
+            '&amp;.Mui-focused': {
+              color: 'black'
+            }
+          }}
+          shrink={false}
+        >
+          &lt;CgProfile
+            size="1.5rem"
+            color="#878A8C"
+          />
+        &lt;/InputLabel>
+        &lt;StyledSelect
+          sx={{
+            ':hover': {
+              border: '1px solid #DAE0E2',
+              borderRadius: '3px'
+            },
+            width: '100%',
+            height: '50%',
+            mt: '30px',
+            mb: '20px',
+            '&amp; .MuiSelect-select': {
+              paddingBottom: '20px'
+            }
+          }}
+          MenuProps={{
+            PaperProps: { sx: { maxHeight: 350 } }
+          }}
+          variant="standard"
+          disableUnderline
+          data-testid="profileselect"
+          defaultValue="1"
+        >
+          &lt;MenuItem
+            style={{ gap: '8px' }}
+            onClick={() => handleComClick()}
+            data-testid="elements"
+          >
+            &lt;BsClock
+              color="#1A3043"
+              size="1.5rem"
+            />
+            &lt;StyledButton>Recent Communities&lt;/StyledButton>
+            {opencommunity ? (
+              &lt;MdExpandLess size="2rem" />
+            ) : (
+              &lt;MdExpandMore size="2rem" />
+            )}
+          &lt;/MenuItem>
+          {/* here is the list of recent communities will handle when backend is done */}
+          {opencommunity ? (
+            &lt;MenuItem data-testid="elements">
+              &lt;StyledButton>any community&lt;/StyledButton>
+            &lt;/MenuItem>
+          ) : null}
+          {isAuth &amp;&amp; (
+            &lt;MenuItem onClick={() => handleSettingClick()}>
+              &lt;IoSettingsOutline size="2rem" />
+              &lt;StyledButton sx={{ pr: '95px', pl: '5px' }}>
+                Settings
+              &lt;/StyledButton>
+              {opensettings ? (
+                &lt;MdExpandLess size="2.2rem" />
+              ) : (
+                &lt;MdExpandMore size="2.2rem" />
+              )}
+            &lt;/MenuItem>
+          )}
+          {/* here is the list of seetingse */}
+          {opensettings ? (
+            &lt;MenuItem data-testid="elements">
+              &lt;StyledButton sx={{ pl: '40px' }}>
+                Dark Mode
+                &lt;BsToggleOn
+                  color="#249FEC"
+                  size="2rem"
+                  style={{ paddingLeft: '80px' }}
+                />
+              &lt;/StyledButton>
+            &lt;/MenuItem>
+          ) : null}
+          &lt;Divider />
+          &lt;MenuItem data-testid="elements">
+            &lt;CgProfile
+              size="1.5rem"
+              color="#1A3043"
+            />
+            &lt;StyledButton
+              sx={{ pr: '50px' }}
+              onClick={clickSignUpHandler}
+            >
+              Sign Up or Log In
+            &lt;/StyledButton>
+          &lt;/MenuItem>
+        &lt;/StyledSelect>
+      &lt;/FormControl>
+    &lt;/ProfileLogging>
+  );
+}
+
+export default ProfileLogin;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppBarReddit">AppBarReddit</a></li><li><a href="global.html#HomeBox">HomeBox</a></li><li><a href="global.html#IconsBox">IconsBox</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#Profile">Profile</a></li><li><a href="global.html#ProfileLogin">ProfileLogin</a></li><li><a href="global.html#SearchBox">SearchBox</a></li><li><a href="global.html#SideDrawer">SideDrawer</a></li><li><a href="global.html#SignUp">SignUp</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sat Nov 12 2022 23:48:25 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

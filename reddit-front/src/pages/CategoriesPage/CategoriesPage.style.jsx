@@ -43,7 +43,7 @@ const CategoryHeader = styled('div')(
   }
 );
 
-const AlphaStyledDiv = styled('div')(
+const AlphaStyledDiv = styled('div')(({ theme }) => (
   {
     width: '31rem',
     height: '9rem',
@@ -71,9 +71,15 @@ const AlphaStyledDiv = styled('div')(
       fontSize: '1.4rem',
       fontWeight: '500',
       lineHeight: '1.8rem'
+    },
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    },
+    [theme.breakpoints.up('sm')]: {
+      display: 'block'
     }
   }
-);
+));
 const StyledSideCards = styled('div')(
   {
     marginLeft: '2.4rem',
@@ -91,6 +97,7 @@ const SideDiv = styled('div')(({ theme }) => ({
   }
 
 }));
+
 export {
   ColoredBody,
   AlphaStyledDiv,
