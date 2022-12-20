@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-plusplus */
 /* eslint-disable array-callback-return */
 /* eslint-disable react/jsx-one-expression-per-line */
@@ -62,8 +63,9 @@ function AboutCard({ isJoined, subredditId, subredditName, aboutInfo }) {
   const [communityDescription, setCommunityDescription] = useState(
     aboutInfo.description ? aboutInfo.description : ''
   );
-
+  const logo = aboutInfo.logo;
   // Event Listeners
+  console.log('aboutInfo', aboutInfo);
 
   const handleHoverOnJoinButton = (e) => {
     if (joined) {
@@ -95,20 +97,71 @@ function AboutCard({ isJoined, subredditId, subredditName, aboutInfo }) {
       />
 
       <Box sx={{ padding: '1.2rem' }}>
+        {/* community logo  */}
+        <a
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            height: '55px',
+            alignItems: 'center',
+            color: 'black'
+          }}
+          href={`/r/${subredditName}`}
+        >
+          <div
+            style={{
+              height: '55px'
+            }}
+          >
+            {logo ? (
+              <img
+                style={{
+                  width: '100%',
+                  height: '100%'
+                }}
+                alt="Subreddit Logo"
+                src={logo}
+              />
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                style={{
+                  borderRadius: '100%',
+                  border: '4px solid white',
+                  width: '5.5rem',
+                  height: '5.5rem',
+                  backgroundColor: 'white',
+                  boxSizing: 'border-box',
+                  fill: '#0079D3',
+                  zIndex: 10
+                }}
+              >
+                <path d="M16.5,2.924,11.264,15.551H9.91L15.461,2.139h.074a9.721,9.721,0,1,0,.967.785ZM8.475,8.435a1.635,1.635,0,0,0-.233.868v4.2H6.629V6.2H8.174v.93h.041a2.927,2.927,0,0,1,1.008-.745,3.384,3.384,0,0,1,1.453-.294,3.244,3.244,0,0,1,.7.068,1.931,1.931,0,0,1,.458.151l-.656,1.558a2.174,2.174,0,0,0-1.067-.246,2.159,2.159,0,0,0-.981.215A1.59,1.59,0,0,0,8.475,8.435Z" />
+              </svg>
+            )}
+          </div>
+          <h2
+            style={{
+              margin: 0,
+              padding: 0
+            }}
+          >
+            {`r/${subredditName}`}
+          </h2>
+        </a>
         {/* Community Description  */}
         <CommunityDescription
           data-testid="about-description"
           className="community-description"
           variant="paragraph"
           sx={{
-            display: 'none',
-            visibility: 'hidden',
             cursor: 'auto',
             backgroundColor: 'white'
           }}
         >
-          {communityDescription.length > 0 ? (
-            communityDescription
+          {aboutInfo.description ? (
+            aboutInfo.description
           ) : (
             <span>{`Welcome to ${subredditName}`}</span>
           )}
@@ -210,7 +263,8 @@ function AboutCard({ isJoined, subredditId, subredditName, aboutInfo }) {
             sx={{
               backgroundColor: joined ? 'white' : '#0079D3',
               border: joined ? '1px solid #0079D3' : 'none',
-              color: joined ? '#0079D3' : 'white'
+              color: joined ? '#0079D3' : 'white',
+              marginTop: '1rem'
             }}
           >
             {joined ? 'Joined' : 'Join'}

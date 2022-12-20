@@ -1,3 +1,5 @@
+/* eslint-disable no-else-return */
+/* eslint-disable object-curly-newline */
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
@@ -11,8 +13,24 @@ const token = getCookie('Authorization');
  * @param {object} data - The request data
  */
 export const getPost = async (id) => {
-  const response = await api.get(`/api/post/${id}`);
-  return response.data;
+  try {
+    const response = await api.get(`/api/post/${id}`, {
+      headers: { Authorization: token }
+    });
+    return response.data;
+  } catch (err) {
+    if (err.response) {
+      // The client was given an error response (5xx, 4xx)
+      return { data: [], statusCode: 400 };
+    } else if (err.request) {
+      // The client never received a response, and the request was never left
+      return { data: [], statusCode: 400 };
+    } else {
+      // Anything else
+      console.log('Error', err.message);
+      return { data: [], statusCode: 400 };
+    }
+  }
 };
 
 /**
@@ -23,6 +41,32 @@ export const getPosts = async (data) => {
   const { sortType } = data;
   const response = await api.get(`/api/posts/${sortType}`);
   return response.data;
+};
+
+/**
+ * This service for fetching the posts
+ * @param {object} data - The request data
+ */
+export const getHomePosts = async (data) => {
+  const { limit, page, sort, time } = data;
+  // /post/timeline?limit=5&page=2&sort=top
+  if (time) {
+    const response = await api.get(
+      `/api/post/timeline?limit=${limit}&page=${page}&sort=${sort}&time=${time}`,
+      {
+        headers: { Authorization: token }
+      }
+    );
+    return response.data;
+  } else {
+    const response = await api.get(
+      `/api/post/timeline?limit=${limit}&page=${page}&sort=${sort}`,
+      {
+        headers: { Authorization: token }
+      }
+    );
+    return response.data;
+  }
 };
 
 /**
@@ -82,14 +126,10 @@ export const deletePost = async (data) => {
  * @param {object} data - The request data
  */
 export const removePost = async (data) => {
-  const { id, request } = data;
-  const response = await api.post(
-    `api/thing/${id}/remove`,
-    {},
-    {
-      headers: { Authorization: token }
-    }
-  );
+  const { id } = data;
+  const response = await api.delete(`api/post/${id}`, {
+    headers: { Authorization: token }
+  });
   return response.data;
 };
 
@@ -212,8 +252,8 @@ export const unSavePost = async (data) => {
 export const lockPost = async (data) => {
   const { id, request } = data;
   const response = await api.patch(
-    `api/post/${id}/lock`,
-    {},
+    `api/post/${id}`,
+    { commentsLocked: true },
     {
       headers: { Authorization: token }
     }
@@ -228,8 +268,8 @@ export const lockPost = async (data) => {
 export const unLockPost = async (data) => {
   const { id, request } = data;
   const response = await api.patch(
-    `api/post/${id}/unlock`,
-    {},
+    `api/post/${id}`,
+    { commentsLocked: false },
     {
       headers: { Authorization: token }
     }
@@ -274,10 +314,10 @@ export const unSpamPost = async (data) => {
  * @param {object} data - The request data
  */
 export const markPostAsNSFW = async (data) => {
-  const { id } = data;
-  const response = await api.post(
-    `api/post/${id}/mark-nsfw`,
-    {},
+  const { id, request } = data;
+  const response = await api.patch(
+    `api/post/${id}`,
+    { nsfw: true },
     {
       headers: { Authorization: token }
     }
@@ -291,9 +331,9 @@ export const markPostAsNSFW = async (data) => {
  */
 export const unMarkPostAsNSFW = async (data) => {
   const { id } = data;
-  const response = await api.post(
-    `api/post/${id}/unmark-nsfw`,
-    {},
+  const response = await api.patch(
+    `api/post/${id}`,
+    { nsfw: false },
     {
       headers: { Authorization: token }
     }
@@ -307,7 +347,7 @@ export const unMarkPostAsNSFW = async (data) => {
  */
 export const sendReplyNotifications = async (data) => {
   const { id, request } = data;
-  const response = await api.post(`api/post/${id}/send-replies`, request, {
+  const response = await api.patch(`api/post/${id}`, request, {
     headers: { Authorization: token }
   });
   return response.data;
@@ -320,8 +360,8 @@ export const sendReplyNotifications = async (data) => {
 export const spoilPost = async (data) => {
   const { id } = data;
   const response = await api.patch(
-    `api/post/${id}/spoiler`,
-    {},
+    `api/post/${id}`,
+    { spoiler: true },
     {
       headers: { Authorization: token }
     }
@@ -336,8 +376,8 @@ export const spoilPost = async (data) => {
 export const unSpoilPost = async (data) => {
   const { id } = data;
   const response = await api.patch(
-    `api/post/${id}/unspoiler`,
-    {},
+    `api/post/${id}`,
+    { spoiler: false },
     {
       headers: { Authorization: token }
     }
@@ -350,7 +390,7 @@ export const unSpoilPost = async (data) => {
  * @param {object} data - The request data
  */
 export const upVote = async (data) => {
-  const { id, request } = data;
+  const { id } = data;
   const response = await api.post(
     `api/thing/${id}/upvote`,
     {},
@@ -366,7 +406,7 @@ export const upVote = async (data) => {
  * @param {object} data - The request data
  */
 export const downVote = async (data) => {
-  const { id, request } = data;
+  const { id } = data;
   const response = await api.post(
     `api/thing/${id}/downvote`,
     {},
@@ -382,7 +422,7 @@ export const downVote = async (data) => {
  * @param {object} data - The request data
  */
 export const unVote = async (data) => {
-  const { id, request } = data;
+  const { id } = data;
   const response = await api.post(
     `api/thing/${id}/unvote`,
     {},

@@ -34,6 +34,7 @@ import {
   removePost,
   unRemovePost,
   hidePost,
+  unHidePost,
   savePost,
   unSavePost,
   lockPost,
@@ -71,7 +72,6 @@ import {
  *
  */
 function PostInteractions({
-  setHidePost,
   commentsCount,
   postId,
   setModAction,
@@ -80,22 +80,25 @@ function PostInteractions({
   isModeratorMode,
   isSaved,
   isLocked,
-  isPostApproved,
   isNSFW,
   isSpoiled,
   replyNotifications,
-  canBeSpoiled
+  canBeSpoiled,
+  approved,
+  removed,
+  spammed
 }) {
   const [saveState, setSaveState] = useState(isSaved);
-  const [isApproved, setIsApproved] = useState(isPostApproved);
+  const [isApproved, setIsApproved] = useState(approved);
   const [replyNotificationsState, setReplyNotificationsState] =
     useState(replyNotifications);
   const [lockComments, setLockComments] = useState(isLocked);
   const [markedAsNSFW, setMarkedAsNSFW] = useState(isNSFW);
   const [markedAsSpoiler, setMarkedAsSpoiler] = useState(isSpoiled);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-  const [isRemoved, setIsRemoved] = useState(false);
-  const [isSpammed, setIsSpammed] = useState(false);
+  const [isRemoved, setIsRemoved] = useState(removed);
+  const [isSpammed, setIsSpammed] = useState(spammed);
+  const [hidePostState, setHidePostState] = useState(false);
 
   // Handler Methods
   const handleSavePost = () => {
@@ -136,8 +139,13 @@ function PostInteractions({
   };
 
   const handleHideButton = () => {
-    setHidePost(true);
-    hidePost({ id: postId });
+    if (hidePostState) {
+      setHidePostState(false);
+      unHidePost({ id: postId });
+    } else {
+      setHidePostState(true);
+      hidePost({ id: postId });
+    }
   };
 
   const handleApproveButton = (id) => {
@@ -221,8 +229,10 @@ function PostInteractions({
     deletePost(request);
 
     // remove post from ui
-    const postCard = document.getElementById(`post-${postId}`);
-    if (postCard) postCard.style.display = 'none';
+    // const postCard = document.getElementById(`post-${postId}`);
+    // if (postCard) postCard.style.display = 'none';
+
+    window.location.href = '/';
   };
 
   const handleLockComments = () => {
@@ -279,11 +289,11 @@ function PostInteractions({
   const handleSendReplies = () => {
     if (!replyNotificationsState) {
       setReplyNotificationsState(true);
-      const info = { request: { state: true }, id: postId };
+      const info = { request: { replyNotifications: true }, id: postId };
       sendReplyNotifications(info);
     } else {
       setReplyNotificationsState(false);
-      const info = { request: { state: false }, id: postId };
+      const info = { request: { replyNotifications: false }, id: postId };
       sendReplyNotifications(info);
     }
   };
@@ -296,11 +306,20 @@ function PostInteractions({
     >
       <div className="post-interaction-content">
         {/* comments  */}
-        <a className="interaction-item">
+        <a
+          className="interaction-item"
+          style={{
+            cursor: 'not-allowed'
+          }}
+        >
           <GoComment fontSize="18px" />
           <span
             className="comments-count"
-            style={{ marginLeft: '5px', marginBottom: '3px' }}
+            style={{
+              marginLeft: '5px',
+              marginBottom: '3px',
+              cursor: 'not-allowed'
+            }}
           >
             {commentsCount}
           </span>
@@ -335,8 +354,9 @@ function PostInteractions({
           <>
             {/* // approve */}
             <a
-              className="interaction-item"
+              className="interaction-item post-fp-approve"
               id={`post-approve-${postId}`}
+              style={{ color: isApproved ? '#94e044' : '#949494' }}
               onClick={() => handleApproveButton(postId)}
             >
               <TiTickOutline fontSize="25px" />
@@ -347,9 +367,10 @@ function PostInteractions({
             </a>
             {/* // remove */}
             <a
-              className="interaction-item"
+              className="interaction-item post-fp-remove"
               id={`post-remove-${postId}`}
               onClick={() => handleRemoveButton(postId)}
+              style={{ color: isRemoved ? 'red' : '#949494' }}
             >
               <CiNoWaitingSign fontSize="25px" />
               <span className="interaction-text">
@@ -359,9 +380,10 @@ function PostInteractions({
             </a>
             {/* // spam */}
             <a
-              className="interaction-item"
+              className="interaction-item post-fp-spam"
               id={`post-spam-${postId}`}
               onClick={() => handleSpamButton(postId)}
+              style={{ color: isSpammed ? 'red' : '#949494' }}
             >
               <RiSpamLine fontSize="25px" />
               <span className="interaction-text">
@@ -478,8 +500,17 @@ function PostInteractions({
                 onClick={handleHideButton}
               >
                 <a>
-                  <BiHide fontSize="25px" />
-                  <span> hide</span>
+                  {hidePostState ? (
+                    <>
+                      <BsFillBookmarkFill fontSize="25px" />
+                      <span> unhide</span>
+                    </>
+                  ) : (
+                    <>
+                      <BiHide fontSize="25px" />
+                      <span> hide</span>
+                    </>
+                  )}
                 </a>
               </div>
 
@@ -615,6 +646,7 @@ function PostInteractions({
                   <a
                     className="post-remove-2"
                     id={`post-remove-2-${postId}`}
+                    style={{ color: isRemoved ? 'red' : '#949494' }}
                     onClick={() => handleRemoveButton(postId)}
                     data-testid="test-remove-post"
                   >
@@ -625,6 +657,7 @@ function PostInteractions({
                   <a
                     className="post-approve-2"
                     id={`post-approve-2-${postId}`}
+                    style={{ color: isApproved ? '#94e044' : '#949494' }}
                     onClick={() => handleApproveButton(postId)}
                     data-testid="test-remove-post"
                   >
@@ -635,6 +668,7 @@ function PostInteractions({
                   <a
                     className="post-spam-2"
                     id={`post-spam-2-${postId}`}
+                    style={{ color: isSpammed ? 'red' : '#949494' }}
                     onClick={() => handleSpamButton(postId)}
                     data-testid="test-spam-post"
                   >

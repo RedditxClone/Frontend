@@ -1,3 +1,5 @@
+/* eslint-disable prefer-destructuring */
+/* eslint-disable operator-linebreak */
 /* eslint-disable no-unused-vars */
 /* eslint-disable object-curly-newline */
 /* eslint-disable prefer-template */
@@ -7,7 +9,7 @@
 import './PostInfo.css';
 
 import { memo, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
 import { FcApproval, FcLock } from 'react-icons/fc';
 import { BsFillShieldFill } from 'react-icons/bs';
@@ -16,6 +18,7 @@ import { CiNoWaitingSign } from 'react-icons/ci';
 import { followPost } from '../../../../services/requests/Post';
 import Logo from '../../../../assets/Images/test.png';
 import RemovalReasonDialog from './RemovalReasonDialog';
+import { divideBigNumber } from '../../../../utilities/Helpers';
 
 /**
  * @typedef PropType
@@ -56,8 +59,24 @@ function PostInfo({
   isLocked,
   isFollowed
 }) {
+  const { user } = useSelector((state) => state.auth);
+  const communityName = subredditInfo.name;
+  const communityId = subredditInfo.id;
+  const userId = userInfo.id;
+  const postedBy = userInfo.username;
+  const joinedDate = userInfo.joinedDate;
+  const membersCount = subredditInfo.membersCount;
+  const communityDescription = subredditInfo.description;
   const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
   const [isPostFollowed, setIsPostFollowed] = useState(isFollowed);
+  const [isUserFollowed, setIsUserFollowed] = useState(userInfo.isFollowed);
+  const [isJoined, setIsJoined] = useState(subredditInfo.isJoin);
+  const subredditLogo =
+    subredditInfo.logo === '' || subredditInfo.logo == null
+      ? subredditInfo.logo
+      : null;
+  const userLogo =
+    userInfo.logo === '' || userInfo.logo == null ? userInfo.photo : null;
 
   /* This function shows the subreddit info while hovering on the subreddit name */
   const handleHoverOnSubreddit = () => {
@@ -127,6 +146,19 @@ function PostInfo({
     }
   };
 
+  /* This function handles the follow button */
+  const handleFollowUser = (e) => {
+    if (!isUserFollowed) {
+      setIsUserFollowed(true);
+      followUser(userInfo.id);
+      e.target.innerHTML = 'Following';
+    } else {
+      setIsUserFollowed(false);
+      unFollowUser(userInfo.id);
+      e.target.innerHTML = 'Follow';
+    }
+  };
+
   // Returning the result
   return (
     <div
@@ -143,14 +175,7 @@ function PostInfo({
           onBlur={handleHoverOutSubreddit}
           data-testid="test-post-community-name"
         >
-          <a
-            href={`/r/${subredditInfo.name}`}
-            onClick={() => {
-              window.location.replace(`/r/${subredditInfo.name}`);
-            }}
-          >
-            {getCommunityName()}
-          </a>
+          <a href={`/r/${subredditInfo.name}`}>{getCommunityName()}</a>
           <div
             className="community-information"
             id={'community-information-post-' + postId}
@@ -176,7 +201,7 @@ function PostInfo({
             <div className="community-stats">
               <div className="community-stats-item">
                 <span className="members-count">
-                  {subredditInfo.membersCount}
+                  {divideBigNumber(subredditInfo.membersCount)}
                 </span>
                 <span>members</span>
               </div>
@@ -258,14 +283,25 @@ function PostInfo({
               </div>
             </div>
 
-            <div className="follow-user-button">
-              <a
-                href="#"
-                className="view-community"
+            {user.username !== userInfo.username ? (
+              <div
+                className="follow-user-button"
+                style={{
+                  backgroundColor: isUserFollowed ? 'white' : '#1976d2',
+                  border: isUserFollowed ? '1px solid #1976d2' : null
+                }}
               >
-                follow
-              </a>
-            </div>
+                <a
+                  className="view-community"
+                  onClick={handleFollowUser}
+                  style={{
+                    color: isUserFollowed ? '#1976d2' : 'white'
+                  }}
+                >
+                  {isUserFollowed ? 'Following' : 'Follow'}
+                </a>
+              </div>
+            ) : null}
           </div>
         </div>
         <span className="post-time">{getPostedAt()}</span>

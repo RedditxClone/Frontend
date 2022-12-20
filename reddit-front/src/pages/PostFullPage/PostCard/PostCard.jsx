@@ -31,24 +31,11 @@ import Voting from './Voting/Voting';
  *
  */
 
-function PostCard({
-  postData,
-  isCommunityPost,
-  isPostFullDetailsMode,
-  isModeratorMode,
-  isSaved,
-  isLocked,
-  isPostApproved,
-  isPostSticky,
-  isDistinguishedAsMode,
-  isNSFW,
-  isSpoiled,
-  replyNotifications
-}) {
+function PostCard({ postData, isCommunityPost, isModeratorMode }) {
   const [hidePost, setHidePost] = useState(false);
 
   // Returning the result
-  return !hidePost ? (
+  return (
     <div
       className="post-card"
       key={postData._id}
@@ -71,7 +58,7 @@ function PostCard({
         />
       </PostContainer>
     </div>
-  ) : null;
+  );
 }
 
 export default PostCard;

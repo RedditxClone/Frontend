@@ -1,3 +1,5 @@
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable indent */
@@ -55,7 +57,15 @@ function PostContent({
   let postContent = null;
   let slideIndex = 0;
   let contentType = null;
-  const [modAction, setModAction] = useState(0);
+  const [modAction, setModAction] = useState(
+    postData.approvedBy
+      ? 1
+      : postData.spammedBy
+      ? 2
+      : postData.removedBy
+      ? 3
+      : 0
+  );
   const [locked, setLocked] = useState(postData.commentsLocked);
   const [nsfw, setNsfw] = useState(postData.nsfw);
   const [isSpoiled, setIsSpoiled] = useState(postData.spoiler);
@@ -239,8 +249,7 @@ function PostContent({
         modAction={modAction}
         isNSFW={nsfw}
         isLocked={locked}
-        // isFollowed={postData.isFollowed}
-        isFollowed={false}
+        isFollowed={postData.isFollowed}
       />
 
       {/* Post title & flairs  */}
@@ -294,10 +303,9 @@ function PostContent({
         isCommunityPost={isCommunityPost}
         changeModAction={setModAction}
         setModAction={setModAction}
-        setDistinguishPostAsMod={false}
         setNsfw={setNsfw}
         setLocked={setLocked}
-        isModeratorMode={true}
+        isModeratorMode={isModeratorMode}
         isSaved={isSaved}
         isLocked={locked}
         isPostApproved={isPostApproved}
@@ -305,6 +313,9 @@ function PostContent({
         isSpoiled={isSpoiled}
         replyNotifications={replyNotifications}
         canBeSpoiled={canBeSpoiled}
+        approved={postData.approvedAt ? true : false}
+        removed={postData.removedAt ? true : false}
+        spammed={postData.spammedAt ? true : false}
       />
     </div>
   );
