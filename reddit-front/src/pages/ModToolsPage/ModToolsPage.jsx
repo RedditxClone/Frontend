@@ -27,6 +27,7 @@ import Approved from '../../components/Approved/Approved';
 import Moderators from '../../components/Moderators/Moderators';
 import ModQueue from '../../components/ModQueue/ModQueue';
 import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
+import TrafficStates from '../../components/TrafficStates/TrafficStates';
 
 /**
  * This Component for the Moderator Tools Page
@@ -73,7 +74,7 @@ function ModToolsPage() {
     postflairs: <Box>postflairs</Box>,
     rules: <Box>rules</Box>,
     communitysettings: <Box>communitysettings</Box>,
-    trafficstats: <Box>trafficstats</Box>,
+    trafficstats: <Box><TrafficStates /></Box>,
     community: <Box>community</Box>,
     postsandcomments: <Box>postsandcomments</Box>
   };
