@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 import avatarImg from '../../assets/Images/avatar_default_5.png';
 import CreatePostEditor from '../../pages/CreatePost/CreatePostEditor';
 
-export default function Comments() {
+export default function Comments({ comment }) {
   const [replyContnet, setReplyContnet] = useState('');
   const [countVotes, setCountVotes] = useState();
   const [showReply, setShowReply] = useState(false);
@@ -62,7 +62,9 @@ export default function Comments() {
             alt="avatar"
           />
         </div>
-        <p style={{ marginLeft: '10px', fontSize: '13px' }}>karim</p>
+        <p style={{ marginLeft: '10px', fontSize: '13px' }}>
+          {comment.user.username}
+        </p>
         <p
           style={{
             marginLeft: '7px',

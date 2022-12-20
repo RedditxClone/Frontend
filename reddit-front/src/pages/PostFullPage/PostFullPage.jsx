@@ -1,3 +1,8 @@
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable operator-linebreak */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-multiple-empty-lines */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-boolean-value */
@@ -5,8 +10,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ThemeProvider, Box } from '@mui/material';
-
+import { ThemeProvider, Box, Button } from '@mui/material';
 
 import BackToTop from '../../components/BackToTop/BackToTop';
 import AppBar from '../../components/Layout/AppBar/AppBar';
@@ -19,6 +23,7 @@ import {
   subredditTheme
 } from '../Subreddit/Subreddit.Style';
 
+import CreatePostEditor from '../CreatePost/CreatePostEditor';
 import {
   SideBarContainer,
   SideBarContent
@@ -29,7 +34,7 @@ import { getPost } from '../../services/requests/Post';
 import { getSubreddit } from '../../services/requests/Subreddit';
 import Loader from '../../utilities/Loader/Loader';
 import Comments from '../../components/Comments/Comments';
-
+import { postComment, getComments } from '../../services/requests/comments';
 
 /**
  * This Component for the Community Cards.
@@ -45,10 +50,29 @@ function PostFullPage() {
   const [loadingSubreddit, setLoadingSubreddit] = useState(true);
   const [goToErrorPage, setGoToErrorPage] = useState(false);
 
-
   const [commentContnet, setCommentContnet] = useState('');
-  const handleReply = () => {};
+  const [comments, setComments] = useState([]);
+  const handleComment = () => {
+    postComment({
+      parentId: postData._id,
+      subredditId: subredditData._id,
+      postId: postData._id,
+      text: commentContnet
+    });
+  };
+  useEffect(() => {
+    const fetchGetComments = async () => {
+      const results = await getComments({ id: postData._id });
+      setComments(results);
+    };
+    fetchGetComments();
+  }, []);
+  console.log('comments');
+  console.log(comments);
+  console.log('finish');
   const handleCloseReply = () => {};
+  console.log(postData);
+  console.log(subredditData);
 
   const color = '#ccc';
   let subredditId = 1; // for testing only
@@ -77,6 +101,15 @@ function PostFullPage() {
     fetchPostInfo();
     fetchSubredditInfo();
   }, []);
+
+  const commentsShow =
+    comments.length > 0
+      ? comments.map((comment) => (
+          <div>
+            <Comments comment={comment} />
+          </div>
+        ))
+      : '';
 
   return (
     <ThemeProvider theme={subredditTheme}>
@@ -124,29 +157,21 @@ function PostFullPage() {
                       postContent={commentContnet}
                     />
                     <Button
-                      style={{ marginLeft: '657px', marginTop: '-44px' }}
+                      style={{ marginLeft: '642px', marginTop: '-44px' }}
                       variant="contained"
-                      onClick={handleReply}
+                      onClick={handleComment}
                     >
-                      Reply
+                      Comment
                     </Button>
                     <Button
-                      style={{ marginLeft: '583px', marginTop: '-68px' }}
+                      style={{ marginLeft: '570px', marginTop: '-68px' }}
                       variant="contained"
                       onClick={handleCloseReply}
                     >
                       Cancle
                     </Button>
                   </div>
-                  <div>
-                    <Comments />
-                  </div>
-                  <div>
-                    <Comments />
-                  </div>
-                  <div>
-                    <Comments />
-                  </div>
+                  {commentsShow}
                 </PostsContainer>
 
                 <SideBarContainer>

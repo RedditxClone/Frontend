@@ -11,7 +11,7 @@ export const getComments = async (object) => {
   console.log(object);
   try {
     console.log('first');
-    const response = await api.get(`/api/comment/${id}`, {
+    const response = await api.get(`/api/thing/${id}/with-children`, {
       headers: { Authorization: token }
     });
     console.log('last');
