@@ -1,0 +1,11 @@
+.link-comment-message {
+    margin: 0 8px;
+    text-decoration: none;
+    color: #888;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.link-comment-message:hover {
+    text-decoration: underline;
+}

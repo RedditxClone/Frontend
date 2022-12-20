@@ -15,6 +15,7 @@ export const getHiddenPosts = async () => {
     });
     if (response.status >= 200 && response.status < 300) {
       console.log('salma');
+      console.log(response.data);
       return response.data;
     }
     return null;
@@ -39,8 +40,8 @@ export const hidePost = async (data) => {
 /// ///new version post requests(interactions)
 export const upVoteGo = async (data) => {
   try {
-    const { id, request } = data;
-    const response = await api.post(`/api/thing/${id}/upvote`, request);
+    const { id } = data;
+    const response = await api.post(`/api/thing/${id}/upvote`);
     if (response.status >= 200 && response.status < 300) {
       return response.data;
     }
@@ -52,8 +53,8 @@ export const upVoteGo = async (data) => {
 };
 export const downVoteGo = async (data) => {
   try {
-    const { id, request } = data;
-    const response = await api.post(`/api/thing/${id}/downvote`, request);
+    const { id } = data;
+    const response = await api.post(`/api/thing/${id}/downvote`);
     if (response.status >= 200 && response.status < 300) {
       return response.data;
     }
@@ -66,8 +67,8 @@ export const downVoteGo = async (data) => {
 
 export const unVoteGo = async (data) => {
   try {
-    const { id, request } = data;
-    const response = await api.post(`/api/thing/${id}/unvote`, request);
+    const { id } = data;
+    const response = await api.post(`/api/thing/${id}/unvote`);
     if (response.status >= 200 && response.status < 300) {
       return response.data;
     }

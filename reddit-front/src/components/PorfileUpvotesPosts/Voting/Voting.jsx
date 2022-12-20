@@ -45,6 +45,7 @@ function Voting({
   let downVote;
   const handleUpVoting = () => {
     if (isUpVoted) {
+      setVotes(votesCount - 1);
       const info = {
         id: postId
       };
@@ -60,13 +61,16 @@ function Voting({
       setVotesCountColor('#ff6830');
       if (isDownVoted) {
         setIsDownVoted(false);
+        setVotes(votesCount + 2);
+      } else {
+        setVotes(votesCount + 1);
       }
     }
   };
-
   const handleDownVoting = () => {
     if (isDownVoted) {
       setVotesCountColor('black');
+      setVotes(votesCount + 1);
       const info = {
         id: postId
       };
@@ -79,10 +83,14 @@ function Voting({
       downVoteGo(info);
       setIsDownVoted(true);
       setVotesCountColor('#0272c4');
-      if (isUpVoted) setIsUpVoted(false);
+      if (isUpVoted) {
+        setIsUpVoted(false);
+        setVotes(votesCount - 2);
+      } else {
+        setVotes(votesCount - 1);
+      }
     }
   };
-
   // Returning the result
   return (
     <div

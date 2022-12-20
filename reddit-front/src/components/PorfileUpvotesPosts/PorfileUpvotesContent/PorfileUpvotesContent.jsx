@@ -10,6 +10,7 @@
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
 import { TiDocumentText } from 'react-icons/ti';
+import { AiOutlineVideoCamera } from 'react-icons/ai';
 import PostInteractions from '../ProfileUpvotesInteractions/ProfileUpvotesInteractions';
 import PostInfo from '../ProfileUpvotesInfo/ProfileUpvotesInfo';
 import './PorfileUpvotesContent.css';
@@ -77,7 +78,7 @@ function PostContent({
   };
   /* Gets the post type (img, video, ..), and returns the content as html component */
   const getPostContent = function () {
-    const contentType = postContentData.post_type;
+    const contentType = postContentData.postType;
     const mediaCount = postContentData.media_count;
     switch (contentType) {
       case 'img':
@@ -104,17 +105,18 @@ function PostContent({
         break;
       case 'video': ///we deleted the video element until decide what we will do with its screenshot???
         postContent = (
-          <div className="post-image">
-            <img
-              src={Logo}
-              alt="post image"
-            />
-          </div>
+          <AiOutlineVideoCamera
+            style={{
+              fontSize: '2.5rem',
+              margin: content ? '3.5rem' : '2.5rem',
+              color: '#949494'
+            }}
+          />
         );
         expandPostContent = (
           <div style={{ width: '50%', height: '50%' }}>
             <img
-              src={Logo}
+              src={postImages[0]}
               alt="post image"
             />
           </div>
@@ -228,7 +230,14 @@ function PostContent({
                 className="flair-link"
               >
                 {/* {postContentData.flair_name} */}
-                {postContentData.flairs[0]}
+                <p
+                  style={{
+                    backgroundColor: postContentData.flair.backgroundColor,
+                    color: postContentData.flair.textColor
+                  }}
+                >
+                  {postContentData.flair.text}
+                </p>
               </a>
             </div>
           </div>
