@@ -4,7 +4,7 @@
 /* eslint-disable operator-linebreak */
 import { AiOutlinePlus } from 'react-icons/ai';
 import { MdOutlineDone } from 'react-icons/md';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classes from './CreatePost.module.css';
 import AppBar from '../../components/Layout/AppBar/AppBar';
@@ -33,6 +33,7 @@ function CreatePost() {
   const [currentTab, setCurrentTab] = useState(0);
   const [postOnUserProfile, setPostOnUserProfile] = useState(false);
   const [unableToPost, setUnableToPost] = useState(false);
+  const { isAuth } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const validPost =
@@ -42,6 +43,13 @@ function CreatePost() {
     (postContent.trim().length > 0 || validUrl || postMedia.length > 0);
 
   console.log(validPost);
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate('/auth/login');
+    }
+  }, []);
+
   const onPostHandler = async () => {
     let postType;
     let currentContent;

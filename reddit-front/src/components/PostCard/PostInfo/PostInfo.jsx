@@ -379,9 +379,7 @@ function PostInfo({
             ) : null}
           </div>
         </div>
-
-        <span className="post-time">{`${postedAt} ago`}</span>
-
+        <span className="post-time">{`${postedAt}`}</span>
         <div className="mod-action-icon">
           {isNSFW ? (
             <span

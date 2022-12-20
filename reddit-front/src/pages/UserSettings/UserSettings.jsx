@@ -3,6 +3,7 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/self-closing-comp */
 
+import { useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import AppBarReddit from '../../components/Layout/AppBar/AppBar';
 import './UserSettings.css';
@@ -14,9 +15,12 @@ function UserSettings() {
   };
   const { isAuth } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  if (!isAuth) {
-    navigate('/auth/login');
-  }
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate('/auth/login');
+    }
+  });
   return (
     <>
       <AppBarReddit />

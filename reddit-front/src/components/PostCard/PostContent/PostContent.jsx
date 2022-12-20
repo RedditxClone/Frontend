@@ -68,50 +68,30 @@ function PostContent({
     postContentData.visited
   );
   const [canBeSpoiled, setCanBeSpoiled] = useState(
-    false
+    true
     // postContentData.images.length === 1
   );
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
   const getPostContent = () => {
-    let contentType;
-    let mediaCount;
-
-    if (postContentData.images.length > 0) {
-      contentType = 'img';
-      mediaCount = postContentData.images.length;
-    } else if (postContentData.video) {
-      contentType = 'video';
-    } else if (postContentData.link) {
-      contentType = 'link';
-    } else {
-      contentType = 'text';
-    }
+    let contentType = postContentData.postType;
+    let mediaCount = postContentData.images ? postContentData.images.length : 0;
 
     switch (contentType) {
-      case 'img':
+      case 'images':
         if (mediaCount > 1) {
           postContent = (
             <>
-              <div className="my-slides fade">
-                <img
-                  src={Logo}
-                  alt="post image"
-                />
-              </div>
-              <div className="my-slides fade">
-                <img
-                  src={Logo}
-                  alt="post image"
-                  className={`post-image-${postContentData.id}`}
-                />
-              </div>
-              <div className="my-slides fade">
-                <img
-                  src={Logo3}
-                  alt="post image"
-                />
-              </div>
+              {postContentData.images && postContentData.images.length > 0
+                ? postContentData.images.map((image) => (
+                    <div className="my-slides fade">
+                      <img
+                        src={image}
+                        alt="post image"
+                      />
+                    </div>
+                  ))
+                : null}
               <button
                 type="button"
                 className="prev"
@@ -163,7 +143,7 @@ function PostContent({
         postContent = (
           <div className="post-content-text">
             <p style={{ color: isVisited ? '#949494' : 'black' }}>
-              {postContentData.text}
+              <ReactMarkdown>{postContentData.text}</ReactMarkdown>
             </p>
           </div>
         );
@@ -288,13 +268,7 @@ function PostContent({
       {/* post content  */}
       <div className="post-main-content">
         <div className="post-content-core">
-          <ReactMarkdown>
-            {/* ffffff fdfdfdfdf rerererer fdsfdfdsfdfd `fdfdfdfdfdf` >
-            `fdfsdfdfdfd` > dfsdfsdfdsfd - rerere - gfgfgf - oioioi 1. fdsfdfs
-            2. rewrere 3. fdff */}
-          </ReactMarkdown>
-
-          {/* {getPostContent()} */}
+          {getPostContent()}
           {showSlides()}
         </div>
       </div>

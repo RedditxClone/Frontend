@@ -156,14 +156,14 @@ function PostInteractions({
     document.getElementById(`post-spam-${id}`).style.color = '#949494';
     document.getElementById(`post-spam-2-${id}`).style.color = '#949494';
     info = { id: postId };
-    unSpamPost(info);
+    // unSpamPost(info);
 
     // cancelling removing
     setIsRemoved(false);
     document.getElementById(`post-remove-${id}`).style.color = '#949494';
     document.getElementById(`post-remove-2-${id}`).style.color = '#949494';
     info = { id: postId };
-    unRemovePost(info);
+    // unRemovePost(info);
 
     // approving post
     setIsApproved(true);
@@ -181,14 +181,14 @@ function PostInteractions({
     document.getElementById(`post-approve-${id}`).style.color = '#949494';
     document.getElementById(`post-approve-2-${id}`).style.color = '#949494';
     info = { id: postId };
-    unApprovePost(info);
+    // unApprovePost(info);
 
     // cancelling removing
     setIsRemoved(false);
     document.getElementById(`post-remove-${id}`).style.color = '#949494';
     document.getElementById(`post-remove-2-${id}`).style.color = '#949494';
     info = { id: postId };
-    unRemovePost(info);
+    // unRemovePost(info);
 
     // spamming post
     setIsSpammed(true);
@@ -206,14 +206,14 @@ function PostInteractions({
     document.getElementById(`post-spam-${id}`).style.color = '#949494';
     document.getElementById(`post-spam-2-${id}`).style.color = '#949494';
     info = { id: postId };
-    unSpamPost(info);
+    // unSpamPost(info);
 
     // cancelling approving
     setIsApproved(false);
     document.getElementById(`post-approve-${id}`).style.color = '#949494';
     document.getElementById(`post-approve-2-${id}`).style.color = '#949494';
     info = { id: postId };
-    unApprovePost(info);
+    // unApprovePost(info);
 
     // removing post
     setIsRemoved(true);

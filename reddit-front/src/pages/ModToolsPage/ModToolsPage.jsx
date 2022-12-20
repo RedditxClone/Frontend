@@ -7,12 +7,13 @@
 /* eslint-disable no-plusplus */
 import { BiAddToQueue } from 'react-icons/bi';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AiOutlineUser, AiOutlineSetting, AiOutlineLeft } from 'react-icons/ai';
 import { CiShoppingTag } from 'react-icons/ci';
 import { HiOutlineNewspaper } from 'react-icons/hi';
 import { ImStatsBars } from 'react-icons/im';
 import { Box, Link } from '@mui/material';
+import { useSelector } from 'react-redux';
 import AppBar from '../../components/Layout/AppBar/AppBar';
 import {
   BreadCrumbContainer,
@@ -44,9 +45,7 @@ function ModToolsPage() {
   const [showSettingsSideBar, setShowSettingsSideBar] = useState(false);
   const { isAuth } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  if (!isAuth) {
-    navigate('/auth/login');
-  }
+
   // Fetching the info of the subreddit
   const fetchSubredditInfo = async () => {
     const results = await getSubreddit(subredditName);
@@ -63,6 +62,9 @@ function ModToolsPage() {
       activeItem === 'community'
     ) {
       setShowSettingsSideBar(true);
+    }
+    if (!isAuth) {
+      navigate('/auth/login');
     }
   }, []);
 

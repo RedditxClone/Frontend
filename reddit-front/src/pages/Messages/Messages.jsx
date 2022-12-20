@@ -9,9 +9,11 @@ import './Messages.style.css';
 export default function Messages() {
   const { isAuth } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  if (!isAuth) {
-    navigate('/auth/login');
-  }
+  useEffect(() => {
+    if (!isAuth) {
+      navigate('/auth/login');
+    }
+  }, []);
   const [isSent, setIssent] = useState(false);
   const handleShowList = () => {
     setIssent(false);

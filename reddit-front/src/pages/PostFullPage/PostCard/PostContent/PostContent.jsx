@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-boolean-value */
@@ -14,6 +15,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
+import ReactMarkdown from 'https://esm.sh/react-markdown@7';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
 import Logo3 from '../../../../assets/Images/test.png';
@@ -21,7 +23,6 @@ import Logo from '../../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
 import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
-
 import { divideBigNumber, getDateDiff } from '../../../../utilities/Helpers';
 
 /**
@@ -56,7 +57,6 @@ function PostContent({
 }) {
   let postContent = null;
   let slideIndex = 0;
-  let contentType = null;
   const [modAction, setModAction] = useState(
     postData.approvedBy
       ? 1
@@ -78,51 +78,30 @@ function PostContent({
     postData.replyNotifications
   );
   const [canBeSpoiled, setCanBeSpoiled] = useState(
-    postData.images.length === 1 // this condition means that the post has only one image
+    // postData.images.length === 1 // this condition means that the post has only one image
+    true
   );
-
-  const setContentType = () => {
-    if (postData.images.text) {
-      contentType = 'text';
-    }
-
-    if (postData.video) {
-      contentType = 'video';
-    }
-
-    if (postData.images.length > 0) {
-      contentType = 'img';
-    }
-  };
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
   const getPostContent = () => {
-    const mediaCount = postData.images.length;
-    setContentType();
+    let contentType = postData.postType;
+    let mediaCount = postData.images ? postData.images.length : 0;
+
     switch (contentType) {
-      case 'img':
+      case 'images':
         if (mediaCount > 1) {
           postContent = (
             <>
-              <div className="my-slides fade">
-                <img
-                  src={Logo}
-                  alt="post image"
-                />
-              </div>
-              <div className="my-slides fade">
-                <img
-                  src={Logo}
-                  alt="post image"
-                  className={`post-image-${postData._id}`}
-                />
-              </div>
-              <div className="my-slides fade">
-                <img
-                  src={Logo3}
-                  alt="post image"
-                />
-              </div>
+              {postData.images && postData.images.length > 0
+                ? postData.images.map((image) => (
+                    <div className="my-slides fade">
+                      <img
+                        src={image}
+                        alt="post image"
+                      />
+                    </div>
+                  ))
+                : null}
               <button
                 type="button"
                 className="prev"
@@ -145,7 +124,7 @@ function PostContent({
             <div className="post-image">
               <img
                 className={`post-image-${postData._id}`}
-                src={Logo}
+                src={`https://static.swproject.demosfortest.com/${postData.images[0]}`}
                 alt="post image"
                 style={{
                   filter: postData.spoiler ? 'blur(60px)' : 'none'
@@ -164,7 +143,7 @@ function PostContent({
             className="post-content-video"
           >
             <source
-              src=""
+              src={postData.video}
               type="video/mp4"
             />
           </video>
@@ -173,7 +152,9 @@ function PostContent({
       case 'text':
         postContent = (
           <div className="post-content-text">
-            <p style={{ color: 'black' }}>{postData.text}</p>
+            <p style={{ color: isVisited ? '#949494' : 'black' }}>
+              <ReactMarkdown>{postData.text}</ReactMarkdown>
+            </p>
           </div>
         );
         break;
@@ -270,20 +251,23 @@ function PostContent({
             </h3>
           </Link>
         </div>
-        {/* {postData.flair.length > 0 ? (
+        {postData.flair ? (
           <div className="flair">
             <a
-              href="#"
               className="flair-link"
               style={{
                 color: postData.flair.textColor,
-                backgroundColor: postData.flair.backgroundColor
+                backgroundColor: postData.flair.backgroundColor,
+                padding: '0.5rem',
+                borderRadius: '999px',
+                fontWeight: '700',
+                fontSize: '12px'
               }}
             >
               {postData.flair.text}
             </a>
           </div>
-        ) : null} */}
+        ) : null}
       </div>
 
       {/* post content  */}
