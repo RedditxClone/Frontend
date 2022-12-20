@@ -25,7 +25,7 @@ import Banned from '../../components/Banned/Banned';
 import Muted from '../../components/Muted/Muted';
 import Approved from '../../components/Approved/Approved';
 import Moderators from '../../components/Moderators/Moderators';
-import ModQueue from '../../components/ModQueue/ModQueue';
+// import ModQueue from '../../components/ModQueue/ModQueue';
 import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
 
 /**
@@ -39,33 +39,33 @@ function ModToolsPage() {
 
   // Mapping for the components
   const componentsMap = {
-    spam: (
-      <ModQueue
-        sortType="any"
-        isCommunityPost={false}
-        isModeratorMode={false}
-        isHomePagePost={false}
-        whichQueue="spam"
-      />
-    ),
-    edited: (
-      <ModQueue
-        sortType="any"
-        isCommunityPost={false}
-        isModeratorMode={false}
-        isHomePagePost={false}
-        whichQueue="edited"
-      />
-    ),
-    unmoderated: (
-      <ModQueue
-        sortType="any"
-        isCommunityPost={false}
-        isModeratorMode={false}
-        isHomePagePost={false}
-        whichQueue="unmoderated"
-      />
-    ),
+    // spam: (
+    //   <ModQueue
+    //     sortType="any"
+    //     isCommunityPost={false}
+    //     isModeratorMode={false}
+    //     isHomePagePost={false}
+    //     whichQueue="spam"
+    //   />
+    // ),
+    // edited: (
+    //   <ModQueue
+    //     sortType="any"
+    //     isCommunityPost={false}
+    //     isModeratorMode={false}
+    //     isHomePagePost={false}
+    //     whichQueue="edited"
+    //   />
+    // ),
+    // unmoderated: (
+    //   <ModQueue
+    //     sortType="any"
+    //     isCommunityPost={false}
+    //     isModeratorMode={false}
+    //     isHomePagePost={false}
+    //     whichQueue="unmoderated"
+    //   />
+    // ),
     muted: <Box>muted</Box>,
     banned: <Box>banned</Box>,
     moderators: <Box>moderators</Box>,
@@ -223,16 +223,16 @@ function ModToolsPage() {
                       className={`subreddit-item ${
                         activeItem === 'spam' ? 'active-sidebar-item' : null
                       }`}
-                      onClick={handleClickOnSidebarItem(
-                        'spam',
-                        <ModQueue
-                          sortType="any"
-                          isCommunityPost={false}
-                          isModeratorMode={false}
-                          isHomePagePost={false}
-                          whichQueue="spam"
-                        />
-                      )}
+                      // onClick={handleClickOnSidebarItem(
+                      //   'spam',
+                      //   <ModQueue
+                      //     sortType="any"
+                      //     isCommunityPost={false}
+                      //     isModeratorMode={false}
+                      //     isHomePagePost={false}
+                      //     whichQueue="spam"
+                      //   />
+                      // )}
                     >
                       spam
                     </SideBarItem>
@@ -241,16 +241,16 @@ function ModToolsPage() {
                       className={`subreddit-item ${
                         activeItem === 'edited' ? 'active-sidebar-item' : null
                       }`}
-                      onClick={handleClickOnSidebarItem(
-                        'edited',
-                        <ModQueue
-                          sortType="any"
-                          isCommunityPost={false}
-                          isModeratorMode={false}
-                          isHomePagePost={false}
-                          whichQueue="edited"
-                        />
-                      )}
+                      // onClick={handleClickOnSidebarItem(
+                      //   'edited',
+                      //   <ModQueue
+                      //     sortType="any"
+                      //     isCommunityPost={false}
+                      //     isModeratorMode={false}
+                      //     isHomePagePost={false}
+                      //     whichQueue="edited"
+                      //   />
+                      // )}
                     >
                       edited
                     </SideBarItem>
@@ -261,16 +261,16 @@ function ModToolsPage() {
                           ? 'active-sidebar-item'
                           : null
                       }`}
-                      onClick={handleClickOnSidebarItem(
-                        'unmoderated',
-                        <ModQueue
-                          sortType="any"
-                          isCommunityPost={false}
-                          isModeratorMode={false}
-                          isHomePagePost={false}
-                          whichQueue="unmoderated"
-                        />
-                      )}
+                      // onClick={handleClickOnSidebarItem(
+                      //   'unmoderated',
+                      //   <ModQueue
+                      //     sortType="any"
+                      //     isCommunityPost={false}
+                      //     isModeratorMode={false}
+                      //     isHomePagePost={false}
+                      //     whichQueue="unmoderated"
+                      //   />
+                      // )}
                     >
                       unmoderated
                     </SideBarItem>
@@ -295,10 +295,7 @@ function ModToolsPage() {
                       className={`subreddit-item ${
                         activeItem === 'banned' ? 'active-sidebar-item' : null
                       }`}
-                      onClick={handleClickOnSidebarItem(
-                        'banned',
-                        <Banned />
-                      )}
+                      onClick={handleClickOnSidebarItem('banned', <Banned />)}
                     >
                       banned
                     </SideBarItem>
@@ -307,10 +304,7 @@ function ModToolsPage() {
                       className={`subreddit-item ${
                         activeItem === 'muted' ? 'active-sidebar-item' : null
                       }`}
-                      onClick={handleClickOnSidebarItem(
-                        'muted',
-                        <Muted />
-                      )}
+                      onClick={handleClickOnSidebarItem('muted', <Muted />)}
                     >
                       muted
                     </SideBarItem>

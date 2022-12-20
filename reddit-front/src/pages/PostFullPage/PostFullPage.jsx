@@ -26,6 +26,7 @@ import PostCard from './PostCard/PostCard';
 import { getPost } from '../../services/requests/Post';
 import { getSubreddit } from '../../services/requests/Subreddit';
 import Loader from '../../utilities/Loader/Loader';
+import Comments from '../../components/Comments/Comments';
 
 /**
  * This Component for the Community Cards.
@@ -102,8 +103,9 @@ function PostFullPage() {
                       isModeratorMode={postData.subredditInfo.isModerator}
                     />
                   </div>
-                  <div>Write comment is here</div>
-                  <div>comments are here</div>
+                  <div>
+                    <Comments />
+                  </div>
                 </PostsContainer>
 
                 <SideBarContainer>
