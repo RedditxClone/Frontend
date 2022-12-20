@@ -15,7 +15,7 @@ const createSubreddit = async (communityName, communityType, isOver18) => {
     }
     return false;
   } catch (err) {
-    // console.log(err);
+    console.log(err);
     return false;
   }
 };

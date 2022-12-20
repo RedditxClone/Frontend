@@ -7,13 +7,13 @@ import { ImSuperscript2 } from 'react-icons/im';
 import StyledButton from './StyledButton';
 
 const INLINE_STYLES = [
-  { label: <FaBold />, style: 'BOLD' },
-  { label: <FaItalic />, style: 'ITALIC' },
-  { label: <FiLink />, style: 'LINK' },
-  { label: <RiStrikethrough />, style: 'STRIKETHROUGH' },
-  { label: <BiCodeAlt />, style: 'CODE' },
-  { label: <ImSuperscript2 />, style: 'SUPERSCRIPT' },
-  { label: <BsTypeUnderline />, style: 'UNDERLINE' }
+  { id: 'inline1', label: <FaBold />, style: 'BOLD' },
+  { id: 'inline2', label: <FaItalic />, style: 'ITALIC' },
+  { id: 'inline3', label: <FiLink />, style: 'LINK' },
+  { id: 'inline4', label: <RiStrikethrough />, style: 'STRIKETHROUGH' },
+  { id: 'inline5', label: <BiCodeAlt />, style: 'CODE' },
+  { id: 'inline6', label: <ImSuperscript2 />, style: 'SUPERSCRIPT' },
+  { id: 'inline7', label: <BsTypeUnderline />, style: 'UNDERLINE' }
 ];
 function InlineStyleControls({ onToggle, editorState }) {
   const currentStyle = editorState.getCurrentInlineStyle();
@@ -22,7 +22,7 @@ function InlineStyleControls({ onToggle, editorState }) {
     <div className="RichEditor-controls">
       {INLINE_STYLES.map((type) => (
         <StyledButton
-          key={type.label}
+          key={type.id}
           active={currentStyle.has(type.style)}
           label={type.label}
           onToggle={onToggle}
