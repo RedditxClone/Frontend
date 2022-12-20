@@ -1,17 +1,19 @@
 import { IconButton } from '@mui/material';
 import { AiOutlineClose } from 'react-icons/ai';
 import { IoLogoReddit } from 'react-icons/io';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyledButton, MessageAlert } from '../Layout/AppBar/AppBar.Style';
 
 function ActionMessage({ message, show }) {
-  const [showClose, setShowClose] = useState(false);
+  const [showClose, setShowClose] = useState(show);
   const [Close, setClose] = useState(false);
 
   const showCloseHandler = () => {
     setShowClose((current) => !current);
   };
-
+  useEffect(() => {
+    setTimeout(() => setShowClose(false), 500);
+  }, []);
   const closeHandler = () => {
     setClose((current) => !current);
   };
