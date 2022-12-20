@@ -52,7 +52,7 @@ function DeletePostFlair({ opened, handleClose, deleteFlair }) {
         <StyledButton
           sx={{
             color: '#0079D3',
-            padding: '2rem 2rem'
+            padding: '1rem 2rem'
           }}
           onClick={handleClose}
         >

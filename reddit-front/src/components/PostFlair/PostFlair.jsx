@@ -1,3 +1,7 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable space-infix-ops */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable react/jsx-curly-newline */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable no-unused-vars */
@@ -41,7 +45,7 @@ import {
   createFlair
 } from '../../services/requests/flairs';
 
-function PostFlair({ subredditName }) {
+function PostFlair({ subredditId }) {
   const [addFlair, setAddFlair] = useState(false);
   const [TextColor, setTextColor] = useState(false);
   const [textbackgroundcolor, setTextBackGroundColor] = useState(false);
@@ -49,6 +53,9 @@ function PostFlair({ subredditName }) {
   const [Remainings, setRemainings] = useState(65);
   const [settingscard, setSettingsCard] = useState(false);
   const [flairs, setFlair] = useState([]);
+  const [textEdit, setTextEdit] = useState('');
+  const [backgroundEdit, setBackGroundEdit] = useState('');
+  const [Edit, setEdit] = useState(false);
   // {
   //   text: 'nada',
   //   backgroundColor: 'red',
@@ -63,7 +70,7 @@ function PostFlair({ subredditName }) {
   useEffect(() => {
     // Fetching all the flairs of subreddit
     const fetchFlairs = async () => {
-      const results = await getFlairs('639da7ae5037e305d283a479');
+      const results = await getFlairs(subredditId);
 
       setFlair(results.flairList);
       console.log(results);
@@ -86,7 +93,7 @@ function PostFlair({ subredditName }) {
     /// ///request of deletion
     const info = { id: flairId };
     setFlair((current) => current.filter((flair) => flair._id !== flairId));
-    console.log(deleteFlair(info, '639da7ae5037e305d283a479'));
+    console.log(deleteFlair(info, subredditId));
     deleteHandler();
   };
 
@@ -95,6 +102,19 @@ function PostFlair({ subredditName }) {
     setAddFlair(AddTemp);
   };
 
+  /// //edit handler
+  const clickEditHandler = (id, textcolor, backgroundcolor, text) => {
+    setFlairId(id);
+    setEdit(true);
+    clickAddFlairHandler();
+    // document.getElementById('flair_text').value = text;
+    console.log(text);
+    setTextEdit(text);
+    // document.getElementById('flair_background').value = backgroundcolor;
+    if (backgroundcolor === 'lime') setBackGroundEdit('#00FF11');
+    else setBackGroundEdit(backgroundcolor);
+    setTextColor(textcolor);
+  };
   /// /for cancel card
   const cancelHandler = () => {
     const temp = !cancelcard;
@@ -107,20 +127,34 @@ function PostFlair({ subredditName }) {
   };
   // create new flair
   const clickSaveFlairHandler = () => {
-    const flair = {
-      text: document.getElementById('flair_text').value,
-      backgroundColor: document.getElementById('flair_background').value,
-      textColor: TextColor ? 'white' : 'black'
-    };
-    setFlair([...flairs, flair]);
+    if (!Edit) {
+      const flair = {
+        text: document.getElementById('flair_text').value,
+        backgroundColor: document.getElementById('flair_background').value,
+        textColor: TextColor ? 'white' : 'black'
+      };
+      setFlair([...flairs, flair]);
 
-    createFlair(
-      flair.textColor,
-      flair.text,
-      flair.backgroundColor,
-      '639da7ae5037e305d283a479'
-    );
-    clickAddFlairHandler();
+      createFlair(
+        flair.textColor,
+        flair.text,
+        flair.backgroundColor,
+        subredditId
+      );
+      clickAddFlairHandler();
+    } else {
+      const copyFlairs = [...flairs];
+      const flairModify = copyFlairs.find(
+        (element, index) => element._id === flairId
+      );
+      flairModify.text = document.getElementById('flair_text').value;
+      flairModify.backgroundColor =
+        document.getElementById('flair_background').value;
+      flairModify.textColor = TextColor ? 'white' : 'black';
+      setFlair(copyFlairs);
+      setEdit(false);
+      clickAddFlairHandler();
+    }
   };
   const textBackGroundHandler = (event) => {
     const temp = !textbackgroundcolor;
@@ -181,6 +215,14 @@ function PostFlair({ subredditName }) {
         <button
           type="button"
           style={{ color: '#0272C4', fontSize: '1.3rem', margin: '0' }}
+          onClick={() =>
+            clickEditHandler(
+              flair._id,
+              flair.textColor,
+              flair.backgroundColor,
+              flair.text
+            )
+          }
         >
           EDIT
         </button>
@@ -267,6 +309,7 @@ function PostFlair({ subredditName }) {
                       fontSize: '3rem'
                     }
                   }}
+                  // value={textEdit}
                 />
                 <FirstRowText
                   sx={{
@@ -286,8 +329,9 @@ function PostFlair({ subredditName }) {
                   <input
                     type="color"
                     id="flair_background"
-                    name="flair_background"
+                    // name="flair_background"
                     onChange={textBackGroundHandler}
+                    // value={backgroundEdit}
                   />
                 </FlairBackGround>
                 <FlairTextColor>

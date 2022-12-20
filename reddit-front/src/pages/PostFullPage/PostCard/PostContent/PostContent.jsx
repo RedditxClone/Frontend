@@ -21,7 +21,7 @@ import Logo from '../../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
 import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
-import { divideBigNumber } from '../../../../utilities/Helpers';
+import { divideBigNumber, getDateDiff } from '../../../../utilities/Helpers';
 import { flagPostAsVisited } from '../../../../services/requests/Post';
 
 /**
@@ -239,7 +239,7 @@ function PostContent({
         postId={postData._id}
         userInfo={postData.user}
         subredditInfo={postData.subredditInfo}
-        postedAt={postData.publishedDate}
+        postedAt={getDateDiff(postData.publishedDate)}
         approvedBy={postData.approvedBy}
         approvedAt={postData.approvedAt}
         spammedBy={postData.spammedBy}
