@@ -6,6 +6,9 @@ export const subredditTheme = createTheme({
     values: {
       xs: 0,
       sm: 600,
+      sm_2: 890,
+      sm_3: 650,
+      sm_4: 550,
       md: 970,
       md_2: 1030,
       lg: 1225,
@@ -19,6 +22,7 @@ export const subredditTheme = createTheme({
  * @return {CardsContainer} - The styled Container
  */
 export const CardsContainer = styled(Box)({
+  height: '100vh',
   maxWidth: '100%',
   padding: '2rem 2.4rem',
   boxSizing: 'border-box',

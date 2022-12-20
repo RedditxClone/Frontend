@@ -48,6 +48,9 @@ export default function CreatePostCard() {
           <BsFillImageFill
             size={22}
             color="#9DA0A1"
+            onClick={() => {
+              navigate('/submit');
+            }}
           />
         </Box>
         <Box
@@ -62,6 +65,9 @@ export default function CreatePostCard() {
           <BsLink45Deg
             size={22}
             color="#9DA0A1"
+            onClick={() => {
+              navigate('/submit');
+            }}
           />
         </Box>
       </StyledBox>

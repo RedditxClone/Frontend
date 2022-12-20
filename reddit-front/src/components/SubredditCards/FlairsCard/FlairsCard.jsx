@@ -12,27 +12,15 @@ import CardHeader from '../CardHeader/CardHeader';
 import { getFlairsList } from '../../../services/requests/Subreddit';
 /**
  * @typedef PropType
- * @property {string, color} baseColor
  * @property {Integer} subredditId
+ * @property {Integer} flairsList
  */
 
 /**
  * This Component for the flairs Card.
  *
  */
-function FlairsCard({ baseColor, subredditId }) {
-  const [flairsList, setFlairsList] = useState([]);
-
-  useEffect(() => {
-    // Fetching the data of the flairs
-    const fetchFlairs = async () => {
-      const results = await getFlairsList({ id: subredditId });
-      setFlairsList(results[0].list);
-    };
-
-    fetchFlairs();
-  }, []);
-
+function FlairsCard({ subredditId, flairsList }) {
   return (
     <FlairsContainer
       className="filter-by-flair"
@@ -40,7 +28,6 @@ function FlairsCard({ baseColor, subredditId }) {
     >
       <CardHeader
         title="Filter by flair"
-        baseColor={baseColor}
         hasDropDownMenu={false}
       />
       <Box sx={{ padding: '12px' }}>
@@ -61,7 +48,14 @@ function FlairsCard({ baseColor, subredditId }) {
               {flairsList.length > 0
                 ? flairsList.map((item) => (
                     <FlairItemContainer>
-                      <FlairItem>first</FlairItem>
+                      <FlairItem
+                        sx={{
+                          color: item.textColor,
+                          backgroundColor: item.backgroundColor
+                        }}
+                      >
+                        {item.text}
+                      </FlairItem>
                     </FlairItemContainer>
                   ))
                 : null}

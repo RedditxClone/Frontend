@@ -1,3 +1,5 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/aria-role */
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable implicit-arrow-linebreak */
@@ -24,7 +26,7 @@ import {
 } from '../PeopleResults/PeopleResults.Style';
 import { StyledCommunityName, MembersCount } from './CommunitiesResults.Style';
 import { divideBigNumber } from '../../../utilities/Helpers';
-import retrieveResults from '../../../services/requests/Search';
+import { retrieveResults } from '../../../services/requests/Search';
 import {
   joinSubreddit,
   leaveSubreddit
@@ -34,6 +36,7 @@ import Loader from '../../../utilities/Loader/Loader';
 /**
  * @typedef PropType
  * @property {bool} isSideBarCard // To show the results in a side bar cards
+ * @property {string} searchKey
  */
 
 /**
@@ -41,9 +44,8 @@ import Loader from '../../../utilities/Loader/Loader';
  *
  */
 
-function CommunitiesResults({ isSideBarCard }) {
+function CommunitiesResults({ isSideBarCard, searchKey }) {
   // states
-  const searchKey = 'test'; // for testing
   const [result, setResult] = useState([]);
   const slicingSize = isSideBarCard ? 5 : result.length;
   const [statusCode, setStatusCode] = useState(0);
@@ -67,25 +69,40 @@ function CommunitiesResults({ isSideBarCard }) {
    * @param {int} subredditId - The number to be divided.
    * @param {bool} currentState - true : joined, false: not joined
    */
-  const handleJoinButton = (e, subredditId, currentState) => {
-    if (currentState) {
-      leaveSubreddit({ id: subredditId });
+  const handleJoinButton = (subredditId) => {
+    const btn = document.getElementById(`join-button-${subredditId}`);
+    const currentState = btn.dataset.isjoined;
+
+    if (currentState === 'true' || currentState === true) {
+      btn.dataset.isjoined = false;
+      btn.innerHTML = 'Leave';
+      leaveSubreddit(subredditId);
     } else {
-      joinSubreddit({ id: subredditId });
+      btn.dataset.isjoined = true;
+      btn.innerHTML = 'Join';
+      joinSubreddit(subredditId);
     }
   };
 
-  const handleHoveringOnJoinButton = (e) => {
-    if (e.target.dataset.isjoined) {
-      e.target.innerHTML = 'Leave';
+  const handleHoveringOnJoinButton = (id) => {
+    const btn = document.getElementById(`join-button-${id}`);
+    const currentState = btn.dataset.isjoined;
+
+    if (currentState === 'true' || currentState === true) {
+      btn.innerHTML = 'Leave';
+    } else {
+      btn.innerHTML = 'Join';
     }
   };
 
-  const handleHoveringOutJoinButton = (e) => {
-    if (e.target.dataset.isjoined) {
-      e.target.innerHTML = 'Joined';
+  const handleHoveringOutJoinButton = (id) => {
+    const btn = document.getElementById(`join-button-${id}`);
+    const currentState = btn.dataset.isjoined;
+
+    if (currentState === 'true' || currentState === true) {
+      btn.innerHTML = 'Joined';
     } else {
-      e.target.innerHTML = 'Join';
+      btn.innerHTML = 'Join';
     }
   };
 
@@ -130,19 +147,24 @@ function CommunitiesResults({ isSideBarCard }) {
                       />
                     </StyledLogoContainer>
                     <div>
-                      <StyledCommunityName data-testid="community-search">
+                      <StyledCommunityName
+                        data-testid="community-search"
+                        onClick={() => {
+                          window.location.replace(`/r/${item.name}`);
+                        }}
+                      >
                         {`r/${item.name}`}
                       </StyledCommunityName>
                       {!isSideBarCard ? (
                         <MembersCount className="subreddit_members_count">
-                          {`${divideBigNumber(item.members_count)} Members`}
+                          {`${divideBigNumber(item.users)} Members`}
                         </MembersCount>
                       ) : null}
 
                       <StyledDescription>
                         {!isSideBarCard
                           ? item.description
-                          : `${divideBigNumber(item.members_count)}  Members`}
+                          : `${divideBigNumber(item.users)}  Members`}
                       </StyledDescription>
                     </div>
                   </NameLogoContainer>
@@ -151,11 +173,10 @@ function CommunitiesResults({ isSideBarCard }) {
                   <FollowButton
                     role="community-join-button"
                     data-isJoined={item.joined}
-                    onClick={() =>
-                      handleJoinButton(this, item.community_id, item.joined)
-                    }
-                    onMouseOver={handleHoveringOnJoinButton}
-                    onMouseOut={handleHoveringOutJoinButton}
+                    id={`join-button-${item._id}`}
+                    onClick={() => handleJoinButton(item._id)}
+                    onMouseOver={() => handleHoveringOnJoinButton(item._id)}
+                    onMouseOut={() => handleHoveringOutJoinButton(item._id)}
                   >
                     {item.joined ? 'Joined' : 'Join'}
                   </FollowButton>
@@ -164,7 +185,7 @@ function CommunitiesResults({ isSideBarCard }) {
           {isSideBarCard && result.length > 0 ? (
             <StyledHeading
               onClick={() => {
-                window.location.href = '/search/communities';
+                window.location.href = `/search/sr/${searchKey}`;
               }}
               sx={{
                 color: '#0079D3',
@@ -175,7 +196,9 @@ function CommunitiesResults({ isSideBarCard }) {
             >
               See more communities
             </StyledHeading>
-          ) : (
+          ) : null}
+
+          {(isSideBarCard && result.length === 0) || result.length === 0 ? (
             <h2
               style={{
                 padding: '.76rem',
@@ -185,7 +208,7 @@ function CommunitiesResults({ isSideBarCard }) {
             >
               No results found.
             </h2>
-          )}
+          ) : null}
         </ResultsContainer>
       )}
     </RootContainer>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PostCard/PostContent/PostContent.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PostCard/PostContent/PostContent.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-nested-ternary */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable no-use-before-define */
+/* eslint-disable prefer-const */
+/* eslint-disable jsx-a11y/media-has-caption */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
+/* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react/destructuring-assignment */
+import { useEffect, memo, useState } from 'react';
+import { Link } from '@mui/material';
+import { FiExternalLink } from 'react-icons/fi';
+import Logo3 from '../../../../assets/Images/test.png';
+import Logo from '../../../../assets/Images/test_3.jpg';
+import PostInteractions from '../PostInteractions/PostInteractions';
+import PostInfo from '../PostInfo/PostInfo';
+import './PostContent.css';
+import { divideBigNumber } from '../../../../utilities/Helpers';
+import {
+  approvePost,
+  unApprovePost,
+  removePost,
+  unRemovePost,
+  spamPost,
+  unSpamPost,
+  flagPostAsVisited
+} from '../../../../services/requests/Post';
+
+/**
+ * @typedef PropType
+ * @property {bool} setHidePost
+ * @property {object} postContentData
+ * @property {bool} isCommunityPost
+ * @property {bool} isPostFullDetailsMode
+ * @property {bool} isModeratorMode
+ * @property {bool} isSaved
+ * @property {bool} isLocked
+ * @property {bool} isPostApproved
+ * @property {bool} isPostSticky
+ * @property {bool} isDistinguishedAsMode
+ * @property {bool} isNSFW
+ * @property {bool} isSpoiled
+ * @property {bool} replyNotifications
+ * @property {bool} showComments
+ */
+
+/**
+ * This Component for the post content (images, videos, text, etc.)
+ * Calling the method 'getPostContent' to determine what is the type of the content.
+ * Checking for the content type, and seeing if it is more than one image, so we call
+ * the method 'showSlides' to render a slideshow for the images
+ *
+ */
+function PostContent({
+  setHidePost,
+  postContentData,
+  isCommunityPost,
+  isPostFullDetailsMode,
+  isModeratorMode,
+  isSaved,
+  isLocked,
+  isPostApproved,
+  isPostSticky,
+  isDistinguishedAsMode,
+  isNSFW,
+  isSpoiled,
+  replyNotifications,
+  showComments,
+  whichQueue
+}) {
+  let postContent = null;
+  let slideIndex = 0;
+  const [modAction, setModAction] = useState(0);
+  const [locked, setLocked] = useState(postContentData.is_locked);
+  const [approved, setApproved] = useState(isPostApproved);
+  const [removed, setRemoved] = useState(postContentData.is_removed);
+  const [spammed, setSpammed] = useState(postContentData.is_spammed);
+  const [distinguishAsMod, setDistinguishAsMod] = useState(
+    postContentData.is_distinguishedAsMode
+  );
+  const [nsfw, setNsfw] = useState(postContentData.is_NSFW);
+  const [isVisited, setIsVisited] = useState(postContentData.visited);
+  const [canBeSpoiled, setCanBeSpoiled] = useState(
+    postContentData.post_type === 'img'
+  );
+
+  /* Gets the post type (img, video, ..), and returns the content as html component */
+  const getPostContent = () => {
+    const contentType = postContentData.post_type;
+    const mediaCount = postContentData.media_count;
+    switch (contentType) {
+      case 'img':
+        if (mediaCount > 1) {
+          postContent = (
+            &lt;>
+              &lt;div className="my-slides fade">
+                &lt;img
+                  src={Logo}
+                  alt="post image"
+                />
+              &lt;/div>
+              &lt;div className="my-slides fade">
+                &lt;img
+                  src={Logo}
+                  alt="post image"
+                  className={`post-image-${postContentData.id}`}
+                />
+              &lt;/div>
+              &lt;div className="my-slides fade">
+                &lt;img
+                  src={Logo3}
+                  alt="post image"
+                />
+              &lt;/div>
+              &lt;button
+                type="button"
+                className="prev"
+                onClick={prevSlide}
+              >
+                ❮
+              &lt;/button>
+              &lt;button
+                type="button"
+                className="next"
+                onClick={nextSlide}
+              >
+                ❯
+              &lt;/button>
+            &lt;/>
+          );
+          // showSlides();
+        } else {
+          postContent = (
+            &lt;div className="post-image">
+              &lt;img
+                className={`post-image-${postContentData.id}`}
+                src={Logo}
+                alt="post image"
+                style={{
+                  filter: postContentData.is_spoiled ? 'blur(60px)' : 'none'
+                }}
+              />
+            &lt;/div>
+          );
+        }
+        break;
+      case 'video':
+        postContent = (
+          &lt;video
+            controls="true"
+            muted="false"
+            preload="auto"
+            className="post-content-video"
+          >
+            &lt;source
+              src=""
+              type="video/mp4"
+            />
+          &lt;/video>
+        );
+        break;
+      case 'text':
+        postContent = (
+          &lt;div className="post-content-text">
+            &lt;p style={{ color: isVisited ? '#949494' : 'black' }}>
+              {postContentData.content}
+            &lt;/p>
+          &lt;/div>
+        );
+        break;
+      case 'link':
+        postContent = (
+          &lt;div className="post-content-link">
+            &lt;a>
+              {postContentData.content}
+              &lt;FiExternalLink
+                className="external-link-icon"
+                style={{ marginLeft: '4px', color: '#3f9ade' }}
+              />
+            &lt;/a>
+          &lt;/div>
+        );
+        break;
+      default:
+        break;
+    }
+
+    return postContent;
+  };
+
+  /* show the image slider if the post has multiple images */
+  const showSlides = () => {
+    let slides = document.querySelectorAll('.my-slides');
+
+    const slidesLength = slides.length;
+    if (slideIndex === slidesLength) {
+      slideIndex = 0;
+    }
+    if (slideIndex &lt; 0) {
+      slideIndex = slidesLength - 1;
+    }
+
+    let i;
+    for (i = 0; i &lt; slidesLength; i += 1) {
+      slides.item(i).style.display = 'none';
+    }
+    if (slides[slideIndex] != null) {
+      slides.item(slideIndex).style.display = 'block';
+    }
+  };
+
+  const nextSlide = () => {
+    slideIndex += 1;
+    showSlides();
+  };
+
+  const prevSlide = () => {
+    slideIndex -= 1;
+    showSlides();
+  };
+
+  const handleClickOnPost = () => {
+    flagPostAsVisited({ id: postContentData.id });
+  };
+
+  const handleApproveButton = (id) => {
+    const info = { id };
+    setApproved(true);
+    approvePost(info);
+
+    setRemoved(false);
+    unRemovePost(info);
+
+    setSpammed(false);
+    unSpamPost(info);
+  };
+
+  const handleRemoveButton = (id) => {
+    let info = { id, request: 'any msg' };
+    setRemoved(true);
+    removePost(info);
+
+    info = { id };
+    setApproved(false);
+    unApprovePost(info);
+
+    setSpammed(false);
+    unSpamPost(info);
+  };
+
+  const handleSpamButton = (id) => {
+    const info = { id };
+    setSpammed(true);
+    spamPost(info);
+
+    setRemoved(false);
+    unRemovePost(info);
+
+    setApproved(false);
+    unApprovePost(info);
+  };
+
+  // Returning the result
+  return (
+    &lt;div
+      className="post-content"
+      data-testid="test-post-content"
+      onClick={handleClickOnPost}
+    >
+      {/* Post info -> community, username, time */}
+      &lt;PostInfo
+        communityName={postContentData.community_name}
+        communityId={postContentData.community_id}
+        userId={postContentData.user_id}
+        postedBy={postContentData.posted_by}
+        postedAt={postContentData.posted_at}
+        postId={postContentData.id}
+        isCommunityPost={isCommunityPost}
+        isPostFullDetailsMode={isPostFullDetailsMode}
+        modAction={modAction}
+        isNSFW={nsfw}
+        isLocked={locked}
+        isDistinguishedAsMode={distinguishAsMod}
+        isFollowed={postContentData.follow}
+        showComments={showComments}
+      />
+
+      {/* Post title &amp; flairs  */}
+      &lt;div
+        className="post-title-container"
+        data-testid="test-post-title"
+      >
+        &lt;div className="post-title">
+          &lt;Link
+            className="post-link"
+            sx={{ textDecoration: 'none' }}
+          >
+            &lt;h3
+              className="post-title-heading"
+              style={{ color: isVisited ? '#949494' : 'black' }}
+            >
+              {postContentData.title}
+            &lt;/h3>
+          &lt;/Link>
+        &lt;/div>
+        {!showComments &amp;&amp; postContentData.flairs.length > 0
+          ? postContentData.flairs.map((item) => (
+              &lt;div className="flair">
+                &lt;a
+                  href="#"
+                  className="flair-link"
+                >
+                  {item}
+                &lt;/a>
+              &lt;/div>
+            ))
+          : null}
+      &lt;/div>
+
+      {/* post content  */}
+      {!showComments ? (
+        &lt;div className="post-main-content">
+          &lt;div className="post-content-core">
+            {getPostContent()}
+            {showSlides()}
+            &lt;div style={{ margin: '10px 0', color: '#949494' }}>
+              &lt;span style={{ fontSize: '13px' }}>
+                {`${divideBigNumber(postContentData.comments_count)} comments`}
+              &lt;/span>
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+      ) : (
+        &lt;div style={{ borderLeft: '1px dashed #7c7c7c', paddingLeft: '8px' }}>
+          &lt;div style={{ borderLeft: '1px dashed #7c7c7c', paddingLeft: '8px' }}>
+            &lt;p style={{ fontSize: '14px' }}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Temporibus ex quibusdam vel commodi! Accusantium nihil excepturi
+              quos.
+            &lt;/p>
+          &lt;/div>
+        &lt;/div>
+      )}
+
+      {/* removed as spam  */}
+      {removed || spammed || approved ? (
+        &lt;div
+          className="removed-as-spam"
+          style={{
+            backgroundColor: approved ? '#46d16033' : 'rgba(255, 69, 0, 0.2)'
+          }}
+        >
+          &lt;div className="user-avatar">
+            &lt;img
+              src="https://styles.redditmedia.com/t5_757xhl/styles/profileIcon_snoo22ed2fc7-5f11-491e-9188-d99c9327cdf9-headshot.png?width=256&amp;height=256&amp;crop=256:256,smart&amp;s=0c1745994b39de1fc9467997e904ac93bed610ce"
+              alt="user-avatar"
+            />
+          &lt;/div>
+          &lt;div className="removed-spam-info">
+            &lt;p>
+              {approved
+                ? 'Approved'
+                : spammed
+                ? 'Removed as spam'
+                : removed
+                ? 'Removed'
+                : null}
+            &lt;/p>
+            &lt;p>removed by 1 day ago&lt;/p>
+          &lt;/div>
+        &lt;/div>
+      ) : null}
+
+      {/* post interactions -> comment, save, hide, ..  */}
+      &lt;PostInteractions
+        setHidePost={setHidePost}
+        commentsCount={divideBigNumber(postContentData.comments_count)}
+        postId={postContentData.id}
+        isCommunityPost={true}
+        changeModAction={setModAction}
+        setModAction={setModAction}
+        setDistinguishPostAsMod={setDistinguishAsMod}
+        setNsfw={setNsfw}
+        setLocked={setLocked}
+        isModeratorMode={true}
+        isSaved={isSaved}
+        isLocked={isLocked}
+        isPostApproved={approved}
+        isPostRemoved={postContentData.is_removed}
+        isPostSpammed={postContentData.is_spammed}
+        isPostSticky={isPostSticky}
+        isDistinguishedAsMode={isDistinguishedAsMode}
+        isNSFW={isNSFW}
+        isSpoiled={isSpoiled}
+        replyNotifications={replyNotifications}
+        canBeSpoiled={canBeSpoiled}
+        showComments={showComments}
+        handleApproveButton={handleApproveButton}
+        handleRemoveButton={handleRemoveButton}
+        handleSpamButton={handleSpamButton}
+        whichQueue={whichQueue}
+      />
+    &lt;/div>
+  );
+}
+
+export default memo(PostContent);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ModQueue">ModQueue</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 09 2022 00:06:55 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

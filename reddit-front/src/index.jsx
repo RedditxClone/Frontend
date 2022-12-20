@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable*/
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -13,8 +15,7 @@ import './index.css';
 // import ForgetUserPassword from './pages/ForgetUserPassword/ForgetUserPassword';
 // import ResetPassword from './pages/ResetPassword/ResetPassword';
 // import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
-// import ErrorPage from './pages/ErrorPage/ErrorPage';
-// import Subreddit from './pages/Subreddit/Subreddit';
+// // import Subreddit from './pages/Subreddit/Subreddit';
 // import AccountSettings from './components/AccountSettings/AccountSettings';
 // import UserSettings from './pages/UserSettings/UserSettings';
 // import ProfileSettings from './components/ProfileSettings/ProfileSettings';
@@ -25,12 +26,10 @@ import './index.css';
 // import Subscriptions from './components/Subscriptions/Subscriptions';
 // import ChatMessaging from './components/ChatMessaging/ChatMessaging';
 import CreatePost from './pages/CreatePost/CreatePost';
-import CommunitiesResults from './components/SearchCards/CommunitiesResults/CommunitiesResults';
 import SearchResults from './pages/SearchResults/SearchResults';
-import PeopleResults from './components/SearchCards/PeopleResults/PeopleResults';
-import CommentsResults from './components/SearchCards/CommentsResults/CommentsResults';
-import PostsResults from './components/SearchCards/PostsResults/PostsResults';
 import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
+import PostFullPage from './pages/PostFullPage/PostFullPage';
+import Error404 from './pages/Error404/Error404';
 import MyProfilePage from './pages/MyProfilePage/MyProfilePage';
 import CommentsForSamePostCard from './components/CommentsCard/CommentsCard';
 import CommentTap from './components/CommentTap/CommentTap';
@@ -140,22 +139,48 @@ const commentsForSamePost = [
     removalReason: ''
   }
 ];
-const comments = [
-  {
-    postCommentInfo: postCommentInfo,
-    commentsForSamePost: commentsForSamePost
-  },
-  {
-    postCommentInfo: postCommentInfo,
-    commentsForSamePost: commentsForSamePost
-  },
-  {
-    postCommentInfo: postCommentInfo,
-    commentsForSamePost: commentsForSamePost
-  }
-];
+// const comments = [
+//     path: '/auth',
+//     element: <DefaultUserPage />,
+//     errorElement: <Error404 />,
+//     children: [
+//       {
+//         path: 'login',
+//         element: <Login />
+//       },
+//       {
+//         path: 'signup',
+//         element: <SignUp />
+//       },
+//       {
+//         path: 'forgetuname',
+//         element: <ForgetUserName />
+//       },
+//       {
+//         path: 'forgetupassword',
+//         element: <ForgetUserPassword />
+//       },
+//       {
+//         path: 'resetupassword',
+//         element: <ResetPassword />
+//       }
+//     ]
+//   },
+//   {
+//     postCommentInfo: postCommentInfo,
+//     commentsForSamePost: commentsForSamePost
+//   },
+//   {
+//     postCommentInfo: postCommentInfo,
+//     commentsForSamePost: commentsForSamePost
+//   },
+//   {
+//     postCommentInfo: postCommentInfo,
+//     commentsForSamePost: commentsForSamePost
+//   }
+// ];
 
-// // import PostPorfileList from './components/PostListProfile/PostListProfile';
+// // import PostPorfileList from './r/:components/PostListProfile/PostListProfile';
 // // Routes
 
 const Data = {
@@ -163,7 +188,7 @@ const Data = {
   votes: 3,
   community_id: 4,
   user_id: 2,
-  community_name: 'quran',
+  communitNamey_name: 'quran',
   posted_by: 'nada osman',
   posted_at: '1 minute ago',
   post_type: 'img',
@@ -176,6 +201,10 @@ const Data = {
 
 //   },
 const routes = createBrowserRouter([
+  {
+    path: '/r/:subredditName/posts/:postId',
+    element: <PostFullPage />
+  },
   {
     path: '/',
     element: <MyProfilePage />,
@@ -249,29 +278,32 @@ const routes = createBrowserRouter([
   },
   {
     path: '/search',
-    element: <SearchResults />,
     children: [
       {
-        path: 'posts',
-        element: <PostsResults />
+        path: 'post/:searchKey',
+        element: <SearchResults type={0} />
       },
       {
-        path: 'comments',
-        element: <CommentsResults />
+        path: 'comment/:searchKey',
+        element: <SearchResults type={1} />
       },
       {
-        path: 'communities',
-        element: <CommunitiesResults />
+        path: 'sr/:searchKey',
+        element: <SearchResults type={2} />
       },
       {
-        path: 'people',
-        element: <PeopleResults />
+        path: 'user/:searchKey',
+        element: <SearchResults type={3} />
       }
     ]
   },
   {
-    path: '/subreddit/about/:item',
+    path: '/:subredditName/about/:activeItem',
     element: <ModToolsPage />
+  },
+  {
+    path: '/error',
+    element: <Error404 />
   }
   // <CommentTap comments={comments} />
   // ,

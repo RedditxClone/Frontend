@@ -5,7 +5,7 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -21,6 +21,7 @@ import PeopleResults from '../../components/SearchCards/PeopleResults/PeopleResu
 import PostsResults from '../../components/SearchCards/PostsResults/PostsResults';
 import CommentsResults from '../../components/SearchCards/CommentsResults/CommentsResults';
 import AppBar from '../../components/Layout/AppBar/AppBar';
+import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -59,15 +60,17 @@ function a11yProps(index) {
  * This Page for the showing the search results
  *
  */
-function SearchResults() {
+function SearchResults({ type }) {
+  const { searchKey } = useParams();
+
   const routes = [
-    ['posts', '/search/posts'],
-    ['comments', '/search/comments'],
-    ['communities', '/search/communities'],
-    ['people', '/search/people']
+    ['posts', `/search/post/${searchKey}`],
+    ['comments', `/search/comment/${searchKey}`],
+    ['communities', `/search/sr/${searchKey}`],
+    ['people', `/search/user/${searchKey}`]
   ];
 
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(type);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -123,7 +126,7 @@ function SearchResults() {
                 value={value}
                 index={0}
               >
-                <PostsResults />
+                <PostsResults searchKey={searchKey} />
               </TabPanel>
 
               {/* Comments result Card  */}
@@ -132,7 +135,7 @@ function SearchResults() {
                 value={value}
                 index={1}
               >
-                <CommentsResults />
+                <CommentsResults searchKey={searchKey} />
               </TabPanel>
 
               {/* Communities result Card  */}
@@ -141,7 +144,10 @@ function SearchResults() {
                 value={value}
                 index={2}
               >
-                <CommunitiesResults isSideBarCard={false} />
+                <CommunitiesResults
+                  isSideBarCard={false}
+                  searchKey={searchKey}
+                />
               </TabPanel>
 
               {/* People result Card  */}
@@ -150,7 +156,10 @@ function SearchResults() {
                 value={value}
                 index={3}
               >
-                <PeopleResults isSideBarCard={false} />
+                <PeopleResults
+                  isSideBarCard={false}
+                  searchKey={searchKey}
+                />
               </TabPanel>
             </Box>
           </Box>

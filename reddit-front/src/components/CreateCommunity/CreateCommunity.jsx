@@ -19,6 +19,7 @@ import CommunityNameField from './CommunityNameField';
 import ChooseCommunityType from './ChooseCommunityType';
 import AdultContentCheckBox from './AdultContentCheckBox';
 import createSubreddit from '../../services/requests/createSubreddit';
+import AlertMessage from '../../utilities/AlertMessage/AlertMessage';
 /**
  * This Card appears when click on create community button
  * , and you choose the properties for your community like name and type and the ability
@@ -32,22 +33,33 @@ function CreateCommunity({ open, setOpen }) {
   const [communityName, setCommunityName] = useState('');
   const [isAdultContent, setIsAdultContent] = useState(false);
   const [errorCommunityName, setErrorCommunityName] = useState(false);
+  const [openAlertMessage, setOpenAlertMessage] = useState(false);
   const navigate = useNavigate();
+  const onCloseHandler = () => {
+    setOpenAlertMessage(false);
+    setOpen(false);
+    setCommunityName('');
+  };
 
+  const validCreation = communityName.length > 0 && !errorCommunityName;
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-
-    const fulfilled = await createSubreddit(
-      communityName,
-      communityType,
-      isAdultContent
-    );
-
-    if (fulfilled) {
-      setOpen(false);
-      navigate('/subreddit');
+    if (validCreation) {
+      const fulfilled = await createSubreddit(
+        communityName,
+        communityType,
+        isAdultContent
+      );
+      console.log('fulfilled', fulfilled);
+      if (fulfilled) {
+        onCloseHandler();
+        navigate(`r/${communityName}`);
+      } else {
+        setOpenAlertMessage(true);
+        console.log('error in creating community');
+      }
     } else {
-      console.log('error in creating community');
+      setOpenAlertMessage(true);
     }
   };
 
@@ -56,13 +68,20 @@ function CreateCommunity({ open, setOpen }) {
       <Typography variant="subtitle1">
         <Modal
           open={open}
-          onClose={() => setOpen(false)}
+          onClose={onCloseHandler}
         >
           <CenteredCard variant="outlined">
+            {openAlertMessage && (
+              <AlertMessage
+                type="error"
+                message="server error, Cannot Create a community for"
+                opnAlertMessage={openAlertMessage}
+              />
+            )}
             <CardHeaderUnderlined
               title={<Typography variant="h1">Create Community</Typography>}
               action={
-                <IconButton onClick={() => setOpen(false)}>
+                <IconButton onClick={onCloseHandler}>
                   <GrFormClose />
                 </IconButton>
               }
@@ -92,7 +111,7 @@ function CreateCommunity({ open, setOpen }) {
               <StyledButton
                 variant="outlined"
                 color="primary"
-                onClick={() => setOpen(false)}
+                onClick={onCloseHandler}
               >
                 Cancel
               </StyledButton>
@@ -100,7 +119,7 @@ function CreateCommunity({ open, setOpen }) {
                 variant="contained"
                 color="primary"
                 onClick={onSubmitHandler}
-                disabled={errorCommunityName}
+                disabled={!validCreation}
               >
                 Create Community
               </StyledButton>
