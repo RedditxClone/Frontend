@@ -28,6 +28,7 @@ export const StyledLogo = styled(Box)({
  * @return {Username} - The styled Username
  */
 export const Username = styled('a')({
+  position: 'relative',
   fontSize: '11px',
   marginRight: '5px',
   textDecoration: 'none',

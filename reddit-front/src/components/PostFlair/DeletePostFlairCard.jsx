@@ -8,7 +8,7 @@ import {
   //   DeleteCard
 } from './PostFlair.Style';
 
-function DeletePostFlair() {
+function DeletePostFlair({ opened, handleClose, deleteFlair }) {
   //   const [open, setOpen] = React.useState(opened);
   //   const handleClose = () => {
   //     setOpen(false);
@@ -18,6 +18,7 @@ function DeletePostFlair() {
       //   open={open}
       //   onClose={handleClose}
       PaperProps={{ sx: { width: '25%', height: '25%', margin: '0' } }}
+      open={opened}
     >
       {/* <DeleteCard> */}
       <DeleteCardFirst>
@@ -48,7 +49,10 @@ function DeletePostFlair() {
         </p>
       </DeleteCardSecond>
       <DeleteCardThird>
-        <StyledButton sx={{ color: '#0079D3', padding: '1rem 2rem' }}>
+        <StyledButton
+          sx={{ color: '#0079D3', padding: '1rem 2rem' }}
+          onClick={handleClose}
+        >
           Cancel
         </StyledButton>
         <StyledButton
@@ -57,6 +61,7 @@ function DeletePostFlair() {
             backgroundColor: '#0079D3',
             padding: '1rem 2rem'
           }}
+          onClick={deleteFlair}
         >
           Delete
         </StyledButton>

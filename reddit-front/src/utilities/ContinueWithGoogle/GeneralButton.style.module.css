@@ -1,0 +1,42 @@
+.btn-container {
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    display: inline-flex;
+    border-radius: 4px;
+    background: var(--newCommunityTheme-button);
+    text-transform: uppercase;
+    cursor: pointer;
+    line-height: unset;
+    min-height: 35px;
+    max-width: 392px;
+    min-width: 155px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: #fff;
+    color: var(--newCommunityTheme-button);
+    border: 1px solid var(--newCommunityTheme-button);
+    height: auto;
+    margin: 8px 0;
+    align-items: center;
+    padding: 2px;
+    width: 100%;
+}
+
+.btn-container:hover  {
+    background-color: var(--newCommunityTheme-button);
+    color: #fff;
+}
+.btn-container:hover .btn-icon  {
+    background-color: #fff;
+}
+.btn-text {
+    margin-left: 1rem;
+
+}
+
+.btn-icon {
+    padding: 10px;
+}

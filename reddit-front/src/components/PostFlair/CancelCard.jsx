@@ -8,7 +8,7 @@ import {
   //   DeleteCard
 } from './PostFlair.Style';
 
-function CancelCard({ opened, handleClose }) {
+function CancelCard({ opened, handleClose, discard }) {
   //   const [open, setOpen] = React.useState(opened);
   //   const handleClose = () => {
   //     setOpen(false);
@@ -62,6 +62,7 @@ function CancelCard({ opened, handleClose }) {
             backgroundColor: '#0079D3',
             padding: '1rem 2rem'
           }}
+          onClick={discard}
         >
           Discard
         </StyledButton>

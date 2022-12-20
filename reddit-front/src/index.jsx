@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable react/jsx-curly-brace-presence */
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -12,7 +14,6 @@ import ForgetUserName from './pages/ForgetUserName/ForgetUserName';
 import ForgetUserPassword from './pages/ForgetUserPassword/ForgetUserPassword';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
-import ErrorPage from './pages/ErrorPage/ErrorPage';
 import Subreddit from './pages/Subreddit/Subreddit';
 import AccountSettings from './components/AccountSettings/AccountSettings';
 import UserSettings from './pages/UserSettings/UserSettings';
@@ -24,15 +25,22 @@ import Emails from './components/Emails/Emails';
 import Subscriptions from './components/Subscriptions/Subscriptions';
 import ChatMessaging from './components/ChatMessaging/ChatMessaging';
 import CreatePost from './pages/CreatePost/CreatePost';
-import CommunitiesResults from './components/SearchCards/CommunitiesResults/CommunitiesResults';
 import SearchResults from './pages/SearchResults/SearchResults';
-import PeopleResults from './components/SearchCards/PeopleResults/PeopleResults';
-import CommentsResults from './components/SearchCards/CommentsResults/CommentsResults';
-import PostsResults from './components/SearchCards/PostsResults/PostsResults';
-import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
+// import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
+import AllMessages from './components/AllMessages/AllMessages';
+import UnreadMessages from './components/UnreadMessages/UnreadMessages';
+import MessagesComponent from './components/MessagesComponent/MessagesComponent';
+import PostRepliesMessages from './components/PostRepliesMessages/PostRepliesMessages';
+import UsernameMentionsMessages from './components/UsernameMentionsMessages/UsernameMentionsMessages';
+import SentPrivateMessage from './components/SentPrivateMessage/SentPrivateMessage';
+import SentMessage from './components/SentMessage/SentMessage';
+import Messages from './pages/Messages/Messages';
+import PostFullPage from './pages/PostFullPage/PostFullPage';
+import Error404 from './pages/Error404/Error404';
 // import DeletePostFlair from './components/PostFlair/DeletePostFlairCard';
 // import CancelCard from './components/PostFlair/CancelCard';
 import PostFlairSettingsCard from './components/PostFlair/PostFlairSettingsCard';
+import PostFlair from './components/PostFlair/PostFlair';
 // Routes
 const routes = createBrowserRouter([
   {
@@ -43,7 +51,7 @@ const routes = createBrowserRouter([
   {
     path: '/auth',
     element: <DefaultUserPage />,
-    errorElement: <ErrorPage />,
+    errorElement: <Error404 />,
     children: [
       {
         path: 'login',
@@ -76,8 +84,12 @@ const routes = createBrowserRouter([
     element: <HomePage />
   },
   {
-    path: '/subreddit',
+    path: '/r/:subredditName',
     element: <Subreddit />
+  },
+  {
+    path: '/r/:subredditName/posts/:postId',
+    element: <PostFullPage />
   },
   {
     path: '/settings',
@@ -123,30 +135,66 @@ const routes = createBrowserRouter([
   },
   {
     path: '/search',
-    element: <SearchResults />,
     children: [
       {
-        path: 'posts',
-        element: <PostsResults />
+        path: 'post/:searchKey',
+        element: <SearchResults type={0} />
       },
       {
-        path: 'comments',
-        element: <CommentsResults />
+        path: 'comment/:searchKey',
+        element: <SearchResults type={1} />
       },
       {
-        path: 'communities',
-        element: <CommunitiesResults />
+        path: 'sr/:searchKey',
+        element: <SearchResults type={2} />
       },
       {
-        path: 'people',
-        element: <PeopleResults />
+        path: 'user/:searchKey',
+        element: <SearchResults type={3} />
       }
     ]
   },
   {
-    path: '/subreddit/about/:item',
-    element: <ModToolsPage />
-  }
+    // path: '/:subredditName/about/:activeItem',
+    path: '/aha',
+    // element: <ModToolsPage />
+    element: <PostFlair />
+  },
+  {
+    path: '/message/',
+    element: <Messages />,
+    children: [
+      {
+        path: '/message/inbox',
+        element: <AllMessages />
+      },
+      {
+        path: '/message/unread',
+        element: <UnreadMessages />
+      },
+      {
+        path: '/message/messages',
+        element: <MessagesComponent />
+      },
+      {
+        path: '/message/selfreply',
+        element: <PostRepliesMessages />
+      },
+      {
+        path: '/message/mentions',
+        element: <UsernameMentionsMessages />
+      },
+      {
+        path: '/message/compose',
+        element: <SentPrivateMessage />
+      },
+      {
+        path: '/message/sent',
+        element: <SentMessage />
+      }
+    ]
+  },
+  { path: '/error', element: <Error404 /> }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

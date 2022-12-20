@@ -4,17 +4,11 @@ import { useState } from 'react';
 import { BackgroundImage } from './SubredditBackground.Style';
 
 /**
- * @typedef PropType
- * @property {string, color} baseColor
- * @property {string, color} highlightColor
- */
-
-/**
  * This Component for the Community background.
  *
  */
 
-function SubredditBackground({ baseColor }) {
+function SubredditBackground() {
   const [defaultBackground, setDefaultBackground] = useState(false);
   return (
     <Box
@@ -23,7 +17,7 @@ function SubredditBackground({ baseColor }) {
       sx={{
         width: '100%',
         height: defaultBackground ? 70 : 190,
-        backgroundColor: baseColor,
+        backgroundColor: '#0079D3',
         position: 'relative'
       }}
     >

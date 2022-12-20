@@ -3,8 +3,8 @@
 /* eslint-disable object-curly-newline */
 import { TextField, Box, Switch, MenuItem } from '@mui/material';
 import './ContentPreferencesStyle.css';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import Brightness5Icon from '@mui/icons-material/Brightness5';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
@@ -12,19 +12,33 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import MenuIcon from '@mui/icons-material/Menu';
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignCenter';
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
-import { UpdateSettings } from '../../../store/slices/Settings';
+import { UpdateSettings, getSettings } from '../../../store/slices/Settings';
 
-export default function ContentPreferences({ settings }) {
-  let previousState;
-  const [safeMode, setSafeMode] = useState(settings.SafeBrowsingMode);
+export default function ContentPreferences() {
   const dispatch = useDispatch();
+  const { settings } = useSelector((state) => state.settings);
+  const [adultContent, setAdultContent] = useState(false);
+  const [autoPlayMedia, setAutoPlayMedia] = useState(false);
+  const [safeMode, setSafeMode] = useState(false);
+
+  useEffect(() => {
+    console.log('content');
+    dispatch(getSettings());
+    setAdultContent(settings.adultContent);
+    setAutoPlayMedia(settings.autoPlayMedia);
+    setSafeMode(settings.safeMode);
+  }, []);
+
   const handlePlayMedia = (e) => {
+    setAutoPlayMedia((prev) => !prev);
     dispatch(UpdateSettings({ autoPlayMedia: e.target.checked }));
   };
   const handleAdultContnet = (e) => {
+    setAdultContent((prev) => !prev);
     dispatch(UpdateSettings({ adultContent: e.target.checked }));
   };
   const handleSafeMode = (e) => {
+    setSafeMode((prev) => !prev);
     dispatch(UpdateSettings({ SafeBrowsingMode: e.target.checked }));
   };
   const [state, setState] = useState('HOT');
@@ -49,13 +63,13 @@ export default function ContentPreferences({ settings }) {
         <Box className="child-b">
           <Switch
             onChange={handleAdultContnet}
-            checked={settings.adultContent}
+            checked={adultContent}
           />
         </Box>
       </div>
       <div
         className="parent-div-disabled"
-        style={settings.adultContent ? { opacity: 1 } : { opacity: 0.4 }}
+        style={adultContent ? { opacity: 1 } : { opacity: 0.4 }}
       >
         <div className="child-div">
           <h3 className="h3">Safe browsing mode</h3>
@@ -66,8 +80,8 @@ export default function ContentPreferences({ settings }) {
         </div>
         <Box className="child-b">
           <Switch
-            disabled={!settings.adultContent}
-            checked={settings.SafeBrowsingMode}
+            disabled={!adultContent}
+            checked={safeMode}
             onChange={handleSafeMode}
           />
         </Box>
@@ -105,7 +119,7 @@ export default function ContentPreferences({ settings }) {
         <Box className="child-b">
           <Switch
             onChange={handlePlayMedia}
-            checked={settings.autoPlayMedia}
+            checked={autoPlayMedia}
           />
         </Box>
       </div>
