@@ -28,7 +28,7 @@ export default function PostRepliesMessages() {
     setPostRepliesMessages(newReplies);
     setLoading(false);
   };
-
+  console.log(postRepliesMessages);
   const dataShow =
     postRepliesMessages.length > 0 ? (
       postRepliesMessages.map((postReply) => (

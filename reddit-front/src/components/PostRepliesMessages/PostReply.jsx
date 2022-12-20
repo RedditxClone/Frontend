@@ -59,7 +59,7 @@ function BootstrapDialogTitle(props) {
   );
 }
 export default function PostReply({ postReply }) {
-  console.log(postReply.messages._id);
+  console.log(postReply.messages[0]._id);
   const [open, setOpen] = useState(false);
   const [textReply, setTextReply] = useState('');
 
@@ -70,7 +70,7 @@ export default function PostReply({ postReply }) {
     setOpen(false);
   };
   const handleClose2 = () => {
-    postReplySpam({ id: postReply.id });
+    postReplySpam({ id: postReply.messages[0]._id });
     setOpen(false);
   };
   const [spamClicked, setSpamClicked] = useState(false);
@@ -82,7 +82,7 @@ export default function PostReply({ postReply }) {
     setSpamClicked(false);
   };
   const handleClickSpamYes = () => {
-    postReplySpam({ id: postReply.id });
+    postReplySpam({ id: postReply.messages[0]._id });
     setSpamClicked(false);
     setSpammed(true);
   };
@@ -95,7 +95,7 @@ export default function PostReply({ postReply }) {
     setRemoveClicked(false);
   };
   const handleClickRemoveYes = () => {
-    deleteReplySpam({ id: postReply.id });
+    deleteReplySpam({ id: postReply.messages[0]._id });
     setRemoveClicked(false);
     setRemoved(true);
   };
@@ -113,7 +113,7 @@ export default function PostReply({ postReply }) {
   };
   const [markRead, setMarkRead] = useState(false);
   const handleClickMarkRead = () => {
-    postReplyMarkAsRead({ body: postReply.body });
+    postReplyMarkAsRead({ body: postReply.messages[0].body });
     setMarkRead(true);
   };
   const [reply, setReply] = useState(false);
@@ -121,7 +121,10 @@ export default function PostReply({ postReply }) {
     setReply(true);
   };
   const handleClickSave = () => {
-    postReplyReply({ id: postReply.id, body: textReply });
+    postReplyReply({
+      id: postReply.messages[0]._id,
+      body: { body: textReply }
+    });
     setTextReply('');
     setReply(false);
   };
@@ -159,7 +162,7 @@ export default function PostReply({ postReply }) {
             color: '#551a8b'
           }}
         >
-          {postReply.subject}
+          {postReply.messages[0].subject}
         </a>
       </p>
       <div style={{ marginLeft: '-1px', marginTop: '10px', color: '#bdbdbd' }}>
@@ -199,7 +202,7 @@ export default function PostReply({ postReply }) {
               fontWeight: markRead ? 'bold' : 'normal'
             }}
           >
-            /u/{postReply.authorName}
+            /u/{postReply.messages[0].authorName}
           </a>
           <span
             style={{
@@ -222,7 +225,7 @@ export default function PostReply({ postReply }) {
               fontWeight: markRead ? 'bold' : 'normal'
             }}
           >
-            /r/{postReply.subreddit}
+            /r/{postReply.messages[0].subreddit}
           </a>
           <span
             style={{
@@ -235,7 +238,7 @@ export default function PostReply({ postReply }) {
           </span>
         </div>
         <div style={{ marginTop: '-4px', opacity: '0.7' }}>
-          <p style={{ fontSize: '13px' }}>{postReply.body}</p>
+          <p style={{ fontSize: '13px' }}>{postReply.messages[0].body}</p>
         </div>
         <div style={{ marginTop: '14px' }}>
           <a
@@ -249,7 +252,7 @@ export default function PostReply({ postReply }) {
             className="link-comment-message"
             href="##"
           >
-            Full Comments({postReply.commentCount})
+            Full Comments({postReply.messages[0].commentCount})
           </a>
           {!spamClicked ? (
             !spammed ? (
