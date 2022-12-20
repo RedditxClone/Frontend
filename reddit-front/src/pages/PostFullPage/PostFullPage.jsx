@@ -4,7 +4,8 @@
 /* eslint-disable prefer-const */
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { ThemeProvider, Box } from '@mui/material';
+import { ThemeProvider, Box, Button } from '@mui/material';
+import CreatePostEditor from '../CreatePost/CreatePostEditor';
 
 import BackToTop from '../../components/BackToTop/BackToTop';
 import AppBar from '../../components/Layout/AppBar/AppBar';
@@ -41,6 +42,10 @@ function PostFullPage() {
   const [loadingPost, setLoadingPost] = useState(true);
   const [loadingSubreddit, setLoadingSubreddit] = useState(true);
   const [goToErrorPage, setGoToErrorPage] = useState(false);
+
+  const [commentContnet, setCommentContnet] = useState('');
+  const handleReply = () => {};
+  const handleCloseReply = () => {};
 
   const color = '#ccc';
   let subredditId = 1; // for testing only
@@ -102,6 +107,38 @@ function PostFullPage() {
                       isPostFullDetailsMode={true}
                       isModeratorMode={postData.subredditInfo.isModerator}
                     />
+                  </div>
+                  <div
+                    style={{
+                      paddingBottom: '35px',
+                      paddingRight: '0',
+                      marginLeft: '0'
+                    }}
+                  >
+                    <CreatePostEditor
+                      setPostContent={setCommentContnet}
+                      postContent={commentContnet}
+                    />
+                    <Button
+                      style={{ marginLeft: '657px', marginTop: '-44px' }}
+                      variant="contained"
+                      onClick={handleReply}
+                    >
+                      Reply
+                    </Button>
+                    <Button
+                      style={{ marginLeft: '583px', marginTop: '-68px' }}
+                      variant="contained"
+                      onClick={handleCloseReply}
+                    >
+                      Cancle
+                    </Button>
+                  </div>
+                  <div>
+                    <Comments />
+                  </div>
+                  <div>
+                    <Comments />
                   </div>
                   <div>
                     <Comments />

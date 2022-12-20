@@ -2,9 +2,50 @@
 import './Comments.style.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { FaRegCommentAlt } from 'react-icons/fa';
+import { useState } from 'react';
+import { Button } from '@mui/material';
 import avatarImg from '../../assets/Images/avatar_default_5.png';
+import CreatePostEditor from '../../pages/CreatePost/CreatePostEditor';
 
 export default function Comments() {
+  const [replyContnet, setReplyContnet] = useState('');
+  const [countVotes, setCountVotes] = useState();
+  const [showReply, setShowReply] = useState(false);
+  const handleClickReply = () => {
+    setShowReply(!showReply);
+  };
+  const [save, setSave] = useState(false);
+  const handleSave = () => {
+    setSave(!save);
+  };
+  const [follow, setFollow] = useState(false);
+  const handleFollow = () => {
+    setFollow(!follow);
+  };
+  const [countUp, setCountUp] = useState(false);
+  const [countDown, setCountDown] = useState(false);
+  const handleUpVote = () => {
+    setCountUp(!countUp);
+    if (countUp === true) {
+      setCountVotes(countVotes + 1);
+    } else {
+      setCountVotes(countVotes - 1);
+    }
+  };
+  const handleDownVote = () => {
+    setCountDown(!countDown);
+    if (countDown === true) {
+      setCountVotes(countVotes - 1);
+    } else {
+      setCountVotes(countVotes + 1);
+    }
+  };
+  const handleReply = () => {
+    setShowReply(false);
+  };
+  const handleCloseReply = () => {
+    setShowReply(false);
+  };
   return (
     <div
       style={{
@@ -47,22 +88,49 @@ export default function Comments() {
               alignItems: 'center'
             }}
           >
-            <BiUpvote
-              className="span-hov"
-              style={{ marginRight: '7px', cursor: 'pointer' }}
-            />
+            {!countUp ? (
+              <BiUpvote
+                onClick={handleUpVote}
+                className="span-hov"
+                style={{ marginRight: '7px', cursor: 'pointer' }}
+              />
+            ) : (
+              <BiUpvote
+                onClick={handleUpVote}
+                className="span-hov"
+                style={{
+                  marginRight: '7px',
+                  cursor: 'pointer',
+                  color: '#ff015b'
+                }}
+              />
+            )}
             <span
               style={{
                 fontSize: '14px',
-                marginRight: '7px'
+                marginRight: '7px',
+                color: 'black'
               }}
             >
               222
             </span>
-            <BiDownvote
-              className="span-hov"
-              style={{ marginRight: '8px', cursor: 'pointer' }}
-            />
+            {!countDown ? (
+              <BiDownvote
+                onClick={handleDownVote}
+                className="span-vot"
+                style={{ marginRight: '8px', cursor: 'pointer' }}
+              />
+            ) : (
+              <BiDownvote
+                onClick={handleDownVote}
+                className="span-vot"
+                style={{
+                  marginRight: '8px',
+                  cursor: 'pointer',
+                  color: '#02b7f2'
+                }}
+              />
+            )}
             <div
               style={{
                 display: 'flex',
@@ -72,13 +140,14 @@ export default function Comments() {
               }}
             >
               <span
-                className="span-hov"
+                className="span-vot"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   padding: '5px',
                   cursor: 'pointer'
                 }}
+                onClick={handleClickReply}
               >
                 <FaRegCommentAlt
                   style={{ fontSize: '22px', marginRight: '6px' }}
@@ -101,71 +170,100 @@ export default function Comments() {
                 marginBottom: '-5px'
               }}
             >
-              <span
-                style={{
-                  fontSize: '14px',
-                  marginRight: '8px',
-                  padding: '5px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer'
-                }}
-                className="span-hov"
-              >
-                Give Award
-              </span>
-              <span
-                style={{
-                  fontSize: '14px',
-                  marginRight: '8px',
-                  padding: '5px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer'
-                }}
-                className="span-hov"
-              >
-                Share
-              </span>
-              <span
-                style={{
-                  fontSize: '14px',
-                  marginRight: '8px',
-                  padding: '5px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer'
-                }}
-                className="span-hov"
-              >
-                Report
-              </span>
-              <span
-                style={{
-                  fontSize: '14px',
-                  marginRight: '8px',
-                  padding: '5px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer'
-                }}
-                className="span-hov"
-              >
-                Save
-              </span>
-              <span
-                style={{
-                  fontSize: '14px',
-                  marginRight: '8px',
-                  padding: '5px',
-                  fontWeight: 'bold',
-                  marginBottom: '-2px',
-                  cursor: 'pointer'
-                }}
-                className="span-hov"
-              >
-                Follow
-              </span>
+              {!save ? (
+                <span
+                  onClick={handleSave}
+                  style={{
+                    fontSize: '14px',
+                    marginRight: '8px',
+                    padding: '5px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer'
+                  }}
+                  className="span-hov"
+                >
+                  Save
+                </span>
+              ) : (
+                <span
+                  onClick={handleSave}
+                  style={{
+                    fontSize: '14px',
+                    marginRight: '8px',
+                    padding: '5px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer'
+                  }}
+                  className="span-hov"
+                >
+                  UnSave
+                </span>
+              )}
+              {!follow ? (
+                <span
+                  onClick={handleFollow}
+                  style={{
+                    fontSize: '14px',
+                    marginRight: '8px',
+                    padding: '5px',
+                    fontWeight: 'bold',
+                    marginBottom: '-2px',
+                    cursor: 'pointer'
+                  }}
+                  className="span-hov"
+                >
+                  Follow
+                </span>
+              ) : (
+                <span
+                  onClick={handleFollow}
+                  style={{
+                    fontSize: '14px',
+                    marginRight: '8px',
+                    padding: '5px',
+                    fontWeight: 'bold',
+                    marginBottom: '-2px',
+                    cursor: 'pointer'
+                  }}
+                  className="span-hov"
+                >
+                  Followed
+                </span>
+              )}
             </div>
           </div>
         </div>
       </div>
+      {showReply ? (
+        <div
+          style={{
+            paddingBottom: '35px',
+            paddingRight: '70px',
+            marginLeft: '74px'
+          }}
+        >
+          <CreatePostEditor
+            setPostContent={setReplyContnet}
+            postContent={replyContnet}
+          />
+          <Button
+            style={{ marginLeft: '503px', marginTop: '-44px' }}
+            variant="contained"
+            onClick={handleReply}
+          >
+            Reply
+          </Button>
+          <Button
+            style={{ marginLeft: '430px', marginTop: '-68px' }}
+            variant="contained"
+            onClick={handleCloseReply}
+          >
+            Cancle
+          </Button>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 }

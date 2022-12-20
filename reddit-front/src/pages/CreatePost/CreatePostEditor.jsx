@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable object-curly-newline */
 import { useState } from 'react';
 import Draft /* convertToRaw */ from 'draft-js';
