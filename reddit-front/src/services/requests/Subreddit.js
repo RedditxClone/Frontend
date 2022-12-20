@@ -1,18 +1,37 @@
+/* eslint-disable no-else-return */
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from './api';
+import getCookie from './getCookie';
+
+/**
+ * This service for getting the subreddit info
+ * @param {object} data - The request data
+ */
+export const getSubreddit = async (subredditName) => {
+  const token = getCookie('Authorization');
+  console.log(`/api/subreddit/r/${subredditName}`);
+  const response = await api.get(`/api/subreddit/r/${subredditName}`, {
+    headers: { Authorization: token }
+  });
+  return response.data;
+};
 
 /**
  * This service for joining a subreddit
  * @param {object} data - The request data
  */
-export const joinSubreddit = async (data) => {
-  const { id } = data;
-  const response = await api.patch(`/api/subreddit/${id}/join`, {
-    joined: true
-  });
+export const joinSubreddit = async (id) => {
+  const token = getCookie('Authorization');
+  const response = await api.post(
+    `/api/subreddit/${id}/join`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -20,11 +39,15 @@ export const joinSubreddit = async (data) => {
  * This service for leaving a subreddit
  * @param {object} data - The request data
  */
-export const leaveSubreddit = async (data) => {
-  const { id } = data;
-  const response = await api.patch(`/api/subreddit/${id}/leave`, {
-    joined: false
-  });
+export const leaveSubreddit = async (id) => {
+  const token = getCookie('Authorization');
+  const response = await api.post(
+    `/api/subreddit/${id}/leave`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -32,35 +55,11 @@ export const leaveSubreddit = async (data) => {
  * This service for setting the subreddit notifications alarm to be frequent
  * @param {object} data - The request data
  */
-export const frequentNotify = async (data) => {
-  const { id } = data;
-  const response = await api.patch(
-    `/api/subreddit/${id}/frequent_notifications`,
-    { notifications_style: 0 }
-  );
-  return response.data;
-};
+export const updateNotificationType = async (data) => {
+  const { subredditName, type } = data;
 
-/**
- * This service for setting the subreddit notifications alarm to be low
- * @param {object} data - The request data
- */
-export const lowNotify = async (data) => {
-  const { id } = data;
-  const response = await api.patch(`/api/subreddit/${id}/low_notifications`, {
-    notifications_style: 1
-  });
-  return response.data;
-};
-
-/**
- * This service for setting the subreddit notifications alarm to be turned off
- * @param {object} data - The request data
- */
-export const offNotify = async (data) => {
-  const { id } = data;
-  const response = await api.patch(`/api/subreddit/${id}/off_notifications`, {
-    notifications_style: 2
+  const response = await api.patch(`/api/subreddit/r/${subredditName}`, {
+    notificationType: type
   });
   return response.data;
 };
@@ -120,9 +119,9 @@ export const getAboutInfo = async (data) => {
  * @param {object} data - The request data
  */
 export const updateDescription = async (data) => {
-  const { id, request } = data;
+  const { subredditName, request } = data;
   const response = await api.patch(
-    `/api/subreddit/${id}/update_description`,
+    `/api/subreddit/r/${subredditName}`,
     request
   );
   return response.data;
@@ -133,10 +132,15 @@ export const updateDescription = async (data) => {
  * @param {object} data - The request data
  */
 export const updateSubredditTopic = async (data) => {
-  const { id, request } = data;
-  const response = await api.patch(
-    `/api/subreddit/${id}/update_topic`,
-    request
+  const token = getCookie('Authorization');
+
+  const { subredditId, request } = data;
+  const response = await api.post(
+    `/api/subreddit/${subredditId}/activetopic`,
+    request,
+    {
+      headers: { Authorization: token }
+    }
   );
   return response.data;
 };
@@ -146,10 +150,14 @@ export const updateSubredditTopic = async (data) => {
  * @param {object} data - The request data
  */
 export const updateSubredditSubtopics = async (data) => {
-  const { id, request } = data;
-  const response = await api.patch(
-    `/api/subreddit/${id}/update_subtopics`,
-    request
+  const token = getCookie('Authorization');
+  const { subredditId, request } = data;
+  const response = await api.post(
+    `/api/subreddit/${subredditId}/subtopics`,
+    request,
+    {
+      headers: { Authorization: token }
+    }
   );
   return response.data;
 };

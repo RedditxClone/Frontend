@@ -8,6 +8,7 @@ import Profile from '../Profile/Profile';
 import SignUp from '../SignUp/SignUp';
 import LogIn from '../LogIn/LogIn';
 import ProfileLogin from '../ProfileLogging/ProfileLogging';
+import FetchUserData from '../../../utilities/FetchUserData/FetchUserData';
 /**
 * @description this function is the main function which describes the navigation bar as
   loggedin or not it consists of many components
@@ -20,6 +21,7 @@ function AppBarReddit({ topid }) {
 
   return (
     <StyledToolBar id={topid}>
+      <FetchUserData />
       <Logo />
       {isAuth && <HomeBox allkindcomm={user} />}
       <SearchBox login={isAuth} />

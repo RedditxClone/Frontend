@@ -12,10 +12,12 @@ import {
 
 /**
  * @typedef PropType
- * @property {string} baseColor
- * @property {string} color
  * @property {bool} isJoined
- * @property {int} subredditId
+ * @property {string} subredditId
+ * @property {string} name
+ * @property {string} title
+ * @property {string} username
+ * @property {int} notificationsStyle
  */
 
 /**
@@ -24,19 +26,19 @@ import {
  */
 
 function SubredditInfo({
-  color,
-  baseColor,
   isJoined,
   subredditId,
+  subredditName,
+  subredditTitle,
   name,
-  username,
-  notificationsStyle
+  title,
+  notificationsStyle,
+  logo
 }) {
-  const [hasLogo, setHasLogo] = useState(true);
+  const [hasLogo, setHasLogo] = useState(logo !== null);
   const SubredditLogo = (
     <LogoImg src="https://styles.redditmedia.com/t5_2rr0e/styles/communityIcon_ylhgbe8ngx481.jpg?width=256&format=pjpg&s=fb6c14e5b6e326a13bdff84d7e0aac38511df59c" />
   );
-  console.log('isJoined info ', isJoined);
   return (
     <Box
       component="div"
@@ -61,7 +63,7 @@ function SubredditInfo({
                 height: '7.2rem',
                 backgroundColor: 'white',
                 boxSizing: 'border-box',
-                fill: baseColor,
+                fill: '#0079D3',
                 zIndex: 10
               }}
             >
@@ -69,11 +71,12 @@ function SubredditInfo({
             </svg>
           )}
           <SubredditName
-            highlightColor="#0079D3"
             subredditId={subredditId}
+            srName={subredditName}
+            subredditTitle={subredditTitle}
             isJoined={isJoined}
             name={name}
-            username={username}
+            title={title}
             notificationsStyle={notificationsStyle}
           />
         </LogoNameContent>
