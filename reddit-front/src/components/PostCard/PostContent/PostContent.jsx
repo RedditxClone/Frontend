@@ -21,7 +21,7 @@ import Logo from '../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
 import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
-import { divideBigNumber } from '../../../utilities/Helpers';
+import { divideBigNumber, getDateDiff } from '../../../utilities/Helpers';
 import { flagPostAsVisited } from '../../../services/requests/Post';
 
 /**
@@ -222,7 +222,7 @@ function PostContent({
       <PostInfo
         userInfo={postContentData.user}
         subredditInfo={postContentData.subredditInfo}
-        postedAt={postContentData.publishedDate}
+        postedAt={getDateDiff(postContentData.publishedDate)}
         postId={postContentData._id}
         isCommunityPost={isCommunityPost}
         modAction={modAction}
@@ -273,7 +273,11 @@ function PostContent({
       {/* post content  */}
       <div className="post-main-content">
         <div className="post-content-core">
-          {/* <ReactMarkdown>### testing readme</ReactMarkdown> */}
+          <ReactMarkdown>
+            {/* ffffff *fdfdfdfdf* *rerererer* ~fdsfdfdsfdfd~ `fdfdfdfdfdf` >
+            `fdfsdfdfdfd` > dfsdfsdfdsfd - rerere - gfgfgf - oioioi 1. fdsfdfs
+            2. rewrere 3. fdff */}
+          </ReactMarkdown>
 
           {getPostContent()}
           {showSlides()}

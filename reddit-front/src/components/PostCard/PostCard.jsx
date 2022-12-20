@@ -40,7 +40,6 @@ function PostCard({
   isModeratorMode
 }) {
   const [hidePost, setHidePost] = useState(false);
-
   // Returning the result
   return !hidePost ? (
     <div

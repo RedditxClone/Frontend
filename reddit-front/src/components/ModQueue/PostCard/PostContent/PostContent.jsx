@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-boolean-value */
@@ -13,6 +15,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
 import Logo3 from '../../../../assets/Images/test.png';
@@ -20,15 +23,14 @@ import Logo from '../../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
 import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
-import { divideBigNumber } from '../../../../utilities/Helpers';
+import { divideBigNumber, getDateDiff } from '../../../../utilities/Helpers';
 import {
   approvePost,
   unApprovePost,
   removePost,
   unRemovePost,
   spamPost,
-  unSpamPost,
-  flagPostAsVisited
+  unSpamPost
 } from '../../../../services/requests/Post';
 
 /**
@@ -61,32 +63,28 @@ function PostContent({
   postContentData,
   isCommunityPost,
   isPostFullDetailsMode,
-  isModeratorMode,
-  isSaved,
-  isLocked,
-  isPostApproved,
-  isPostSticky,
-  isDistinguishedAsMode,
-  isNSFW,
-  isSpoiled,
-  replyNotifications,
   showComments,
   whichQueue
 }) {
   let postContent = null;
   let slideIndex = 0;
+  const { user } = useSelector((state) => state.auth);
   const [modAction, setModAction] = useState(0);
-  const [locked, setLocked] = useState(postContentData.is_locked);
-  const [approved, setApproved] = useState(isPostApproved);
-  const [removed, setRemoved] = useState(postContentData.is_removed);
-  const [spammed, setSpammed] = useState(postContentData.is_spammed);
-  const [distinguishAsMod, setDistinguishAsMod] = useState(
-    postContentData.is_distinguishedAsMode
+  const [locked, setLocked] = useState(postContentData.commentsLocked);
+  const [isSpoiled, setIsSpoiled] = useState(postContentData.spoiler);
+  const [approved, setApproved] = useState(
+    postContentData.approvedAt ? true : false
   );
-  const [nsfw, setNsfw] = useState(postContentData.is_NSFW);
-  const [isVisited, setIsVisited] = useState(postContentData.visited);
+  const [removed, setRemoved] = useState(
+    postContentData.removedAt ? true : false
+  );
+  const [spammed, setSpammed] = useState(
+    postContentData.spammedAt ? true : false
+  );
+
+  const [nsfw, setNsfw] = useState(postContentData.nsfw);
   const [canBeSpoiled, setCanBeSpoiled] = useState(
-    postContentData.post_type === 'img'
+    postContentData.postType === 'img'
   );
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
@@ -167,9 +165,7 @@ function PostContent({
       case 'text':
         postContent = (
           <div className="post-content-text">
-            <p style={{ color: isVisited ? '#949494' : 'black' }}>
-              {postContentData.content}
-            </p>
+            <p style={{ color: 'black' }}>{postContentData.content}</p>
           </div>
         );
         break;
@@ -224,44 +220,59 @@ function PostContent({
     showSlides();
   };
 
-  const handleClickOnPost = () => {
-    flagPostAsVisited({ id: postContentData.id });
-  };
-
-  const handleApproveButton = (id) => {
+  const handleApproveButton = (
+    id,
+    setIsApproved,
+    setIsRemoved,
+    setIsSpammed
+  ) => {
     const info = { id };
     setApproved(true);
+    setIsApproved(true);
     approvePost(info);
 
     setRemoved(false);
+    setIsRemoved(false);
     unRemovePost(info);
 
     setSpammed(false);
+    setIsSpammed(false);
     unSpamPost(info);
   };
 
-  const handleRemoveButton = (id) => {
+  const handleRemoveButton = (
+    id,
+    setIsApproved,
+    setIsRemoved,
+    setIsSpammed
+  ) => {
     let info = { id, request: 'any msg' };
     setRemoved(true);
+    setIsRemoved(true);
     removePost(info);
 
     info = { id };
     setApproved(false);
+    setIsApproved(false);
     unApprovePost(info);
 
     setSpammed(false);
+    setIsSpammed(false);
     unSpamPost(info);
   };
 
-  const handleSpamButton = (id) => {
+  const handleSpamButton = (id, setIsApproved, setIsRemoved, setIsSpammed) => {
     const info = { id };
     setSpammed(true);
+    setIsSpammed(true);
     spamPost(info);
 
     setRemoved(false);
+    setIsRemoved(false);
     unRemovePost(info);
 
     setApproved(false);
+    setIsApproved(false);
     unApprovePost(info);
   };
 
@@ -270,24 +281,27 @@ function PostContent({
     <div
       className="post-content"
       data-testid="test-post-content"
-      onClick={handleClickOnPost}
     >
       {/* Post info -> community, username, time */}
       <PostInfo
-        communityName={postContentData.community_name}
-        communityId={postContentData.community_id}
-        userId={postContentData.user_id}
-        postedBy={postContentData.posted_by}
-        postedAt={postContentData.posted_at}
-        postId={postContentData.id}
+        communityName={postContentData.subredditInfo.name}
+        communityId={postContentData.subredditInfo.id}
+        description={postContentData.subredditInfo.description}
+        userId={postContentData.user.id}
+        postedBy={postContentData.user.username}
+        postedAt={getDateDiff(postContentData.publishedDate)}
+        postId={postContentData._id}
         isCommunityPost={isCommunityPost}
         isPostFullDetailsMode={isPostFullDetailsMode}
         modAction={modAction}
-        isNSFW={nsfw}
+        isNSFW={postContentData.nsfw}
         isLocked={locked}
-        isDistinguishedAsMode={distinguishAsMod}
-        isFollowed={postContentData.follow}
         showComments={showComments}
+        membersCount={
+          postContentData.subredditInfo.membersCount
+            ? postContentData.subredditInfo.membersCount
+            : 0
+        }
       />
 
       {/* Post title & flairs  */}
@@ -302,35 +316,36 @@ function PostContent({
           >
             <h3
               className="post-title-heading"
-              style={{ color: isVisited ? '#949494' : 'black' }}
+              style={{ color: 'black' }}
             >
               {postContentData.title}
             </h3>
           </Link>
         </div>
-        {!showComments && postContentData.flairs.length > 0
-          ? postContentData.flairs.map((item) => (
-              <div className="flair">
-                <a
-                  href="#"
-                  className="flair-link"
-                >
-                  {item}
-                </a>
-              </div>
-            ))
-          : null}
+        {!showComments && postContentData.flair ? (
+          <div className="flair">
+            <a
+              className="flair-link"
+              style={{
+                color: postContentData.flair.textColor,
+                backgroundColor: postContentData.flair.backgroundColor
+              }}
+            >
+              {postContentData.flair.text}
+            </a>
+          </div>
+        ) : null}
       </div>
 
       {/* post content  */}
-      {!showComments ? (
+      {/* {!showComments ? (
         <div className="post-main-content">
           <div className="post-content-core">
             {getPostContent()}
             {showSlides()}
             <div style={{ margin: '10px 0', color: '#949494' }}>
               <span style={{ fontSize: '13px' }}>
-                {`${divideBigNumber(postContentData.comments_count)} comments`}
+                {`${divideBigNumber(postContentData.commentCount)} comments`}
               </span>
             </div>
           </div>
@@ -345,7 +360,7 @@ function PostContent({
             </p>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* removed as spam  */}
       {removed || spammed || approved ? (
@@ -371,33 +386,37 @@ function PostContent({
                 ? 'Removed'
                 : null}
             </p>
-            <p>removed by 1 day ago</p>
+            <p>
+              {approved
+                ? 'Approved'
+                : spammed
+                ? 'Removed as spam'
+                : removed
+                ? 'Removed'
+                : null}
+              {` by ${user.username} now`}
+            </p>
           </div>
         </div>
       ) : null}
 
       {/* post interactions -> comment, save, hide, ..  */}
       <PostInteractions
-        setHidePost={setHidePost}
-        commentsCount={divideBigNumber(postContentData.comments_count)}
-        postId={postContentData.id}
+        commentsCount={divideBigNumber(postContentData.commentCount)}
+        postId={postContentData._id}
         isCommunityPost={true}
         changeModAction={setModAction}
         setModAction={setModAction}
-        setDistinguishPostAsMod={setDistinguishAsMod}
         setNsfw={setNsfw}
         setLocked={setLocked}
         isModeratorMode={true}
-        isSaved={isSaved}
-        isLocked={isLocked}
+        isLocked={locked}
         isPostApproved={approved}
-        isPostRemoved={postContentData.is_removed}
-        isPostSpammed={postContentData.is_spammed}
-        isPostSticky={isPostSticky}
-        isDistinguishedAsMode={isDistinguishedAsMode}
-        isNSFW={isNSFW}
+        isPostRemoved={removed}
+        isPostSpammed={spammed}
+        isNSFW={postContentData.nsfw}
         isSpoiled={isSpoiled}
-        replyNotifications={replyNotifications}
+        replyNotifications={postContentData.replyNotifications}
         canBeSpoiled={canBeSpoiled}
         showComments={showComments}
         handleApproveButton={handleApproveButton}
