@@ -26,7 +26,7 @@ import Banned from '../../components/Banned/Banned';
 import Muted from '../../components/Muted/Muted';
 import Approved from '../../components/Approved/Approved';
 import Moderators from '../../components/Moderators/Moderators';
-// import ModQueue from '../../components/ModQueue/ModQueue';
+import ModQueue from '../../components/ModQueue/ModQueue';
 import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
 import { getSubreddit } from '../../services/requests/Subreddit';
 import Loader from '../../utilities/Loader/Loader';
@@ -64,7 +64,39 @@ function ModToolsPage() {
 
   // Mapping for the components
   const componentsMap = {
-
+    spam: (
+      <ModQueue
+        sortType="any"
+        isCommunityPost={false}
+        isModeratorMode={false}
+        isHomePagePost={false}
+        whichQueue="spam"
+        subredditName={subredditName}
+        subredditId={subredditInfo._id}
+      />
+    ),
+    edited: (
+      <ModQueue
+        sortType="any"
+        isCommunityPost={false}
+        isModeratorMode={false}
+        isHomePagePost={false}
+        whichQueue="edited"
+        subredditName={subredditName}
+        subredditId={subredditInfo._id}
+      />
+    ),
+    unmoderated: (
+      <ModQueue
+        sortType="any"
+        isCommunityPost={false}
+        isModeratorMode={false}
+        isHomePagePost={false}
+        whichQueue="unmoderated"
+        subredditName={subredditName}
+        subredditId={subredditInfo._id}
+      />
+    ),
     muted: <Box>muted</Box>,
     banned: <Box>banned</Box>,
     moderators: <Box>moderators</Box>,
@@ -269,7 +301,6 @@ function ModToolsPage() {
                         unmoderated
                       </SideBarItem>
                     </SideBarCategory>
-
 
                     {/* User Management  */}
                     <SideBarCategory>

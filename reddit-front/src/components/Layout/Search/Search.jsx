@@ -1,5 +1,6 @@
 import { AiOutlineSearch } from 'react-icons/ai';
 import { styled } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { StyledInputBase, Search } from '../AppBar/AppBar.Style';
 /**
  * @description of the function :it describes the searchbar in the navigation bar as a box
@@ -9,6 +10,12 @@ import { StyledInputBase, Search } from '../AppBar/AppBar.Style';
  */
 
 function SearchBox({ login }) {
+  const navigate = useNavigate();
+  const changeSearchHandler = (e) => {
+    if (e.key === 'Enter') {
+      navigate(`/search/post/${e.target.value}`);
+    }
+  };
   const SearchContainer = styled('div')(({ theme }) => ({
     height: '100%',
     [theme.breakpoints.up('xs')]: {
@@ -37,6 +44,7 @@ function SearchBox({ login }) {
           size="2.5rem"
         />
         <StyledInputBase
+          onKeyDown={changeSearchHandler}
           placeholder="RedditSearch..."
           sx={{ fontSize: '1.5rem' }}
         />

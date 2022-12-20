@@ -182,7 +182,7 @@ function HomeBox({ allkindcomm }) {
   };
 
   const messagingClickHandler = () => {
-    navigate('/settings/messaging');
+    navigate('/message/selfreply');
   };
   const homeClickHandler = () => {
     navigate('/');

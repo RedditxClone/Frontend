@@ -68,13 +68,26 @@ function PostContent({
     postContentData.visited
   );
   const [canBeSpoiled, setCanBeSpoiled] = useState(
-    postContentData.post_type === 'img'
+    false
+    // postContentData.images.length === 1
   );
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
   const getPostContent = () => {
-    const contentType = postContentData.post_type;
-    const mediaCount = postContentData.media_count;
+    let contentType;
+    let mediaCount;
+
+    if (postContentData.images.length > 0) {
+      contentType = 'img';
+      mediaCount = postContentData.images.length;
+    } else if (postContentData.video) {
+      contentType = 'video';
+    } else if (postContentData.link) {
+      contentType = 'link';
+    } else {
+      contentType = 'text';
+    }
+
     switch (contentType) {
       case 'img':
         if (mediaCount > 1) {
@@ -120,11 +133,11 @@ function PostContent({
           postContent = (
             <div className="post-image">
               <img
-                className={`post-image-${postContentData.id}`}
-                src={Logo}
+                className={`post-image-${postContentData._id}`}
+                src={postContentData.images[0]}
                 alt="post image"
                 style={{
-                  filter: postContentData.is_spoiled ? 'blur(60px)' : 'none'
+                  filter: postContentData.spoiler ? 'blur(60px)' : 'none'
                 }}
               />
             </div>
@@ -140,7 +153,7 @@ function PostContent({
             className="post-content-video"
           >
             <source
-              src=""
+              src={postContentData.video}
               type="video/mp4"
             />
           </video>
@@ -150,7 +163,7 @@ function PostContent({
         postContent = (
           <div className="post-content-text">
             <p style={{ color: isVisited ? '#949494' : 'black' }}>
-              {postContentData.content}
+              {postContentData.text}
             </p>
           </div>
         );
@@ -159,7 +172,7 @@ function PostContent({
         postContent = (
           <div className="post-content-link">
             <a>
-              {postContentData.content}
+              {postContentData.link}
               <FiExternalLink
                 className="external-link-icon"
                 style={{ marginLeft: '4px', color: '#3f9ade' }}
@@ -222,7 +235,6 @@ function PostContent({
         userInfo={postContentData.user}
         subredditInfo={postContentData.subredditInfo}
         postedAt={getDateDiff(postContentData.publishedDate)}
-
         postId={postContentData._id}
         isCommunityPost={isCommunityPost}
         modAction={modAction}
@@ -258,11 +270,14 @@ function PostContent({
 
         {postContentData.flair ? (
           <a
-            href="#"
             className="flair-link"
             style={{
               color: postContentData.flair.textColor,
-              backgroundColor: postContentData.flair.backgroundColor
+              backgroundColor: postContentData.flair.backgroundColor,
+              padding: '0.5rem',
+              borderRadius: '999px',
+              fontWeight: '700',
+              fontSize: '12px'
             }}
           >
             {postContentData.flair.text}
@@ -273,14 +288,13 @@ function PostContent({
       {/* post content  */}
       <div className="post-main-content">
         <div className="post-content-core">
-
           <ReactMarkdown>
-            {/* ffffff *fdfdfdfdf* *rerererer* ~fdsfdfdsfdfd~ `fdfdfdfdfdf` >
+            {/* ffffff fdfdfdfdf rerererer fdsfdfdsfdfd `fdfdfdfdfdf` >
             `fdfsdfdfdfd` > dfsdfsdfdsfd - rerere - gfgfgf - oioioi 1. fdsfdfs
             2. rewrere 3. fdff */}
           </ReactMarkdown>
 
-          {getPostContent()}
+          {/* {getPostContent()} */}
           {showSlides()}
         </div>
       </div>
