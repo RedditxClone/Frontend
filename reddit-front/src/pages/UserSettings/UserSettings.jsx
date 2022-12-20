@@ -12,7 +12,11 @@ function UserSettings() {
     borderBottom: '3px solid #0079d3',
     color: 'black'
   };
-
+  const { isAuth } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  if (!isAuth) {
+    navigate('/auth/login');
+  }
   return (
     <>
       <AppBarReddit />

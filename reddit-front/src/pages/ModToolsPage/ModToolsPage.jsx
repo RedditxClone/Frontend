@@ -42,7 +42,11 @@ function ModToolsPage() {
   const [loading, setLoading] = useState(true);
   const [subredditInfo, setSubredditInfo] = useState([]);
   const [showSettingsSideBar, setShowSettingsSideBar] = useState(false);
-
+  const { isAuth } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  if (!isAuth) {
+    navigate('/auth/login');
+  }
   // Fetching the info of the subreddit
   const fetchSubredditInfo = async () => {
     const results = await getSubreddit(subredditName);

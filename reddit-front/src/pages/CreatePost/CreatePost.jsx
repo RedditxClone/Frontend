@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable function-paren-newline */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable operator-linebreak */
@@ -93,16 +94,10 @@ function CreatePost() {
       setUnableToPost(false);
       if (!postOnUserProfile) {
         console.log(postResponse.data.subredditId);
-        console.log(
-          `/r/${choosedPageName}/posts/${postResponse.data.subredditId}`
-        );
-        navigate(
-          `/r/${choosedPageName}/posts/${postResponse.data.subredditId}`
-        );
+        console.log(`/r/${choosedPageName}/posts/${postResponse.data._id}`);
+        navigate(`/r/${choosedPageName}/posts/${postResponse.data._id}`);
       } else {
-        navigate(
-          `/u/${choosedPageName}/posts/${postResponse.data.subredditId}`
-        );
+        navigate(`/u/${choosedPageName}/posts/${postResponse.data._id}`);
       }
     } else {
       setUnableToPost(true);
