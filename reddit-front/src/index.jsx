@@ -30,24 +30,12 @@ import SearchResults from './pages/SearchResults/SearchResults';
 import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
 import PostFullPage from './pages/PostFullPage/PostFullPage';
 import Error404 from './pages/Error404/Error404';
-import ActionMessage from './components/ActionMessage/ActionMessage';
+// import ActionMessage from './components/ActionMessage/ActionMessage';
 // Routes
 const routes = createBrowserRouter([
   {
     path: '/',
-    // element: <HomePage />
-    element: (
-      <div>
-        <ActionMessage
-          message="nada is deleted"
-          show="true"
-        />
-        <ActionMessage
-          message="maha"
-          show="true"
-        />
-      </div>
-    )
+    element: <HomePage />
   },
   {
     path: '/auth',

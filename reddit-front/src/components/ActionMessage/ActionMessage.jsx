@@ -7,18 +7,10 @@ import { StyledButton, MessageAlert } from '../Layout/AppBar/AppBar.Style';
 function ActionMessage({ message, show }) {
   const [showClose, setShowClose] = useState(false);
   const [Close, setClose] = useState(false);
-  const [messages, setMessage] = useState([]);
-  // const [toast, setToast] = useState([]);
 
   useEffect(() => {
-    // console.log('nada');
-    console.log(message);
-    // console.log(show);
-
-    setMessage((arr) => [...arr, { message, show }]);
-    console.log(messages);
-  }, message);
-
+    setTimeout(() => setClose(true), 5000);
+  }, []);
   const showCloseHandler = () => {
     setShowClose((current) => !current);
   };

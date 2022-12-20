@@ -239,7 +239,7 @@ export const BackToTop = styled('div')(({ theme }) => ({
 export const MessageAlert = styled('div')(({ theme }) => ({
   borderRadius: '0.2rem',
   border: '0.02rem solid #D4D7D9',
-  width: '27%',
+  width: '25%',
   height: '6%',
   backgroundColor: 'white',
   position: 'fixed',
@@ -261,6 +261,6 @@ export const MessageAlert = styled('div')(({ theme }) => ({
   // },
   [theme.breakpoints.up('xs')]: {
     top: '92%',
-    left: '50%'
+    left: '40%'
   }
 }));
