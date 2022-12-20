@@ -1,8 +1,11 @@
+/* eslint-disable indent */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import './SmallScreenVoting.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
-import { votePost } from '../../../../services/requests/Post';
+import { upVote, unVote, downVote } from '../../../../services/requests/Post';
 import { divideBigNumber } from '../../../../utilities/Helpers';
 
 /**
@@ -23,9 +26,17 @@ export default function SmallScreenVoting({
   postId,
   currentVotingState
 }) {
-  const [votesCountColor, setVotesCountColor] = useState('black');
-  const [isUpVoted, setIsUpVoted] = useState(currentVotingState === 1);
-  const [isDownVoted, setIsDownVoted] = useState(currentVotingState === -1);
+  const [votesCountColor, setVotesCountColor] = useState(
+    currentVotingState === 'upvote'
+      ? '#ff6830'
+      : currentVotingState === 'downvote'
+      ? '#0272c4'
+      : 'black'
+  );
+  const [isUpVoted, setIsUpVoted] = useState(currentVotingState === 'upvote');
+  const [isDownVoted, setIsDownVoted] = useState(
+    currentVotingState === 'downvote'
+  );
   const [votes, setVotes] = useState(votesCount);
 
   const handleUpVoting = () => {
@@ -37,6 +48,7 @@ export default function SmallScreenVoting({
       setIsDownVoted(false);
       currentVotingState = 0;
       setVotesCountColor('black');
+      unVote({ id: postId });
     } else if (isDownVoted) {
       setVotes(votesCount + 2);
       votesCount += 2;
@@ -44,6 +56,7 @@ export default function SmallScreenVoting({
       setIsUpVoted(true);
       currentVotingState = 1;
       setVotesCountColor('#ff6830');
+      upVote({ id: postId });
     } else {
       setVotes(votesCount + 1);
       votesCount += 1;
@@ -51,9 +64,8 @@ export default function SmallScreenVoting({
       setIsDownVoted(false);
       currentVotingState = 1;
       setVotesCountColor('#ff6830');
+      downVote({ id: postId });
     }
-    const info = { request: { votes: votesCount }, id: postId };
-    votePost(info);
   };
 
   const handleDownVoting = () => {
@@ -65,6 +77,7 @@ export default function SmallScreenVoting({
       setIsDownVoted(true);
       currentVotingState = -1;
       setVotesCountColor('#0272c4');
+      downVote({ id: postId });
     } else if (isDownVoted) {
       setVotes(votesCount + 1);
       votesCount += 1;
@@ -72,6 +85,7 @@ export default function SmallScreenVoting({
       setIsUpVoted(false);
       currentVotingState = 0;
       setVotesCountColor('black');
+      unVote({ id: postId });
     } else {
       setVotes(votesCount - 1);
       votesCount -= 1;
@@ -79,10 +93,8 @@ export default function SmallScreenVoting({
       setIsDownVoted(true);
       currentVotingState = -1;
       setVotesCountColor('#0272c4');
+      downVote({ id: postId });
     }
-
-    const info = { request: { votes: votesCount }, id: postId };
-    votePost(info);
   };
 
   // Returning the result

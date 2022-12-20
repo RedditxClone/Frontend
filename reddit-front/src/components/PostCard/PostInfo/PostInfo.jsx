@@ -1,3 +1,7 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
+/* eslint-disable arrow-body-style */
+/* eslint-disable operator-linebreak */
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-unused-vars */
 /* eslint-disable object-curly-newline */
 /* eslint-disable prefer-template */
@@ -7,19 +11,21 @@
 import './PostInfo.css';
 
 import { memo, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
 import { FcApproval, FcLock } from 'react-icons/fc';
 import { BsFillShieldFill } from 'react-icons/bs';
 import { RiSpamLine } from 'react-icons/ri';
 import { CiNoWaitingSign } from 'react-icons/ci';
-import {
-  getPostRelatedCommunityInfo,
-  getPostRelatedUserInfo,
-  followPost
-} from '../../../services/requests/Post';
+import { followPost } from '../../../services/requests/Post';
 import Logo from '../../../assets/Images/test.png';
 import RemovalReasonDialog from './RemovalReasonDialog';
+import { divideBigNumber } from '../../../utilities/Helpers';
+import { unFollowUser, followUser } from '../../../services/requests/User';
+import {
+  joinSubreddit,
+  leaveSubreddit
+} from '../../../services/requests/Subreddit';
 
 /**
  * @typedef PropType
@@ -46,32 +52,42 @@ import RemovalReasonDialog from './RemovalReasonDialog';
  */
 
 function PostInfo({
-  communityName,
-  communityId,
-  userId,
-  postedBy,
+  userInfo,
+  subredditInfo,
   postedAt,
   postId,
   isCommunityPost,
-  isPostFullDetailsMode,
   modAction,
   isNSFW,
   isLocked,
-  isDistinguishedAsMode,
-  isFollowed
+  isFollowed,
+  approvedBy,
+  approvedAt,
+  removedBy,
+  removedAt,
+  spammedBy,
+  spammedAt
 }) {
+  const { user } = useSelector((state) => state.auth);
+  const communityName = subredditInfo.name;
+  const communityId = subredditInfo.id;
+  const userId = userInfo.id;
+  const postedBy = userInfo.username;
+  const joinedDate = userInfo.joinedDate;
+  const membersCount = subredditInfo.membersCount;
+  const communityDescription = subredditInfo.description;
   const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
   const [isPostFollowed, setIsPostFollowed] = useState(isFollowed);
-  const { postRelatedCommunityData, setPostRelatedCommunityData } = useState(
-    []
-  );
-  const { postRelatedUserData, setPostRelatedUserData } = useState([]);
-  const [openRemovalDialog, setOpenRemovalDialog] = useState(false);
+  const [isUserFollowed, setIsUserFollowed] = useState(userInfo.isFollowed);
+  const [isJoined, setIsJoined] = useState(subredditInfo.isJoin);
+  const subredditLogo =
+    subredditInfo.logo === '' || subredditInfo.logo == null
+      ? subredditInfo.logo
+      : null;
+  const userLogo =
+    userInfo.logo === '' || userInfo.logo == null ? userInfo.photo : null;
 
-  // Dispatching the action to get the data of subreddit and user that related to the post
   useEffect(() => {
-    getPostRelatedCommunityInfo(communityId);
-    getPostRelatedUserInfo(userId);
     setIsCommunityNameHovered(false);
   }, [isCommunityNameHovered]);
 
@@ -113,23 +129,29 @@ function PostInfo({
     userInformation.style.visibility = 'hidden';
   };
 
+  /* This function handles the join button */
+  const handleJoinSubreddit = () => {
+    if (isJoined) {
+      setIsJoined(false);
+      leaveSubreddit(communityId);
+    } else {
+      setIsJoined(true);
+      joinSubreddit(communityId);
+    }
+  };
+
   /* This function return the subreddit name concatenated with 'r/' */
-  const getCommunityName = function () {
+  const getCommunityName = () => {
     return communityName ? 'r/ '.concat(communityName) : 'community_name';
   };
 
   /* This function return the username of the person that published the post 'u/' */
-  const getPostedBy = function () {
+  const getPostedBy = () => {
     return postedBy ? 'u/ '.concat(postedBy) : 'user_name';
   };
 
-  /* This function return date at which the post was published */
-  const getPostedAt = function () {
-    return postedAt ? postedAt.concat(' ago') : 'posted_time';
-  };
-
   /* This function handles the follow button */
-  const handleFollowPost = function () {
+  const handleFollowPost = () => {
     if (!isPostFollowed) {
       setIsPostFollowed(true);
       const info = { request: { follow: true }, id: postId };
@@ -141,12 +163,35 @@ function PostInfo({
     }
   };
 
-  const handleOpenRemovalDialog = () => {
-    setOpenRemovalDialog(true);
+  /* This function handles the join button */
+  const handleHoverOnJoinButton = (e) => {
+    if (isJoined) {
+      e.target.innerHTML = 'Leave';
+    } else {
+      e.target.innerHTML = 'Join';
+    }
   };
 
-  const handleCloseRemovalDialog = () => {
-    setOpenRemovalDialog(false);
+  /* This function handles the join button */
+  const handleHoverOutJoinButton = (e) => {
+    if (isJoined) {
+      e.target.innerHTML = 'Joined';
+    } else {
+      e.target.innerHTML = 'Join';
+    }
+  };
+
+  /* This function handles the follow button */
+  const handleFollowUser = (e) => {
+    if (!isUserFollowed) {
+      setIsUserFollowed(true);
+      followUser(userInfo.id);
+      e.target.innerHTML = 'Following';
+    } else {
+      setIsUserFollowed(false);
+      unFollowUser(userInfo.id);
+      e.target.innerHTML = 'Follow';
+    }
   };
 
   // Returning the result
@@ -161,12 +206,38 @@ function PostInfo({
           className="community-logo"
           data-testid="test-post-logo"
         >
-          <a className="community-logo-link">
-            <img
-              src={Logo}
-              alt="community Logo"
-            />
-          </a>
+          {subredditLogo ? (
+            <a
+              href={`/r/${communityName}`}
+              className="community-logo-link"
+            >
+              <img
+                src={subredditLogo}
+                alt="community Logo"
+              />
+            </a>
+          ) : (
+            <svg
+              onClick={() => {
+                window.location.href = `/r/${communityName}`;
+              }}
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              style={{
+                borderRadius: '50%',
+                border: '4px solid white',
+                width: '2.5rem',
+                height: '2.5rem',
+                backgroundColor: 'white',
+                boxSizing: 'border-box',
+                fill: '#0079D3',
+                transform: 'translateY(-2px)',
+                zIndex: 10
+              }}
+            >
+              <path d="M16.5,2.924,11.264,15.551H9.91L15.461,2.139h.074a9.721,9.721,0,1,0,.967.785ZM8.475,8.435a1.635,1.635,0,0,0-.233.868v4.2H6.629V6.2H8.174v.93h.041a2.927,2.927,0,0,1,1.008-.745,3.384,3.384,0,0,1,1.453-.294,3.244,3.244,0,0,1,.7.068,1.931,1.931,0,0,1,.458.151l-.656,1.558a2.174,2.174,0,0,0-1.067-.246,2.159,2.159,0,0,0-.981.215A1.59,1.59,0,0,0,8.475,8.435Z" />
+            </svg>
+          )}
         </div>
       ) : null}
 
@@ -181,7 +252,7 @@ function PostInfo({
             onBlur={handleHoverOutSubreddit}
             data-testid="test-post-community-name"
           >
-            <a href="#">{getCommunityName()}</a>
+            <a href={`/r/${communityName}`}>{getCommunityName()}</a>
             <div
               className="community-information"
               id={'community-information-post-' + postId}
@@ -194,34 +265,27 @@ function PostInfo({
                   />
                 </div>
                 <h3 className="community-name-2">
-                  <a href="#">{getCommunityName()}</a>
+                  <a href={`/r/${communityName}`}>{getCommunityName()}</a>
                 </h3>
               </div>
               <div className="community-stats">
                 <div className="community-stats-item">
                   <span className="members-count">
-                    {/* {divideBigNumber(postRelatedCommunityData.members_count)} */}
-                    1234
+                    {divideBigNumber(membersCount)}
                   </span>
                   <span>members</span>
                 </div>
                 <div className="community-stats-item">
-                  <span className="online-members">
-                    {/* {divideBigNumber(postRelatedCommunityData.online_members)} */}
-                    123
-                  </span>
+                  <span className="online-members">0</span>
                   <span>online</span>
                 </div>
               </div>
               <div className="community-description-text">
-                <p>
-                  test
-                  {/* {postRelatedCommunityData.description} */}
-                </p>
+                <p>{communityDescription}</p>
               </div>
               <div className="community-view-button">
                 <a
-                  href="#"
+                  href={`/r/${communityName}`}
                   className="view-community"
                 >
                   view community
@@ -239,72 +303,83 @@ function PostInfo({
           onFocus={handleHoverOnUsername}
           onBlur={handleHoverOutUsername}
         >
-          <a href="#">{getPostedBy()}</a>
+          <a href={`/user/${postedBy}`}>{getPostedBy()}</a>
           <div
             className="user-information"
             id={'user-information-post-' + postId}
           >
             <div className="user-information-header">
               <div className="user-logo-2">
-                <img
-                  src={Logo}
-                  alt="User logo"
-                />
+                {userLogo ? (
+                  <img
+                    src={Logo}
+                    alt="User logo"
+                  />
+                ) : (
+                  <img
+                    src="https://i.redd.it/snoovatar/avatars/22ed2fc7-5f11-491e-9188-d99c9327cdf9.png"
+                    alt="User Avatar"
+                  />
+                )}
               </div>
               <p className="user-name-2">
-                <a href="#">postRelatedUserData.name</a>
+                <a
+                  onClick={() => {
+                    window.location.replace(`/user/${postedBy}`);
+                  }}
+                >
+                  {getPostedBy()}
+                </a>
                 <p>
                   {getPostedBy()}
-                  <span className="user-joined-from">
-                    postRelatedUserData.joined_at
-                  </span>
+                  <span className="user-joined-from">{joinedDate}</span>
                 </p>
               </p>
             </div>
+
             <div className="user-stats">
               <div className="user-stats-item">
-                <span className="karma-count">1234</span>
+                <span className="karma-count">12</span>
                 <span>post karma</span>
               </div>
               <div className="user-stats-item">
-                <span className="karma-commented">
-                  {/* {divideBigNumber(postRelatedUserData.comment_karam)} */}
-                  123
-                </span>
+                <span className="karma-commented">123</span>
                 <span>comment karma</span>
               </div>
             </div>
             <div className="user-stats">
               <div className="user-stats-item">
-                <span className="awardee-karma">
-                  {/* {divideBigNumber(postRelatedUserData.awardee_karam)} */}
-                  123
-                </span>
+                <span className="awardee-karma">123</span>
                 <span>awardee karma</span>
               </div>
               <div className="user-stats-item">
-                <span className="awarder-karma">
-                  {/* {divideBigNumber(postRelatedUserData.awarded_karma)} */}
-                  123
-                </span>
+                <span className="awarder-karma">123</span>
                 <span>awarder karma</span>
               </div>
             </div>
 
-            <div className="follow-user-button">
-              <a
-                href="#"
-                className="view-community"
+            {user.username !== userInfo.username ? (
+              <div
+                className="follow-user-button"
+                style={{
+                  backgroundColor: isUserFollowed ? 'white' : '#1976d2',
+                  border: isUserFollowed ? '1px solid #1976d2' : null
+                }}
               >
-                follow
-              </a>
-            </div>
+                <a
+                  className="view-community"
+                  onClick={handleFollowUser}
+                  style={{
+                    color: isUserFollowed ? '#1976d2' : 'white'
+                  }}
+                >
+                  {isUserFollowed ? 'Following' : 'Follow'}
+                </a>
+              </div>
+            ) : null}
           </div>
         </div>
-        <span className="post-time">
-          {/* {getPostedAt()} */}
-          39 minutes ago
-        </span>
+        <span className="post-time">{`${postedAt} ago`}</span>
         <div className="mod-action-icon">
           {isNSFW ? (
             <span
@@ -313,17 +388,6 @@ function PostInfo({
             >
               nfsw
             </span>
-          ) : null}
-
-          {isDistinguishedAsMode ? (
-            <BsFillShieldFill
-              id={`post-distinguish-as-mod-${postId}`}
-              style={{
-                fontSize: '13px',
-                color: '#8bc34a',
-                margin: '6px 0 0 7px'
-              }}
-            />
           ) : null}
 
           {isLocked ? (
@@ -341,7 +405,7 @@ function PostInfo({
             <span className="approved-post-icon">
               <FcApproval style={{ fontSize: '13px', margin: '6px 0 0 7px' }} />
               <span className="post-approved-by">
-                Approved by mustafa-hamzawy at Wed,Nov 09, 2022 4:18:33 PM UTC
+                {`Approved by ${approvedBy} at ${approvedAt}`}
               </span>
             </span>
           ) : null}
@@ -360,8 +424,7 @@ function PostInfo({
                 className="post-spammed-by"
                 style={{ width: '45rem' }}
               >
-                Removed as spam by mustafa-hamzawy at Wed,Nov 09, 2022 4:18:33
-                PM UTC
+                {`Removed as spam by ${spammedBy} at ${spammedAt}`}
               </span>
             </span>
           ) : null}
@@ -376,51 +439,25 @@ function PostInfo({
                 }}
               />
               <span className="post-removed-by">
-                Removed by mustafa-hamzawy at Wed,Nov 09, 2022 4:18:33 PM UTC
+                {`Removed by ${removedBy} at ${removedAt}`}
               </span>
             </span>
           ) : null}
         </div>
-        {modAction === 3 ? (
-          <span
-            className="removal-reason"
-            onClick={handleOpenRemovalDialog}
-          >
-            Add a removal reason
-          </span>
-        ) : null}
       </div>
 
-      {/* Add removal reason card  */}
-      <RemovalReasonDialog
-        open={openRemovalDialog}
-        handleClose={handleCloseRemovalDialog}
-        postId={postId}
-      />
       {/* showing join button if the user is not showing the subreddit page  */}
-      {!isCommunityPost ? (
-        <button
+      {!isCommunityPost && !subredditInfo.isJoin ? (
+        <a
           type="button"
           className="join-community"
+          onClick={handleJoinSubreddit}
+          onMouseOver={handleHoverOnJoinButton}
+          onFocus={handleHoverOnJoinButton}
+          onMouseOut={handleHoverOutJoinButton}
+          onBlur={handleHoverOutJoinButton}
         >
-          Join
-        </button>
-      ) : null}
-
-      {/* showing follow button in the full details mode of the post  */}
-      {isPostFullDetailsMode ? (
-        <a onClick={handleFollowPost}>
-          {isPostFollowed ? (
-            <IoIosNotifications
-              color="#787c7e"
-              fontSize="2.4rem"
-            />
-          ) : (
-            <IoMdNotificationsOutline
-              color="#787c7e"
-              fontSize="2.4rem"
-            />
-          )}
+          {isJoined ? 'Joined' : 'Join'}
         </a>
       ) : null}
     </div>

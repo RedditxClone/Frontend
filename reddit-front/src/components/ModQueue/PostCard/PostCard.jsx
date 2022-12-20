@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prefer-template */
 /* eslint-disable react/jsx-no-bind */
@@ -61,10 +62,10 @@ function PostCard({
     >
       <PostContainer>
         <Voting
-          votesCount={postData.votes}
-          postId={postData.id}
-          currentVotingState={0}
-          isHomePagePost={isHomePagePost}
+          votesCount={postData.votesCount}
+          postId={postData._id}
+          isHomePagePost={false}
+          currentVotingState={postData.voteType ? postData.voteType : 0}
         />
         <PostContent
           setHidePost={setHidePost}
@@ -72,14 +73,6 @@ function PostCard({
           isCommunityPost={isCommunityPost}
           isPostFullDetailsMode={isPostFullDetailsMode}
           isModeratorMode={isModeratorMode}
-          isSaved={isSaved}
-          isLocked={isLocked}
-          isPostApproved={isPostApproved}
-          isPostSticky={isPostSticky}
-          isDistinguishedAsMode={isDistinguishedAsMode}
-          isNSFW={isNSFW}
-          isSpoiled={isSpoiled}
-          replyNotifications={replyNotifications}
           showComments={showComments}
           whichQueue={whichQueue}
         />

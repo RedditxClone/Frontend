@@ -1,3 +1,6 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable no-use-before-define */
@@ -10,6 +13,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
+import ReactMarkdown from 'https://esm.sh/react-markdown@7';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
 import Logo3 from '../../../assets/Images/test.png';
@@ -17,7 +21,7 @@ import Logo from '../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
 import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
-import { divideBigNumber } from '../../../utilities/Helpers';
+import { divideBigNumber, getDateDiff } from '../../../utilities/Helpers';
 import { flagPostAsVisited } from '../../../services/requests/Post';
 
 /**
@@ -48,26 +52,22 @@ function PostContent({
   setHidePost,
   postContentData,
   isCommunityPost,
-  isPostFullDetailsMode,
-  isModeratorMode,
-  isSaved,
-  isLocked,
-  isPostApproved,
-  isPostSticky,
-  isDistinguishedAsMode,
-  isNSFW,
-  isSpoiled,
-  replyNotifications
+  isModeratorMode
 }) {
   let postContent = null;
   let slideIndex = 0;
   const [modAction, setModAction] = useState(0);
-  const [locked, setLocked] = useState(postContentData.is_locked);
-  const [distinguishAsMod, setDistinguishAsMod] = useState(
-    postContentData.is_distinguishedAsMode
-  );
-  const [nsfw, setNsfw] = useState(postContentData.is_NSFW);
+  const [locked, setLocked] = useState(postContentData.commentsLocked);
+  const [nsfw, setNsfw] = useState(postContentData.nsfw);
   const [isVisited, setIsVisited] = useState(postContentData.visited);
+  const [isSaved, setIsSaved] = useState(postContentData.isSaved);
+  const [isSpoiled, setIsSpoiled] = useState(postContentData.spoiler);
+  const [isPostApproved, setIsPostApproved] = useState(
+    postContentData.replyNotifications
+  );
+  const [replyNotifications, setReplyNotifications] = useState(
+    postContentData.visited
+  );
   const [canBeSpoiled, setCanBeSpoiled] = useState(
     postContentData.post_type === 'img'
   );
@@ -208,7 +208,7 @@ function PostContent({
   };
 
   const handleClickOnPost = () => {
-    flagPostAsVisited({ id: postContentData.id });
+    window.location.href = `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`;
   };
 
   // Returning the result
@@ -216,23 +216,25 @@ function PostContent({
     <div
       className="post-content"
       data-testid="test-post-content"
-      onClick={handleClickOnPost}
+      // onClick={handleClickOnPost}
     >
       {/* Post info -> community, username, time */}
       <PostInfo
-        communityName={postContentData.community_name}
-        communityId={postContentData.community_id}
-        userId={postContentData.user_id}
-        postedBy={postContentData.posted_by}
-        postedAt={postContentData.posted_at}
-        postId={postContentData.id}
+        userInfo={postContentData.user}
+        subredditInfo={postContentData.subredditInfo}
+        postedAt={getDateDiff(postContentData.publishedDate)}
+        postId={postContentData._id}
         isCommunityPost={isCommunityPost}
-        isPostFullDetailsMode={isPostFullDetailsMode}
         modAction={modAction}
         isNSFW={nsfw}
         isLocked={locked}
-        isDistinguishedAsMode={distinguishAsMod}
         isFollowed={postContentData.follow}
+        approvedBy={postContentData.approvedBy}
+        approvedAt={postContentData.approvedAt}
+        removedBy={postContentData.removedBy}
+        removedAt={postContentData.removedAt}
+        spammedBy={postContentData.spammedBy}
+        spammedAt={postContentData.spammedAt}
       />
 
       {/* Post title & flairs  */}
@@ -253,23 +255,30 @@ function PostContent({
             </h3>
           </Link>
         </div>
-        {postContentData.flairs.length > 0
-          ? postContentData.flairs.map((item) => (
-            <div className="flair">
-              <a
-                href="#"
-                className="flair-link"
-              >
-                {item}
-              </a>
-            </div>
-          ))
-          : null}
+
+        {postContentData.flair ? (
+          <a
+            href="#"
+            className="flair-link"
+            style={{
+              color: postContentData.flair.textColor,
+              backgroundColor: postContentData.flair.backgroundColor
+            }}
+          >
+            {postContentData.flair.text}
+          </a>
+        ) : null}
       </div>
 
       {/* post content  */}
       <div className="post-main-content">
         <div className="post-content-core">
+          <ReactMarkdown>
+            {/* ffffff *fdfdfdfdf* *rerererer* ~fdsfdfdsfdfd~ `fdfdfdfdfdf` >
+            `fdfsdfdfdfd` > dfsdfsdfdsfd - rerere - gfgfgf - oioioi 1. fdsfdfs
+            2. rewrere 3. fdff */}
+          </ReactMarkdown>
+
           {getPostContent()}
           {showSlides()}
         </div>
@@ -278,25 +287,29 @@ function PostContent({
       {/* post interactions -> comment, save, hide, ..  */}
       <PostInteractions
         setHidePost={setHidePost}
-        commentsCount={divideBigNumber(postContentData.comments_count)}
-        votesCount={postContentData.votes}
-        postId={postContentData.id}
+        commentsCount={divideBigNumber(postContentData.commentCount)}
+        votesCount={postContentData.votesCount}
+        postId={postContentData._id}
+        communityName={postContentData.subredditInfo.name}
         isCommunityPost={isCommunityPost}
         changeModAction={setModAction}
         setModAction={setModAction}
-        setDistinguishPostAsMod={setDistinguishAsMod}
         setNsfw={setNsfw}
         setLocked={setLocked}
         isModeratorMode={isModeratorMode}
         isSaved={isSaved}
-        isLocked={isLocked}
+        isLocked={locked}
         isPostApproved={isPostApproved}
-        isPostSticky={isPostSticky}
-        isDistinguishedAsMode={isDistinguishedAsMode}
-        isNSFW={isNSFW}
+        isNSFW={nsfw}
         isSpoiled={isSpoiled}
         replyNotifications={replyNotifications}
         canBeSpoiled={canBeSpoiled}
+        approved={postContentData.approvedAt ? true : false}
+        removed={postContentData.removedAt ? true : false}
+        spammed={postContentData.spammedAt ? true : false}
+        currentVotingState={
+          postContentData.voteType === null ? 0 : postContentData.voteType
+        }
       />
     </div>
   );
