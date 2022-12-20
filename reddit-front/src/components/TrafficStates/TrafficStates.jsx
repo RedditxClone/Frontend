@@ -8,7 +8,7 @@ import TrafficTable from './TrafficTable';
 function TrafficStates() {
   return (
     <div style={{ margin: '2rem 9rem 4rem 2.5rem', width: '100%' }}>
-      <h1>
+      <h1 style={{ fontSize: '16px' }}>
         Traffic Stats
         {' '}
         <span style={{ fontSize: '12px', fontWeight: '300' }}>

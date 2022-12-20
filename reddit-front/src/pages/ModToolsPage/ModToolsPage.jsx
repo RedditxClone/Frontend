@@ -25,8 +25,7 @@ import Banned from '../../components/Banned/Banned';
 import Muted from '../../components/Muted/Muted';
 import Approved from '../../components/Approved/Approved';
 import Moderators from '../../components/Moderators/Moderators';
-import TrafficStates from '../../components/TrafficStates/TrafficStates';
-// import ModQueue from '../../components/ModQueue/ModQueue';//
+import ModQueue from '../../components/ModQueue/ModQueue';
 import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
 import TrafficStates from '../../components/TrafficStates/TrafficStates';
 
@@ -172,82 +171,111 @@ function ModToolsPage() {
               </div>
             </BreadCrumbContainer>
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          backgroundColor: '#DAE0E6'
-        }}
-      >
-        {/* Side Bar  */}
-        <Box
-          data-testid="mod-tools-sidebar"
-          sx={{
-            bottom: '0',
-            boxSizing: 'border-box',
-            overflow: 'auto',
-            paddingTop: '16px',
-            paddingBottom: '32px',
-            position: 'fixed',
-            top: '11rem',
-            zIndex: '30',
-            width: '28rem',
-            backgroundColor: '#F6F7F8'
-          }}
-        >
-          {/* Mod Queue  */}
-          <SideBarCategory>
-            <SideBarCategoryTitle>
-              <BiAddToQueue
-                className="queue-icon"
-                style={{
-                  marginLeft: '-1rem',
-                  marginRight: '5px',
-                  color: '#878A8C',
-                  fontSize: '2rem'
-                }}
-              />
-              <span>Queues</span>
-            </SideBarCategoryTitle>
-            <SideBarItem
-              to="/subreddit/about/reports"
-              className="subreddit-item"
-              onClick={handleClickOnSidebarItem('reports', <Box>reports</Box>)}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-start'
+              }}
             >
-              reports
-            </SideBarItem>
-            <SideBarItem
-              to="/subreddit/about/spam"
-              className="subreddit-item"
-              onClick={handleClickOnSidebarItem(
-                'spam',
-                <Box />
-              )}
-            >
-              spam
-            </SideBarItem>
-            <SideBarItem
-              to="/subreddit/about/edited"
-              className="subreddit-item"
-              onClick={handleClickOnSidebarItem(
-                'edited',
-                <Box />
-              )}
-            >
-              edited
-            </SideBarItem>
-            <SideBarItem
-              to="/subreddit/about/unmoderated"
-              className="subreddit-item"
-              onClick={handleClickOnSidebarItem(
-                'unmoderated',
-                <Box />
-              )}
-            >
-              unmoderated
-            </SideBarItem>
-          </SideBarCategory>
+              {/* Side Bar  */}
+              {!showSettingsSideBar ? (
+                <Box
+                  data-testid="mod-tools-sidebar"
+                  sx={{
+                    bottom: '0',
+                    boxSizing: 'border-box',
+                    overflow: 'auto',
+                    paddingTop: '16px',
+                    paddingBottom: '32px',
+                    position: 'fixed',
+                    top: '11rem',
+                    zIndex: '30',
+                    width: '28rem',
+                    backgroundColor: '#F6F7F8'
+                  }}
+                >
+                  {/* Mod Queue  */}
+                  <SideBarCategory>
+                    <SideBarCategoryTitle>
+                      <BiAddToQueue
+                        className="queue-icon"
+                        style={{
+                          marginLeft: '-1rem',
+                          marginRight: '5px',
+                          color: '#878A8C',
+                          fontSize: '2rem'
+                        }}
+                      />
+                      <span>Queues</span>
+                    </SideBarCategoryTitle>
+                    <SideBarItem
+                      to="/subreddit/about/reports"
+                      className="subreddit-item"
+                      onClick={handleClickOnSidebarItem(
+                        'reports',
+                        <Box>reports</Box>
+                      )}
+                    >
+                      reports
+                    </SideBarItem>
+                    <SideBarItem
+                      to="/subreddit/about/spam"
+                      className={`subreddit-item ${
+                        activeItem === 'spam' ? 'active-sidebar-item' : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'spam',
+                        <ModQueue
+                          sortType="any"
+                          isCommunityPost={false}
+                          isModeratorMode={false}
+                          isHomePagePost={false}
+                          whichQueue="spam"
+                        />
+                      )}
+                    >
+                      spam
+                    </SideBarItem>
+                    <SideBarItem
+                      to="/subreddit/about/edited"
+                      className={`subreddit-item ${
+                        activeItem === 'edited' ? 'active-sidebar-item' : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'edited',
+                        <ModQueue
+                          sortType="any"
+                          isCommunityPost={false}
+                          isModeratorMode={false}
+                          isHomePagePost={false}
+                          whichQueue="edited"
+                        />
+                      )}
+                    >
+                      edited
+                    </SideBarItem>
+                    <SideBarItem
+                      to="/subreddit/about/unmoderated"
+                      className={`subreddit-item ${
+                        activeItem === 'unmoderated'
+                          ? 'active-sidebar-item'
+                          : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'unmoderated',
+                        <ModQueue
+                          sortType="any"
+                          isCommunityPost={false}
+                          isModeratorMode={false}
+                          isHomePagePost={false}
+                          whichQueue="unmoderated"
+                        />
+                      )}
+                    >
+                      unmoderated
+                    </SideBarItem>
+                  </SideBarCategory>
 
                   {/* User Management  */}
                   <SideBarCategory>
