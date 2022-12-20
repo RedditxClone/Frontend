@@ -31,6 +31,8 @@ function HiddenList() {
     const fetchPosts = async () => {
       const results = await getHiddenPosts();
       setPosts(results);
+      console.log('nada');
+      console.log(results);
     };
     fetchPosts();
   }, []);
