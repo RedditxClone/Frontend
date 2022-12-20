@@ -82,7 +82,6 @@ export default function Approved() {
   };
   const handleClose = () => {
     postApprovedUsers({
-      id: Math.random() * 1000,
       username: userNameApprove
     });
     setIsAdded(isAdded + 1);
@@ -131,7 +130,7 @@ export default function Approved() {
   return (
     <div
       className="approved-cont"
-      style={{ backgroundColor: '#dae0e6', width: '100%' }}
+      style={{ backgroundColor: '#dae0e6', width: '100%', height: '85.3vh' }}
     >
       <div
         className="cont-1"
