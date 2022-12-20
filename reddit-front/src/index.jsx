@@ -13,7 +13,7 @@ import ForgetUserPassword from './pages/ForgetUserPassword/ForgetUserPassword';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
-
+import NavBar from 
 // Routes
 const routes = createBrowserRouter([
   {
