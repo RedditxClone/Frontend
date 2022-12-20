@@ -128,6 +128,10 @@ const routes = createBrowserRouter([
     ]
   },
   {
+    path: '/:subredditName/submit',
+    element: <CreatePost />
+  },
+  {
     path: '/submit',
     element: <CreatePost />
   },

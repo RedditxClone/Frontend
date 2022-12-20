@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable linebreak-style */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-nested-ternary */
@@ -16,6 +17,12 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
+import {
+  postReplySpam,
+  postReplyReply,
+  deleteReplySpam,
+  postReplyMarkAsRead
+} from '../../services/requests/messages';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -51,13 +58,19 @@ function BootstrapDialogTitle(props) {
     </DialogTitle>
   );
 }
-export default function PostReply() {
+export default function PostReply({ postReply }) {
+  console.log(postReply.messages[0]._id);
   const [open, setOpen] = useState(false);
+  const [textReply, setTextReply] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
+    setOpen(false);
+  };
+  const handleClose2 = () => {
+    postReplySpam({ id: postReply.messages[0]._id });
     setOpen(false);
   };
   const [spamClicked, setSpamClicked] = useState(false);
@@ -69,6 +82,7 @@ export default function PostReply() {
     setSpamClicked(false);
   };
   const handleClickSpamYes = () => {
+    postReplySpam({ id: postReply.messages[0]._id });
     setSpamClicked(false);
     setSpammed(true);
   };
@@ -81,6 +95,7 @@ export default function PostReply() {
     setRemoveClicked(false);
   };
   const handleClickRemoveYes = () => {
+    deleteReplySpam({ id: postReply.messages[0]._id });
     setRemoveClicked(false);
     setRemoved(true);
   };
@@ -98,6 +113,7 @@ export default function PostReply() {
   };
   const [markRead, setMarkRead] = useState(false);
   const handleClickMarkRead = () => {
+    postReplyMarkAsRead({ body: postReply.messages[0].body });
     setMarkRead(true);
   };
   const [reply, setReply] = useState(false);
@@ -105,10 +121,18 @@ export default function PostReply() {
     setReply(true);
   };
   const handleClickSave = () => {
+    postReplyReply({
+      id: postReply.messages[0]._id,
+      body: { body: textReply }
+    });
+    setTextReply('');
     setReply(false);
   };
   const handleClickCancel = () => {
     setReply(false);
+  };
+  const handleChangetext = (e) => {
+    setTextReply(e.target.value);
   };
   return (
     <div
@@ -116,12 +140,19 @@ export default function PostReply() {
         margin: '0',
         padding: '10px 15px',
         backgroundColor: '#f6f7f8',
-        paddingBottom: '20px',
+        paddingBottom: '10px',
         borderBottom: '1px solid rgb(229, 222, 222)'
       }}
     >
-      <p style={{ margin: '0' }}>
-        <span>post reply: </span>{' '}
+      <p
+        style={{
+          margin: '0',
+          fontSize: '13px',
+          fontWeight: 'bold',
+          opacity: '0.9'
+        }}
+      >
+        <span>post reply: </span>
         <a
           href="##"
           style={{
@@ -131,15 +162,15 @@ export default function PostReply() {
             color: '#551a8b'
           }}
         >
-          r/karim12 Lounge
+          {postReply.messages[0].subject}
         </a>
       </p>
       <div style={{ marginLeft: '-1px', marginTop: '10px', color: '#bdbdbd' }}>
         <div>
-          <ImArrowUp style={{ cursor: 'pointer' }} />
+          <ImArrowUp style={{ cursor: 'pointer', fontSize: '15px' }} />
         </div>
         <div>
-          <ImArrowDown style={{ cursor: 'pointer' }} />
+          <ImArrowDown style={{ cursor: 'pointer', fontSize: '15px' }} />
         </div>
       </div>
       <div
@@ -152,7 +183,7 @@ export default function PostReply() {
         <div>
           <span
             style={{
-              fontSize: '14px',
+              fontSize: '11px',
               color: !markRead ? '#8B8787' : 'red',
               fontWeight: markRead ? 'bold' : 'normal'
             }}
@@ -167,15 +198,15 @@ export default function PostReply() {
               marginRight: '4px',
               cursor: 'pointer',
               color: '#0079d3',
-              fontSize: '14px',
+              fontSize: '11px',
               fontWeight: markRead ? 'bold' : 'normal'
             }}
           >
-            /u/ahmed
+            /u/{postReply.messages[0].authorName}
           </a>
           <span
             style={{
-              fontSize: '14px',
+              fontSize: '11px',
               color: !markRead ? '#8B8787' : 'red',
               fontWeight: markRead ? 'bold' : 'normal'
             }}
@@ -190,15 +221,15 @@ export default function PostReply() {
               marginRight: '4px',
               cursor: 'pointer',
               color: '#0079d3',
-              fontSize: '14px',
+              fontSize: '11px',
               fontWeight: markRead ? 'bold' : 'normal'
             }}
           >
-            /r/karim12
+            /r/{postReply.messages[0].subreddit}
           </a>
           <span
             style={{
-              fontSize: '14px',
+              fontSize: '11px',
               color: !markRead ? '#8B8787' : 'red',
               fontWeight: markRead ? 'bold' : 'normal'
             }}
@@ -206,10 +237,10 @@ export default function PostReply() {
             sent 1 day ago
           </span>
         </div>
-        <div style={{ marginTop: '-10px', opacity: '0.7' }}>
-          <p>Hello, Iam Karim</p>
+        <div style={{ marginTop: '-4px', opacity: '0.7' }}>
+          <p style={{ fontSize: '13px' }}>{postReply.messages[0].body}</p>
         </div>
-        <div style={{ marginTop: '-6px' }}>
+        <div style={{ marginTop: '14px' }}>
           <a
             className="link-comment-message"
             href="##"
@@ -221,7 +252,7 @@ export default function PostReply() {
             className="link-comment-message"
             href="##"
           >
-            Full Comments
+            Full Comments({postReply.messages[0].commentCount})
           </a>
           {!spamClicked ? (
             !spammed ? (
@@ -236,7 +267,7 @@ export default function PostReply() {
               <p
                 style={{
                   margin: '0 8px',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   display: 'inline-block',
                   opacity: '0.7'
                 }}
@@ -246,7 +277,7 @@ export default function PostReply() {
             )
           ) : (
             <span
-              style={{ color: 'red', fontWeight: 'normal', fontSize: '13px' }}
+              style={{ color: 'red', fontWeight: 'normal', fontSize: '11px' }}
             >
               <span style={{ marginLeft: '3px' }}>are you sure?</span>
               <a
@@ -279,7 +310,7 @@ export default function PostReply() {
               <p
                 style={{
                   margin: '0 8px',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   display: 'inline-block',
                   opacity: '0.7'
                 }}
@@ -289,7 +320,7 @@ export default function PostReply() {
             )
           ) : (
             <span
-              style={{ color: 'red', fontWeight: 'normal', fontSize: '13px' }}
+              style={{ color: 'red', fontWeight: 'normal', fontSize: '11px' }}
             >
               <span style={{ marginLeft: '3px' }}>are you sure?</span>
               <a
@@ -324,12 +355,15 @@ export default function PostReply() {
             <BootstrapDialogTitle
               id="customized-dialog-title"
               onClose={handleClose}
-              style={{ color: '#888', fontSize: '15px' }}
+              style={{ color: '#888', fontSize: '16px' }}
             >
               Submit a Report
             </BootstrapDialogTitle>
             <DialogContent dividers>
-              <Typography gutterBottom>
+              <Typography
+                gutterBottom
+                style={{ fontSize: '15px' }}
+              >
                 Thanks for looking out for yourself and your fellow redditors by
                 reporting things that break the rules. Let us know what&apos;s
                 happening, and we&apos;ll look into it.
@@ -338,7 +372,8 @@ export default function PostReply() {
             <DialogActions>
               <Button
                 autoFocus
-                onClick={handleClose}
+                onClick={handleClose2}
+                style={{ fontSize: '16px' }}
               >
                 Spam
               </Button>
@@ -357,7 +392,7 @@ export default function PostReply() {
               <p
                 style={{
                   margin: '0 8px',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   display: 'inline-block',
                   opacity: '0.7'
                 }}
@@ -367,7 +402,7 @@ export default function PostReply() {
             )
           ) : (
             <span
-              style={{ color: 'red', fontWeight: 'normal', fontSize: '13px' }}
+              style={{ color: 'red', fontWeight: 'normal', fontSize: '11px' }}
             >
               <span style={{ marginLeft: '3px' }}>are you sure?</span>
               <a
@@ -409,7 +444,10 @@ export default function PostReply() {
       </div>
       {reply ? (
         <div style={{ paddingTop: '22px' }}>
-          <textarea style={{ width: '540px', height: '100px' }} />
+          <textarea
+            onChange={handleChangetext}
+            style={{ width: '540px', height: '100px' }}
+          />
           <div style={{ display: 'flex', marginTop: '12px' }}>
             <Button
               variant="contained"

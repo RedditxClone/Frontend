@@ -60,6 +60,7 @@ function PostsList({
     });
     const tempList = posts;
     const newPosts = tempList.concat(results);
+
     if (results.length <= 0) {
       setHasMore(false);
       setLoading(false);

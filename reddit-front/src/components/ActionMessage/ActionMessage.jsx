@@ -8,6 +8,9 @@ function ActionMessage({ message, show }) {
   const [showClose, setShowClose] = useState(show);
   const [Close, setClose] = useState(false);
 
+  useEffect(() => {
+    setTimeout(() => setClose(true), 5000);
+  }, []);
   const showCloseHandler = () => {
     setShowClose((current) => !current);
   };
@@ -55,13 +58,16 @@ function ActionMessage({ message, show }) {
         >
           {showClose ? (
             <AiOutlineClose
-              size="1rem"
+              size="1.5rem"
               data-testid="closeicon"
             />
           ) : null}
         </IconButton>
         {/* </Box> */}
-        <IconButton data-testid="redditicon">
+        <IconButton
+          data-testid="redditicon"
+          style={{ fontSize: '3rem' }}
+        >
           <IoLogoReddit />
         </IconButton>
         {message}

@@ -96,7 +96,7 @@ export const StyledTextField = styled(TextField)({
  */
 
 export const RoundedButton = styled(Button)(() => ({
-  borderRadius: '2rem',
+  borderRadius: '2rem !important',
   margin: '1rem',
   textTransform: 'capitalize',
   alignSelf: 'flex-end'
@@ -199,7 +199,6 @@ export const CreatePostCardButtonsRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('sm')]: {
     display: 'block'
   }
-
 }));
 
 export const CreatePostCardOneButtonRoot = styled('div')(({ theme }) => ({
@@ -209,5 +208,4 @@ export const CreatePostCardOneButtonRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('sm')]: {
     display: 'none'
   }
-
 }));

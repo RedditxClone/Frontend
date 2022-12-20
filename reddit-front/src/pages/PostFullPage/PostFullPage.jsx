@@ -4,7 +4,9 @@
 /* eslint-disable prefer-const */
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+
 import { ThemeProvider, Box } from '@mui/material';
+
 
 import BackToTop from '../../components/BackToTop/BackToTop';
 import AppBar from '../../components/Layout/AppBar/AppBar';
@@ -26,6 +28,8 @@ import PostCard from './PostCard/PostCard';
 import { getPost } from '../../services/requests/Post';
 import { getSubreddit } from '../../services/requests/Subreddit';
 import Loader from '../../utilities/Loader/Loader';
+import Comments from '../../components/Comments/Comments';
+
 
 /**
  * This Component for the Community Cards.
@@ -40,6 +44,11 @@ function PostFullPage() {
   const [loadingPost, setLoadingPost] = useState(true);
   const [loadingSubreddit, setLoadingSubreddit] = useState(true);
   const [goToErrorPage, setGoToErrorPage] = useState(false);
+
+
+  const [commentContnet, setCommentContnet] = useState('');
+  const handleReply = () => {};
+  const handleCloseReply = () => {};
 
   const color = '#ccc';
   let subredditId = 1; // for testing only
@@ -102,8 +111,42 @@ function PostFullPage() {
                       isModeratorMode={postData.subredditInfo.isModerator}
                     />
                   </div>
-                  <div>Write comment is here</div>
-                  <div>comments are here</div>
+
+                  <div
+                    style={{
+                      paddingBottom: '35px',
+                      paddingRight: '0',
+                      marginLeft: '0'
+                    }}
+                  >
+                    <CreatePostEditor
+                      setPostContent={setCommentContnet}
+                      postContent={commentContnet}
+                    />
+                    <Button
+                      style={{ marginLeft: '657px', marginTop: '-44px' }}
+                      variant="contained"
+                      onClick={handleReply}
+                    >
+                      Reply
+                    </Button>
+                    <Button
+                      style={{ marginLeft: '583px', marginTop: '-68px' }}
+                      variant="contained"
+                      onClick={handleCloseReply}
+                    >
+                      Cancle
+                    </Button>
+                  </div>
+                  <div>
+                    <Comments />
+                  </div>
+                  <div>
+                    <Comments />
+                  </div>
+                  <div>
+                    <Comments />
+                  </div>
                 </PostsContainer>
 
                 <SideBarContainer>
