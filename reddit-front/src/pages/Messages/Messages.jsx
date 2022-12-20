@@ -128,7 +128,28 @@ export default function Messages() {
         </div>
       </div>
       {links}
-      <Outlet />
+      <div
+        style={{
+          minHeight: '82vh',
+          backgroundColor: '#edeff1',
+          padding: '10px'
+        }}
+      >
+        <div
+          style={{
+            width: '70%',
+            minHeight: '55px',
+            backgroundColor: '#ffffff',
+            margin: '20px auto',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            flexShrink: '1'
+          }}
+        >
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 }

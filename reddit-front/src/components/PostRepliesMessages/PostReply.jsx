@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable linebreak-style */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-nested-ternary */
@@ -58,7 +59,7 @@ function BootstrapDialogTitle(props) {
   );
 }
 export default function PostReply({ postReply }) {
-  console.log(postReply.message);
+  console.log(postReply.messages._id);
   const [open, setOpen] = useState(false);
   const [textReply, setTextReply] = useState('');
 
