@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable operator-linebreak */
 /* eslint-disable indent */
@@ -63,7 +64,6 @@ function ModToolsPage() {
 
   // Mapping for the components
   const componentsMap = {
-
     muted: <Box>muted</Box>,
     banned: <Box>banned</Box>,
     moderators: <Box>moderators</Box>,
@@ -268,7 +268,6 @@ function ModToolsPage() {
                         unmoderated
                       </SideBarItem>
                     </SideBarCategory>
-
 
                     {/* User Management  */}
                     <SideBarCategory>
