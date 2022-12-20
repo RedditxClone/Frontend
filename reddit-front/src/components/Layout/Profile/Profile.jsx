@@ -290,7 +290,9 @@ function Profile() {
               color="#1A3043"
               size="2rem"
             />
-            <StyledButton onClick={logoutHandler}>Log Out </StyledButton>
+            <StyledButton onClick={logoutHandler}>
+              <span>Log Out</span>
+            </StyledButton>
           </MenuItem>
         </StyledSelect>
       </FormControl>

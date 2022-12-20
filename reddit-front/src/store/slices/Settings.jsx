@@ -16,8 +16,12 @@ export const getSettings = createAsyncThunk(
     const { rejectedWithValue } = thunkAPI;
     try {
       const response = await api.get('/api/user/me/prefs', {
-        headers: { Authorization: 'token' }
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGE0Mzg2NWUwYjU4M2Y0YTc5ZTcwYSIsImlhdCI6MTY3MDAwNTYzOCwiZXhwIjoxNjcwODY5NjM4fQ.uAnSxbNt6M0XeERa4ODtlX4LxXq3FoeaTK8ck59-DEg'
+        }
       });
+      console.log(response.data);
       return response.data;
     } catch (error) {
       return rejectedWithValue(error.response.message);
@@ -30,9 +34,17 @@ export const UpdateSettings = createAsyncThunk(
   async (updatedObject, thunkAPI) => {
     const { rejectedWithValue } = thunkAPI;
     try {
-      const response = await axios.patch('/api/user/me/prefs', updatedObject);
+      const response = await api.patch('/api/user/me/prefs', updatedObject, {
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGE0Mzg2NWUwYjU4M2Y0YTc5ZTcwYSIsImlhdCI6MTY3MDAwNTYzOCwiZXhwIjoxNjcwODY5NjM4fQ.uAnSxbNt6M0XeERa4ODtlX4LxXq3FoeaTK8ck59-DEg'
+        }
+      });
+      console.log(response.data);
       return response.data;
     } catch (error) {
+      console.log(error);
+
       return rejectedWithValue(error.response.message);
     }
   }

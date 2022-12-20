@@ -3,9 +3,7 @@
 /* eslint-disable camelcase */
 import { Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { GrFacebook } from 'react-icons/gr';
-import FacebookLogin from 'react-facebook-login';
+
 import InfoButton from '../../components/InfoButton/InfoButton';
 import { DividerDiv } from './SignUp.style';
 import {
@@ -19,6 +17,8 @@ import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import { checkEmail } from '../../utilities/Helpers';
 import useInput from '../../hooks/use-input';
+import ContinueWithGoogle from '../../utilities/ContinueWithGoogle/ContinueWithGoogle';
+import ContinueWithGithub from '../../utilities/ContinueWithGithub/ContinueWithGithub';
 
 /**
  * This component returns a signup page contains:
@@ -37,9 +37,8 @@ function SignUp() {
     isTouched: touchedEmailInput,
     hasError: errorEmail
   } = useInput((value) => checkEmail(value));
-  const [signUpWithGoggle, setSignUpWithGoggle] = useState(false);
-  const [signUpWithFacebook, setSignUpWithFacebook] = useState(false);
-  const formIsValid = !errorEmail || signUpWithGoggle || signUpWithFacebook;
+
+  const formIsValid = !errorEmail;
 
   const navigate = useNavigate();
 
@@ -50,38 +49,6 @@ function SignUp() {
     }
   };
 
-  const facebookClicked = (data) => {
-    console.log(data);
-  };
-
-  const responseFacebook = (response) => {
-    console.log('response result: ', response);
-    setSignUpWithFacebook(true);
-  };
-
-  const handleCallBackResponse = (response) => {
-    /** Should be sent to API */
-    console.log(response.credential);
-    setSignUpWithGoggle(true);
-  };
-  useEffect(() => {
-    google.accounts.id.initialize({
-      client_id:
-        '731962970730-93vd9ao2c9ckhmguioje6ar6jmjk3cic.apps.googleusercontent.com',
-      callback: handleCallBackResponse
-    });
-
-    google.accounts.id.renderButton(
-      document.getElementById('signUpWithGoggle'),
-      {
-        theme: 'filled_blue',
-        size: 'large',
-        text: 'continue_with',
-        shape: 'recatangular',
-        width: '280px'
-      }
-    );
-  }, []);
   const outLined = true;
   const len = 28;
   const lhlen = 3;
@@ -105,23 +72,9 @@ function SignUp() {
         </p>
       </UserAggrementDiv>
       <form onSubmit={onSubmitHandler}>
-        <div className="AnotherWayToSignUp">
-          <div id="signUpWithGoggle" />
-          <div style={{ marginTop: '1.2rem' }}>
-            <FacebookLogin
-              appId="1156172054987935"
-              size="small"
-              fields="name,email,picture"
-              onClick={facebookClicked}
-              callback={responseFacebook}
-              icon={
-                <span style={{ marginRight: '1rem' }}>
-                  <GrFacebook />
-                </span>
-              }
-              textButton="CONTINUE WITH FACEBOOK"
-            />
-          </div>
+        <div style={{ width: '280px' }}>
+          <ContinueWithGoogle />
+          <ContinueWithGithub />
         </div>
         <DividerDiv>
           <span className="DividerLine"> </span>

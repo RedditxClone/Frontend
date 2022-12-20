@@ -36,12 +36,13 @@ export default function Subreddit() {
   const [subredditInfo, setSubredditInfo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userDataIsFetched, setUserDataIsFetched] = useState(false);
-
+  const [goToErrorPage, setGoToErrorPage] = useState(false);
   useEffect(() => {
     // Fetching the about info of the subreddit
     const fetchSubredditInfo = async () => {
       const results = await getSubreddit(subredditName);
       setSubredditInfo(results);
+      if (results.statusCode === 400) setGoToErrorPage(true);
       setLoading(false);
     };
 
@@ -69,12 +70,13 @@ export default function Subreddit() {
               isJoined={subredditInfo.joined}
               subredditId={subredditInfo._id}
               subredditName={subredditName}
+              subredditTitle={subredditInfo.title}
               name={subredditInfo.name}
               title={subredditInfo.name}
               notificationsStyle={subredditInfo.notificationType}
               logo={subredditInfo.icon}
             />
-            <CardsContainer style={{ backgroundColor: '#ccc' }}>
+            <CardsContainer style={{ backgroundColor: '#ccc', height: '100%' }}>
               <PostsContainer>
                 <CreatePostCard />
                 <BestHotNewCard />

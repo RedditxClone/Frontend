@@ -22,9 +22,14 @@ import {
   SideBarItem
 } from './ModToolsPage.Style';
 import './ModToolsPage.css';
+import Banned from '../../components/Banned/Banned';
+import Muted from '../../components/Muted/Muted';
+import Approved from '../../components/Approved/Approved';
+import Moderators from '../../components/Moderators/Moderators';
 import ModQueue from '../../components/ModQueue/ModQueue';
 import CommunityContainer from '../../components/Container/CommunityContainer';
 import PostsAndCommentsContainer from '../../components/Container/PostsAndCommentsContainer';
+import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
 
 /**
  * This Component for the Moderator Tools Page
@@ -106,354 +111,360 @@ function ModToolsPage() {
   }, []);
 
   return (
-    <div>
-      {currentComponent !== null ? (
-        <>
-          {/* Nav Bar Section  */}
-          <AppBar />
-          {/* Bread Crumb Section  */}
-          <BreadCrumbContainer
-            className="bread-crumb-container"
-            data-testid="bread-crumb"
-          >
+    <>
+      <FetchUserData />
+      <div>
+        {currentComponent !== null ? (
+          <>
+            {/* Nav Bar Section  */}
+            <AppBar />
+            {/* Bread Crumb Section  */}
+            <BreadCrumbContainer
+              className="bread-crumb-container"
+              data-testid="bread-crumb"
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  marginLeft: '1.5rem'
+                }}
+              >
+                {/* Subreddit Logo */}
+                <SubredditIcon>
+                  <img
+                    style={{ width: '100%', height: '100%' }}
+                    src="https://styles.redditmedia.com/t5_2rr0e/styles/communityIcon_ylhgbe8ngx481.jpg?width=256&format=pjpg&s=fb6c14e5b6e326a13bdff84d7e0aac38511df59c"
+                    alt="icon"
+                  />
+                </SubredditIcon>
+
+                <div>
+                  <Link
+                    to="subreddit"
+                    style={{
+                      textTransform: 'uppercase',
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      fontWeight: '600',
+                      fontSize: '12px',
+                      letterSpacing: '.5px'
+                    }}
+                  >
+                    r/test_community
+                  </Link>
+                </div>
+                <div>
+                  <span
+                    style={{
+                      textTransform: 'uppercase',
+                      textDecoration: 'none',
+                      fontWeight: '600',
+                      fontSize: '12px',
+                      marginLeft: '5px',
+                      letterSpacing: '.5px'
+                    }}
+                  >
+                    {`/ ${currentItem}`}
+                  </span>
+                </div>
+              </div>
+            </BreadCrumbContainer>
+
             <div
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                marginLeft: '1.5rem'
+                justifyContent: 'flex-start'
               }}
             >
-              {/* Subreddit Logo */}
-              <SubredditIcon>
-                <img
-                  style={{ width: '100%', height: '100%' }}
-                  src="https://styles.redditmedia.com/t5_2rr0e/styles/communityIcon_ylhgbe8ngx481.jpg?width=256&format=pjpg&s=fb6c14e5b6e326a13bdff84d7e0aac38511df59c"
-                  alt="icon"
-                />
-              </SubredditIcon>
-
-              <div>
-                <Link
-                  to="subreddit"
-                  style={{
-                    textTransform: 'uppercase',
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    fontWeight: '600',
-                    fontSize: '12px',
-                    letterSpacing: '.5px'
+              {/* Side Bar  */}
+              {!showSettingsSideBar ? (
+                <Box
+                  data-testid="mod-tools-sidebar"
+                  sx={{
+                    bottom: '0',
+                    boxSizing: 'border-box',
+                    overflow: 'auto',
+                    paddingTop: '16px',
+                    paddingBottom: '32px',
+                    position: 'fixed',
+                    top: '11rem',
+                    zIndex: '30',
+                    width: '28rem',
+                    backgroundColor: '#F6F7F8'
                   }}
                 >
-                  r/test_community
-                </Link>
-              </div>
-              <div>
-                <span
-                  style={{
-                    textTransform: 'uppercase',
-                    textDecoration: 'none',
-                    fontWeight: '600',
-                    fontSize: '12px',
-                    marginLeft: '5px',
-                    letterSpacing: '.5px'
-                  }}
-                >
-                  {`/ ${currentItem}`}
-                </span>
-              </div>
-            </div>
-          </BreadCrumbContainer>
-
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'flex-start'
-            }}
-          >
-            {/* Side Bar  */}
-            {!showSettingsSideBar ? (
-              <Box
-                data-testid="mod-tools-sidebar"
-                sx={{
-                  bottom: '0',
-                  boxSizing: 'border-box',
-                  overflow: 'auto',
-                  paddingTop: '16px',
-                  paddingBottom: '32px',
-                  position: 'fixed',
-                  top: '11rem',
-                  zIndex: '30',
-                  width: '28rem',
-                  backgroundColor: '#F6F7F8'
-                }}
-              >
-                {/* Mod Queue  */}
-                <SideBarCategory>
-                  <SideBarCategoryTitle>
-                    <BiAddToQueue
-                      className="queue-icon"
-                      style={{
-                        marginLeft: '-1rem',
-                        marginRight: '5px',
-                        color: '#878A8C',
-                        fontSize: '2rem'
-                      }}
-                    />
-                    <span>Queues</span>
-                  </SideBarCategoryTitle>
-                  <SideBarItem
-                    to="/subreddit/about/reports"
-                    className="subreddit-item"
-                    onClick={handleClickOnSidebarItem(
-                      'reports',
-                      <Box>reports</Box>
-                    )}
-                  >
-                    reports
-                  </SideBarItem>
-                  <SideBarItem
-                    to="/subreddit/about/spam"
-                    className={`subreddit-item ${
-                      activeItem === 'spam' ? 'active-sidebar-item' : null
-                    }`}
-                    onClick={handleClickOnSidebarItem(
-                      'spam',
-                      <ModQueue
-                        sortType="any"
-                        isCommunityPost={false}
-                        isModeratorMode={false}
-                        isHomePagePost={false}
-                        whichQueue="spam"
+                  {/* Mod Queue  */}
+                  <SideBarCategory>
+                    <SideBarCategoryTitle>
+                      <BiAddToQueue
+                        className="queue-icon"
+                        style={{
+                          marginLeft: '-1rem',
+                          marginRight: '5px',
+                          color: '#878A8C',
+                          fontSize: '2rem'
+                        }}
                       />
-                    )}
-                  >
-                    spam
-                  </SideBarItem>
-                  <SideBarItem
-                    to="/subreddit/about/edited"
-                    className={`subreddit-item ${
-                      activeItem === 'edited' ? 'active-sidebar-item' : null
-                    }`}
-                    onClick={handleClickOnSidebarItem(
-                      'edited',
-                      <ModQueue
-                        sortType="any"
-                        isCommunityPost={false}
-                        isModeratorMode={false}
-                        isHomePagePost={false}
-                        whichQueue="edited"
-                      />
-                    )}
-                  >
-                    edited
-                  </SideBarItem>
-                  <SideBarItem
-                    to="/subreddit/about/unmoderated"
-                    className={`subreddit-item ${
-                      activeItem === 'unmoderated'
-                        ? 'active-sidebar-item'
-                        : null
-                    }`}
-                    onClick={handleClickOnSidebarItem(
-                      'unmoderated',
-                      <ModQueue
-                        sortType="any"
-                        isCommunityPost={false}
-                        isModeratorMode={false}
-                        isHomePagePost={false}
-                        whichQueue="unmoderated"
-                      />
-                    )}
-                  >
-                    unmoderated
-                  </SideBarItem>
-                </SideBarCategory>
-
-                {/* User Management  */}
-                <SideBarCategory>
-                  <SideBarCategoryTitle>
-                    <AiOutlineUser
-                      className="queue-icon"
-                      style={{
-                        marginLeft: '-1rem',
-                        marginRight: '5px',
-                        color: '#878A8C',
-                        fontSize: '2rem'
-                      }}
-                    />
-                    <span>User Management</span>
-                  </SideBarCategoryTitle>
-                  <SideBarItem
-                    to="/subreddit/about/banned"
-                    className={`subreddit-item ${
-                      activeItem === 'banned' ? 'active-sidebar-item' : null
-                    }`}
-                    onClick={handleClickOnSidebarItem(
-                      'banned',
-                      <Box>banned</Box>
-                    )}
-                  >
-                    banned
-                  </SideBarItem>
-                  <SideBarItem
-                    to="/subreddit/about/muted"
-                    className={`subreddit-item ${
-                      activeItem === 'muted' ? 'active-sidebar-item' : null
-                    }`}
-                    onClick={handleClickOnSidebarItem(
-                      'muted',
-                      <Box>muted</Box>
-                    )}
-                  >
-                    muted
-                  </SideBarItem>
-                  <SideBarItem
-                    to="/subreddit/about/approved"
-                    className={`subreddit-item ${
-                      activeItem === 'approved' ? 'active-sidebar-item' : null
-                    }`}
-                    onClick={handleClickOnSidebarItem(
-                      'approved',
-                      <Box>approved</Box>
-                    )}
-                  >
-                    approved
-                  </SideBarItem>
-                  <SideBarItem
-                    to="/subreddit/about/moderators"
-                    className={`subreddit-item ${
-                      activeItem === 'moderators' ? 'active-sidebar-item' : null
-                    }`}
-                    onClick={handleClickOnSidebarItem(
-                      'moderators',
-                      <Box>moderators</Box>
-                    )}
-                  >
-                    moderators
-                  </SideBarItem>
-                </SideBarCategory>
-
-                {/* Flairs & Emojis  */}
-                <SideBarCategory>
-                  <SideBarCategoryTitle>
-                    <CiShoppingTag
-                      className="queue-icon"
-                      style={{
-                        marginLeft: '-1rem',
-                        marginRight: '5px',
-                        color: '#878A8C',
-                        fontSize: '2rem'
-                      }}
-                    />
-                    <span>Flairs & Emojis</span>
-                  </SideBarCategoryTitle>
-                  <SideBarItem
-                    to="/subreddit/about/postflairs"
-                    className={`subreddit-item ${
-                      activeItem === 'postflairs' ? 'active-sidebar-item' : null
-                    }`}
-                    onClick={handleClickOnSidebarItem(
-                      'Post flairs',
-                      <Box>Post flairs</Box>
-                    )}
-                  >
-                    Post flairs
-                  </SideBarItem>
-                </SideBarCategory>
-
-                {/* RULES AND REGULATIONS  */}
-                <SideBarCategory>
-                  <SideBarCategoryTitle>
-                    <HiOutlineNewspaper
-                      className="queue-icon"
-                      style={{
-                        marginLeft: '-1rem',
-                        marginRight: '5px',
-                        color: '#878A8C',
-                        fontSize: '2rem'
-                      }}
-                    />
-                    <span>RULES AND REGULATIONS</span>
-                  </SideBarCategoryTitle>
-                  <SideBarItem
-                    to="/subreddit/about/rules"
-                    className={`subreddit-item ${
-                      activeItem === 'rules' ? 'active-sidebar-item' : null
-                    }`}
-                    onClick={handleClickOnSidebarItem(
-                      'rules',
-                      <Box>rules</Box>
-                    )}
-                  >
-                    rules
-                  </SideBarItem>
-                </SideBarCategory>
-
-                {/* Other  */}
-                <SideBarCategory>
-                  <SideBarCategoryTitle>
-                    <AiOutlineSetting
-                      className="queue-icon"
-                      style={{
-                        marginLeft: '-1rem',
-                        marginRight: '5px',
-                        color: '#878A8C',
-                        fontSize: '2rem'
-                      }}
-                    />
-                    <span>Other</span>
-                  </SideBarCategoryTitle>
-                  <SideBarItem
-                    to="/subreddit/about/communitysettings"
-                    className={`subreddit-item ${
-                      activeItem === 'communitysettings'
-                        ? 'active-sidebar-item'
-                        : null
-                    }`}
-                    onClick={handleClickOnSidebarItem(
-                      'community settings',
-                      <Box>community settings</Box>
-                    )}
-                  >
-                    <span
-                      onClick={() => {
-                        setShowSettingsSideBar(true);
-                      }}
+                      <span>Queues</span>
+                    </SideBarCategoryTitle>
+                    <SideBarItem
+                      to="/subreddit/about/reports"
+                      className="subreddit-item"
+                      onClick={handleClickOnSidebarItem(
+                        'reports',
+                        <Box>reports</Box>
+                      )}
                     >
-                      community settings
-                    </span>
-                  </SideBarItem>
-                </SideBarCategory>
+                      reports
+                    </SideBarItem>
+                    <SideBarItem
+                      to="/subreddit/about/spam"
+                      className={`subreddit-item ${
+                        activeItem === 'spam' ? 'active-sidebar-item' : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'spam',
+                        <ModQueue
+                          sortType="any"
+                          isCommunityPost={false}
+                          isModeratorMode={false}
+                          isHomePagePost={false}
+                          whichQueue="spam"
+                        />
+                      )}
+                    >
+                      spam
+                    </SideBarItem>
+                    <SideBarItem
+                      to="/subreddit/about/edited"
+                      className={`subreddit-item ${
+                        activeItem === 'edited' ? 'active-sidebar-item' : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'edited',
+                        <ModQueue
+                          sortType="any"
+                          isCommunityPost={false}
+                          isModeratorMode={false}
+                          isHomePagePost={false}
+                          whichQueue="edited"
+                        />
+                      )}
+                    >
+                      edited
+                    </SideBarItem>
+                    <SideBarItem
+                      to="/subreddit/about/unmoderated"
+                      className={`subreddit-item ${
+                        activeItem === 'unmoderated'
+                          ? 'active-sidebar-item'
+                          : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'unmoderated',
+                        <ModQueue
+                          sortType="any"
+                          isCommunityPost={false}
+                          isModeratorMode={false}
+                          isHomePagePost={false}
+                          whichQueue="unmoderated"
+                        />
+                      )}
+                    >
+                      unmoderated
+                    </SideBarItem>
+                  </SideBarCategory>
 
-                {/* COMMUNITY ACTIVITY  */}
-                <SideBarCategory>
-                  <SideBarCategoryTitle>
-                    <ImStatsBars
-                      className="queue-icon"
-                      style={{
+                  {/* User Management  */}
+                  <SideBarCategory>
+                    <SideBarCategoryTitle>
+                      <AiOutlineUser
+                        className="queue-icon"
+                        style={{
+                          marginLeft: '-1rem',
+                          marginRight: '5px',
+                          color: '#878A8C',
+                          fontSize: '2rem'
+                        }}
+                      />
+                      <span>User Management</span>
+                    </SideBarCategoryTitle>
+                    <SideBarItem
+                      to="/subreddit/about/banned"
+                      className={`subreddit-item ${
+                        activeItem === 'banned' ? 'active-sidebar-item' : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'banned',
+                        <Banned />
+                      )}
+                    >
+                      banned
+                    </SideBarItem>
+                    <SideBarItem
+                      to="/subreddit/about/muted"
+                      className={`subreddit-item ${
+                        activeItem === 'muted' ? 'active-sidebar-item' : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'muted',
+                        <Muted />
+                      )}
+                    >
+                      muted
+                    </SideBarItem>
+                    <SideBarItem
+                      to="/subreddit/about/approved"
+                      className={`subreddit-item ${
+                        activeItem === 'approved' ? 'active-sidebar-item' : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'approved',
+                        <Approved />
+                      )}
+                    >
+                      approved
+                    </SideBarItem>
+                    <SideBarItem
+                      to="/subreddit/about/moderators"
+                      className={`subreddit-item ${
+                        activeItem === 'moderators'
+                          ? 'active-sidebar-item'
+                          : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'moderators',
+                        <Moderators />
+                      )}
+                    >
+                      moderators
+                    </SideBarItem>
+                  </SideBarCategory>
+
+                  {/* Flairs & Emojis  */}
+                  <SideBarCategory>
+                    <SideBarCategoryTitle>
+                      <CiShoppingTag
+                        className="queue-icon"
+                        style={{
+                          marginLeft: '-1rem',
+                          marginRight: '5px',
+                          color: '#878A8C',
+                          fontSize: '2rem'
+                        }}
+                      />
+                      <span>Flairs & Emojis</span>
+                    </SideBarCategoryTitle>
+                    <SideBarItem
+                      to="/subreddit/about/postflairs"
+                      className={`subreddit-item ${
+                        activeItem === 'postflairs'
+                          ? 'active-sidebar-item'
+                          : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'Post flairs',
+                        <Box>Post flairs</Box>
+                      )}
+                    >
+                      Post flairs
+                    </SideBarItem>
+                  </SideBarCategory>
+
+                  {/* RULES AND REGULATIONS  */}
+                  <SideBarCategory>
+                    <SideBarCategoryTitle>
+                      <HiOutlineNewspaper
+                        className="queue-icon"
+                        style={{
+                          marginLeft: '-1rem',
+                          marginRight: '5px',
+                          color: '#878A8C',
+                          fontSize: '2rem'
+                        }}
+                      />
+                      <span>RULES AND REGULATIONS</span>
+                    </SideBarCategoryTitle>
+                    <SideBarItem
+                      to="/subreddit/about/rules"
+                      className={`subreddit-item ${
+                        activeItem === 'rules' ? 'active-sidebar-item' : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'rules',
+                        <Box>rules</Box>
+                      )}
+                    >
+                      rules
+                    </SideBarItem>
+                  </SideBarCategory>
+
+                  {/* Other  */}
+                  <SideBarCategory>
+                    <SideBarCategoryTitle>
+                      <AiOutlineSetting
+                        className="queue-icon"
+                        style={{
+                          marginLeft: '-1rem',
+                          marginRight: '5px',
+                          color: '#878A8C',
+                          fontSize: '2rem'
+                        }}
+                      />
+                      <span>Other</span>
+                    </SideBarCategoryTitle>
+                    <SideBarItem
+                      to="/subreddit/about/communitysettings"
+                      className={`subreddit-item ${
+                        activeItem === 'communitysettings'
+                          ? 'active-sidebar-item'
+                          : null
+                      }`}
+                      onClick={handleClickOnSidebarItem(
+                        'community settings',
+                        <Box>community settings</Box>
+                      )}
+                    >
+                      <span
+                        onClick={() => {
+                          setShowSettingsSideBar(true);
+                        }}
+                      >
+                        community settings
+                      </span>
+                    </SideBarItem>
+                  </SideBarCategory>
+
+                  {/* COMMUNITY ACTIVITY  */}
+                  <SideBarCategory>
+                    <SideBarCategoryTitle>
+                      <ImStatsBars
+                        className="queue-icon"
+                        style={{
                         marginLeft: '-1rem',
                         marginRight: '5px',
                         color: '#878A8C',
                         fontSize: '2rem'
                       }}
-                    />
-                    <span>COMMUNITY ACTIVITY</span>
-                  </SideBarCategoryTitle>
-                  <SideBarItem
-                    to="/subreddit/about/trafficstats"
-                    className="subreddit-item"
-                    onClick={handleClickOnSidebarItem(
+                      />
+                      <span>COMMUNITY ACTIVITY</span>
+                    </SideBarCategoryTitle>
+                    <SideBarItem
+                      to="/subreddit/about/trafficstats"
+                      className="subreddit-item"
+                      onClick={handleClickOnSidebarItem(
                       'traffic stats',
-                      <Box>traffic stats</Box>
+                        <Box>traffic stats</Box>
                     )}
-                  >
-                    traffic stats
-                  </SideBarItem>
-                </SideBarCategory>
-              </Box>
+                    >
+                      traffic stats
+                    </SideBarItem>
+                  </SideBarCategory>
+                </Box>
             ) : (
               <Box
                 data-testid="mod-tools-sidebar"
@@ -489,7 +500,7 @@ function ModToolsPage() {
                     </span>
                   </SideBarItem>
                   <SideBarItem
-                    to="/mustafa_hamzawy/about/community"
+                    to="/subreddit/about/communit"
                     className={`subreddit-item ${
                       activeItem === 'communitysettings'
                         ? 'active-sidebar-item'
@@ -521,26 +532,27 @@ function ModToolsPage() {
               </Box>
             )}
 
-            <div
-              style={{
-                width: 'calc(100vw)',
-                display: 'flex',
-                justifyContent: 'center',
-                backgroundColor: '#DAE0E6',
-                paddingLeft: '280px',
-                position: 'relative',
-                top: '45px'
-              }}
-              data-testid="mod-tool-item"
-            >
-              {currentComponent}
+              <div
+                style={{
+                  width: 'calc(100vw)',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  backgroundColor: '#DAE0E6',
+                  paddingLeft: '280px',
+                  position: 'relative',
+                  top: '45px'
+                }}
+                data-testid="mod-tool-item"
+              >
+                {currentComponent}
+              </div>
             </div>
-          </div>
-        </>
-      ) : (
-        window.location.replace('/error')
-      )}
-    </div>
+          </>
+        ) : (
+          window.location.replace('/error')
+        )}
+      </div>
+    </>
   );
 }
 

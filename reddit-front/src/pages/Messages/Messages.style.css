@@ -1,0 +1,23 @@
+.message-link-1 {
+    display: inline-block;
+    padding: 0 10px;
+    font-size:15px;
+    text-transform: capitalize;
+    border:none;
+    font-weight: bold;
+    opacity: 0.8
+}
+
+.message-link {
+    margin: 0 12px 0 12px;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size:13px;
+}
+
+.message-link-first {
+    margin:0 12px 0 2px;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size:13px;
+}

@@ -10,7 +10,7 @@
   display: flex;
   border-radius: 4px;
   padding: .5rem;
-  user-select: none;
+  /* user-select: none; */
 
 }
 

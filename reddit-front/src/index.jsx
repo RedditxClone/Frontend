@@ -14,7 +14,6 @@ import ForgetUserName from './pages/ForgetUserName/ForgetUserName';
 import ForgetUserPassword from './pages/ForgetUserPassword/ForgetUserPassword';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import ChooseUserName from './pages/ChooseUserName/ChooseUserName';
-import ErrorPage from './pages/ErrorPage/ErrorPage';
 import Subreddit from './pages/Subreddit/Subreddit';
 import AccountSettings from './components/AccountSettings/AccountSettings';
 import UserSettings from './pages/UserSettings/UserSettings';
@@ -28,6 +27,14 @@ import ChatMessaging from './components/ChatMessaging/ChatMessaging';
 import CreatePost from './pages/CreatePost/CreatePost';
 import SearchResults from './pages/SearchResults/SearchResults';
 import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
+import AllMessages from './components/AllMessages/AllMessages';
+import UnreadMessages from './components/UnreadMessages/UnreadMessages';
+import MessagesComponent from './components/MessagesComponent/MessagesComponent';
+import PostRepliesMessages from './components/PostRepliesMessages/PostRepliesMessages';
+import UsernameMentionsMessages from './components/UsernameMentionsMessages/UsernameMentionsMessages';
+import SentPrivateMessage from './components/SentPrivateMessage/SentPrivateMessage';
+import SentMessage from './components/SentMessage/SentMessage';
+import Messages from './pages/Messages/Messages';
 import PostFullPage from './pages/PostFullPage/PostFullPage';
 import Error404 from './pages/Error404/Error404';
 
@@ -40,7 +47,7 @@ const routes = createBrowserRouter([
   {
     path: '/auth',
     element: <DefaultUserPage />,
-    errorElement: <ErrorPage />,
+    errorElement: <Error404 />,
     children: [
       {
         path: 'login',
@@ -148,9 +155,40 @@ const routes = createBrowserRouter([
     element: <ModToolsPage />
   },
   {
-    path: '/error',
-    element: <Error404 />
-  }
+    path: '/message/',
+    element: <Messages />,
+    children: [
+      {
+        path: '/message/inbox',
+        element: <AllMessages />
+      },
+      {
+        path: '/message/unread',
+        element: <UnreadMessages />
+      },
+      {
+        path: '/message/messages',
+        element: <MessagesComponent />
+      },
+      {
+        path: '/message/selfreply',
+        element: <PostRepliesMessages />
+      },
+      {
+        path: '/message/mentions',
+        element: <UsernameMentionsMessages />
+      },
+      {
+        path: '/message/compose',
+        element: <SentPrivateMessage />
+      },
+      {
+        path: '/message/sent',
+        element: <SentMessage />
+      }
+    ]
+  },
+  { path: '/error', element: <Error404 /> }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
