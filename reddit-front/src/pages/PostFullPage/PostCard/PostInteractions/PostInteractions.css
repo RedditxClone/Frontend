@@ -1,3 +1,4 @@
+/* // post full page  */
 .interaction-item {
   padding: 5px 8px;
   border-radius: 999px;
@@ -29,6 +30,8 @@
   align-items: stretch;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
   padding: 0 8px 0 4px;
   flex-grow: 1;
   margin-bottom: 5px;
@@ -74,7 +77,7 @@
 }
 .interactions-dropdown {
   position: absolute;
-  top: 2.8rem;
+  top: 3.8rem;
   left: 0px;
   width: 24rem;
   border-radius: 5px;
@@ -278,9 +281,9 @@
     width: 120px;
   }
 }
-@media (max-width: 1230px) and (min-width: 970px) {
-  .post-approve,
-  .post-approve span {
+@media (max-width: 1450px) and (min-width: 970px) {
+  .post-fp-approve,
+  .post-fp-approve span {
     width: 0;
     padding: 0;
     display: none;
@@ -292,9 +295,9 @@
   }
 }
 
-@media (max-width: 1100px) and (min-width: 970px) {
-  .post-spam,
-  .post-remove {
+@media (max-width: 1260px) and (min-width: 970px) {
+  .post-fp-spam,
+  .post-fp-remove {
     width: 0;
     padding: 0;
     display: none;
@@ -304,7 +307,6 @@
   .post-options,
   .post-more-interactions {
     position: relative;
-    left: -2.5rem;
   }
 
   .post-interactions .post-remove-2,
@@ -315,8 +317,8 @@
 }
 
 @media (max-width: 760px) {
-  .post-approve,
-  .post-approve span {
+  .post-fp-approve,
+  .post-fp-approve span {
     width: 0;
     padding: 0;
     display: none;
@@ -329,16 +331,16 @@
 }
 
 @media (max-width: 660px) {
-  .post-approve,
-  .post-approve span {
+  .post-fp-approve,
+  .post-fp-approve span {
     width: 0;
     padding: 0;
     display: none;
     visibility: hidden;
   }
 
-  .post-spam,
-  .post-remove {
+  .post-fp-spam,
+  .post-fp-remove {
     width: 0;
     padding: 0;
     display: none;
@@ -348,13 +350,11 @@
   .post-options,
   .post-more-interactions {
     position: relative;
-    left: -2.5rem;
   }
 
   .post-options,
   .post-more-interactions {
     position: relative;
-    left: -2.5rem;
   }
 
   .post-interactions .post-remove-2,
@@ -365,16 +365,16 @@
 }
 
 @media (max-width: 420px) {
-  .post-approve,
-  .post-approve span {
+  .post-fp-approve,
+  .post-fp-approve span {
     width: 0;
     padding: 0;
     display: none;
     visibility: hidden;
   }
 
-  .post-spam,
-  .post-remove {
+  .post-fp-spam,
+  .post-fp-remove {
     width: 0;
     padding: 0;
     display: none;
@@ -384,6 +384,5 @@
   .post-options,
   .post-more-interactions {
     position: relative;
-    left: -2.5rem;
   }
 }

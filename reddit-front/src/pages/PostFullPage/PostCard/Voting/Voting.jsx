@@ -9,8 +9,8 @@
 import { useState, memo } from 'react';
 import './Voting.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
-import { divideBigNumber } from '../../../utilities/Helpers';
-import { upVote, downVote, unVote } from '../../../services/requests/Post';
+import { divideBigNumber } from '../../../../utilities/Helpers';
+import { upVote, downVote, unVote } from '../../../../services/requests/Post';
 
 /**
  * @typedef PropType
@@ -121,11 +121,7 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
           data-testid="test-votes-count"
           style={{ color: votesCountColor }}
         >
-          {isHomePagePost
-            ? votes > 0
-              ? divideBigNumber(votes)
-              : 'Vote'
-            : null}
+          {divideBigNumber(votes)}
         </div>
         <span
           className="down-vote-icon"
