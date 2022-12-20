@@ -3,6 +3,7 @@
   border: 1px solid #ddd;
   font-size: 12px;
   border-radius: 5px;
+  word-wrap: break-word;
 }
 
 .RichEditor-controls {
@@ -10,7 +11,8 @@
   display: flex;
   border-radius: 4px;
   padding: .5rem;
-  /* user-select: none; */
+  user-select: none;
+  overflow:auto;
 
 }
 
@@ -42,7 +44,7 @@
   font-family: "Hoefler Text", "Georgia", serif;
   font-style: italic;
   margin: 16px 0;
-  padding: 10px 20px;
+  padding: 5px 10px;
 }
 
 .RichEditor-editor .public-DraftStyleDefault-pre {
@@ -69,4 +71,8 @@
 
 .RichEditor-activeButton {
   color: var(--newCommunityTheme-bodyText);
+}
+
+.public-DraftStyleDefault-pre {
+  overflow: auto;
 }
