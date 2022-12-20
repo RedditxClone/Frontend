@@ -33,16 +33,16 @@ ChartJS.register(
  * @description This component is resposinble to render
  * the Traffic Chart in the Traffic States Component
  */
-function TrafficChart() {
+function TrafficChart(srName) {
   const [trafficChartData, setTrafficChartData] = useState([]);
   // const [labels, setLabels] = useState([]);
   // const [joined, setJoined] = useState([]);
   // const [left, setLeft] = useState([]);
-  const [trafficLastWeek, setTrafficLastWeek] = useState(0);
-  const [trafficLastMonth, setTrafficLastMonth] = useState(0);
+  // const [trafficLastWeek, setTrafficLastWeek] = useState(0);
+  // const [trafficLastMonth, setTrafficLastMonth] = useState(0);
   useEffect(() => {
     async function fetchData() {
-      const res = await getTrafficChartData(); /// //////////////?????????????
+      const res = await getTrafficChartData(srName); /// //////////////?????????????
       await setTrafficChartData(res);
       console.log(res);
       console.log(trafficChartData);
@@ -133,13 +133,13 @@ function TrafficChart() {
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <ChartCard>
           <span style={{ fontSize: '32px', fontWeight: '400' }}>
-            {trafficLastWeek.totalMembers}
+            {/* {trafficLastWeek.totalMembers} */}
           </span>
           <h3 style={{ color: '#878a8c' }}>TOTAL - LAST 7 DAYS</h3>
         </ChartCard>
         <ChartCard>
           <span style={{ fontSize: '32px', fontWeight: '400' }}>
-            {trafficLastMonth.totalMembers}
+            {/* {trafficLastMonth.totalMembers} */}
           </span>
           <h3 style={{ color: '#878a8c' }}>TOTAL - LAST MONTH</h3>
         </ChartCard>

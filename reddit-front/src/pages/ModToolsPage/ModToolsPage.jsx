@@ -75,7 +75,7 @@ function ModToolsPage() {
     postflairs: <Box>postflairs</Box>,
     rules: <Box>rules</Box>,
     communitysettings: <Box>communitysettings</Box>,
-    trafficstats: <Box>trafficstats</Box>,
+    trafficstats: <Box><TrafficStates srName={subredditName} /></Box>,
     community: <Box>community</Box>,
     postsandcomments: <Box>postsandcomments</Box>
   };

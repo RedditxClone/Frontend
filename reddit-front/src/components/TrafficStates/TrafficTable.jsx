@@ -17,7 +17,15 @@ function TrafficTable() { // did not write param in
   // documentation as it should not take in the future
   const [value, setValue] = React.useState('Day Of Week');
   const [reversed, setReversed] = React.useState(false);
-  const [trafficTableJoinedMembers, setTrafficTableJoinedMembers] = React.useState([]);
+  const [trafficTableJoinedMembers, setTrafficTableJoinedMembers] = React.useState([
+    { time: 'Sunday', joined: '20' },
+    { time: 'Monday', joined: '40' },
+    { time: 'Tuesday', joined: '30' },
+    { time: 'Wednesday', joined: '100' },
+    { time: 'Thursday', joined: '10' },
+    { time: 'Friday', joined: '700' },
+    { time: 'Saturday', joined: '280' }
+  ]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,13 +60,40 @@ function TrafficTable() { // did not write param in
   }, [value, reversed]);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    if (newValue === 'Day Of Week') {
+      setTrafficTableJoinedMembers([
+        { time: 'Sunday', joined: '20' },
+        { time: 'Monday', joined: '40' },
+        { time: 'Tuesday', joined: '30' },
+        { time: 'Wednesday', joined: '100' },
+        { time: 'Thursday', joined: '10' },
+        { time: 'Friday', joined: '700' },
+        { time: 'Saturday', joined: '280' }
+      ]);
+      setValue(newValue);
+    } else {
+      setTrafficTableJoinedMembers([
+        { time: 'January', joined: '20' },
+        { time: 'February', joined: '40' },
+        { time: 'March', joined: '30' },
+        { time: 'April', joined: '100' },
+        { time: 'May', joined: '10' },
+        { time: 'June', joined: '700' },
+        { time: 'July', joined: '280' },
+        { time: 'August', joined: '30' },
+        { time: 'September', joined: '100' },
+        { time: 'October', joined: '10' },
+        { time: 'November', joined: '700' },
+        { time: 'December', joined: '280' }
+      ]);
+      setValue(newValue);
+    }
   };
 
   const handleClick = () => { // ? reversed correctly but doesnot show
-    // const temp = trafficTableJoinedMembers;
-    // temp.reverse();
-    // setTrafficTableJoinedMembers(temp);
+    const temp = trafficTableJoinedMembers;
+    temp.reverse();
+    setTrafficTableJoinedMembers(temp);
     // console.log(trafficTableJoinedMembers);
     // setTrafficTableJoinedMembers(temp);
     setReversed(!reversed);

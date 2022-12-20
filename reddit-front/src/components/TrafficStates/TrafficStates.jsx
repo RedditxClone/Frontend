@@ -5,7 +5,7 @@ import TrafficTable from './TrafficTable';
  * @description This component is
  * resposinble to render the Whole Traffic States Components of the Subreddit
  */
-function TrafficStates() {
+function TrafficStates(srName) {
   return (
     <div style={{ margin: '2rem 9rem 4rem 2.5rem', width: '100%' }}>
       <h1>
@@ -15,7 +15,7 @@ function TrafficStates() {
           updating every day
         </span>
       </h1>
-      <TrafficChart />
+      <TrafficChart srName={srName} />
 
       <TrafficTable />
     </div>

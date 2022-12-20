@@ -4,10 +4,11 @@ import api from './api';
  * This service for fetching the Chart Data
  */
 
-export const getTrafficChartData = async () => {
+export const getTrafficChartData = async (data) => {
   try {
+    const { srName } = data;
     const response = await api.get(
-      '/api/subreddit/traffic_states/traffic_chart_data'
+      `/api/subreddit/${srName}/statistics/week`
     );
     if (response.status >= 200 && response.status < 300) {
       console.log(response.data);
@@ -16,6 +17,7 @@ export const getTrafficChartData = async () => {
     return null;
   } catch (error) {
     console.log(error);
+    console.log("error");
     return null;
   }
 };
