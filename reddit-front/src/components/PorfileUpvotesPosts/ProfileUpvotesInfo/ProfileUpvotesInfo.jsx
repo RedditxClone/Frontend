@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-unused-vars */
 /* eslint-disable object-curly-newline */
 /* eslint-disable prefer-template */
@@ -15,13 +16,13 @@ import { RiSpamLine } from 'react-icons/ri';
 import { CiNoWaitingSign } from 'react-icons/ci';
 import { TbArrowsCross } from 'react-icons/tb';
 import {
-  getPostRelatedCommunityInfo,
-  getPostRelatedUserInfo,
+  // getPostRelatedCommunityInfo,
+  // getPostRelatedUserInfo,
   followPost
 } from '../../../services/requests/Post';
 import Logo from '../../../assets/Images/test.png';
 import RemovalReasonDialog from './RemovalReasonDialog';
-
+import { joinSubreddit } from '../../../services/requests/ProfilePosts';
 /**
  * @typedef PropType
  * @property {number} postId
@@ -53,14 +54,14 @@ function PostInfo({
   postedBy,
   postedAt,
   postId,
-  isCommunityPost,
-  isPostFullDetailsMode,
+  // isCommunityPost,
+  // isPostFullDetailsMode,
   modAction,
   isNSFW,
   isLocked,
-  isDistinguishedAsMode,
+  // isDistinguishedAsMode,
   isFollowed,
-  isCrosspost,
+  // isCrosspost,
   isJoined
 }) {
   const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
@@ -70,7 +71,7 @@ function PostInfo({
   );
   const { postRelatedUserData, setPostRelatedUserData } = useState([]);
   const [openRemovalDialog, setOpenRemovalDialog] = useState(false);
-
+  const [isJoinedd, setIsJoined] = useState(isJoined);
   // Dispatching the action to get the data of subreddit and user that related to the post
   useEffect(() => {
     getPostRelatedCommunityInfo(communityId);
@@ -151,7 +152,11 @@ function PostInfo({
   const handleCloseRemovalDialog = () => {
     setOpenRemovalDialog(false);
   };
-
+  const joinHandler = () => {
+    temp = !isJoinedd;
+    setIsJoined(temp);
+    joinSubreddit(communityId);
+  };
   // Returning the result
   return (
     <div
@@ -408,12 +413,21 @@ function PostInfo({
         postId={postId}
       />
       {/* showing join button if the user is not showing the subreddit page  */}
-      {!isJoined ? (
+      {isJoined ? (
         <button
           type="button"
           className="join-community"
+          onClick={joinHandler}
+          style={{
+            '&:hover span': {
+              display: 'none'
+            },
+            '&:hover:before': {
+              content: "'Leave'"
+            }
+          }}
         >
-          Join
+          <span> {isJoinedd ? 'joined' : 'join'}</span>
         </button>
       ) : null}
       {/* showing follow button in the full details mode of the post  */}

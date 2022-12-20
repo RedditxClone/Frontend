@@ -1,7 +1,5 @@
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
-/* eslint-disable arrow-body-style */
-/* eslint-disable operator-linebreak */
 /* eslint-disable prefer-destructuring */
+/* eslint-disable operator-linebreak */
 /* eslint-disable no-unused-vars */
 /* eslint-disable object-curly-newline */
 /* eslint-disable prefer-template */
@@ -17,30 +15,24 @@ import { FcApproval, FcLock } from 'react-icons/fc';
 import { BsFillShieldFill } from 'react-icons/bs';
 import { RiSpamLine } from 'react-icons/ri';
 import { CiNoWaitingSign } from 'react-icons/ci';
-import { followPost } from '../../../services/requests/Post';
-import Logo from '../../../assets/Images/test.png';
+import { followPost } from '../../../../services/requests/Post';
+import Logo from '../../../../assets/Images/test.png';
 import RemovalReasonDialog from './RemovalReasonDialog';
-import { divideBigNumber } from '../../../utilities/Helpers';
-import { unFollowUser, followUser } from '../../../services/requests/User';
-import {
-  joinSubreddit,
-  leaveSubreddit
-} from '../../../services/requests/Subreddit';
+import { divideBigNumber } from '../../../../utilities/Helpers';
 
 /**
  * @typedef PropType
  * @property {number} postId
- * @property {number} userId
- * @property {number} communityId
  * @property {string} communityName
  * @property {string} postedBy
  * @property {timestamp} postedAt
- * @property {boolean} isCommunityPost
- * @property {boolean} isPostFullDetailsMode
+ * @property {string} approvedBy
+ * @property {timestamp} approvedAt
+ * @property {string} spammedBy
+ * @property {timestamp} spammedAt
  * @property {integer} modAction  // 0: none, 1: approved, 2: spammed, 3: removed
  * @property {boolean} isNSFW
  * @property {boolean} isLocked
- * @property {boolean} isDistinguishedAsMode
  * @property {bool} isFollowed
  */
 
@@ -52,21 +44,20 @@ import {
  */
 
 function PostInfo({
+  postId,
   userInfo,
   subredditInfo,
   postedAt,
-  postId,
-  isCommunityPost,
+  approvedBy,
+  approvedAt,
+  spammedBy,
+  spammedAt,
+  removedBy,
+  removedAt,
   modAction,
   isNSFW,
   isLocked,
-  isFollowed,
-  approvedBy,
-  approvedAt,
-  removedBy,
-  removedAt,
-  spammedBy,
-  spammedAt
+  isFollowed
 }) {
   const { user } = useSelector((state) => state.auth);
   const communityName = subredditInfo.name;
@@ -86,10 +77,6 @@ function PostInfo({
       : null;
   const userLogo =
     userInfo.logo === '' || userInfo.logo == null ? userInfo.photo : null;
-
-  useEffect(() => {
-    setIsCommunityNameHovered(false);
-  }, [isCommunityNameHovered]);
 
   /* This function shows the subreddit info while hovering on the subreddit name */
   const handleHoverOnSubreddit = () => {
@@ -129,29 +116,25 @@ function PostInfo({
     userInformation.style.visibility = 'hidden';
   };
 
-  /* This function handles the join button */
-  const handleJoinSubreddit = () => {
-    if (isJoined) {
-      setIsJoined(false);
-      leaveSubreddit(communityId);
-    } else {
-      setIsJoined(true);
-      joinSubreddit(communityId);
-    }
-  };
-
   /* This function return the subreddit name concatenated with 'r/' */
-  const getCommunityName = () => {
-    return communityName ? 'r/ '.concat(communityName) : 'community_name';
+  const getCommunityName = function () {
+    return subredditInfo.name
+      ? 'r/ '.concat(subredditInfo.name)
+      : 'community_name';
   };
 
   /* This function return the username of the person that published the post 'u/' */
-  const getPostedBy = () => {
-    return postedBy ? 'u/ '.concat(postedBy) : 'user_name';
+  const getPostedBy = function () {
+    return userInfo.username ? 'u/ '.concat(userInfo.username) : 'user_name';
+  };
+
+  /* This function return date at which the post was published */
+  const getPostedAt = function () {
+    return postedAt ? postedAt.concat(' ago') : 'posted_time';
   };
 
   /* This function handles the follow button */
-  const handleFollowPost = () => {
+  const handleFollowPost = function () {
     if (!isPostFollowed) {
       setIsPostFollowed(true);
       const info = { request: { follow: true }, id: postId };
@@ -160,24 +143,6 @@ function PostInfo({
       setIsPostFollowed(false);
       const info = { request: { follow: false }, id: postId };
       followPost(info);
-    }
-  };
-
-  /* This function handles the join button */
-  const handleHoverOnJoinButton = (e) => {
-    if (isJoined) {
-      e.target.innerHTML = 'Leave';
-    } else {
-      e.target.innerHTML = 'Join';
-    }
-  };
-
-  /* This function handles the join button */
-  const handleHoverOutJoinButton = (e) => {
-    if (isJoined) {
-      e.target.innerHTML = 'Joined';
-    } else {
-      e.target.innerHTML = 'Join';
     }
   };
 
@@ -200,100 +165,67 @@ function PostInfo({
       className="post-info"
       data-testid="test-post-info"
     >
-      {/* Community logo on the post card  */}
-      {!isCommunityPost ? (
-        <div
-          className="community-logo"
-          data-testid="test-post-logo"
-        >
-          {subredditLogo ? (
-            <a
-              href={`/r/${communityName}`}
-              className="community-logo-link"
-            >
-              <img
-                src={subredditLogo}
-                alt="community Logo"
-              />
-            </a>
-          ) : (
-            <svg
-              onClick={() => {
-                window.location.href = `/r/${communityName}`;
-              }}
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              style={{
-                borderRadius: '50%',
-                border: '4px solid white',
-                width: '2.5rem',
-                height: '2.5rem',
-                backgroundColor: 'white',
-                boxSizing: 'border-box',
-                fill: '#0079D3',
-                transform: 'translateY(-2px)',
-                zIndex: 10
-              }}
-            >
-              <path d="M16.5,2.924,11.264,15.551H9.91L15.461,2.139h.074a9.721,9.721,0,1,0,.967.785ZM8.475,8.435a1.635,1.635,0,0,0-.233.868v4.2H6.629V6.2H8.174v.93h.041a2.927,2.927,0,0,1,1.008-.745,3.384,3.384,0,0,1,1.453-.294,3.244,3.244,0,0,1,.7.068,1.931,1.931,0,0,1,.458.151l-.656,1.558a2.174,2.174,0,0,0-1.067-.246,2.159,2.159,0,0,0-.981.215A1.59,1.59,0,0,0,8.475,8.435Z" />
-            </svg>
-          )}
-        </div>
-      ) : null}
-
       {/* post info details -> username, time, community name */}
       <div className="post-info-details">
-        {!isCommunityPost ? (
+        <div
+          className="community-name"
+          onMouseOver={handleHoverOnSubreddit}
+          onFocus={handleHoverOnSubreddit}
+          onMouseOut={handleHoverOutSubreddit}
+          onBlur={handleHoverOutSubreddit}
+          data-testid="test-post-community-name"
+        >
+          <a href={`/r/${subredditInfo.name}`}>{getCommunityName()}</a>
           <div
-            className="community-name"
-            onMouseOver={handleHoverOnSubreddit}
-            onFocus={handleHoverOnSubreddit}
-            onMouseOut={handleHoverOutSubreddit}
-            onBlur={handleHoverOutSubreddit}
-            data-testid="test-post-community-name"
+            className="community-information"
+            id={'community-information-post-' + postId}
           >
-            <a href={`/r/${communityName}`}>{getCommunityName()}</a>
-            <div
-              className="community-information"
-              id={'community-information-post-' + postId}
-            >
-              <div className="community-information-header">
-                <div className="community-logo-2">
-                  <img
-                    src={Logo}
-                    alt="community logo"
-                  />
-                </div>
-                <h3 className="community-name-2">
-                  <a href={`/r/${communityName}`}>{getCommunityName()}</a>
-                </h3>
+            <div className="community-information-header">
+              <div className="community-logo-2">
+                <img
+                  src={Logo}
+                  alt="community logo"
+                />
               </div>
-              <div className="community-stats">
-                <div className="community-stats-item">
-                  <span className="members-count">
-                    {divideBigNumber(membersCount)}
-                  </span>
-                  <span>members</span>
-                </div>
-                <div className="community-stats-item">
-                  <span className="online-members">0</span>
-                  <span>online</span>
-                </div>
-              </div>
-              <div className="community-description-text">
-                <p>{communityDescription}</p>
-              </div>
-              <div className="community-view-button">
+              <h3 className="community-name-2">
                 <a
-                  href={`/r/${communityName}`}
-                  className="view-community"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    window.location.replace(`/r/${subredditInfo.name}`);
+                  }}
                 >
-                  view community
+                  {getCommunityName()}
                 </a>
+              </h3>
+            </div>
+            <div className="community-stats">
+              <div className="community-stats-item">
+                <span className="members-count">
+                  {divideBigNumber(subredditInfo.membersCount)}
+                </span>
+                <span>members</span>
+              </div>
+              <div className="community-stats-item">
+                <span className="online-members">0</span>
+                <span>online</span>
               </div>
             </div>
+            <div className="community-description-text">
+              <p>{subredditInfo.description}</p>
+            </div>
+            <div className="community-view-button">
+              <a
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  window.location.replace(`/r/${subredditInfo.name}`);
+                }}
+                className="view-community"
+              >
+                view community
+              </a>
+            </div>
           </div>
-        ) : null}
+        </div>
 
         <span className="posted-by">Posted by</span>
         <div
@@ -303,40 +235,33 @@ function PostInfo({
           onFocus={handleHoverOnUsername}
           onBlur={handleHoverOutUsername}
         >
-          <a href={`/user/${postedBy}`}>{getPostedBy()}</a>
+          <a
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              window.location.replace(`/user/${userInfo.username}`);
+            }}
+          >
+            {getPostedBy()}
+          </a>
           <div
             className="user-information"
             id={'user-information-post-' + postId}
           >
             <div className="user-information-header">
               <div className="user-logo-2">
-                {userLogo ? (
-                  <img
-                    src={Logo}
-                    alt="User logo"
-                  />
-                ) : (
-                  <img
-                    src="https://i.redd.it/snoovatar/avatars/22ed2fc7-5f11-491e-9188-d99c9327cdf9.png"
-                    alt="User Avatar"
-                  />
-                )}
+                <img
+                  src={Logo}
+                  alt="User logo"
+                />
               </div>
               <p className="user-name-2">
-                <a
-                  onClick={() => {
-                    window.location.replace(`/user/${postedBy}`);
-                  }}
-                >
-                  {getPostedBy()}
-                </a>
+                <a href={`/user/${userInfo.username}`}>{userInfo.username}</a>
                 <p>
                   {getPostedBy()}
-                  <span className="user-joined-from">{joinedDate}</span>
+                  <span className="user-joined-from"> joined date</span>
                 </p>
               </p>
             </div>
-
             <div className="user-stats">
               <div className="user-stats-item">
                 <span className="karma-count">12</span>
@@ -379,7 +304,7 @@ function PostInfo({
             ) : null}
           </div>
         </div>
-        <span className="post-time">{postedAt}</span>
+        <span className="post-time">{getPostedAt()}</span>
         <div className="mod-action-icon">
           {isNSFW ? (
             <span
@@ -446,20 +371,20 @@ function PostInfo({
         </div>
       </div>
 
-      {/* showing join button if the user is not showing the subreddit page  */}
-      {!isCommunityPost && !subredditInfo.isJoin ? (
-        <a
-          type="button"
-          className="join-community"
-          onClick={handleJoinSubreddit}
-          onMouseOver={handleHoverOnJoinButton}
-          onFocus={handleHoverOnJoinButton}
-          onMouseOut={handleHoverOutJoinButton}
-          onBlur={handleHoverOutJoinButton}
-        >
-          {isJoined ? 'Joined' : 'Join'}
-        </a>
-      ) : null}
+      {/* showing follow button in the full details mode of the post  */}
+      <a onClick={handleFollowPost}>
+        {isPostFollowed ? (
+          <IoIosNotifications
+            color="#787c7e"
+            fontSize="2.4rem"
+          />
+        ) : (
+          <IoMdNotificationsOutline
+            color="#787c7e"
+            fontSize="2.4rem"
+          />
+        )}
+      </a>
     </div>
   );
 }

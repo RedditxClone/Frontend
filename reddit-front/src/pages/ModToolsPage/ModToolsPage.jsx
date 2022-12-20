@@ -32,7 +32,6 @@ import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
  * This Component for the Moderator Tools Page
  *
  */
-
 function ModToolsPage() {
   // Params
   const { subredditName, activeItem } = useParams();
@@ -140,7 +139,7 @@ function ModToolsPage() {
 
                 <div>
                   <Link
-                    to="subreddit"
+                    to={`/r/${subredditName}`}
                     style={{
                       textTransform: 'uppercase',
                       cursor: 'pointer',
@@ -150,7 +149,7 @@ function ModToolsPage() {
                       letterSpacing: '.5px'
                     }}
                   >
-                    r/test_community
+                    {`r/${subredditName}`}
                   </Link>
                 </div>
                 <div>
@@ -209,7 +208,7 @@ function ModToolsPage() {
                       <span>Queues</span>
                     </SideBarCategoryTitle>
                     <SideBarItem
-                      to="/subreddit/about/reports"
+                      to={`/${subredditName}/about/reports`}
                       className="subreddit-item"
                       onClick={handleClickOnSidebarItem(
                         'reports',
@@ -219,7 +218,7 @@ function ModToolsPage() {
                       reports
                     </SideBarItem>
                     <SideBarItem
-                      to="/subreddit/about/spam"
+                      to={`/${subredditName}/about/spam`}
                       className={`subreddit-item ${
                         activeItem === 'spam' ? 'active-sidebar-item' : null
                       }`}
@@ -231,13 +230,14 @@ function ModToolsPage() {
                           isModeratorMode={false}
                           isHomePagePost={false}
                           whichQueue="spam"
+                          subredditId="63a1acadcc156831e2e91893"
                         />
                       )}
                     >
                       spam
                     </SideBarItem>
                     <SideBarItem
-                      to="/subreddit/about/edited"
+                      to={`/${subredditName}/about/edited`}
                       className={`subreddit-item ${
                         activeItem === 'edited' ? 'active-sidebar-item' : null
                       }`}
@@ -249,13 +249,14 @@ function ModToolsPage() {
                           isModeratorMode={false}
                           isHomePagePost={false}
                           whichQueue="edited"
+                          subredditId="63a1acadcc156831e2e91893"
                         />
                       )}
                     >
                       edited
                     </SideBarItem>
                     <SideBarItem
-                      to="/subreddit/about/unmoderated"
+                      to={`/${subredditName}/about/unmoderated`}
                       className={`subreddit-item ${
                         activeItem === 'unmoderated'
                           ? 'active-sidebar-item'
@@ -269,6 +270,7 @@ function ModToolsPage() {
                           isModeratorMode={false}
                           isHomePagePost={false}
                           whichQueue="unmoderated"
+                          subredditId="63a1acadcc156831e2e91893"
                         />
                       )}
                     >
@@ -291,31 +293,25 @@ function ModToolsPage() {
                       <span>User Management</span>
                     </SideBarCategoryTitle>
                     <SideBarItem
-                      to="/subreddit/about/banned"
+                      to={`/${subredditName}/about/banned`}
                       className={`subreddit-item ${
                         activeItem === 'banned' ? 'active-sidebar-item' : null
                       }`}
-                      onClick={handleClickOnSidebarItem(
-                        'banned',
-                        <Banned />
-                      )}
+                      onClick={handleClickOnSidebarItem('banned', <Banned />)}
                     >
                       banned
                     </SideBarItem>
                     <SideBarItem
-                      to="/subreddit/about/muted"
+                      to={`/${subredditName}/about/muted`}
                       className={`subreddit-item ${
                         activeItem === 'muted' ? 'active-sidebar-item' : null
                       }`}
-                      onClick={handleClickOnSidebarItem(
-                        'muted',
-                        <Muted />
-                      )}
+                      onClick={handleClickOnSidebarItem('muted', <Muted />)}
                     >
                       muted
                     </SideBarItem>
                     <SideBarItem
-                      to="/subreddit/about/approved"
+                      to={`/${subredditName}/about/approved`}
                       className={`subreddit-item ${
                         activeItem === 'approved' ? 'active-sidebar-item' : null
                       }`}
@@ -327,7 +323,7 @@ function ModToolsPage() {
                       approved
                     </SideBarItem>
                     <SideBarItem
-                      to="/subreddit/about/moderators"
+                      to={`/${subredditName}/about/moderators`}
                       className={`subreddit-item ${
                         activeItem === 'moderators'
                           ? 'active-sidebar-item'
@@ -357,7 +353,7 @@ function ModToolsPage() {
                       <span>Flairs & Emojis</span>
                     </SideBarCategoryTitle>
                     <SideBarItem
-                      to="/subreddit/about/postflairs"
+                      to={`/${subredditName}/about/postflairs`}
                       className={`subreddit-item ${
                         activeItem === 'postflairs'
                           ? 'active-sidebar-item'
@@ -387,7 +383,7 @@ function ModToolsPage() {
                       <span>RULES AND REGULATIONS</span>
                     </SideBarCategoryTitle>
                     <SideBarItem
-                      to="/subreddit/about/rules"
+                      to={`/${subredditName}/about/rules`}
                       className={`subreddit-item ${
                         activeItem === 'rules' ? 'active-sidebar-item' : null
                       }`}
@@ -415,7 +411,7 @@ function ModToolsPage() {
                       <span>Other</span>
                     </SideBarCategoryTitle>
                     <SideBarItem
-                      to="/subreddit/about/communitysettings"
+                      to={`/${subredditName}/about/communitysettings`}
                       className={`subreddit-item ${
                         activeItem === 'communitysettings'
                           ? 'active-sidebar-item'
@@ -451,7 +447,7 @@ function ModToolsPage() {
                       <span>COMMUNITY ACTIVITY</span>
                     </SideBarCategoryTitle>
                     <SideBarItem
-                      to="/subreddit/about/trafficstats"
+                      to={`/${subredditName}/about/trafficstats`}
                       className="subreddit-item"
                       onClick={handleClickOnSidebarItem(
                         'traffic stats',
@@ -497,7 +493,7 @@ function ModToolsPage() {
                       </span>
                     </SideBarItem>
                     <SideBarItem
-                      to="/subreddit/about/community"
+                      to={`/${subredditName}/about/community`}
                       className={`subreddit-item ${
                         activeItem === 'communitysettings'
                           ? 'active-sidebar-item'
@@ -512,7 +508,7 @@ function ModToolsPage() {
                     </SideBarItem>
 
                     <SideBarItem
-                      to="/subreddit/about/postsandcomments"
+                      to={`/${subredditName}/about/postsandcomments`}
                       className={`subreddit-item ${
                         activeItem === 'postsandcomments'
                           ? 'active-sidebar-item'

@@ -243,20 +243,20 @@ function PostContent({
           </div>
           {/* Post info -> community, username, time */}
           <PostInfo
-            communityName={postContentData.community_name}
-            communityId={postContentData.community_id}
-            userId={postContentData.user_id}
-            postedBy={postContentData.posted_by}
-            postedAt={postContentData.posted_at}
+            communityName={postContentData.subredditInfo.name}
+            communityId={postContentData.subredditInfo.id}
+            userId={userPostedByInfo.id}
+            postedBy={userPostedByInfo.username}
+            postedAt={postContentData.publishedDate}
             postId={postContentData.id}
-            isCommunityPost={isCommunityPost}
-            isPostFullDetailsMode={isPostFullDetailsMode}
+            // isCommunityPost={isCommunityPost}
+            // isPostFullDetailsMode={isPostFullDetailsMode}
             modAction={modAction}
-            isNSFW={nsfw}
-            isLocked={locked}
-            isDistinguishedAsMode={distinguishAsMod}
-            isFollowed={postContentData.follow}
-            isCrosspost={isCrosspost}
+            isNSFW={isNSFW}
+            isLocked={postContentData.commentsLocked}
+            // isDistinguishedAsMode={distinguishAsMod}
+            isFollowed={userPostedByInfo.isFollowed}
+            // isCrosspost={isCrosspost}
             isJoined={isJoined}
           />
 

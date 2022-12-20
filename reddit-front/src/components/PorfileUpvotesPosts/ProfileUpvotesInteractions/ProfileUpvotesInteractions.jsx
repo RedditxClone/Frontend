@@ -49,14 +49,13 @@ import {
   spamPost,
   unSpamPost,
   sendReplyNotifications,
-  stickyPost,
-  unStickyPost,
-  distinguishAsMod,
-  unDistinguishAsMod,
   spoilPost,
-  unSpoilPost
-} from '../../../services/requests/Post';
-import { deletePost, hidePost } from '../../../services/requests/ProfilePosts';
+  unSpoilPost,
+  deletePost,
+  hidePost,
+  unHidePost,
+  joinSubreddit
+} from '../../../services/requests/ProfilePosts';
 /**
  * @typedef PropType
  * @property {number} commentsCount
@@ -157,20 +156,23 @@ function PostInteractions({
       .getElementById(`interactions-dropdown-${postId}`)
       .classList.remove('is-visible');
   };
-
   const handleHideButton = () => {
-    hide = !hidePostt;
-
-    setHidePost(hide);
-    const info = {
-      request: {
-        is_hidden: hide
-      },
-      id: postId
-    };
-    hidePost(info);
+    if (hidePostt) {
+      hide = !hidePostt;
+      setHidePost(hide);
+      const info = {
+        id: postId
+      };
+      hidePost(info);
+    } else {
+      hide = !hidePostt;
+      setHidePost(hide);
+      const info = {
+        id: postId
+      };
+      unHidePost(info);
+    }
   };
-
   const handleApproveButton = (id) => {
     let info = {};
     // cancelling spamming
@@ -248,55 +250,23 @@ function PostInteractions({
 
   const handleDeletePost = () => {
     setOpenConfirmationDialog(false);
-    const info = {
-      request: {
-        is_deleted: true
-      },
-      id: postId
-    };
-    console.log('nada');
-    console.log(info.request.is_deleted);
-    deletePost(info);
+    const request = { id: postId };
+    deletePost(request);
 
-    // remove post from ui
-    // const postCard = document.getElementById(`post-${postId}`);
-    // if (postCard) postCard.style.display = 'none';
+    //   remove post from ui
+    const postCard = document.getElementById(`post-${postId}`);
+    if (postCard) postCard.style.display = 'none';
   };
-
-  const handleStickyButton = () => {
-    if (!isSticky) {
-      setIsSticky(true);
-      const request = { id: postId };
-      stickyPost(request);
-    } else {
-      setIsSticky(false);
-      const request = { id: postId };
-      unStickyPost(request);
-    }
-  };
-
-  const handleDistinguishAsMod = () => {
-    if (!distinguishAsMode) {
-      setDistinguishAsMode(true);
-      setDistinguishPostAsMod(true);
-      distinguishAsMod({ id: postId });
-    } else {
-      setDistinguishAsMode(false);
-      setDistinguishPostAsMod(false);
-      unDistinguishAsMod({ id: postId });
-    }
-  };
-
   const handleLockComments = () => {
     if (!lockComments) {
       setLockComments(true);
       setLocked(true);
-      const info = { request: { is_locked: true }, id: postId };
+      const info = { id: postId };
       lockPost(info);
     } else {
       setLockComments(false);
       setLocked(false);
-      const info = { request: { is_locked: false }, id: postId };
+      const info = { id: postId };
       unLockPost(info);
     }
   };
@@ -329,9 +299,11 @@ function PostInteractions({
     }
   };
 
-  const getCommentsCount = function () {
+  const getCommentsCount = () => {
     if (!isCommunityPost) {
-      return commentsCount ? commentsCount.concat(' Comments') : 'No Comments';
+      return commentsCount
+        ? commentsCount.toString().concat(' Comments')
+        : 'No Comments';
     }
     return commentsCount;
   };
@@ -368,7 +340,7 @@ function PostInteractions({
         <SmallScreenVoting
           votesCount={votesCount}
           postId={postId}
-          currentVotingState={0}
+          currentVotingState={currentVotingState}
         />
         <a
           className="post-expand"
@@ -381,9 +353,17 @@ function PostInteractions({
           )}
         </a>
         {/* comments  */}
-        <a className="post-comment">
+        <a
+          className="interaction-item"
+          href={`/r/${communityName}/posts/${postId}`}
+        >
           <GoComment fontSize="18px" />
-          <span className="comments-count">{getCommentsCount()}</span>
+          <span
+            className="interaction-text"
+            style={{ marginLeft: '3px', marginBottom: '3px' }}
+          >
+            {getCommentsCount()}
+          </span>
         </a>
         {/* share  */}
         <a
@@ -415,30 +395,39 @@ function PostInteractions({
           <>
             {/* // approve */}
             <a
-              className="post-approve post-interaction-button"
+              className="interaction-item"
               id={`post-approve-${postId}`}
               onClick={() => handleApproveButton(postId)}
             >
               <TiTickOutline fontSize="25px" />
-              <span> {isApproved ? 'Approved' : 'Approve'}</span>
+              <span className="interaction-text">
+                {' '}
+                {isApproved ? 'Approved' : 'Approve'}
+              </span>
             </a>
             {/* // remove */}
             <a
-              className="post-remove post-interaction-button"
+              className="interaction-item"
               id={`post-remove-${postId}`}
               onClick={() => handleRemoveButton(postId)}
             >
               <CiNoWaitingSign fontSize="25px" />
-              <span> {isRemoved ? 'Removed' : 'Remove'}</span>
+              <span className="interaction-text">
+                {' '}
+                {isRemoved ? 'Removed' : 'Remove'}
+              </span>
             </a>
             {/* // spam */}
             <a
-              className="post-spam post-interaction-button"
+              className="interaction-item"
               id={`post-spam-${postId}`}
               onClick={() => handleSpamButton(postId)}
             >
               <RiSpamLine fontSize="25px" />
-              <span> {isSpammed ? 'Spammed' : 'Spam'}</span>
+              <span className="interaction-text">
+                {' '}
+                {isSpammed ? 'Spammed' : 'Spam'}
+              </span>
             </a>
           </>
         ) : null}
@@ -462,36 +451,6 @@ function PostInteractions({
                 id={`post-options-${postId}`}
                 data-testid="test-2-interactions-dropdown"
               >
-                {/* sticky post  */}
-                <div
-                  className="drop-down-item"
-                  onClick={handleStickyButton}
-                >
-                  <a>
-                    {isSticky ? (
-                      <ImCheckboxChecked fontSize="16px" />
-                    ) : (
-                      <GrCheckbox fontSize="16px" />
-                    )}
-                    <span> Sticky Post</span>
-                  </a>
-                </div>
-
-                {/* distinguish as mod  */}
-                <div
-                  className="drop-down-item"
-                  onClick={handleDistinguishAsMod}
-                >
-                  <a>
-                    {distinguishAsMode ? (
-                      <ImCheckboxChecked fontSize="16px" />
-                    ) : (
-                      <GrCheckbox fontSize="16px" />
-                    )}
-                    <span> Distinguish As Mod</span>
-                  </a>
-                </div>
-
                 {/* lock comment  */}
                 <div
                   className="drop-down-item"
@@ -521,7 +480,6 @@ function PostInteractions({
                     <span> Mark As NSFW </span>
                   </a>
                 </div>
-
                 {/* mark as spoiler  */}
                 {canBeSpoiled ? (
                   <div
@@ -538,7 +496,6 @@ function PostInteractions({
                     </a>
                   </div>
                 ) : null}
-
                 {/*  Send Replies */}
                 <div className="drop-down-item">
                   <a onClick={handleSendReplies}>
@@ -554,13 +511,12 @@ function PostInteractions({
             </button>
           </div>
         ) : null}
-
         {/* other interactions  */}
         <div
           className="post-more-interactions"
           data-testid="test-post-more-interactions"
         >
-          <button
+          <a
             type="button"
             onClick={handleClickMoreInteractions}
           >
@@ -754,7 +710,7 @@ function PostInteractions({
                 </>
               ) : null}
             </div>
-          </button>
+          </a>
         </div>
       </div>
     </div>

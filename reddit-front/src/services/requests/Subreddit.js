@@ -11,12 +11,25 @@ import getCookie from './getCookie';
  * @param {object} data - The request data
  */
 export const getSubreddit = async (subredditName) => {
-  const token = getCookie('Authorization');
-  console.log(`/api/subreddit/r/${subredditName}`);
-  const response = await api.get(`/api/subreddit/r/${subredditName}`, {
-    headers: { Authorization: token }
-  });
-  return response.data;
+  try {
+    const token = getCookie('Authorization');
+    const response = await api.get(`/api/subreddit/r/${subredditName}`, {
+      headers: { Authorization: token }
+    });
+    return response.data;
+  } catch (err) {
+    if (err.response) {
+      // The client was given an error response (5xx, 4xx)
+      return { data: [], statusCode: 400 };
+    } else if (err.request) {
+      // The client never received a response, and the request was never left
+      return { data: [], statusCode: 400 };
+    } else {
+      // Anything else
+      console.log('Error', err.message);
+      return { data: [], statusCode: 400 };
+    }
+  }
 };
 
 /**
