@@ -91,7 +91,11 @@ function CreatePost() {
     console.log(postResponse);
     if (postResponse.fulfilled) {
       setUnableToPost(false);
-      if (postOnUserProfile) {
+      if (!postOnUserProfile) {
+        console.log(postResponse.data.subredditId);
+        console.log(
+          `/r/${choosedPageName}/posts/${postResponse.data.subredditId}`
+        );
         navigate(
           `/r/${choosedPageName}/posts/${postResponse.data.subredditId}`
         );

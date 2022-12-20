@@ -23,7 +23,6 @@ import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
 
 import { divideBigNumber, getDateDiff } from '../../../../utilities/Helpers';
-import { flagPostAsVisited } from '../../../../services/requests/Post';
 
 /**
  * @typedef PropType
@@ -240,7 +239,6 @@ function PostContent({
         postId={postData._id}
         userInfo={postData.user}
         subredditInfo={postData.subredditInfo}
-
         postedAt={getDateDiff(postData.publishedDate)}
         approvedBy={postData.approvedBy}
         approvedAt={postData.approvedAt}
