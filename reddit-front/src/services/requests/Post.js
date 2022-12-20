@@ -6,11 +6,16 @@
 import api from './api';
 import getCookie from './getCookie';
 
+
+const token = getCookie('Authorization');
+
+
 /**
  * This service for fetching the posts
  * @param {object} data - The request data
  */
 export const getPost = async (id) => {
+
   const token = getCookie('Authorization');
   try {
     const response = await api.get(`/api/post/${id}`, {
@@ -49,7 +54,9 @@ export const getPosts = async (data) => {
  * @param {object} data - The request data
  */
 export const getHomePosts = async (data) => {
+
   const token = getCookie('Authorization');
+
 
   const { limit, page, sort, time } = data;
   // /post/timeline?limit=5&page=2&sort=top
@@ -149,6 +156,7 @@ export const deletePost = async (data) => {
  * @param {object} data - The request data
  */
 export const removePost = async (data) => {
+
   const token = getCookie('Authorization');
 
   const { id } = data;
@@ -219,7 +227,9 @@ export const unHidePost = async (data) => {
 export const approvePost = async (data) => {
   const token = getCookie('Authorization');
   const { id } = data;
+
   console.log('id', id);
+
 
   const response = await api.post(
     `api/post/${id}/approve`,
@@ -258,7 +268,9 @@ export const savePost = async (data) => {
 
   const { id, request } = data;
   const response = await api.post(
+
     `api/user/post/${id}/save`,
+
     {},
     {
       headers: { Authorization: token }
@@ -276,7 +288,9 @@ export const unSavePost = async (data) => {
 
   const { id, request } = data;
   const response = await api.post(
+
     `api/user/post/${id}/unsave`,
+
     {},
     {
       headers: { Authorization: token }
@@ -330,7 +344,9 @@ export const spamPost = async (data) => {
 
   const { id } = data;
   const response = await api.post(
+
     `api/thing/${id}/spam`,
+
     {},
     {
       headers: { Authorization: token }
@@ -344,6 +360,7 @@ export const spamPost = async (data) => {
  * @param {object} data - The request data
  */
 export const unSpamPost = async (data) => {
+
   const token = getCookie('Authorization');
 
   const { id } = data;
@@ -362,12 +379,14 @@ export const unSpamPost = async (data) => {
  * @param {object} data - The request data
  */
 export const markPostAsNSFW = async (data) => {
+
   const token = getCookie('Authorization');
 
   const { id, request } = data;
   const response = await api.patch(
     `api/post/${id}`,
     { nsfw: true },
+
     {
       headers: { Authorization: token }
     }
@@ -376,6 +395,7 @@ export const markPostAsNSFW = async (data) => {
 };
 
 /**
+
  * This service for un-marking a post as NSFW
  * @param {object} data - The request data
  */
@@ -394,11 +414,14 @@ export const unMarkPostAsNSFW = async (data) => {
 };
 
 /**
+
  * This service for sending a post replies notifications
  * @param {object} data - The request data
  */
 export const sendReplyNotifications = async (data) => {
+
   const token = getCookie('Authorization');
+
 
   const { id, request } = data;
   const response = await api.patch(`api/post/${id}`, request, {
@@ -412,7 +435,9 @@ export const sendReplyNotifications = async (data) => {
  * @param {object} data - The request data
  */
 export const spoilPost = async (data) => {
+
   const token = getCookie('Authorization');
+
 
   const { id } = data;
   const response = await api.patch(
@@ -430,7 +455,9 @@ export const spoilPost = async (data) => {
  * @param {object} data - The request data
  */
 export const unSpoilPost = async (data) => {
+
   const token = getCookie('Authorization');
+
 
   const { id } = data;
   const response = await api.patch(
@@ -448,9 +475,11 @@ export const unSpoilPost = async (data) => {
  * @param {object} data - The request data
  */
 export const upVote = async (data) => {
+
   const token = getCookie('Authorization');
 
   const { id } = data;
+
 
   const response = await api.post(
     `api/thing/${id}/upvote`,
@@ -467,6 +496,7 @@ export const upVote = async (data) => {
  * @param {object} data - The request data
  */
 export const downVote = async (data) => {
+
   const token = getCookie('Authorization');
 
   const { id } = data;
@@ -487,9 +517,11 @@ export const downVote = async (data) => {
  * @param {object} data - The request data
  */
 export const unVote = async (data) => {
+
   const token = getCookie('Authorization');
   const { id } = data;
   console.log('id', id);
+
 
   const response = await api.post(
     `api/thing/${id}/unvote`,
@@ -523,6 +555,7 @@ export const followPost = async (data) => {
  * This service for updating a post's flair
  * @param {object} data - The request data
  */
+
 export const updatePostFlair = async (data) => {
   const token = getCookie('Authorization');
 
@@ -536,5 +569,6 @@ export const updatePostFlair = async (data) => {
       headers: { Authorization: token }
     }
   );
+
   return response.data;
 };

@@ -223,6 +223,7 @@ function PostContent({
         userInfo={postContentData.user}
         subredditInfo={postContentData.subredditInfo}
         postedAt={getDateDiff(postContentData.publishedDate)}
+
         postId={postContentData._id}
         isCommunityPost={isCommunityPost}
         modAction={modAction}
@@ -273,6 +274,7 @@ function PostContent({
       {/* post content  */}
       <div className="post-main-content">
         <div className="post-content-core">
+
           <ReactMarkdown>
             {/* ffffff *fdfdfdfdf* *rerererer* ~fdsfdfdsfdfd~ `fdfdfdfdfdf` >
             `fdfsdfdfdfd` > dfsdfsdfdsfd - rerere - gfgfgf - oioioi 1. fdsfdfs
