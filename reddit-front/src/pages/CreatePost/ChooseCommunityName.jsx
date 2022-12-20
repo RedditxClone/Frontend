@@ -7,7 +7,8 @@ import classes from './CreatePost.module.css';
 function ChooseCommunityName({
   setChoosedPageName,
   setChoosedPageId,
-  communityName
+  communityName,
+  setPostOnUserProfile
 }) {
   const { user } = useSelector((state) => state.auth);
   const { moderatedCommunities, myCommunities } = useSelector(
@@ -21,12 +22,14 @@ function ChooseCommunityName({
     setChoosedPageName(community.name);
     setCurrentIcon(community.icon);
     setOpenList(false);
+    setPostOnUserProfile(false);
   };
   const onChooseUserProfile = () => {
     setChoosedPageId(user._id);
     setChoosedPageName(user.username);
     setCurrentIcon(user.profilePhoto);
     setOpenList(false);
+    setPostOnUserProfile(true);
   };
 
   return (
@@ -95,14 +98,11 @@ function ChooseCommunityName({
                 <span className={classes['community-logo']}>
                   <img
                     src={comm.logo}
-                    alt={comm.name}
+                    alt=""
                   />
                 </span>
                 <div className={classes['community-info']}>
                   <span>{comm.name}</span>
-                  <span className={classes['community-members']}>
-                    {`${comm.members} members`}
-                  </span>
                 </div>
               </button>
             ))}

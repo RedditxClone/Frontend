@@ -3,11 +3,13 @@
 /* eslint-disable prefer-template */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+
+import { useEffect, useState } from 'react';
 import './PostCard.css';
 import PostContainer from './PostContainer/PostContainer';
 import PostContent from './PostContent/PostContent';
 import Voting from './Voting/Voting';
+import { getDateDiff } from '../../../utilities/Helpers';
 
 /**
  *

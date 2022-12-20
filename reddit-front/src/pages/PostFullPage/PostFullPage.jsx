@@ -4,8 +4,9 @@
 /* eslint-disable prefer-const */
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { ThemeProvider, Box, Button } from '@mui/material';
-import CreatePostEditor from '../CreatePost/CreatePostEditor';
+
+import { ThemeProvider, Box } from '@mui/material';
+
 
 import BackToTop from '../../components/BackToTop/BackToTop';
 import AppBar from '../../components/Layout/AppBar/AppBar';
@@ -29,6 +30,7 @@ import { getSubreddit } from '../../services/requests/Subreddit';
 import Loader from '../../utilities/Loader/Loader';
 import Comments from '../../components/Comments/Comments';
 
+
 /**
  * This Component for the Community Cards.
  *
@@ -42,6 +44,7 @@ function PostFullPage() {
   const [loadingPost, setLoadingPost] = useState(true);
   const [loadingSubreddit, setLoadingSubreddit] = useState(true);
   const [goToErrorPage, setGoToErrorPage] = useState(false);
+
 
   const [commentContnet, setCommentContnet] = useState('');
   const handleReply = () => {};
@@ -108,6 +111,7 @@ function PostFullPage() {
                       isModeratorMode={postData.subredditInfo.isModerator}
                     />
                   </div>
+
                   <div
                     style={{
                       paddingBottom: '35px',
