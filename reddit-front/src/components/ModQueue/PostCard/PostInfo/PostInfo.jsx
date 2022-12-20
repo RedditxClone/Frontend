@@ -13,11 +13,7 @@ import { FcApproval, FcLock } from 'react-icons/fc';
 import { BsFillShieldFill } from 'react-icons/bs';
 import { RiSpamLine } from 'react-icons/ri';
 import { CiNoWaitingSign } from 'react-icons/ci';
-import {
-  getPostRelatedCommunityInfo,
-  getPostRelatedUserInfo,
-  followPost
-} from '../../../../services/requests/Post';
+import { followPost } from '../../../../services/requests/Post';
 import Logo from '../../../../assets/Images/test.png';
 import RemovalReasonDialog from './RemovalReasonDialog';
 

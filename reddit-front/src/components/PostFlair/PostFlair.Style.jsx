@@ -2,7 +2,7 @@
 import { Button, styled, Typography, TextField } from '@mui/material';
 
 export const StyledButton = styled(Button)({
-  height: '60%',
+  height: '1.5rem',
   color: 'black',
   textTransform: 'none',
   fontSize: '1.5rem',
@@ -47,7 +47,7 @@ export const StyledText = styled(Typography)({
   textTransform: 'none',
   height: '8%',
   width: '73%',
-  marginLeft: '30rem',
+  marginLeft: '10rem',
 
   '&.MuiTypography-root': {
     padding: '1.5rem 0'
@@ -64,7 +64,7 @@ export const Content = styled('div')({
   borderRadius: '1rem',
   // alignItems: 'flex-end',
   justifyContent: 'flex-end',
-  marginLeft: '30rem'
+  marginLeft: '10rem'
 });
 export const PostFlairTab = styled('div')({
   height: '75rem',
@@ -73,7 +73,7 @@ export const PostFlairTab = styled('div')({
 });
 export const Body = styled('div')({
   backgroundColor: '#DAE0E6',
-  height: '93%',
+  // height: '93%',
   width: '100%'
   // borderRadius: '0 0 1rem 1rem'
   // marginLeft: '4rem'
@@ -104,7 +104,7 @@ export const SecondRowFlairs = styled('div')({
   flexDirection: 'column',
   justifyContent: 'center',
 
-  marginLeft: '30rem',
+  marginLeft: '10rem',
   backgroundColor: '#FFFFFF',
   height: '70%',
   width: '75%',
@@ -152,9 +152,10 @@ export const FlairTextColor = styled('div')({
 });
 export const LastPartAddFlair = styled('div')({
   width: '100%',
-  marginTop: '15rem',
+  marginTop: '8rem',
+  // marginBottom: '10rem',
+  // paddingBottom: '3rem',
   height: '7%',
-  color: 'black',
   display: 'flex',
   flexDirection: 'row',
   // alignItems: 'flex-end',

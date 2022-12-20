@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
@@ -47,23 +48,26 @@ function PostFlair({ subredditName }) {
   const [TextMessage, setTextMessage] = useState(true);
   const [Remainings, setRemainings] = useState(65);
   const [settingscard, setSettingsCard] = useState(false);
-  const [flairs, setFlair] = useState([
-    // {
-    //   text: 'nada',
-    //   backgroundColor: 'red',
-    //   textColor: 'green'
-    // }
-  ]);
+  const [flairs, setFlair] = useState([]);
+  // {
+  //   text: 'nada',
+  //   backgroundColor: 'red',
+  //   textColor: 'green'
+  // }
+
   const [flairId, setFlairId] = useState('');
   //   const [deletecard, setDeleteCard] = useState(false);
   const [cancelcard, setCancelCard] = useState(false);
   const [deleteCard, setDeleteCard] = useState(false);
-
+  const [saveFlag, setSaveFlag] = useState(true);
   useEffect(() => {
     // Fetching all the flairs of subreddit
     const fetchFlairs = async () => {
-      const results = await getFlairs(subredditName);
-      setFlair(results);
+      const results = await getFlairs('639da7ae5037e305d283a479');
+
+      setFlair(results.flairList);
+      console.log(results);
+      console.log(flairs);
     };
     fetchFlairs();
   }, []);
@@ -81,8 +85,8 @@ function PostFlair({ subredditName }) {
   const deleteFlairHandler = () => {
     /// ///request of deletion
     const info = { id: flairId };
-    setFlair((current) => current.filter((flair) => flair.id !== flairId));
-    deleteFlair(info);
+    setFlair((current) => current.filter((flair) => flair._id !== flairId));
+    console.log(deleteFlair(info, '639da7ae5037e305d283a479'));
     deleteHandler();
   };
 
@@ -114,7 +118,7 @@ function PostFlair({ subredditName }) {
       flair.textColor,
       flair.text,
       flair.backgroundColor,
-      subredditName
+      '639da7ae5037e305d283a479'
     );
     clickAddFlairHandler();
   };
@@ -133,8 +137,10 @@ function PostFlair({ subredditName }) {
       setTextMessage(true);
       const RemainingsTemp = 65;
       setRemainings(RemainingsTemp);
+      setSaveFlag(true);
     } else {
       const RemainingsTemp = 65 - event.target.value.length;
+      setSaveFlag(false);
       setRemainings(RemainingsTemp);
       //   console.log(RemainingsTemp);
       setTextMessage(false);
@@ -146,9 +152,11 @@ function PostFlair({ subredditName }) {
     // console.log('nada');
     // console.log(Remainings);
   };
-
+  const handleClickId = (id) => {
+    navigator.clipboard.writeText(id);
+  };
   const all_Flairs = flairs.map((flair) => (
-    <AllFlairs key={flair.id}>
+    <AllFlairs key={flair._id}>
       <p
         style={{
           backgroundColor: flair.backgroundColor,
@@ -166,6 +174,7 @@ function PostFlair({ subredditName }) {
         <button
           type="button"
           style={{ color: '#0272C4', fontSize: '1.3rem', margin: '0' }}
+          onClick={() => handleClickId(flair._id)}
         >
           COPYID
         </button>
@@ -178,7 +187,7 @@ function PostFlair({ subredditName }) {
         <button
           type="button"
           style={{ color: '#0272C4', fontSize: '1.3rem', margin: '0' }}
-          onClick={() => deleteHandler(thisflair.id)}
+          onClick={() => deleteHandler(flair._id)}
         >
           <AiOutlineDelete style={{ color: '#7E8183', fontSize: '2rem' }} />
         </button>
@@ -195,7 +204,7 @@ function PostFlair({ subredditName }) {
         >
           Post flair settings
         </StyledButton>
-        <StyledButton>Reorder</StyledButton>
+        {/* <StyledButton>Reorder</StyledButton> */}
         <StyledButton
           sx={{
             color: '#FFFFFF',
@@ -216,14 +225,14 @@ function PostFlair({ subredditName }) {
         {addFlair || flairs.length ? (
           <Content>
             <FirstRow>
-              <FirstRowText sx={{ marginLeft: '3rem' }}>
+              <FirstRowText sx={{ marginLeft: '1rem' }}>
                 POST FLAIR PREVIEW
               </FirstRowText>
-              <FirstRowText sx={{ marginLeft: '35rem' }}>
+              <FirstRowText sx={{ marginLeft: '10rem' }}>
                 CSS CLASS
               </FirstRowText>
               <FirstRowText sx={{ marginLeft: '8rem' }}>SETTINGS</FirstRowText>
-              <FirstRowText sx={{ marginLeft: '30rem' }}>FLAIR ID</FirstRowText>
+              <FirstRowText sx={{ marginLeft: '22rem' }}>FLAIR ID</FirstRowText>
             </FirstRow>
             {all_Flairs}
             {addFlair ? (
@@ -303,15 +312,19 @@ function PostFlair({ subredditName }) {
                 </FlairTextColor>
                 <LastPartAddFlair>
                   <StyledButton
-                    sx={{ color: '#0079D3' }}
+                    sx={{ color: '#0079D3', marginBottom: '2rem' }}
                     onClick={cancelLogicandler}
                   >
                     Cancel
                   </StyledButton>
                   <StyledButton
-                    sx={{ color: '#FFFFFF', backgroundColor: '#0079D3' }}
+                    sx={{
+                      color: '#FFFFFF',
+                      backgroundColor: '#0079D3',
+                      marginBottom: '2rem'
+                    }}
                     onClick={clickSaveFlairHandler}
-                    // disabled
+                    disabled={saveFlag}
                   >
                     Save
                   </StyledButton>

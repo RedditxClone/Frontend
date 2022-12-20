@@ -10,9 +10,15 @@ export const getFlairs = async (subredditName) => {
   return response.data;
 };
 
-export const deleteFlair = async (data) => {
+export const deleteFlair = async (data, subredditName) => {
   const { id } = data;
-  const response = await api.delete(`/api/subreddit/{subreddit}/flair/${id}`);
+  const token = getCookie('Authorization');
+  const response = await api.delete(
+    `/api/subreddit/${subredditName}/flair/${id}`,
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 export const createFlair = async (

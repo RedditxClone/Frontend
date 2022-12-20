@@ -50,7 +50,10 @@ function DeletePostFlair({ opened, handleClose, deleteFlair }) {
       </DeleteCardSecond>
       <DeleteCardThird>
         <StyledButton
-          sx={{ color: '#0079D3', padding: '1rem 2rem' }}
+          sx={{
+            color: '#0079D3',
+            padding: '2rem 2rem'
+          }}
           onClick={handleClose}
         >
           Cancel

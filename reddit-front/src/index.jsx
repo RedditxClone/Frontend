@@ -26,7 +26,7 @@ import Subscriptions from './components/Subscriptions/Subscriptions';
 import ChatMessaging from './components/ChatMessaging/ChatMessaging';
 import CreatePost from './pages/CreatePost/CreatePost';
 import SearchResults from './pages/SearchResults/SearchResults';
-// import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
+import ModToolsPage from './pages/ModToolsPage/ModToolsPage';
 import AllMessages from './components/AllMessages/AllMessages';
 import UnreadMessages from './components/UnreadMessages/UnreadMessages';
 import MessagesComponent from './components/MessagesComponent/MessagesComponent';
@@ -39,14 +39,14 @@ import PostFullPage from './pages/PostFullPage/PostFullPage';
 import Error404 from './pages/Error404/Error404';
 // import DeletePostFlair from './components/PostFlair/DeletePostFlairCard';
 // import CancelCard from './components/PostFlair/CancelCard';
-import PostFlairSettingsCard from './components/PostFlair/PostFlairSettingsCard';
-import PostFlair from './components/PostFlair/PostFlair';
+// import PostFlairSettingsCard from './components/PostFlair/PostFlairSettingsCard';
+// import PostFlair from './components/PostFlair/PostFlair';
 // Routes
 const routes = createBrowserRouter([
   {
     path: '/',
-    // element: <HomePage />
-    element: <PostFlairSettingsCard />
+    element: <HomePage />
+    // element: <PostFlairSettingsCard />
   },
   {
     path: '/auth',
@@ -155,10 +155,10 @@ const routes = createBrowserRouter([
     ]
   },
   {
-    // path: '/:subredditName/about/:activeItem',
-    path: '/aha',
-    // element: <ModToolsPage />
-    element: <PostFlair />
+    path: '/:subredditName/about/:activeItem',
+    // path: '/aha',
+    element: <ModToolsPage />
+    // element: <PostFlair />
   },
   {
     path: '/message/',
