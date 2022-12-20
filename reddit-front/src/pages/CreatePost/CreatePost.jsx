@@ -1,7 +1,10 @@
+/* eslint-disable function-paren-newline */
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable operator-linebreak */
 import { AiOutlinePlus } from 'react-icons/ai';
 import { MdOutlineDone } from 'react-icons/md';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import classes from './CreatePost.module.css';
 import AppBar from '../../components/Layout/AppBar/AppBar';
 import PostingRules from './PostingRules';
@@ -10,7 +13,9 @@ import { RoundedButton } from '../../components/HomePageCards/HomePageCards.styl
 import PostTag from './PostTag';
 import CreatePostTabs from './CreatePostTabs';
 // import CommunityInfo from './CommunityInfo';
-import createPost from '../../services/requests/createPost';
+import createPost, {
+  createPostWithMedia
+} from '../../services/requests/createPost';
 
 function CreatePost() {
   const [postTitle, setPostTitle] = useState('');
@@ -24,6 +29,8 @@ function CreatePost() {
   const [choosedPageName, setChoosedPageName] = useState('');
   const [choosedPageId, setChoosedPageId] = useState('');
   const [currentTab, setCurrentTab] = useState(0);
+  const [postOnUserProfile, setPostOnUserProfile] = useState(false);
+  const navigate = useNavigate();
 
   const validPost =
     validTitle &&
@@ -47,9 +54,9 @@ function CreatePost() {
       default:
         currentContent = postContent;
     }
-
+    let postResponse;
     if (currentTab !== 1) {
-      const postResponse = await createPost(
+      postResponse = await createPost(
         choosedPageId,
         postTitle,
         currentContent,
@@ -57,7 +64,33 @@ function CreatePost() {
         spoiler,
         ''
       );
-      console.log(postResponse);
+    } else {
+      const formData = new FormData();
+      for (let i = 0; i < postMedia.length; i += 1) {
+        formData.append(`media${i + 1}`, postMedia[i]);
+      }
+
+      console.log(formData);
+      postResponse = await createPostWithMedia(
+        choosedPageId,
+        postTitle,
+        formData,
+        nsfw,
+        spoiler,
+        ''
+      );
+    }
+    console.log(postResponse);
+    if (postResponse.fulfilled) {
+      if (postOnUserProfile) {
+        navigate(
+          `/r/${choosedPageName}/posts/${postResponse.data.subredditId}`
+        );
+      } else {
+        navigate(
+          `/u/${choosedPageName}/posts/${postResponse.data.subredditId}`
+        );
+      }
     }
   };
   // const baseColor = '#0079D3';
@@ -75,6 +108,7 @@ function CreatePost() {
               communityName={choosedPageName}
               setChoosedPageName={setChoosedPageName}
               setChoosedPageId={setChoosedPageId}
+              setPostOnUserProfile={setPostOnUserProfile}
             />
           </div>
           <div className={classes['create-post']}>
