@@ -17,7 +17,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import avatarImg from '../../assets/Images/avatar_default_5.png';
-import { patchBannedUsers } from '../../services/requests/userManagment';
+import {
+  patchBannedUsers,
+  deleteBannedUser
+} from '../../services/requests/userManagment';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -90,12 +93,14 @@ export default function BannedUsers({ bannedUser }) {
   };
   const handleClose = () => {
     patchBannedUsers({
-      id: 1,
-      reason: reasonBan,
-      modNote: mod,
-      permanent,
-      duration: dur,
-      message: messageBan
+      username: bannedUser.username,
+      object: {
+        reason: reasonBan,
+        modNote: mod,
+        permanent,
+        duration: dur,
+        message: messageBan
+      }
     });
     setDur(bannedUser.duration);
     setMessageBan(bannedUser.message);
@@ -105,6 +110,10 @@ export default function BannedUsers({ bannedUser }) {
     setOpen(false);
   };
   const handleClose2 = () => {
+    setOpen(false);
+  };
+  const handleClickUnban = () => {
+    deleteBannedUser({ username: bannedUser.username });
     setOpen(false);
   };
   const [isHovering, setIsHovering] = useState(false);
@@ -365,6 +374,7 @@ export default function BannedUsers({ bannedUser }) {
                     color: 'red'
                   }}
                   startIcon={<TbHammerOff />}
+                  onClick={{ handleClickUnban }}
                 >
                   Unban
                 </Button>

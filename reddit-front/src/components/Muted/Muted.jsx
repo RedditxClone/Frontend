@@ -89,7 +89,6 @@ export default function Muted() {
   };
   const handleClose = () => {
     postMutedUsers({
-      id: Math.random() * 1000,
       username: userNameMute,
       reason: reasonMute
     });
@@ -140,7 +139,7 @@ export default function Muted() {
   return (
     <div
       className="muted-cont"
-      style={{ backgroundColor: '#dae0e6', width: '100%' }}
+      style={{ backgroundColor: '#dae0e6', width: '100%', height: '85.3vh' }}
     >
       <div
         className="cont-1"

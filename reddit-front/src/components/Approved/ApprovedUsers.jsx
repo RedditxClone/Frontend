@@ -14,6 +14,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import avatarImg from '../../assets/Images/avatar_default_5.png';
+import { deleteApprovedUser } from '../../services/requests/userManagment';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -58,6 +59,7 @@ export default function ApprovedUsers({ approvedUser }) {
     setOpen(true);
   };
   const handleClose = () => {
+    deleteApprovedUser({ username: approvedUser.username });
     setOpen(false);
   };
   const handleClose2 = () => {

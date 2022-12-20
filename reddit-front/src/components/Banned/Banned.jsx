@@ -1,3 +1,5 @@
+/* eslint-disable object-shorthand */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable operator-linebreak */
@@ -19,11 +21,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useParams } from 'react-router-dom';
 import SearchComp from './SearchComp';
 import {
   getBannedUsers,
   postBannedUsers
 } from '../../services/requests/userManagment';
+import { getSubreddit } from '../../services/requests/Subreddit';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -62,6 +66,8 @@ function BootstrapDialogTitle(props) {
 }
 
 export default function Banned() {
+  const { subredditName } = useParams();
+  const [subredditInfo, setSubredditInfo] = useState([]);
   const maxTextCharCount = 300;
   const maxTextCount = 5000;
   const [countChar, setCountChar] = useState(maxTextCharCount);
@@ -85,13 +91,28 @@ export default function Banned() {
     setOpen(false);
   };
   const [bannedUsers, setBannedUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchSubredditInfo = async () => {
+      const results = await getSubreddit(subredditName);
+      setSubredditInfo(results);
+    };
+    fetchSubredditInfo();
+  }, [isAdded]);
+
+  console.log(subredditInfo);
+  const Id = subredditInfo._id;
+  console.log(Id);
+
   useEffect(() => {
     const fetchBannedUsers = async () => {
-      const results = await getBannedUsers();
+      const results = await getBannedUsers({ id: Id });
       setBannedUsers(results);
     };
     fetchBannedUsers();
   }, [isAdded]);
+
+  console.log(bannedUsers);
 
   const onChangeUser = (e) => {
     setUserNameBan(e.target.value);
@@ -115,12 +136,11 @@ export default function Banned() {
   };
   const handleClose = () => {
     postBannedUsers({
-      id: Math.random() * 1000,
       username: userNameBan,
       reason: reasonBan,
-      modNote,
-      permanent,
-      duration,
+      modNote: modNote,
+      permanent: permanent,
+      duration: duration,
       message: messageBan
     });
     setIsAdded(isAdded + 1);
@@ -174,7 +194,7 @@ export default function Banned() {
   return (
     <div
       className="banned-cont"
-      style={{ backgroundColor: '#dae0e6', width: '100%' }}
+      style={{ backgroundColor: '#dae0e6', width: '100%', height: '85.3vh' }}
     >
       <div
         className="cont-1"

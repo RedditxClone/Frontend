@@ -66,10 +66,10 @@ function ModToolsPage() {
         whichQueue="unmoderated"
       />
     ),
-    muted: <Box>muted</Box>,
-    banned: <Box>banned</Box>,
-    moderators: <Box>moderators</Box>,
-    approved: <Box>approved</Box>,
+    muted: <Muted />,
+    banned: <Banned />,
+    moderators: <Moderators />,
+    approved: <Approved />,
     postflairs: <Box>postflairs</Box>,
     rules: <Box>rules</Box>,
     communitysettings: <Box>communitysettings</Box>,
@@ -295,10 +295,7 @@ function ModToolsPage() {
                       className={`subreddit-item ${
                         activeItem === 'banned' ? 'active-sidebar-item' : null
                       }`}
-                      onClick={handleClickOnSidebarItem(
-                        'banned',
-                        <Banned />
-                      )}
+                      onClick={handleClickOnSidebarItem('banned', <Banned />)}
                     >
                       banned
                     </SideBarItem>
@@ -307,10 +304,7 @@ function ModToolsPage() {
                       className={`subreddit-item ${
                         activeItem === 'muted' ? 'active-sidebar-item' : null
                       }`}
-                      onClick={handleClickOnSidebarItem(
-                        'muted',
-                        <Muted />
-                      )}
+                      onClick={handleClickOnSidebarItem('muted', <Muted />)}
                     >
                       muted
                     </SideBarItem>

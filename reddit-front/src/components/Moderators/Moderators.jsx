@@ -89,7 +89,6 @@ export default function Moderators() {
   };
   const handleClose1 = () => {
     postModerators({
-      id: Math.random() * 1000,
       username: userNameModerator
     });
     setIsAdded(isAdded + 1);
@@ -97,12 +96,6 @@ export default function Moderators() {
     setOpen1(false);
   };
   const handleClose2 = () => {
-    // postModerators({
-    //   id: Math.random() * 1000,
-    //   username: userNameModerator
-    // });
-    // setIsAdded(isAdded + 1);
-    // setUserNameModerator('');
     setOpen2(false);
   };
 
@@ -147,7 +140,7 @@ export default function Moderators() {
   return (
     <div
       className="moderator-cont"
-      style={{ backgroundColor: '#dae0e6', width: '100%' }}
+      style={{ backgroundColor: '#dae0e6', width: '100%', height: '85.3vh' }}
     >
       <div
         className="cont-1"
