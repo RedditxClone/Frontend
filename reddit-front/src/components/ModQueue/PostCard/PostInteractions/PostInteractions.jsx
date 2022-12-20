@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 /* eslint-disable operator-linebreak */
@@ -36,6 +38,7 @@ import {
   removePost,
   unRemovePost,
   hidePost,
+  unHidePost,
   savePost,
   unSavePost,
   lockPost,
@@ -45,10 +48,6 @@ import {
   spamPost,
   unSpamPost,
   sendReplyNotifications,
-  stickyPost,
-  unStickyPost,
-  distinguishAsMod,
-  unDistinguishAsMod,
   spoilPost,
   unSpoilPost
 } from '../../../../services/requests/Post';
@@ -78,22 +77,18 @@ import FlairDialog from './FlairDialog';
  *
  */
 function PostInteractions({
-  setHidePost,
   commentsCount,
   postId,
   isCommunityPost,
   setModAction,
-  setDistinguishPostAsMod,
+  changeModAction,
   setNsfw,
   setLocked,
   isModeratorMode,
-  isSaved,
   isLocked,
   isPostApproved,
   isPostRemoved,
   isPostSpammed,
-  isPostSticky,
-  isDistinguishedAsMode,
   isNSFW,
   isSpoiled,
   replyNotifications,
@@ -104,14 +99,10 @@ function PostInteractions({
   handleSpamButton,
   whichQueue
 }) {
-  const [saveState, setSaveState] = useState(isSaved);
   const [isApproved, setIsApproved] = useState(isPostApproved);
-  const [isSticky, setIsSticky] = useState(isPostSticky);
   const [replyNotificationsState, setReplyNotificationsState] =
     useState(replyNotifications);
-  const [distinguishAsMode, setDistinguishAsMode] = useState(
-    isDistinguishedAsMode
-  );
+
   const [lockComments, setLockComments] = useState(isLocked);
   const [lockThread, setLockThread] = useState(isLocked);
   const [markedAsNSFW, setMarkedAsNSFW] = useState(isNSFW);
@@ -119,19 +110,7 @@ function PostInteractions({
   const [isRemoved, setIsRemoved] = useState(isPostRemoved);
   const [isSpammed, setIsSpammed] = useState(isPostSpammed);
   const [openFlairDialog, setOpenFlairDialog] = useState(false);
-
-  // Handler Methods
-  const handleSavePost = () => {
-    if (!saveState) {
-      setSaveState(true);
-      const info = { request: { is_saved: true }, id: postId };
-      savePost(info);
-    } else {
-      setSaveState(false);
-      const info = { request: { is_saved: false }, id: postId };
-      unSavePost(info);
-    }
-  };
+  const [hidePostState, setHidePostState] = useState(false);
 
   /* This function shows the dropdown for more interactions on the post */
   const handleClickMoreInteractions = () => {
@@ -159,8 +138,13 @@ function PostInteractions({
   };
 
   const handleHideButton = () => {
-    setHidePost(true);
-    hidePost({ id: postId });
+    if (hidePostState) {
+      setHidePostState(false);
+      unHidePost({ id: postId });
+    } else {
+      setHidePostState(true);
+      hidePost({ id: postId });
+    }
   };
 
   const handleStickyButton = () => {
@@ -269,49 +253,125 @@ function PostInteractions({
           postId={postId}
           subredditName="testing"
         />
+
         {whichQueue === 'unmoderated' ? (
           <>
             {/* approve  */}
             {!isApproved ? (
               <a
                 className="post-approve"
-                onClick={() => handleApproveButton(postId)}
+                onClick={() =>
+                  handleApproveButton(
+                    postId,
+                    setIsApproved,
+                    setIsRemoved,
+                    setIsSpammed
+                  )
+                }
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem'
+                }}
               >
                 <AiOutlineCheck
                   fontSize="20px"
-                  style={{ marginRight: '5px' }}
+                  style={{
+                    marginRight: '5px'
+                  }}
                 />
                 <span> Approve</span>
               </a>
-            ) : null}
+            ) : (
+              <a
+                className="post-approve"
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem',
+                  color: '#19ff00',
+                  cursor: 'now-allowed'
+                }}
+              >
+                <AiOutlineCheck
+                  fontSize="20px"
+                  style={{
+                    marginRight: '5px',
+                    cursor: 'now-allowed'
+                  }}
+                />
+                <span> Approved</span>
+              </a>
+            )}
 
             {/* remove  */}
             {!isRemoved && !isSpammed ? (
               <a
                 className="post-approve"
-                onClick={() => handleRemoveButton(postId)}
+                onClick={() =>
+                  handleRemoveButton(
+                    postId,
+                    setIsApproved,
+                    setIsRemoved,
+                    setIsSpammed
+                  )
+                }
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem'
+                }}
               >
                 <CiCircleRemove
                   fontSize="20px"
-                  style={{ marginRight: '5px' }}
+                  style={{
+                    marginRight: '5px'
+                  }}
                 />
                 <span> Remove</span>
               </a>
-            ) : null}
+            ) : (
+              <a
+                className="post-approve"
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem',
+                  color: 'red'
+                }}
+              >
+                <CiCircleRemove
+                  fontSize="20px"
+                  style={{
+                    marginRight: '5px'
+                  }}
+                />
+                <span> Removed</span>
+              </a>
+            )}
           </>
         ) : null}
 
         {whichQueue === 'spam' ? (
           <>
             {/* approve  */}
-            {isRemoved || isSpammed ? (
+            {isSpammed || isRemoved ? (
               <a
                 className="post-approve"
-                onClick={() => handleApproveButton(postId)}
+                onClick={() =>
+                  handleApproveButton(
+                    postId,
+                    setIsApproved,
+                    setIsRemoved,
+                    setIsSpammed
+                  )
+                }
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem'
+                }}
               >
                 <AiOutlineCheck
                   fontSize="20px"
-                  style={{ marginRight: '5px' }}
+                  style={{
+                    marginRight: '5px'
+                  }}
                 />
                 <span> Approve</span>
               </a>
@@ -321,7 +381,18 @@ function PostInteractions({
             {isApproved ? (
               <a
                 className="post-approve"
-                onClick={() => handleRemoveButton(postId)}
+                onClick={() =>
+                  handleRemoveButton(
+                    postId,
+                    setIsApproved,
+                    setIsRemoved,
+                    setIsSpammed
+                  )
+                }
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem'
+                }}
               >
                 <CiCircleRemove
                   fontSize="20px"
@@ -340,10 +411,16 @@ function PostInteractions({
               <a
                 className="post-approve"
                 onClick={() => handleApproveButton(postId)}
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem'
+                }}
               >
                 <AiOutlineCheck
                   fontSize="20px"
-                  style={{ marginRight: '5px' }}
+                  style={{
+                    marginRight: '5px'
+                  }}
                 />
                 <span> Approve</span>
               </a>
@@ -354,6 +431,10 @@ function PostInteractions({
               <a
                 className="post-approve"
                 onClick={() => handleRemoveButton(postId)}
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem'
+                }}
               >
                 <CiCircleRemove
                   fontSize="20px"
@@ -370,10 +451,16 @@ function PostInteractions({
           <a
             className="post-flair"
             onClick={handleOpenFlairDialog}
+            style={{
+              paddingTop: '.7rem',
+              paddingBottom: '.7rem'
+            }}
           >
             <AiOutlineTag
               fontSize="20px"
-              style={{ marginRight: '5px' }}
+              style={{
+                marginRight: '5px'
+              }}
             />
             <span> Flair</span>
           </a>
@@ -384,10 +471,7 @@ function PostInteractions({
           className="post-more-interactions"
           data-testid="test-post-more-interactions"
         >
-          <button
-            type="button"
-            onClick={handleClickMoreInteractions}
-          >
+          <a onClick={handleClickMoreInteractions}>
             <BsThreeDots
               fontSize="18px"
               color="#949494"
@@ -398,19 +482,17 @@ function PostInteractions({
               data-testid="test-2-interactions-dropdown"
             >
               {/* mark as spam  */}
-              {whichQueue !== 'spam' ? (
-                <div
-                  className="drop-down-item"
-                  onClick={handleSpamButton}
-                >
-                  {!isRemoved && !isSpammed ? (
-                    <a onClick={() => handleSpamButton(postId)}>
-                      <RiSpam3Line fontSize="20px" />
-                      <span> Remove As spam </span>
-                    </a>
-                  ) : null}
-                </div>
-              ) : null}
+              <div
+                className="drop-down-item"
+                onClick={handleSpamButton}
+              >
+                {isApproved ? (
+                  <a onClick={() => handleSpamButton(postId)}>
+                    <RiSpam3Line fontSize="20px" />
+                    <span> Remove As spam </span>
+                  </a>
+                ) : null}
+              </div>
 
               {/* lock thread  */}
               {showComments ? (
@@ -462,11 +544,16 @@ function PostInteractions({
                 >
                   <a>
                     {markedAsNSFW ? (
-                      <AiFillWarning fontSize="20px" />
+                      <>
+                        <AiFillWarning fontSize="20px" />
+                        <span> un-Mark As NSFW </span>
+                      </>
                     ) : (
-                      <AiOutlineWarning fontSize="20px" />
+                      <>
+                        <AiOutlineWarning fontSize="20px" />
+                        <span> Mark As NSFW </span>
+                      </>
                     )}
-                    <span> Mark As NSFW </span>
                   </a>
                 </div>
               ) : null}
@@ -477,10 +564,17 @@ function PostInteractions({
                   className="post-hide"
                   onClick={handleHideButton}
                 >
-                  <a>
-                    <BiHide fontSize="25px" />
-                    <span> hide</span>
-                  </a>
+                  {hidePostState ? (
+                    <a>
+                      <BiHide fontSize="25px" />
+                      <span> un-Hide</span>
+                    </a>
+                  ) : (
+                    <a>
+                      <BiHide fontSize="25px" />
+                      <span> hide</span>
+                    </a>
+                  )}
                 </div>
               ) : null}
 
@@ -495,7 +589,7 @@ function PostInteractions({
                 </a>
               </div>
             </div>
-          </button>
+          </a>
         </a>
       </div>
     </div>
