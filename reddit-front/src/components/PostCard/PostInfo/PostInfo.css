@@ -8,7 +8,7 @@ a {
   line-height: 1.6rem;
   display: flex;
   flex-flow: row nowrap;
-  align-items: start;
+  align-items: center;
   margin: 0 8px 8px;
   position: relative;
   border-top-right-radius: 5px;
@@ -214,6 +214,7 @@ a {
   font-weight: bold;
   font-size: 1.4rem;
   text-transform: capitalize;
+  cursor: pointer;
 }
 .community-information .view-community:hover {
   opacity: 0.9;

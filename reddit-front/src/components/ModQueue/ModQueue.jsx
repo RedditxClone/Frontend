@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prefer-template */
 /* eslint-disable indent */
@@ -11,9 +13,16 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import InfiniteScroll from 'react-infinite-scroller';
 
-import { getPosts } from '../../services/requests/Post';
+import {
+  getSpammedPosts,
+  getUnModeratedPosts,
+  getEditedPosts,
+  getPosts
+} from '../../services/requests/Post';
 import PostCard from './PostCard/PostCard';
+import Loader from '../../utilities/Loader/Loader';
 /**
  * @typedef PropType
  * @property {string} sortType
@@ -33,22 +42,50 @@ function ModQueue({
   isCommunityPost,
   isModeratorMode,
   isHomePagePost,
-  whichQueue
+  whichQueue,
+  subredditName,
+  subredditId
 }) {
   const isPostFullDetailsMode = false;
   const [posts, setPosts] = useState([]);
   const [sort, setSort] = useState(0);
   const [time, setTime] = useState(0);
   const [showComments, setShowComments] = useState(false);
-
+  const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
+  console.log('subredditId', subredditId);
   // Fetching the results by calling the fetch service
   const fetchPosts = async (timeState, sortState) => {
-    const results = await getPosts({ sortType });
-    setPosts(results);
+    setLoading(true);
+    let results = [];
+    switch (whichQueue) {
+      case 'spam':
+        results = await getSpammedPosts({ subredditName, sortType, page });
+        break;
+
+      case 'edited':
+        results = await getEditedPosts({ subredditName, sortType, page });
+        break;
+
+      case 'unmoderated':
+        results = await getUnModeratedPosts({ subredditName, sortType, page });
+        break;
+
+      default:
+        break;
+    }
+
+    const tempList = posts;
+    const newPosts = tempList.concat(results);
+    if (results.length <= 0) {
+      setHasMore(false);
+      setLoading(false);
+    }
+    setPage(page + 1);
+    setPosts(newPosts);
+    setLoading(false);
   };
-  useEffect(() => {
-    fetchPosts();
-  }, []);
 
   const handleSorting = (event) => {
     setSort(event.target.value);
@@ -63,12 +100,12 @@ function ModQueue({
     posts.length > 0
       ? posts.map((post) => (
           <PostCard
-            key={post.id}
+            key={post._id}
             postData={post}
             isCommunityPost={isCommunityPost}
             isPostFullDetailsMode={isPostFullDetailsMode}
             isHomePagePost={isHomePagePost}
-            isModeratorMode={isModeratorMode}
+            isModeratorMode={true}
             isSaved={post.is_saved}
             isLocked={post.is_locked}
             isPostApproved={post.is_postApproved}
@@ -89,9 +126,9 @@ function ModQueue({
       style={{ width: '640px' }}
       id="spammed-container"
     >
-      <h1 style={{ margin: '4rem 0', textTransform: 'capitalize' }}>
+      <h2 style={{ margin: '4rem 0', textTransform: 'capitalize' }}>
         {whichQueue}
-      </h1>
+      </h2>
 
       {/* Sorting the content */}
       <Box
@@ -207,7 +244,13 @@ function ModQueue({
         </Box>
       </Box>
 
-      <div>{postsData}</div>
+      <InfiniteScroll
+        loadMore={fetchPosts}
+        hasMore={hasMore}
+        loader={<Loader />}
+      >
+        <div>{postsData}</div>
+      </InfiniteScroll>
     </div>
   );
 }

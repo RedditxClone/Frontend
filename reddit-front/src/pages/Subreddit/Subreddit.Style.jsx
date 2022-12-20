@@ -22,7 +22,7 @@ export const subredditTheme = createTheme({
  * @return {CardsContainer} - The styled Container
  */
 export const CardsContainer = styled(Box)({
-  height: '100vh',
+  height: '100%',
   maxWidth: '100%',
   padding: '2rem 2.4rem',
   boxSizing: 'border-box',

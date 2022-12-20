@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-unreachable */
@@ -8,7 +10,7 @@ import { useState, memo } from 'react';
 import './Voting.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { divideBigNumber } from '../../../utilities/Helpers';
-import { votePost } from '../../../services/requests/Post';
+import { upVote, downVote, unVote } from '../../../services/requests/Post';
 
 /**
  * @typedef PropType
@@ -25,9 +27,17 @@ import { votePost } from '../../../services/requests/Post';
  */
 
 function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
-  const [votesCountColor, setVotesCountColor] = useState('black');
-  const [isUpVoted, setIsUpVoted] = useState(currentVotingState === 1);
-  const [isDownVoted, setIsDownVoted] = useState(currentVotingState === -1);
+  const [votesCountColor, setVotesCountColor] = useState(
+    currentVotingState === 'upvote'
+      ? '#ff6830'
+      : currentVotingState === 'downvote'
+      ? '#0272c4'
+      : 'black'
+  );
+  const [isUpVoted, setIsUpVoted] = useState(currentVotingState === 'upvote');
+  const [isDownVoted, setIsDownVoted] = useState(
+    currentVotingState === 'downvote'
+  );
   const [votes, setVotes] = useState(votesCount);
 
   const handleUpVoting = () => {
@@ -39,6 +49,7 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
       setIsDownVoted(false);
       currentVotingState = 0;
       setVotesCountColor('black');
+      unVote({ id: postId });
     } else if (isDownVoted) {
       setVotes(votesCount + 2);
       votesCount += 2;
@@ -46,6 +57,7 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
       setIsUpVoted(true);
       currentVotingState = 1;
       setVotesCountColor('#ff6830');
+      upVote({ id: postId });
     } else {
       setVotes(votesCount + 1);
       votesCount += 1;
@@ -53,9 +65,8 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
       setIsDownVoted(false);
       currentVotingState = 1;
       setVotesCountColor('#ff6830');
+      downVote({ id: postId });
     }
-    const info = { request: { votes: votesCount }, id: postId };
-    votePost(info);
   };
 
   const handleDownVoting = () => {
@@ -67,6 +78,7 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
       setIsDownVoted(true);
       currentVotingState = -1;
       setVotesCountColor('#0272c4');
+      downVote({ id: postId });
     } else if (isDownVoted) {
       setVotes(votesCount + 1);
       votesCount += 1;
@@ -74,6 +86,7 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
       setIsUpVoted(false);
       currentVotingState = 0;
       setVotesCountColor('black');
+      unVote({ id: postId });
     } else {
       setVotes(votesCount - 1);
       votesCount -= 1;
@@ -81,10 +94,8 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
       setIsDownVoted(true);
       currentVotingState = -1;
       setVotesCountColor('#0272c4');
+      downVote({ id: postId });
     }
-
-    const info = { request: { votes: votesCount }, id: postId };
-    votePost(info);
   };
 
   // Returning the result
@@ -115,7 +126,6 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
               ? divideBigNumber(votes)
               : 'Vote'
             : null}
-          {divideBigNumber(votes)}
         </div>
         <span
           className="down-vote-icon"
