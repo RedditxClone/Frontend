@@ -1,3 +1,5 @@
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable object-shorthand */
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/jsx-wrap-multilines */
@@ -15,10 +17,15 @@ import InfiniteScroll from 'react-infinite-scroller';
 
 // eslint-disable-next-line no-unused-vars
 import { Box } from '@mui/material';
-import { getPosts, getHomePosts } from '../../services/requests/Post';
+import {
+  getPosts,
+  getHomePosts,
+  getSubredditPosts
+} from '../../services/requests/Post';
 import PostCard from '../PostCard/PostCard';
 import Loader from '../../utilities/Loader/Loader';
 import BestHotNewCard from '../HomePageCards/BestHotNewCard';
+import { getSubreddit } from '../../services/requests/Subreddit';
 
 /**
  * @typedef PropType
@@ -39,7 +46,8 @@ function PostsList({
   time,
   isCommunityPost,
   isModeratorMode,
-  isHomePagePost
+  isHomePagePost,
+  subredditName
 }) {
   const isPostFullDetailsMode = false;
   const [posts, setPosts] = useState([]);
@@ -48,19 +56,29 @@ function PostsList({
   const [page, setPage] = useState(1);
   const [sortType, setSortType] = useState(sort);
   const limit = 4;
-  console.log('time', time);
   // Fetching the results by calling the fetch service
   const fetchPosts = async () => {
     setLoading(true);
-    const results = await getHomePosts({
-      limit,
-      page,
-      sort: sortType,
-      time
-    });
+    let results;
+    if (isHomePagePost) {
+      results = await getHomePosts({
+        limit,
+        page,
+        sort: sortType,
+        time
+      });
+    } else if (isModeratorMode) {
+      results = await getSubredditPosts({
+        subredditName: subredditName,
+        limit,
+        page,
+        sort: sortType,
+        time
+      });
+    }
+
     const tempList = posts;
     const newPosts = tempList.concat(results);
-
     if (results.length <= 0) {
       setHasMore(false);
       setLoading(false);
@@ -77,7 +95,7 @@ function PostsList({
           <PostCard
             key={post._id}
             postData={post}
-            isCommunityPost={false}
+            isCommunityPost={isCommunityPost}
             isHomePagePost={isHomePagePost}
             isModeratorMode={post.subredditInfo.isModerator}
           />

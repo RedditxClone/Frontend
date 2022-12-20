@@ -85,6 +85,8 @@ export default function Subreddit() {
                   isCommunityPost={true}
                   isModeratorMode={subredditInfo.moderator}
                   isHomePagePost={false}
+                  subredditName={subredditInfo.name}
+                  sort="top"
                 />
               </PostsContainer>
               <SubredditSideBar
