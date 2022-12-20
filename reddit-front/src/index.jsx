@@ -39,6 +39,7 @@ import PostFullPage from './pages/PostFullPage/PostFullPage';
 import Error404 from './pages/Error404/Error404';
 
 // Routes
+
 const routes = createBrowserRouter([
   {
     path: '/',

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable eqeqeq */
-/* eslint-disable */
+
 import Box from '@mui/material/Box';
 import { BsThreeDots } from 'react-icons/bs';
 import { IoMdRocket } from 'react-icons/io';
@@ -78,7 +78,9 @@ export default function BestHotNewCard({ setSortButton }) {
   /**
    * closes the Rising Menu */
   const handleClose = () => {
-    setSortButton({ sort: 'Rising', time: null });
+    clickedObject.sort = 'Rising';
+    clickedObject.time = null;
+    console.log(clickedObject);
     setAnchorEl(null);
   };
   const [anchorElTodayMenu, setAnchorElTodayMenu] = useState(null);
@@ -87,6 +89,30 @@ export default function BestHotNewCard({ setSortButton }) {
    * opens the Today Menu */
   const handleClickTodayMenu = (event) => {
     setAnchorElTodayMenu(event.currentTarget);
+  };
+  const buttonClickedHandler = (sort, time) => {
+    setClickedButton(sort);
+    // console.log(clickedButton);
+    if (sort == 0) {
+      clickedObject.sort = 'Best';
+      clickedObject.time = null;
+      console.log(clickedObject);
+    }
+    if (sort == 1) {
+      clickedObject.sort = 'Hot';
+      clickedObject.time = null;
+      console.log(clickedObject);
+    }
+    if (sort == 2) {
+      clickedObject.sort = 'New';
+      clickedObject.time = null;
+      console.log(clickedObject);
+    }
+    if (sort == 3) {
+      clickedObject.sort = 'Top';
+      clickedObject.time = time;
+      console.log(clickedObject);
+    }
   };
   /**
    * closes the Today Menu */
@@ -109,22 +135,7 @@ export default function BestHotNewCard({ setSortButton }) {
   const handleClickButtonMenu = (event) => {
     setAnchorElButtonMenu(event.currentTarget);
   };
-  const buttonClickedHandler = (sort, time) => {
-    setClickedButton(sort);
-    // console.log(clickedButton);
-    if (sort == 0) {
-      setSortButton({ sort: 'Best', time: null });
-    }
-    if (sort == 1) {
-      setSortButton({ sort: 'Hot', time: null });
-    }
-    if (sort == 2) {
-      setSortButton({ sort: 'New', time: null });
-    }
-    if (sort == 3) {
-      setSortButton({ sort: 'Top', time: time });
-    }
-  };
+
   /**
    * closes the Today Menu */
   const handleCloseButtonMenu = (clicked) => {
@@ -148,7 +159,9 @@ export default function BestHotNewCard({ setSortButton }) {
       setClickedButtonItem(clicked);
     } else if (clicked == 'Rising') {
       setClickedButtonItem(clicked);
-      setSortButton({ sort: 'Rising', time: null });
+      clickedObject.sort = 'Rising';
+      clickedObject.time = null;
+      console.log(clickedObject);
     }
     setAnchorElButtonMenu(null);
   };
@@ -173,11 +186,10 @@ export default function BestHotNewCard({ setSortButton }) {
           >
             {buttonIcons[clickedButtonItem]}
             &nbsp;
-            {clickedButtonItem} &nbsp;
-            <HiOutlineChevronDown
-              size={22}
-              color="#1976d2 "
-            />
+            {clickedButtonItem}
+            {' '}
+&nbsp;
+            <HiOutlineChevronDown size={22} color="#1976d2 " />
           </StyledButton>
           <Menu
             id="basic-menuButtonMenu"
@@ -190,38 +202,23 @@ export default function BestHotNewCard({ setSortButton }) {
           >
             <Box sx={{ display: 'flex', flexDirection: 'row' }}>
               <StyledMenuItem onClick={() => handleCloseButtonMenu('Best')}>
-                <IoMdRocket
-                  size={25}
-                  color="#9DA0A1"
-                />
+                <IoMdRocket size={25} color="#9DA0A1" />
                 &nbsp; Best
               </StyledMenuItem>
               <StyledMenuItem onClick={() => handleCloseButtonMenu('Hot')}>
-                <AiOutlineFire
-                  size={25}
-                  color="#9DA0A1"
-                />
+                <AiOutlineFire size={25} color="#9DA0A1" />
                 &nbsp; Hot
               </StyledMenuItem>
               <StyledMenuItem onClick={() => handleCloseButtonMenu('New')}>
-                <AiOutlineStar
-                  size={25}
-                  color="#9DA0A1"
-                />
+                <AiOutlineStar size={25} color="#9DA0A1" />
                 &nbsp; New
               </StyledMenuItem>
               <StyledMenuItem onClick={() => handleCloseButtonMenu('Top')}>
-                <AiOutlineToTop
-                  size={25}
-                  color="#9DA0A1"
-                />
+                <AiOutlineToTop size={25} color="#9DA0A1" />
                 &nbsp; Top
               </StyledMenuItem>
               <StyledMenuItem onClick={() => handleCloseButtonMenu('Rising')}>
-                <HiOutlineArrowTrendingUp
-                  size={25}
-                  color="#9DA0A1"
-                />
+                <HiOutlineArrowTrendingUp size={25} color="#9DA0A1" />
                 &nbsp; Rising
               </StyledMenuItem>
             </Box>
@@ -360,6 +357,34 @@ export default function BestHotNewCard({ setSortButton }) {
             </Menu>
           </>
         ) : null}
+        <CreatePostCardButtonsRoot>
+          <StyledButton
+            variant="text"
+            id="basic-button"
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+            data-testid="rising_button"
+          >
+            <BsThreeDots size={24} color="#9DA0A1" />
+          </StyledButton>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button'
+            }}
+          >
+            <StyledMenuItem onClick={handleClose} data-testid="rising">
+              <HiOutlineArrowTrendingUp size={25} />
+              {' '}
+&nbsp; Rising
+            </StyledMenuItem>
+          </Menu>
+        </CreatePostCardButtonsRoot>
       </StyledBox>
     </CreatePostCardRoot>
   );
