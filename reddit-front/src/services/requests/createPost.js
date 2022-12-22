@@ -51,7 +51,7 @@ export const createPostWithMedia = async (
   //   isSpoiler,
   //   postFlair
   // );
-  const emptyPostResponse = await createPost(communityId, postTitle, 'media', isNsfw, isSpoiler, postFlair, postType);
+  const emptyPostResponse = await createPost(communityId, postTitle, '', isNsfw, isSpoiler, postFlair, postType);
   const { fulfilled } = emptyPostResponse;
   const postId = emptyPostResponse.data._id;
   console.log(postId);
