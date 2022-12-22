@@ -74,7 +74,7 @@ function CreateCommunity({ open, setOpen }) {
             {openAlertMessage && (
               <AlertMessage
                 type="error"
-                message="server error, Cannot Create a community for"
+                message="server error, Cannot Create a community for server error"
                 opnAlertMessage={openAlertMessage}
               />
             )}

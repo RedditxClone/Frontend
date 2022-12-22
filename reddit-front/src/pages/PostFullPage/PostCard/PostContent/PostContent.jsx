@@ -15,7 +15,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
-import ReactMarkdown from 'https://esm.sh/react-markdown@7';
+import ReactMarkdown from 'react-markdown';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
 import Logo3 from '../../../../assets/Images/test.png';
@@ -69,6 +69,8 @@ function PostContent({
   const [locked, setLocked] = useState(postData.commentsLocked);
   const [nsfw, setNsfw] = useState(postData.nsfw);
   const [isSpoiled, setIsSpoiled] = useState(postData.spoiler);
+  const [isVisited, setIsVisited] = useState(postData.visited);
+
   const [isSaved, setIsSaved] = useState(postData.isSaved);
   const [isPostApproved, setIsPostApproved] = useState(
     postData.approved !== null ? postData.approved : false

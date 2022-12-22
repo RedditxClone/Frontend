@@ -13,9 +13,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
-import ReactMarkdown from 'https://esm.sh/react-markdown@7';
+import ReactMarkdown from 'react-markdown';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 import Logo3 from '../../../assets/Images/test.png';
 import Logo from '../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
@@ -76,7 +77,7 @@ function PostContent({
   const getPostContent = () => {
     let contentType = postContentData.postType;
     let mediaCount = postContentData.images ? postContentData.images.length : 0;
-
+    const navigate = useNavigate();
     switch (contentType) {
       case 'images':
         if (mediaCount > 1) {
@@ -200,7 +201,9 @@ function PostContent({
   };
 
   const handleClickOnPost = () => {
-    window.location.href = `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`;
+    navigate(
+      `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`
+    );
   };
 
   // Returning the result

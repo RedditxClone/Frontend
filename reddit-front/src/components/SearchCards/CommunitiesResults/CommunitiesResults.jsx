@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
+import { useNavigate } from 'react-router-dom';
 import {
   RootContainer,
   ResultsContainer,
@@ -49,7 +50,7 @@ function CommunitiesResults({ isSideBarCard, searchKey }) {
   const [result, setResult] = useState([]);
   const slicingSize = isSideBarCard ? 5 : result.length;
   const [statusCode, setStatusCode] = useState(0);
-
+  const navigate = useNavigate();
   // Fetching the results by calling the fetch service
   useEffect(() => {
     const fetchResults = async () => {
@@ -150,7 +151,7 @@ function CommunitiesResults({ isSideBarCard, searchKey }) {
                       <StyledCommunityName
                         data-testid="community-search"
                         onClick={() => {
-                          window.location.replace(`/r/${item.name}`);
+                          navigate(`/r/${item.name}`);
                         }}
                       >
                         {`r/${item.name}`}
@@ -185,7 +186,7 @@ function CommunitiesResults({ isSideBarCard, searchKey }) {
           {isSideBarCard && result.length > 0 ? (
             <StyledHeading
               onClick={() => {
-                window.location.href = `/search/sr/${searchKey}`;
+                navigate(`/search/sr/${searchKey}`);
               }}
               sx={{
                 color: '#0079D3',

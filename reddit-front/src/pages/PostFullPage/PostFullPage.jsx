@@ -5,7 +5,7 @@
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable prefer-const */
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { ThemeProvider, Box, Button } from '@mui/material';
 
@@ -46,7 +46,7 @@ function PostFullPage() {
   const [loadingPost, setLoadingPost] = useState(true);
   const [loadingSubreddit, setLoadingSubreddit] = useState(true);
   const [goToErrorPage, setGoToErrorPage] = useState(false);
-
+  const navigate = useNavigate();
   const [commentContnet, setCommentContnet] = useState('');
   const handleComment = () => {
     postComment({
@@ -66,8 +66,9 @@ function PostFullPage() {
   // Fetching the post info
   const fetchPostInfo = async () => {
     const results = await getPost(postId);
+    console.log(results);
     if (results.statusCode === 400) setGoToErrorPage(true);
-    if (results && results.subredditInfo.name !== subredditName) {
+    else if (results && results.subredditInfo.name !== subredditName) {
       setGoToErrorPage(true);
     }
     setPostData(results);
@@ -185,7 +186,7 @@ function PostFullPage() {
           </>
         )
       ) : (
-        window.location.replace('/error')
+        navigate('/error')
       )}
     </ThemeProvider>
   );

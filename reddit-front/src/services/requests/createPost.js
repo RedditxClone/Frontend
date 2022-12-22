@@ -61,7 +61,7 @@ export const createPostWithMedia = async (
       // const media = [...postMedia];
       console.log(postMedia);
       const postWithMedia = await api.post(`/api/post/${postId}/upload-media`, postMedia, { headers: { Authorization: token } });
-      return { fulfilled: postWithMedia.status === 201, data: postWithMedia.data };
+      return { fulfilled: postWithMedia.status === 201, data: emptyPostResponse.data };
     } catch (err) {
       return { fulfilled: false, data: err };
     }

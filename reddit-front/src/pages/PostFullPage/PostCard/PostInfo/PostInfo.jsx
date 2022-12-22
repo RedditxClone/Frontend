@@ -15,6 +15,7 @@ import { FcApproval, FcLock } from 'react-icons/fc';
 import { BsFillShieldFill } from 'react-icons/bs';
 import { RiSpamLine } from 'react-icons/ri';
 import { CiNoWaitingSign } from 'react-icons/ci';
+import { useNavigate } from 'react-router-dom';
 import { followPost } from '../../../../services/requests/Post';
 import Logo from '../../../../assets/Images/test.png';
 import RemovalReasonDialog from './RemovalReasonDialog';
@@ -71,6 +72,7 @@ function PostInfo({
   const [isPostFollowed, setIsPostFollowed] = useState(isFollowed);
   const [isUserFollowed, setIsUserFollowed] = useState(userInfo.isFollowed);
   const [isJoined, setIsJoined] = useState(subredditInfo.isJoin);
+  const navigate = useNavigate();
   const subredditLogo =
     subredditInfo.logo === '' || subredditInfo.logo == null
       ? subredditInfo.logo
@@ -191,7 +193,7 @@ function PostInfo({
                 <a
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
-                    window.location.replace(`/r/${subredditInfo.name}`);
+                    navigate(`/r/${subredditInfo.name}`);
                   }}
                 >
                   {getCommunityName()}
@@ -217,7 +219,7 @@ function PostInfo({
               <a
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
-                  window.location.replace(`/r/${subredditInfo.name}`);
+                  navigate(`/r/${subredditInfo.name}`);
                 }}
                 className="view-community"
               >
@@ -238,7 +240,7 @@ function PostInfo({
           <a
             style={{ cursor: 'pointer' }}
             onClick={() => {
-              window.location.replace(`/user/${userInfo.username}`);
+              navigate(`/user/${userInfo.username}`);
             }}
           >
             {getPostedBy()}
