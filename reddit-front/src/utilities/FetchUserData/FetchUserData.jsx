@@ -14,6 +14,7 @@ export default function FetchUserData() {
     async function fetchData() {
       const userData = await getUser();
       if (userData) {
+        console.log(userData);
         dispatch(AuthActions.setIsAuthenticated(true));
         dispatch(AuthActions.setUser(userData));
         dispatch(getMyCommunities());

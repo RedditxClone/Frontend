@@ -140,7 +140,7 @@ function PeopleResults({ isSideBarCard, searchKey }) {
                     <StyledUsername
                       data-testid="username-search"
                       onClick={() => {
-                        window.location.replace(`/user/${item.username}`);
+                        navigate(`/user/${item.username}`);
                       }}
                     >
                       {`u/${item.username}`}

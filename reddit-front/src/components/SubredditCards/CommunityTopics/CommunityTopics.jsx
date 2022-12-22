@@ -65,12 +65,14 @@ function CommunityTopics({
   activeSubredditTopic
 }) {
   // states
+
   const [infoIconColor, setInfoIconColor] = useState('#aaa');
   const [showInfo, setShowInfo] = useState(false);
   const [showTopics, setShowTopics] = useState(false);
   const [showSubTopics, setShowSubTopics] = useState(false);
+
   const [subTopicsCounter, setSubTopicsCounter] = useState(
-    chosenSubTopicsList.length
+    chosenSubTopicsList ? chosenSubTopicsList.length : 0
   );
   const [activeTopic, setActiveTopic] = useState(
     activeSubredditTopic === null ? 'Add a Primary Topic' : activeSubredditTopic
@@ -96,21 +98,23 @@ function CommunityTopics({
    */
   const saveNewTopics = () => {
     // Update the counter value
-    setSubTopicsCounter(chosenSubTopicsList.length);
+    if (chosenSubTopicsList) {
+      setSubTopicsCounter(chosenSubTopicsList.length);
 
-    // update the api
-    const requestTopicsList = [...chosenSubTopicsList];
-    requestTopicsList.push(activeTopic);
-    let request = {
-      subredditId,
-      request: {
-        subTopics: requestTopicsList
-      }
-    };
+      // update the api
+      const requestTopicsList = [...chosenSubTopicsList];
+      requestTopicsList.push(activeTopic);
+      let request = {
+        subredditId,
+        request: {
+          subTopics: requestTopicsList
+        }
+      };
 
-    // update chosen sub-topics list
-    updateSubredditSubtopics(request);
-    setChosenSubTopicsList(chosenSubTopicsList);
+      // update chosen sub-topics list
+      updateSubredditSubtopics(request);
+      setChosenSubTopicsList(chosenSubTopicsList);
+    }
 
     // closing the edit mode
     setEditSubTopics(false);
@@ -130,7 +134,9 @@ function CommunityTopics({
     updateSubredditTopic(request);
 
     // remove this topic from the list of subtopics
-    const index = chosenSubTopicsList.indexOf(activeTopic);
+    const index = chosenSubTopicsList
+      ? chosenSubTopicsList.indexOf(activeTopic)
+      : -1;
     if (index >= 0) {
       chosenSubTopicsList.splice(index, 1);
       setRerender(!rerender);
@@ -143,11 +149,14 @@ function CommunityTopics({
    *
    */
   const getSubTopicsToShow = (isEditingMode) => {
+    if (!chosenSubTopicsList) return [];
+
     if (isEditingMode) return chosenSubTopicsList;
 
     if (chosenSubTopicsList.length <= 7) {
       return chosenSubTopicsList;
     }
+
     return chosenSubTopicsList.slice(0, 7);
   };
 

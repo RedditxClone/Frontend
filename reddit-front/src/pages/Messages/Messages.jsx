@@ -1,7 +1,7 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable no-unused-vars */
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import AppBar from '../../components/Layout/AppBar/AppBar';
 import './Messages.style.css';

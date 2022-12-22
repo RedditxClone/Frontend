@@ -4,7 +4,8 @@
 /* eslint-disable react/self-closing-comp */
 
 import { useEffect } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import AppBarReddit from '../../components/Layout/AppBar/AppBar';
 import './UserSettings.css';
 
@@ -20,7 +21,7 @@ function UserSettings() {
     if (!isAuth) {
       navigate('/auth/login');
     }
-  });
+  }, []);
   return (
     <>
       <AppBarReddit />
