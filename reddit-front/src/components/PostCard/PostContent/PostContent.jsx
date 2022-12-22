@@ -54,6 +54,8 @@ function PostContent({
   isCommunityPost,
   isModeratorMode
 }) {
+  const navigate = useNavigate();
+
   let postContent = null;
   let slideIndex = 0;
   const [modAction, setModAction] = useState(0);
@@ -77,7 +79,6 @@ function PostContent({
   const getPostContent = () => {
     let contentType = postContentData.postType;
     let mediaCount = postContentData.images ? postContentData.images.length : 0;
-    const navigate = useNavigate();
     switch (contentType) {
       case 'images':
         if (mediaCount > 1) {
@@ -201,6 +202,9 @@ function PostContent({
   };
 
   const handleClickOnPost = () => {
+    console.log(
+      `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`
+    );
     navigate(
       `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`
     );
@@ -236,6 +240,7 @@ function PostContent({
       <div
         className="post-title-container"
         data-testid="test-post-title"
+        onClick={handleClickOnPost}
       >
         <div className="post-title">
           <Link

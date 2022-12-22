@@ -6,7 +6,7 @@ import { BsJournalCode } from 'react-icons/bs';
 import StyledButton from './StyledButton';
 
 const BLOCK_TYPES = [
-  { id: 'block1', label: <FaHeading />, style: 'header-one' },
+  { id: 'block1', label: <FaHeading />, style: 'header-two' },
   { id: 'block2', label: <TfiQuoteRight />, style: 'blockquote' },
   {
     id: 'block3',

@@ -168,7 +168,7 @@ function PostFullPage() {
                       subredditName={postData.subredditInfo.name}
                       aboutInfo={{
                         createdDate: subredditData.createdDate,
-                        memberCount: subredditData.users,
+                        membersCount: subredditData.users,
                         onlineCount: 0,
                         description: subredditData.description,
                         logo: subredditData.logo
