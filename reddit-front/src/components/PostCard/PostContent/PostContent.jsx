@@ -87,7 +87,7 @@ function PostContent({
                 ? postContentData.images.map((image) => (
                     <div className="my-slides fade">
                       <img
-                        src={image}
+                        src={`https://static.swproject.demosfortest.com/${image}`}
                         alt="post image"
                       />
                     </div>
@@ -115,7 +115,7 @@ function PostContent({
             <div className="post-image">
               <img
                 className={`post-image-${postContentData._id}`}
-                src={postContentData.images[0]}
+                src={`https://static.swproject.demosfortest.com/${postContentData.images[0]}`}
                 alt="post image"
                 style={{
                   filter: postContentData.spoiler ? 'blur(60px)' : 'none'

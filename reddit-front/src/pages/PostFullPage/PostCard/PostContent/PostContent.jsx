@@ -98,7 +98,7 @@ function PostContent({
                 ? postData.images.map((image) => (
                     <div className="my-slides fade">
                       <img
-                        src={image}
+                        src={`https://static.swproject.demosfortest.com/${image}`}
                         alt="post image"
                       />
                     </div>
