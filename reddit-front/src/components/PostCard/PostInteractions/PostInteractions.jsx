@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/aria-role */
 /* eslint-disable operator-linebreak */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
@@ -350,7 +351,14 @@ function PostInteractions({
             className="interaction-item"
           >
             <BsBookmark fontSize="18px" />
-            <span className="interaction-text"> save</span>
+            <span
+              data-testid="save-state-span"
+              className="interaction-text"
+              role="interaction-item"
+            >
+              {' '}
+              save
+            </span>
           </a>
         ) : (
           <a
