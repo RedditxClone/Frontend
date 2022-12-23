@@ -17,7 +17,6 @@ import { FcApproval, FcLock } from 'react-icons/fc';
 import { BsFillShieldFill } from 'react-icons/bs';
 import { RiSpamLine } from 'react-icons/ri';
 import { CiNoWaitingSign } from 'react-icons/ci';
-import { useNavigate } from 'react-router-dom';
 import { followPost } from '../../../services/requests/Post';
 import Logo from '../../../assets/Images/test.png';
 import RemovalReasonDialog from './RemovalReasonDialog';
@@ -70,7 +69,6 @@ function PostInfo({
   spammedAt
 }) {
   const { user } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
   const communityName = subredditInfo.name;
   const communityId = subredditInfo.id;
   const userId = userInfo.id;
@@ -221,7 +219,7 @@ function PostInfo({
           ) : (
             <svg
               onClick={() => {
-                navigate(`/r/${communityName}`);
+                window.location.href = `/r/${communityName}`;
               }}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -327,7 +325,7 @@ function PostInfo({
               <p className="user-name-2">
                 <a
                   onClick={() => {
-                    navigate(`/user/${postedBy}`);
+                    window.location.replace(`/user/${postedBy}`);
                   }}
                 >
                   {getPostedBy()}

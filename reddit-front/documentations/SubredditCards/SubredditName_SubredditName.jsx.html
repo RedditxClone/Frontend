@@ -26,11 +26,17 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable operator-linebreak */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-lonely-if */
+/* eslint-disable no-constant-condition */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable operator-linebreak */
 /* eslint-disable indent */
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { useState, memo } from 'react';
+import { useState, memo, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
 import {
   MdOutlineNotificationsActive,
@@ -48,10 +54,22 @@ import {
   SubTitle,
   JoinButton
 } from './SubredditName.Style';
+import ActionMessage from '../../ActionMessage/ActionMessage';
+import {
+  updateNotificationType,
+  joinSubreddit,
+  leaveSubreddit
+} from '../../../services/requests/Subreddit';
+import { subredditTheme } from '../../../pages/Subreddit/Subreddit.Style';
 
 /**
  * @typedef PropType
- * @property {string} highlightColor
+ * @property {int} subredditId
+ * @property {bool} isJoined
+ * @property {string} name
+ * @property {string} title
+ * @property {int} notificationsStyle
+ * @property {string} SubredditName
  */
 
 /**
@@ -59,43 +77,85 @@ import {
  *
  */
 
-function SubredditName({ highlightColor }) {
-  const [joined, setJoined] = useState(false);
-  const [activeNotificationType, setActiveNotificationType] = useState(1);
+function SubredditName({
+  subredditId,
+  isJoined,
+  name,
+  subredditTitle,
+  notificationsStyle,
+  srName
+}) {
+  const { isAuth } = useSelector((state) => state.auth);
+  const [joined, setJoined] = useState(isJoined);
+
+  const [activeNotificationType, setActiveNotificationType] =
+    useState(notificationsStyle);
+  const [showJoinedMsg, setShowJoinedMsg] = useState(false);
+  const [showLeftMsg, setShowLeftMsg] = useState(false);
   const [showNotificationsTypeList, setShowNotificationsTypeList] =
     useState(false);
 
+  useEffect(() => {
+    setJoined(isJoined);
+    setActiveNotificationType(notificationsStyle);
+  }, [isJoined, notificationsStyle]);
+
   return (
     &lt;TitleLogoContainer data-testid="subreddit-title-logo-container">
+      {alert}
       {/* Subreddit Name  */}
       &lt;StyledSubredditName>
-        &lt;SubredditTitle variant="h1">Real Madrid CF&lt;/SubredditTitle>
-        &lt;SubTitle>r/realmadrid&lt;/SubTitle>
+        &lt;SubredditTitle>{subredditTitle || name}&lt;/SubredditTitle>
+        &lt;SubTitle>{`r/${name}`}&lt;/SubTitle>
       &lt;/StyledSubredditName>
 
       {/* Buttons -> Join, Notifications  */}
-      &lt;ButtonsContainer>
+      &lt;ButtonsContainer
+        sx={{
+          [subredditTheme.breakpoints.down('sm_4')]: {
+            justifyContent: 'flex-start'
+          }
+        }}
+      >
         {/* Join Button  */}
-        &lt;Box sx={{ width: '9.6rem' }}>
+        &lt;Box
+          sx={{
+            width: '9.6rem',
+            [subredditTheme.breakpoints.down('sm_4')]: {
+              width: '6.6rem',
+              marginRight: '5px'
+            }
+          }}
+        >
           &lt;JoinButton
             data-testid="join-community-button"
+            id="join-community-button"
             size="medium"
             sx={{
-              border: `1px solid ${highlightColor}`,
-              color: joined ? highlightColor : 'white',
-              fill: highlightColor,
-              backgroundColor: joined ? 'transparent' : highlightColor,
+              border: '1px solid #0079D3',
+              color: joined ? '#0079D3' : 'white',
+              fill: '#0079D3',
+              backgroundColor: joined ? 'transparent' : '#0079D3',
               '&amp;:hover': {
                 opacity: joined ? '1' : '.9',
-                backgroundColor: joined ? 'transparent' : highlightColor
+                backgroundColor: joined ? 'transparent' : '#0079D3'
               }
             }}
             onClick={(e) => {
               if (joined) {
                 setJoined(!joined);
                 e.target.innerHTML = 'Join';
+                leaveSubreddit(subredditId);
+                setShowLeftMsg(!showLeftMsg);
               } else {
-                setJoined(!joined);
+                // checking if not authenticated
+                if (!isAuth) {
+                  window.location.replace('/auth/login');
+                } else {
+                  setJoined(!joined);
+                  joinSubreddit(subredditId);
+                  setShowJoinedMsg(!showJoinedMsg);
+                }
               }
             }}
             onMouseOver={(e) => {
@@ -107,150 +167,177 @@ function SubredditName({ highlightColor }) {
           >
             {joined ? 'Joined' : 'Join'}
           &lt;/JoinButton>
+          {showJoinedMsg ? (
+            &lt;ActionMessage
+              message="Successfully joined r/test_community2022"
+              show={true}
+            />
+          ) : null}
+
+          {showLeftMsg ? (
+            &lt;ActionMessage
+              message="Successfully left r/test_community2022"
+              show={true}
+            />
+          ) : null}
         &lt;/Box>
         {/* Notifications Button  */}
-        &lt;Box sx={{ position: 'relative' }}>
-          &lt;Button
-            data-testid="notify-button"
-            size="medium"
-            sx={{
-              maxWidth:
-                '3.2rem' /** min &amp; max ? to overwrite the style of mui */,
-              minWidth: '3.2rem',
-              maxHeight: '3.2rem',
-              minHeight: '3.2rem',
-              padding: '2px',
-              border: `1px solid ${highlightColor}`,
-              color: highlightColor,
-              fill: highlightColor,
-              borderRadius: '100%',
-              backgroundColor: 'transparent',
-              '&amp;:hover': {
-                // backgroundColor: 'transparent'
-              }
-            }}
-            onClick={() => {
-              setShowNotificationsTypeList(!showNotificationsTypeList);
-            }}
-          >
-            {activeNotificationType === 1 ? (
-              &lt;IoIosNotifications fontSize="18px" />
-            ) : null}
+        {isJoined ? (
+          &lt;Box sx={{ position: 'relative' }}>
+            &lt;Button
+              data-testid="notify-button"
+              size="medium"
+              sx={{
+                maxWidth:
+                  '3.2rem' /** min &amp; max ? to overwrite the style of mui */,
+                minWidth: '3.2rem',
+                maxHeight: '3.2rem',
+                minHeight: '3.2rem',
+                padding: '2px',
+                border: '1px solid #0079D3',
+                color: '#0079D3',
+                fill: '#0079D3',
+                borderRadius: '100%',
+                backgroundColor: 'transparent',
+                '&amp;:hover': {
+                  // backgroundColor: 'transparent'
+                }
+              }}
+              onClick={() => {
+                setShowNotificationsTypeList(!showNotificationsTypeList);
+              }}
+            >
+              {activeNotificationType === 1 ? (
+                &lt;IoIosNotifications fontSize="18px" />
+              ) : null}
 
-            {activeNotificationType === 0 ? (
-              &lt;MdNotificationsActive fontSize="18px" />
-            ) : null}
+              {activeNotificationType === 0 ? (
+                &lt;MdNotificationsActive fontSize="18px" />
+              ) : null}
 
-            {activeNotificationType === 2 ? (
-              &lt;MdNotificationsOff fontSize="18px" />
-            ) : null}
+              {activeNotificationType === 2 ? (
+                &lt;MdNotificationsOff fontSize="18px" />
+              ) : null}
 
-            {/* Notification Types  */}
-            {showNotificationsTypeList ? (
-              &lt;NotificationTypesContainer>
-                &lt;SingleNotificationTypeContainer
-                  sx={{
-                    borderTopLeftRadius: '5px',
-                    borderTopRightRadius: '5px',
-                    color:
-                      activeNotificationType === 0 ? highlightColor : '#878A8C',
-                    '&amp;:hover':
-                      activeNotificationType !== 0
-                        ? {
-                            backgroundColor: '#ccc'
-                          }
-                        : {}
-                  }}
-                  onClick={() => {
-                    setActiveNotificationType(0);
-                  }}
-                >
-                  {activeNotificationType !== 0 ? (
-                    &lt;MdOutlineNotificationsActive
-                      style={{ marginRight: '5px' }}
-                      fontSize="28px"
-                    />
-                  ) : (
-                    &lt;MdNotificationsActive
-                      style={{ marginRight: '5px' }}
-                      fontSize="28px"
-                    />
-                  )}
+              {/* Notification Types  */}
+              {showNotificationsTypeList ? (
+                &lt;NotificationTypesContainer>
+                  &lt;SingleNotificationTypeContainer
+                    sx={{
+                      borderTopLeftRadius: '5px',
+                      borderTopRightRadius: '5px',
+                      color:
+                        activeNotificationType === 0 ? '#0079D3' : '#878A8C',
+                      '&amp;:hover':
+                        activeNotificationType !== 0
+                          ? {
+                              backgroundColor: '#ccc'
+                            }
+                          : {}
+                    }}
+                    onClick={() => {
+                      setActiveNotificationType(0);
+                      updateNotificationType({
+                        subredditName: srName,
+                        type: 0
+                      });
+                    }}
+                  >
+                    {activeNotificationType !== 0 ? (
+                      &lt;MdOutlineNotificationsActive
+                        style={{ marginRight: '5px' }}
+                        fontSize="28px"
+                      />
+                    ) : (
+                      &lt;MdNotificationsActive
+                        style={{ marginRight: '5px' }}
+                        fontSize="28px"
+                      />
+                    )}
 
-                  &lt;span style={{}}>Frequent&lt;/span>
-                &lt;/SingleNotificationTypeContainer>
+                    &lt;span style={{}}>Frequent&lt;/span>
+                  &lt;/SingleNotificationTypeContainer>
 
-                &lt;SingleNotificationTypeContainer
-                  sx={{
-                    color:
-                      activeNotificationType === 1 ? highlightColor : '#878A8C',
-                    '&amp;:hover':
-                      activeNotificationType !== 1
-                        ? {
-                            backgroundColor: '#ccc'
-                          }
-                        : {}
-                  }}
-                  onClick={() => {
-                    setActiveNotificationType(1);
-                  }}
-                >
-                  {activeNotificationType !== 1 ? (
-                    &lt;IoMdNotificationsOutline
-                      style={{ marginRight: '5px' }}
-                      fontSize="28px"
-                    />
-                  ) : (
-                    &lt;IoIosNotifications
-                      fontSize="28px"
-                      style={{ marginRight: '5px' }}
-                    />
-                  )}
+                  &lt;SingleNotificationTypeContainer
+                    sx={{
+                      color:
+                        activeNotificationType === 1 ? '#0079D3' : '#878A8C',
+                      '&amp;:hover':
+                        activeNotificationType !== 1
+                          ? {
+                              backgroundColor: '#ccc'
+                            }
+                          : {}
+                    }}
+                    onClick={() => {
+                      setActiveNotificationType(1);
+                      updateNotificationType({
+                        subredditName: srName,
+                        type: 1
+                      });
+                    }}
+                  >
+                    {activeNotificationType !== 1 ? (
+                      &lt;IoMdNotificationsOutline
+                        style={{ marginRight: '5px' }}
+                        fontSize="28px"
+                      />
+                    ) : (
+                      &lt;IoIosNotifications
+                        fontSize="28px"
+                        style={{ marginRight: '5px' }}
+                      />
+                    )}
 
-                  &lt;span>Low&lt;/span>
-                &lt;/SingleNotificationTypeContainer>
+                    &lt;span>Low&lt;/span>
+                  &lt;/SingleNotificationTypeContainer>
 
-                &lt;SingleNotificationTypeContainer
-                  sx={{
-                    borderBottomLeftRadius: '5px',
-                    borderBottomRightRadius: '5px',
-                    color:
-                      activeNotificationType === 2 ? highlightColor : '#878A8C',
-                    '&amp;:hover':
-                      activeNotificationType !== 2
-                        ? {
-                            backgroundColor: '#ccc'
-                          }
-                        : {}
-                  }}
-                  onClick={() => {
-                    setActiveNotificationType(2);
-                  }}
-                >
-                  {activeNotificationType !== 2 ? (
-                    &lt;MdOutlineNotificationsOff
-                      fontSize="28px"
-                      style={{ marginRight: '5px' }}
-                    />
-                  ) : (
-                    &lt;MdNotificationsOff
-                      style={{ marginRight: '5px' }}
-                      fontSize="28px"
-                    />
-                  )}
+                  &lt;SingleNotificationTypeContainer
+                    sx={{
+                      borderBottomLeftRadius: '5px',
+                      borderBottomRightRadius: '5px',
+                      color:
+                        activeNotificationType === 2 ? '#0079D3' : '#878A8C',
+                      '&amp;:hover':
+                        activeNotificationType !== 2
+                          ? {
+                              backgroundColor: '#ccc'
+                            }
+                          : {}
+                    }}
+                    onClick={() => {
+                      setActiveNotificationType(2);
+                      updateNotificationType({
+                        subredditName: srName,
+                        type: 2
+                      });
+                    }}
+                  >
+                    {activeNotificationType !== 2 ? (
+                      &lt;MdOutlineNotificationsOff
+                        fontSize="28px"
+                        style={{ marginRight: '5px' }}
+                      />
+                    ) : (
+                      &lt;MdNotificationsOff
+                        style={{ marginRight: '5px' }}
+                        fontSize="28px"
+                      />
+                    )}
 
-                  &lt;span>Off&lt;/span>
-                &lt;/SingleNotificationTypeContainer>
-              &lt;/NotificationTypesContainer>
-            ) : null}
-          &lt;/Button>
-        &lt;/Box>
+                    &lt;span>Off&lt;/span>
+                  &lt;/SingleNotificationTypeContainer>
+                &lt;/NotificationTypesContainer>
+              ) : null}
+            &lt;/Button>
+          &lt;/Box>
+        ) : null}
       &lt;/ButtonsContainer>
     &lt;/TitleLogoContainer>
   );
 }
 
-export default memo(SubredditName);
+export default SubredditName;
 </code></pre>
         </article>
     </section>
@@ -261,13 +348,13 @@ export default memo(SubredditName);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCard">AboutCard</a></li><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#BackgroundImage">BackgroundImage</a></li><li><a href="global.html#ButtonsContainer">ButtonsContainer</a></li><li><a href="global.html#CancelSaveContainer">CancelSaveContainer</a></li><li><a href="global.html#CardHeader">CardHeader</a></li><li><a href="global.html#CardsContainer">CardsContainer</a></li><li><a href="global.html#CardsHeaderContainer">CardsHeaderContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CommunityTopics">CommunityTopics</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#DropDownMenuContainer">DropDownMenuContainer</a></li><li><a href="global.html#DropDownMenuItem">DropDownMenuItem</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#FlairItem">FlairItem</a></li><li><a href="global.html#FlairItemContainer">FlairItemContainer</a></li><li><a href="global.html#FlairsCard">FlairsCard</a></li><li><a href="global.html#FlairsContainer">FlairsContainer</a></li><li><a href="global.html#HeadingContainer">HeadingContainer</a></li><li><a href="global.html#JoinButton">JoinButton</a></li><li><a href="global.html#LogoImg">LogoImg</a></li><li><a href="global.html#LogoNameContainer">LogoNameContainer</a></li><li><a href="global.html#LogoNameContent">LogoNameContent</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#MessageModsButton">MessageModsButton</a></li><li><a href="global.html#ModeratorsCard">ModeratorsCard</a></li><li><a href="global.html#ModeratorsContainer">ModeratorsContainer</a></li><li><a href="global.html#ModeratorUsername">ModeratorUsername</a></li><li><a href="global.html#ModToolsButton">ModToolsButton</a></li><li><a href="global.html#NotificationTypesContainer">NotificationTypesContainer</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PopupInfo">PopupInfo</a></li><li><a href="global.html#PostsContainer">PostsContainer</a></li><li><a href="global.html#RuleContainer">RuleContainer</a></li><li><a href="global.html#RuleDescription">RuleDescription</a></li><li><a href="global.html#RuleNumber">RuleNumber</a></li><li><a href="global.html#RulesCard">RulesCard</a></li><li><a href="global.html#RulesCardContainer">RulesCardContainer</a></li><li><a href="global.html#RuleTitle">RuleTitle</a></li><li><a href="global.html#SelectList">SelectList</a></li><li><a href="global.html#SelectListOption">SelectListOption</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#ShowRuleDescription">ShowRuleDescription</a></li><li><a href="global.html#SideBarContainer">SideBarContainer</a></li><li><a href="global.html#SideBarContent">SideBarContent</a></li><li><a href="global.html#SingleNotificationTypeContainer">SingleNotificationTypeContainer</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledSubredditName">StyledSubredditName</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#StylesSpan">StylesSpan</a></li><li><a href="global.html#SubredditInfo">SubredditInfo</a></li><li><a href="global.html#SubredditName">SubredditName</a></li><li><a href="global.html#SubredditSideBar">SubredditSideBar</a></li><li><a href="global.html#SubredditTitle">SubredditTitle</a></li><li><a href="global.html#SubTitle">SubTitle</a></li><li><a href="global.html#SubTopic">SubTopic</a></li><li><a href="global.html#SubTopicsContainer">SubTopicsContainer</a></li><li><a href="global.html#SuggestedSubTopic">SuggestedSubTopic</a></li><li><a href="global.html#SuggestedSubTopicsContainer">SuggestedSubTopicsContainer</a></li><li><a href="global.html#TitleLogoContainer">TitleLogoContainer</a></li><li><a href="global.html#TopicDropdownList">TopicDropdownList</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCard">AboutCard</a></li><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#BackgroundImage">BackgroundImage</a></li><li><a href="global.html#ButtonsContainer">ButtonsContainer</a></li><li><a href="global.html#CancelSaveContainer">CancelSaveContainer</a></li><li><a href="global.html#CardHeader">CardHeader</a></li><li><a href="global.html#CardsHeaderContainer">CardsHeaderContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CommunityTopics">CommunityTopics</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#DropDownMenuContainer">DropDownMenuContainer</a></li><li><a href="global.html#DropDownMenuItem">DropDownMenuItem</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#FlairItem">FlairItem</a></li><li><a href="global.html#FlairItemContainer">FlairItemContainer</a></li><li><a href="global.html#FlairsCard">FlairsCard</a></li><li><a href="global.html#FlairsContainer">FlairsContainer</a></li><li><a href="global.html#HeadingContainer">HeadingContainer</a></li><li><a href="global.html#JoinButton">JoinButton</a></li><li><a href="global.html#LogoImg">LogoImg</a></li><li><a href="global.html#LogoNameContainer">LogoNameContainer</a></li><li><a href="global.html#LogoNameContent">LogoNameContent</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#MessageModsButton">MessageModsButton</a></li><li><a href="global.html#ModeratorsCard">ModeratorsCard</a></li><li><a href="global.html#ModeratorsContainer">ModeratorsContainer</a></li><li><a href="global.html#ModeratorUsername">ModeratorUsername</a></li><li><a href="global.html#ModToolsButton">ModToolsButton</a></li><li><a href="global.html#NotificationTypesContainer">NotificationTypesContainer</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PopupInfo">PopupInfo</a></li><li><a href="global.html#RuleContainer">RuleContainer</a></li><li><a href="global.html#RuleDescription">RuleDescription</a></li><li><a href="global.html#RuleNumber">RuleNumber</a></li><li><a href="global.html#RulesCard">RulesCard</a></li><li><a href="global.html#RulesCardContainer">RulesCardContainer</a></li><li><a href="global.html#RuleTitle">RuleTitle</a></li><li><a href="global.html#SelectList">SelectList</a></li><li><a href="global.html#SelectListOption">SelectListOption</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#ShowRuleDescription">ShowRuleDescription</a></li><li><a href="global.html#SideBarContainer">SideBarContainer</a></li><li><a href="global.html#SideBarContent">SideBarContent</a></li><li><a href="global.html#SingleNotificationTypeContainer">SingleNotificationTypeContainer</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledSubredditName">StyledSubredditName</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#StylesSpan">StylesSpan</a></li><li><a href="global.html#SubredditBackground">SubredditBackground</a></li><li><a href="global.html#SubredditInfo">SubredditInfo</a></li><li><a href="global.html#SubredditName">SubredditName</a></li><li><a href="global.html#SubredditSideBar">SubredditSideBar</a></li><li><a href="global.html#SubredditTitle">SubredditTitle</a></li><li><a href="global.html#SubTitle">SubTitle</a></li><li><a href="global.html#SubTopic">SubTopic</a></li><li><a href="global.html#SubTopicsContainer">SubTopicsContainer</a></li><li><a href="global.html#SuggestedSubTopic">SuggestedSubTopic</a></li><li><a href="global.html#SuggestedSubTopicsContainer">SuggestedSubTopicsContainer</a></li><li><a href="global.html#TitleLogoContainer">TitleLogoContainer</a></li><li><a href="global.html#TopicDropdownList">TopicDropdownList</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 22:13:08 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:33:29 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

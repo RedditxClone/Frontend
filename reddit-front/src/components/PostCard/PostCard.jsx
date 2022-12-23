@@ -13,17 +13,8 @@ import Voting from './Voting/Voting';
  *
  * @param {mixed}  postData
  * @param {bool}  isCommunityPost
- * @param {bool}  isPostFullDetailsMode
  * @param {bool}  isHomePagePost
  * @param {bool}  isModeratorMode
- * @param {bool}  isSaved
- * @param {bool}  isLocked
- * @param {bool}  isPostApproved
- * @param {bool}  isPostSticky
- * @param {bool}  isDistinguishedAsMode
- * @param {bool}  isNSFW
- * @param {bool}  isSpoiled
- * @param {bool}  replyNotifications
  */
 
 /**
@@ -35,7 +26,6 @@ import Voting from './Voting/Voting';
 function PostCard({
   postData,
   isCommunityPost,
-  isPostFullDetailsMode,
   isHomePagePost,
   isModeratorMode
 }) {
@@ -55,7 +45,6 @@ function PostCard({
           currentVotingState={
             postData.voteType === null ? 0 : postData.voteType
           }
-          isHomePagePost={isHomePagePost}
         />
         <PostContent
           setHidePost={setHidePost}

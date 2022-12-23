@@ -16,15 +16,8 @@ import Voting from './Voting/Voting';
  * @param {bool}  isPostFullDetailsMode
  * @param {bool}  isHomePagePost
  * @param {bool}  isModeratorMode
- * @param {bool}  isSaved
- * @param {bool}  isLocked
- * @param {bool}  isPostApproved
- * @param {bool}  isPostSticky
- * @param {bool}  isDistinguishedAsMode
- * @param {bool}  isNSFW
- * @param {bool}  isSpoiled
- * @param {bool}  replyNotifications
  * @param {bool}  showComments
+ * @param {string}  whichQueue
  */
 
 /**
@@ -39,14 +32,6 @@ function PostCard({
   isPostFullDetailsMode,
   isHomePagePost,
   isModeratorMode,
-  isSaved,
-  isLocked,
-  isPostApproved,
-  isPostSticky,
-  isDistinguishedAsMode,
-  isNSFW,
-  isSpoiled,
-  replyNotifications,
   showComments,
   whichQueue
 }) {

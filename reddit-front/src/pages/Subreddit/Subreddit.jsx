@@ -24,10 +24,9 @@ import PostsList from '../../components/PostsList/PostsList';
 import { getSubreddit } from '../../services/requests/Subreddit';
 import Loader from '../../utilities/Loader/Loader';
 import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
-import { AuthActions } from '../../store/slices/AuthSlice';
-import getUser from '../../services/requests/getUser';
+
 /**
- * This Component for the Community Cards.
+ * This Component for the Community Page.
  *
  */
 

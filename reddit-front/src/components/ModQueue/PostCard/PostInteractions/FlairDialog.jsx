@@ -30,12 +30,27 @@ import FormLabel from '@mui/material/FormLabel';
 import { getFlairsList } from '../../../../services/requests/Subreddit';
 import { updatePostFlair } from '../../../../services/requests/Post';
 
+/**
+ * @typedef PropType
+ * @property {string} postId
+ * @property {function} handleClose
+ * @property {bool} open
+ * @property {string} subredditName
+ */
+
+/**
+ * This Component for the post's flair card.
+ *
+ */
+
 function FlairDialog({ open, handleClose, postId, subredditName }) {
   const maxRemovalReasonLength = 65;
   const [removalReason, setRemovalReason] = useState(0);
   const handleSelectChange = (event) => {
     setRemovalReason(event.target.value);
   };
+
+  // states
   const [charCounter, setCharCounter] = useState(0);
   const removalReasonInput = useRef(null);
   const dispatch = useDispatch();
@@ -56,20 +71,7 @@ function FlairDialog({ open, handleClose, postId, subredditName }) {
     fetchSubredditFlairs();
   }, []);
 
-  /**
-   * This Method handles the maximum number allowed for the removal reason
-   *
-   */
-  const handleRemovalReasonInput = (e) => {
-    const currentLength = e.target.value.length;
-
-    if (currentLength <= maxRemovalReasonLength) {
-      setCharCounter(maxRemovalReasonLength - currentLength);
-    } else {
-      e.target.maxLength = maxRemovalReasonLength;
-    }
-  };
-
+  // Handlers
   /**
    * This Method handles the submission of the post's removal reason
    *

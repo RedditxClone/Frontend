@@ -16,9 +16,9 @@ import {
   RuleNumber
 } from './RulesCard.Style';
 import StyledHorizontalLine from '../../../utilities/StyledHorizontalLine/StyledHorizontalLine';
-import { getRulesList } from '../../../services/requests/Subreddit';
 /**
  * @typedef PropType
+ * @property {Array} rulesList
  */
 
 /**

@@ -11,19 +11,10 @@
 /* eslint-disable react/prop-types */
 import { useState, memo } from 'react';
 import './PostInteractions.css';
-import { GoComment } from 'react-icons/go';
-import { RiSpamLine, RiSpam3Fill, RiSpam3Line } from 'react-icons/ri';
-import { TiTickOutline } from 'react-icons/ti';
-import { GrCheckbox } from 'react-icons/gr';
-import { FiShield } from 'react-icons/fi';
-import {
-  BsThreeDots,
-  BsBookmark,
-  BsFillBookmarkFill,
-  BsShareFill
-} from 'react-icons/bs';
+import { RiSpam3Line } from 'react-icons/ri';
+import { BsThreeDots, BsShareFill } from 'react-icons/bs';
 import { BiHide } from 'react-icons/bi';
-import { CiCircleRemove, CiNoWaitingSign } from 'react-icons/ci';
+import { CiCircleRemove } from 'react-icons/ci';
 import {
   AiOutlineCheck,
   AiOutlineTag,
@@ -33,42 +24,32 @@ import {
   AiOutlineWarning
 } from 'react-icons/ai';
 import {
-  approvePost,
-  unApprovePost,
-  removePost,
-  unRemovePost,
   hidePost,
   unHidePost,
-  savePost,
-  unSavePost,
   lockPost,
   unLockPost,
   unMarkPostAsNSFW,
-  markPostAsNSFW,
-  spamPost,
-  unSpamPost,
-  sendReplyNotifications,
-  spoilPost,
-  unSpoilPost
+  markPostAsNSFW
 } from '../../../../services/requests/Post';
 import FlairDialog from './FlairDialog';
 
 /**
  * @typedef PropType
- * @property {function} setHidePost
- * @property {number} commentsCount
- * @property {number} votesCount
- * @property {number} postId
- * @property {bool} isCommunityPost
- * @property {function} setModAction
- * @property {function} setDistinguishAsMod
+ * @property {string} postId
  * @property {function} setNsfw
  * @property {function} setLocked
- * @property {bool} isModeratorMode
- * @property {bool} isSaved
  * @property {bool} isLocked
+ * @property {bool} isPostApproved
+ * @property {bool} isPostRemoved
+ * @property {bool} isPostSpammed
+ * @property {bool} isNSFW
+ * @property {bool} isSpoiled
  * @property {bool} replyNotifications
- * @property {bool} canBeSpoiled
+ * @property {bool} showComments
+ * @property {function} handleApproveButton
+ * @property {function} handleRemoveButton
+ * @property {function} handleSpamButton
+ * @property {string} whichQueue
  */
 
 /**
@@ -77,14 +58,9 @@ import FlairDialog from './FlairDialog';
  *
  */
 function PostInteractions({
-  commentsCount,
   postId,
-  isCommunityPost,
-  setModAction,
-  changeModAction,
   setNsfw,
   setLocked,
-  isModeratorMode,
   isLocked,
   isPostApproved,
   isPostRemoved,
@@ -92,13 +68,13 @@ function PostInteractions({
   isNSFW,
   isSpoiled,
   replyNotifications,
-  canBeSpoiled,
   showComments,
   handleApproveButton,
   handleRemoveButton,
   handleSpamButton,
   whichQueue
 }) {
+  // states
   const [isApproved, setIsApproved] = useState(isPostApproved);
   const [replyNotificationsState, setReplyNotificationsState] =
     useState(replyNotifications);
@@ -147,30 +123,6 @@ function PostInteractions({
     }
   };
 
-  const handleStickyButton = () => {
-    if (!isSticky) {
-      setIsSticky(true);
-      const request = { id: postId };
-      stickyPost(request);
-    } else {
-      setIsSticky(false);
-      const request = { id: postId };
-      unStickyPost(request);
-    }
-  };
-
-  const handleDistinguishAsMod = () => {
-    if (!distinguishAsMode) {
-      setDistinguishAsMode(true);
-      setDistinguishPostAsMod(true);
-      distinguishAsMod({ id: postId });
-    } else {
-      setDistinguishAsMode(false);
-      setDistinguishPostAsMod(false);
-      unDistinguishAsMod({ id: postId });
-    }
-  };
-
   const handleLockComments = () => {
     if (!lockComments) {
       setLockComments(true);
@@ -194,40 +146,6 @@ function PostInteractions({
       setMarkedAsNSFW(false);
       setNsfw(false);
       unMarkPostAsNSFW({ id: postId });
-    }
-  };
-
-  const handleMarkAsSpoiler = () => {
-    const img = document.querySelector(
-      `.post-card .post-content .post-image-${postId}`
-    );
-    if (!markedAsSpoiler) {
-      setMarkedAsSpoiler(true);
-      spoilPost({ id: postId });
-      img.style.filter = 'blur(60px)';
-    } else {
-      setMarkedAsSpoiler(false);
-      unSpoilPost({ id: postId });
-      img.style.filter = 'none';
-    }
-  };
-
-  const getCommentsCount = function () {
-    if (!isCommunityPost) {
-      return commentsCount ? commentsCount.concat(' Comments') : 'No Comments';
-    }
-    return commentsCount;
-  };
-
-  const handleSendReplies = () => {
-    if (!replyNotificationsState) {
-      setReplyNotificationsState(true);
-      const info = { request: { state: true }, id: postId };
-      sendReplyNotifications(info);
-    } else {
-      setReplyNotificationsState(false);
-      const info = { request: { state: false }, id: postId };
-      sendReplyNotifications(info);
     }
   };
 

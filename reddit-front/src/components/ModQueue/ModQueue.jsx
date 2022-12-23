@@ -29,11 +29,14 @@ import Loader from '../../utilities/Loader/Loader';
  * @property {bool} isCommunityPost
  * @property {bool} isModeratorMode
  * @property {bool} isHomePagePost
+ * @property {string} whichQueue
+ * @property {string} subredditName
+ * @property {string} subredditId
  */
 
 /**
- * This Component for the spammed posts List.
- * It fetches the api data for the posts, then looping on each post data to display it.
+ * This Component for the mod queue of the mod tools page
+ * It contains the spammed posts, the edited posts, and the un-moderated posts
  *
  */
 
@@ -46,6 +49,7 @@ function ModQueue({
   subredditName,
   subredditId
 }) {
+  // States
   const isPostFullDetailsMode = false;
   const [posts, setPosts] = useState([]);
   const [sort, setSort] = useState(0);
@@ -54,7 +58,7 @@ function ModQueue({
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
-  console.log('subredditId', subredditId);
+
   // Fetching the results by calling the fetch service
   const fetchPosts = async (timeState, sortState) => {
     setLoading(true);
@@ -95,6 +99,7 @@ function ModQueue({
     setTime(event.target.value);
     fetchPosts(event.target.value, sort);
   };
+
   // Preparing the data of the post to get displayed
   const postsData =
     posts.length > 0
@@ -245,6 +250,7 @@ function ModQueue({
       </Box>
 
       <InfiniteScroll
+        data-testid="posts-for-mod-queue"
         loadMore={fetchPosts}
         hasMore={hasMore}
         loader={<Loader />}

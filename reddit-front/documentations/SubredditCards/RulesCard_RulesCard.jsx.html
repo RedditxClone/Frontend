@@ -26,8 +26,13 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { Typography, Box } from '@mui/material';
-import { useState, memo } from 'react';
+            <pre class="prettyprint source linenums"><code>/* eslint-disable operator-linebreak */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable no-unused-vars */
+import { Typography, Box } from '@mui/material';
+import { useState, memo, useEffect } from 'react';
 import { AiOutlineDown } from 'react-icons/ai';
 import CardHeader from '../CardHeader/CardHeader';
 import {
@@ -39,10 +44,9 @@ import {
   RuleNumber
 } from './RulesCard.Style';
 import StyledHorizontalLine from '../../../utilities/StyledHorizontalLine/StyledHorizontalLine';
-
 /**
  * @typedef PropType
- * @property {string, color} baseColor
+ * @property {Array} rulesList
  */
 
 /**
@@ -50,11 +54,25 @@ import StyledHorizontalLine from '../../../utilities/StyledHorizontalLine/Styled
  *
  */
 
-function RulesCard({ baseColor }) {
-  // eslint-disable-next-line prefer-const
-  let isRuleHasDescription = true;
+function RulesCard({ rulesList }) {
   const [showDescription, setShowDescription] = useState(false);
 
+  /**
+   * This function divides handles the displaying of a rule description
+   * @param {int} ruleId - The number to be divided.
+   */
+  const handleShowDescription = (ruleId) => {
+    const rule = document.getElementById(`show-rule-description-${ruleId}`);
+    if (rule) {
+      if (rule.style.display === 'none') {
+        rule.style.display = 'block';
+        rule.style.visibility = 'visible';
+      } else {
+        rule.style.display = 'none';
+        rule.style.visibility = 'hidden';
+      }
+    }
+  };
   return (
     &lt;RulesCardContainer
       className="community-rules"
@@ -63,57 +81,50 @@ function RulesCard({ baseColor }) {
       {/* Card Header  */}
       &lt;CardHeader
         title="r/AyahEveryDay Rules"
-        baseColor={baseColor}
         hasDropDownMenu={false}
       />
       {/* Card Body  */}
       &lt;Box sx={{ padding: '12px' }}>
         {/* The list of rules  */}
-        &lt;RuleContainer
-          className="RuleContainer"
-          onClick={() => {
-            setShowDescription(!showDescription);
-          }}
-        >
-          &lt;RuleNumber className="rule-number">1.&lt;/RuleNumber>
-          &lt;RuleTitle className="rule-title">test title&lt;/RuleTitle>
-          {isRuleHasDescription ? (
-            &lt;ShowRuleDescription className="show-rule-description">
-              &lt;AiOutlineDown fontSize="1.3rem" />
-            &lt;/ShowRuleDescription>
-          ) : null}
-        &lt;/RuleContainer>
-        {showDescription ? (
-          &lt;RuleDescription
-            onClick={() => {
-              setShowDescription(!showDescription);
-            }}
-          >
-            &lt;Typography
-              variant="paragraph"
-              sx={{
-                fontWeight: '400',
-                fontSize: '1.4rem',
-                lineHeight: '2rem'
-              }}
-            >
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae
-              consequatur placeat ad porro.
-            &lt;/Typography>
-          &lt;/RuleDescription>
-        ) : null}
 
-        &lt;StyledHorizontalLine />
+        {rulesList.length > 0
+          ? rulesList.map((item, index) => (
+              &lt;>
+                &lt;RuleContainer
+                  className="RuleContainer"
+                  onClick={() => handleShowDescription(index)}
+                >
+                  &lt;RuleNumber className="rule-number">
+                    {`${index + 1}.`}
+                  &lt;/RuleNumber>
+                  &lt;RuleTitle className="rule-title">{item.rule}&lt;/RuleTitle>
+                  {item.description &amp;&amp; (
+                    &lt;ShowRuleDescription className="show-rule-description">
+                      &lt;AiOutlineDown fontSize="1.3rem" />
+                    &lt;/ShowRuleDescription>
+                  )}
+                &lt;/RuleContainer>
 
-        &lt;RuleContainer
-          className="RuleContainer"
-          onClick={() => {
-            setShowDescription(!showDescription);
-          }}
-        >
-          &lt;RuleNumber className="rule-number">2.&lt;/RuleNumber>
-          &lt;RuleTitle className="rule-title">test title again&lt;/RuleTitle>
-        &lt;/RuleContainer>
+                &lt;RuleDescription
+                  id={`show-rule-description-${index}`}
+                  style={{ display: 'none', visibility: 'hidden' }}
+                >
+                  &lt;Typography
+                    variant="paragraph"
+                    sx={{
+                      fontWeight: '400',
+                      fontSize: '1.4rem',
+                      lineHeight: '2rem'
+                    }}
+                  >
+                    {item.description}
+                  &lt;/Typography>
+                &lt;/RuleDescription>
+
+                {index &lt; rulesList.length - 1 ? &lt;StyledHorizontalLine /> : null}
+              &lt;/>
+            ))
+          : null}
       &lt;/Box>
     &lt;/RulesCardContainer>
   );
@@ -130,13 +141,13 @@ export default memo(RulesCard);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCard">AboutCard</a></li><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#BackgroundImage">BackgroundImage</a></li><li><a href="global.html#ButtonsContainer">ButtonsContainer</a></li><li><a href="global.html#CancelSaveContainer">CancelSaveContainer</a></li><li><a href="global.html#CardHeader">CardHeader</a></li><li><a href="global.html#CardsContainer">CardsContainer</a></li><li><a href="global.html#CardsHeaderContainer">CardsHeaderContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CommunityTopics">CommunityTopics</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#DropDownMenuContainer">DropDownMenuContainer</a></li><li><a href="global.html#DropDownMenuItem">DropDownMenuItem</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#FlairItem">FlairItem</a></li><li><a href="global.html#FlairItemContainer">FlairItemContainer</a></li><li><a href="global.html#FlairsCard">FlairsCard</a></li><li><a href="global.html#FlairsContainer">FlairsContainer</a></li><li><a href="global.html#HeadingContainer">HeadingContainer</a></li><li><a href="global.html#JoinButton">JoinButton</a></li><li><a href="global.html#LogoImg">LogoImg</a></li><li><a href="global.html#LogoNameContainer">LogoNameContainer</a></li><li><a href="global.html#LogoNameContent">LogoNameContent</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#MessageModsButton">MessageModsButton</a></li><li><a href="global.html#ModeratorsCard">ModeratorsCard</a></li><li><a href="global.html#ModeratorsContainer">ModeratorsContainer</a></li><li><a href="global.html#ModeratorUsername">ModeratorUsername</a></li><li><a href="global.html#ModToolsButton">ModToolsButton</a></li><li><a href="global.html#NotificationTypesContainer">NotificationTypesContainer</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PopupInfo">PopupInfo</a></li><li><a href="global.html#PostsContainer">PostsContainer</a></li><li><a href="global.html#RuleContainer">RuleContainer</a></li><li><a href="global.html#RuleDescription">RuleDescription</a></li><li><a href="global.html#RuleNumber">RuleNumber</a></li><li><a href="global.html#RulesCard">RulesCard</a></li><li><a href="global.html#RulesCardContainer">RulesCardContainer</a></li><li><a href="global.html#RuleTitle">RuleTitle</a></li><li><a href="global.html#SelectList">SelectList</a></li><li><a href="global.html#SelectListOption">SelectListOption</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#ShowRuleDescription">ShowRuleDescription</a></li><li><a href="global.html#SideBarContainer">SideBarContainer</a></li><li><a href="global.html#SideBarContent">SideBarContent</a></li><li><a href="global.html#SingleNotificationTypeContainer">SingleNotificationTypeContainer</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledSubredditName">StyledSubredditName</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#StylesSpan">StylesSpan</a></li><li><a href="global.html#SubredditInfo">SubredditInfo</a></li><li><a href="global.html#SubredditName">SubredditName</a></li><li><a href="global.html#SubredditSideBar">SubredditSideBar</a></li><li><a href="global.html#SubredditTitle">SubredditTitle</a></li><li><a href="global.html#SubTitle">SubTitle</a></li><li><a href="global.html#SubTopic">SubTopic</a></li><li><a href="global.html#SubTopicsContainer">SubTopicsContainer</a></li><li><a href="global.html#SuggestedSubTopic">SuggestedSubTopic</a></li><li><a href="global.html#SuggestedSubTopicsContainer">SuggestedSubTopicsContainer</a></li><li><a href="global.html#TitleLogoContainer">TitleLogoContainer</a></li><li><a href="global.html#TopicDropdownList">TopicDropdownList</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCard">AboutCard</a></li><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#BackgroundImage">BackgroundImage</a></li><li><a href="global.html#ButtonsContainer">ButtonsContainer</a></li><li><a href="global.html#CancelSaveContainer">CancelSaveContainer</a></li><li><a href="global.html#CardHeader">CardHeader</a></li><li><a href="global.html#CardsHeaderContainer">CardsHeaderContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CommunityTopics">CommunityTopics</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#DropDownMenuContainer">DropDownMenuContainer</a></li><li><a href="global.html#DropDownMenuItem">DropDownMenuItem</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#FlairItem">FlairItem</a></li><li><a href="global.html#FlairItemContainer">FlairItemContainer</a></li><li><a href="global.html#FlairsCard">FlairsCard</a></li><li><a href="global.html#FlairsContainer">FlairsContainer</a></li><li><a href="global.html#HeadingContainer">HeadingContainer</a></li><li><a href="global.html#JoinButton">JoinButton</a></li><li><a href="global.html#LogoImg">LogoImg</a></li><li><a href="global.html#LogoNameContainer">LogoNameContainer</a></li><li><a href="global.html#LogoNameContent">LogoNameContent</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#MessageModsButton">MessageModsButton</a></li><li><a href="global.html#ModeratorsCard">ModeratorsCard</a></li><li><a href="global.html#ModeratorsContainer">ModeratorsContainer</a></li><li><a href="global.html#ModeratorUsername">ModeratorUsername</a></li><li><a href="global.html#ModToolsButton">ModToolsButton</a></li><li><a href="global.html#NotificationTypesContainer">NotificationTypesContainer</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PopupInfo">PopupInfo</a></li><li><a href="global.html#RuleContainer">RuleContainer</a></li><li><a href="global.html#RuleDescription">RuleDescription</a></li><li><a href="global.html#RuleNumber">RuleNumber</a></li><li><a href="global.html#RulesCard">RulesCard</a></li><li><a href="global.html#RulesCardContainer">RulesCardContainer</a></li><li><a href="global.html#RuleTitle">RuleTitle</a></li><li><a href="global.html#SelectList">SelectList</a></li><li><a href="global.html#SelectListOption">SelectListOption</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#ShowRuleDescription">ShowRuleDescription</a></li><li><a href="global.html#SideBarContainer">SideBarContainer</a></li><li><a href="global.html#SideBarContent">SideBarContent</a></li><li><a href="global.html#SingleNotificationTypeContainer">SingleNotificationTypeContainer</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledSubredditName">StyledSubredditName</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#StylesSpan">StylesSpan</a></li><li><a href="global.html#SubredditBackground">SubredditBackground</a></li><li><a href="global.html#SubredditInfo">SubredditInfo</a></li><li><a href="global.html#SubredditName">SubredditName</a></li><li><a href="global.html#SubredditSideBar">SubredditSideBar</a></li><li><a href="global.html#SubredditTitle">SubredditTitle</a></li><li><a href="global.html#SubTitle">SubTitle</a></li><li><a href="global.html#SubTopic">SubTopic</a></li><li><a href="global.html#SubTopicsContainer">SubTopicsContainer</a></li><li><a href="global.html#SuggestedSubTopic">SuggestedSubTopic</a></li><li><a href="global.html#SuggestedSubTopicsContainer">SuggestedSubTopicsContainer</a></li><li><a href="global.html#TitleLogoContainer">TitleLogoContainer</a></li><li><a href="global.html#TopicDropdownList">TopicDropdownList</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 22:13:08 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:33:29 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

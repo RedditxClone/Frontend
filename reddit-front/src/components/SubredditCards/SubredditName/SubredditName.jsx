@@ -38,9 +38,10 @@ import { subredditTheme } from '../../../pages/Subreddit/Subreddit.Style';
  * @typedef PropType
  * @property {int} subredditId
  * @property {bool} isJoined
- * @property {bool} name
- * @property {bool} title
- * @property {bool} notificationsStyle
+ * @property {string} name
+ * @property {string} title
+ * @property {int} notificationsStyle
+ * @property {string} SubredditName
  */
 
 /**
@@ -121,7 +122,7 @@ function SubredditName({
               } else {
                 // checking if not authenticated
                 if (!isAuth) {
-                  navigate('/auth/login');
+                  window.location.replace('/auth/login');
                 } else {
                   setJoined(!joined);
                   joinSubreddit(subredditId);

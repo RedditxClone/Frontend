@@ -31,7 +31,7 @@ import { followUser, unFollowUser } from '../../../services/requests/User';
  */
 
 /**
- * This Component for the showing the users related to the key of the searching.
+ * This Component for the showing the search results related to the users
  *
  */
 function PeopleResults({ isSideBarCard, searchKey }) {
@@ -140,7 +140,7 @@ function PeopleResults({ isSideBarCard, searchKey }) {
                     <StyledUsername
                       data-testid="username-search"
                       onClick={() => {
-                        navigate(`/user/${item.username}`);
+                        window.location.replace(`/user/${item.username}`);
                       }}
                     >
                       {`u/${item.username}`}

@@ -40,14 +40,14 @@ import {
 
 /**
  * @typedef PropType
- * @property {boolean} isModeratorMode
- * @property {Integer} subredditId
- * @property {boolean} inCreatePost
- * @property {array} aboutInfo
+ * @property {boolean} isJoined
+ * @property {string} subredditId
+ * @property {string} subredditName
+ * @property {object} aboutInfo
  */
 
 /**
- * This Component for the About Community Card.
+ * This Component for the About Community Card in the post page.
  *
  */
 

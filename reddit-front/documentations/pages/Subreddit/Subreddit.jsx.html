@@ -26,10 +26,14 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-nested-ternary */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable spaced-comment */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable prefer-const */
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { ThemeProvider, Box } from '@mui/material';
 import SubredditBackground from '../../components/SubredditCards/SubredditBackground/SubredditBackground';
 import SubredditInfo from '../../components/SubredditCards/SubredditInfo/SubredditInfo';
@@ -44,101 +48,97 @@ import {
   subredditTheme
 } from './Subreddit.Style';
 import PostsList from '../../components/PostsList/PostsList';
-import {
-  getFlairsList,
-  getModeratorsList,
-  getRulesList,
-  getAboutInfo
-} from '../../services/requests/Subreddit';
+import { getSubreddit } from '../../services/requests/Subreddit';
+import Loader from '../../utilities/Loader/Loader';
+import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
+
 /**
- * This Component for the Community Cards.
+ * This Component for the Community Page.
  *
  */
 
 export default function Subreddit() {
-  const baseColor = '#0079D3';
-  const highlightColor = '#0079D3';
-  const color = '#ccc';
-  const isModeratorMode = true;
-  let subredditId = 1; // for testing only
-  const [moderatorsList, setModeratorsList] = useState([]);
-  const [flairsList, setFlairsList] = useState([]);
-  const [rulesList, setRulesList] = useState([]);
-  const [aboutInfo, setAboutInfo] = useState([]);
-
+  const { subredditName } = useParams();
+  const [subredditInfo, setSubredditInfo] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [userDataIsFetched, setUserDataIsFetched] = useState(false);
+  const [goToErrorPage, setGoToErrorPage] = useState(false);
   useEffect(() => {
-    // Fetching the data of the moderators
-    const fetchModerators = async () => {
-      const results = await getModeratorsList({ id: subredditId });
-      setModeratorsList(results[0]);
-    };
-
-    // Fetching the data of the flairs
-    const fetchFlairs = async () => {
-      const results = await getFlairsList({ id: subredditId });
-      setFlairsList(results[0]);
-    };
-
-    // Fetching the data of the subreddit rules
-    const fetchRules = async () => {
-      const results = await getRulesList({ id: subredditId });
-      setRulesList(results[0]);
-    };
-
     // Fetching the about info of the subreddit
-    const fetchInfo = async () => {
-      const results = await getAboutInfo({ id: subredditId });
-      setAboutInfo(results[0]);
+    const fetchSubredditInfo = async () => {
+      const results = await getSubreddit(subredditName);
+      setSubredditInfo(results);
+      if (results.statusCode === 400) setGoToErrorPage(true);
+      setLoading(false);
     };
 
-    // fetchModerators();
-    fetchFlairs();
-    fetchRules();
-    fetchInfo();
+    fetchSubredditInfo();
   }, []);
 
   return (
     &lt;ThemeProvider theme={subredditTheme}>
-      &lt;AppBar />
-      &lt;Box
-        id="subreddit"
-        data-testid="subreddit-cards"
-        className="container"
-        component="div"
-        sx={{
-          width: '100%',
-          justifyContent: 'flex-start'
-        }}
-      >
-        &lt;SubredditBackground
-          baseColor={baseColor}
-          highlightColor={highlightColor}
-        />
-        &lt;SubredditInfo
-          color="red"
-          baseColor="lime"
-        />
-        &lt;CardsContainer style={{ backgroundColor: color }}>
-          &lt;PostsContainer>
-            &lt;CreatePostCard />
-            &lt;BestHotNewCard />
-            &lt;PostsList
-              isCommunityPost={true}
-              isModeratorMode={isModeratorMode}
+      &lt;FetchUserData />
+      {!loading ? (
+        &lt;>
+          &lt;AppBar />
+          &lt;Box
+            id="subreddit"
+            data-testid="subreddit-cards"
+            className="container"
+            component="div"
+            sx={{
+              width: '100%',
+              justifyContent: 'flex-start'
+            }}
+          >
+            &lt;SubredditBackground />
+            &lt;SubredditInfo
+              isJoined={subredditInfo.joined}
+              subredditId={subredditInfo._id}
+              subredditName={subredditName}
+              subredditTitle={subredditInfo.title}
+              name={subredditInfo.name}
+              title={subredditInfo.name}
+              notificationsStyle={subredditInfo.notificationType}
+              logo={subredditInfo.icon}
             />
-          &lt;/PostsContainer>
-          &lt;SubredditSideBar
-            baseColor={baseColor}
-            highlightColor={highlightColor}
-            isModeratorMode={isModeratorMode}
-            aboutInfo={aboutInfo}
-            flairsList={flairsList}
-            rulesList={rulesList}
-            subredditId={subredditId}
-          />
-          &lt;BackToTop id="subreddit" />
-        &lt;/CardsContainer>
-      &lt;/Box>
+            &lt;CardsContainer style={{ backgroundColor: '#ccc', height: '100%' }}>
+              &lt;PostsContainer>
+                &lt;CreatePostCard />
+                &lt;BestHotNewCard />
+                &lt;PostsList
+                  sortType="random"
+                  isCommunityPost={true}
+                  isModeratorMode={subredditInfo.moderator}
+                  isHomePagePost={false}
+                  subredditName={subredditInfo.name}
+                  sort="top"
+                />
+              &lt;/PostsContainer>
+              &lt;SubredditSideBar
+                isModeratorMode={subredditInfo.moderator}
+                subredditId={subredditInfo._id}
+                subredditName={subredditName}
+                isJoined={subredditInfo.joined}
+                aboutInfo={{
+                  createdDate: subredditInfo.createdDate,
+                  memberCount: subredditInfo.users,
+                  onlineCount: 0,
+                  activeTopic: subredditInfo.activeTopic,
+                  subTopics: subredditInfo.subTopics,
+                  description: subredditInfo.description
+                }}
+                flairsList={subredditInfo.flairList}
+                rulesList={subredditInfo.rules}
+                moderatorsList={subredditInfo.moderators}
+              />
+              &lt;BackToTop id="subreddit" />
+            &lt;/CardsContainer>
+          &lt;/Box>
+        &lt;/>
+      ) : (
+        &lt;Loader />
+      )}
     &lt;/ThemeProvider>
   );
 }
@@ -158,7 +158,7 @@ export default function Subreddit() {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Nov 21 2022 20:56:21 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:44:47 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

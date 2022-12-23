@@ -26,12 +26,16 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable jsx-a11y/label-has-associated-control */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable object-shorthand */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-unused-vars */
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -51,6 +55,21 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
+import { getFlairsList } from '../../../../services/requests/Subreddit';
+import { updatePostFlair } from '../../../../services/requests/Post';
+
+/**
+ * @typedef PropType
+ * @property {string} postId
+ * @property {function} handleClose
+ * @property {bool} open
+ * @property {string} subredditName
+ */
+
+/**
+ * This Component for the post's flair card.
+ *
+ */
 
 function FlairDialog({ open, handleClose, postId, subredditName }) {
   const maxRemovalReasonLength = 65;
@@ -58,41 +77,40 @@ function FlairDialog({ open, handleClose, postId, subredditName }) {
   const handleSelectChange = (event) => {
     setRemovalReason(event.target.value);
   };
+
+  // states
   const [charCounter, setCharCounter] = useState(0);
   const removalReasonInput = useRef(null);
   const dispatch = useDispatch();
-  const [selectedFlair, setSelectedFlair] = useState(0);
-  const flairs = ['flair_1', 'flair_2'];
-  /**
-   * This Method handles the maximum number allowed for the removal reason
-   *
-   */
-  const handleRemovalReasonInput = (e) => {
-    const currentLength = e.target.value.length;
+  const [selectedFlair, setSelectedFlair] = useState(null);
+  const [selectedFlairId, setSelectedFlairId] = useState(null);
+  const [flairs, setFlairs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    if (currentLength &lt;= maxRemovalReasonLength) {
-      setCharCounter(maxRemovalReasonLength - currentLength);
-    } else {
-      e.target.maxLength = maxRemovalReasonLength;
-    }
-  };
+  useEffect(() => {
+    // Fetching the about info of the subreddit
+    const fetchSubredditFlairs = async () => {
+      const results = await getFlairsList('639da7ae5037e305d283a479');
+      setFlairs(results.flairList);
 
+      setLoading(false);
+    };
+
+    fetchSubredditFlairs();
+  }, []);
+
+  // Handlers
   /**
    * This Method handles the submission of the post's removal reason
    *
    */
   const handleSubmit = () => {
-    // getting the removal action
-    const reason = document.querySelector(
-      '.removal-reason-input > input'
-    ).value;
-
     // dispatching the removal action
     const info = {
-      body: { message: reason, reasonId: removalReason },
-      removedPostId: postId
+      flairId: selectedFlairId,
+      postId: postId
     };
-    dispatch(removePost(info));
+    updatePostFlair(info);
 
     // closing the dialog card
     handleClose();
@@ -102,8 +120,6 @@ function FlairDialog({ open, handleClose, postId, subredditName }) {
     const radioInput = e.target.firstChild;
     radioInput.checked = true;
     setSelectedFlair(number);
-    console.log('num', number);
-    console.log('state', selectedFlair);
   };
 
   const handleClearFlairs = () => {
@@ -111,7 +127,7 @@ function FlairDialog({ open, handleClose, postId, subredditName }) {
     radioInputs.forEach((radioInput) => {
       radioInput.checked = false;
     });
-    setSelectedFlair(0);
+    setSelectedFlair(null);
   };
   return (
     &lt;Dialog
@@ -129,7 +145,7 @@ function FlairDialog({ open, handleClose, postId, subredditName }) {
           style={{ margin: '2rem 0', fontSize: '13px', fontWeight: 'bold' }}
         >
           Post Title :
-          {selectedFlair !== 0 ? (
+          {selectedFlair ? (
             &lt;span
               style={{
                 display: 'inline-block',
@@ -137,11 +153,11 @@ function FlairDialog({ open, handleClose, postId, subredditName }) {
                 marginLeft: '5px',
                 padding: '2px 5px',
                 borderRadius: '5px',
-                backgroundColor: 'orange',
+                backgroundColor: 'white',
                 fontWeight: '600'
               }}
             >
-              {flairs[selectedFlair - 1]}
+              {selectedFlair}
             &lt;/span>
           ) : (
             'No Flair Selected'
@@ -166,128 +182,56 @@ function FlairDialog({ open, handleClose, postId, subredditName }) {
         {/* // show flairs */}
         &lt;div>
           &lt;form>
-            &lt;Box
-              onClick={() => {
-                setSelectedFlair(1);
-              }}
-              sx={{
-                display: 'flex',
-                align: 'center',
-                marginTop: '1rem',
-                padding: '5px 0',
-                cursor: 'pointer',
-                '&amp;:hover': {
-                  backgroundColor: '#0079D3'
-                }
-              }}
-            >
-              &lt;input
-                className="radio-input-flair"
-                type="radio"
-                name="flair"
-                value="male"
-                style={{
-                  display: 'inline-block',
-                  width: '15px',
-                  cursor: 'pointer',
-                  height: '15px'
-                }}
-                checked={selectedFlair === 1}
-              />
-              &lt;span
-                style={{
-                  display: 'inline-block',
-                  fontSize: '12px',
-                  marginLeft: '5px',
-                  padding: '2px 5px',
-                  borderRadius: '5px',
-                  backgroundColor: 'orange',
-                  fontWeight: '600'
-                }}
-              >
-                flair 1
-              &lt;/span>
-            &lt;/Box>
-
-            &lt;Box
-              onClick={() => {
-                setSelectedFlair(2);
-              }}
-              sx={{
-                display: 'flex',
-                align: 'center',
-                marginTop: '1rem',
-                padding: '5px 0',
-                cursor: 'pointer',
-                '&amp;:hover': {
-                  backgroundColor: '#0079D3'
-                }
-              }}
-            >
-              &lt;input
-                className="radio-input-flair"
-                type="radio"
-                name="flair"
-                value="male"
-                style={{
-                  display: 'inline-block',
-                  width: '15px',
-                  cursor: 'pointer',
-                  height: '15px'
-                }}
-                checked={selectedFlair === 2}
-              />
-              &lt;span
-                style={{
-                  display: 'inline-block',
-                  fontSize: '12px',
-                  marginLeft: '5px',
-                  padding: '2px 5px',
-                  borderRadius: '5px',
-                  backgroundColor: 'orange',
-                  fontWeight: '600'
-                }}
-              >
-                flair 2
-              &lt;/span>
-            &lt;/Box>
+            {flairs.length > 0
+              ? flairs.map((flair) => (
+                  &lt;Box
+                    onClick={() => {
+                      setSelectedFlair(flair.text);
+                      setSelectedFlairId(flair._id);
+                    }}
+                    sx={{
+                      display: 'flex',
+                      align: 'center',
+                      marginTop: '1rem',
+                      padding: '5px 0',
+                      cursor: 'pointer',
+                      '&amp;:hover': {
+                        backgroundColor: '#0079D3'
+                      }
+                    }}
+                  >
+                    &lt;input
+                      className="radio-input-flair"
+                      type="radio"
+                      name="flair"
+                      value="male"
+                      style={{
+                        display: 'inline-block',
+                        width: '15px',
+                        cursor: 'pointer',
+                        height: '15px'
+                      }}
+                      checked={flair.text === selectedFlair}
+                    />
+                    &lt;span
+                      style={{
+                        display: 'inline-block',
+                        fontSize: '12px',
+                        marginLeft: '5px',
+                        padding: '2px 5px',
+                        borderRadius: '5px',
+                        backgroundColor: flair.backgroundColor,
+                        color: flair.textColor,
+                        fontWeight: '600'
+                      }}
+                    >
+                      {flair.text}
+                    &lt;/span>
+                  &lt;/Box>
+                ))
+              : null}
           &lt;/form>
         &lt;/div>
-
-        {/* edit flair  */}
-        &lt;Box sx={{ marginTop: '2rem' }}>
-          &lt;div
-            style={{
-              fontSize: '15px',
-              fontWeight: 'bold',
-              marginBottom: '0.5rem'
-            }}
-          >
-            Edit Flair
-          &lt;/div>
-          &lt;Input
-            fullWidth
-            className="removal-reason-input"
-            id="outlined-basic"
-            variant="outlined"
-            sx={{
-              fontSize: '14px'
-            }}
-            onChange={handleRemovalReasonInput}
-            value={flairs[selectedFlair]}
-          />
-        &lt;/Box>
-        &lt;Box
-          color="#7c7c7c"
-          id="char-counter"
-          sx={{
-            marginTop: '1rem',
-            fontSize: '15px'
-          }}
-        >
-          {`${charCounter} `}
-          Characters remaining
-        &lt;/Box>
       &lt;/DialogContent>
 
       &lt;DialogActions>
@@ -357,13 +301,13 @@ export default FlairDialog;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ModQueue">ModQueue</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#FlairDialog">FlairDialog</a></li><li><a href="global.html#ModQueue">ModQueue</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 09 2022 00:06:55 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:02:40 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -34,7 +34,7 @@ import Comments from '../../components/Comments/Comments';
 import { postComment, getComments } from '../../services/requests/comments';
 
 /**
- * This Component for the Community Cards.
+ * This Component for the Post page
  *
  */
 
@@ -57,8 +57,6 @@ function PostFullPage() {
     });
   };
   const handleCloseReply = () => {};
-  console.log(postData);
-  console.log(subredditData);
 
   const color = '#ccc';
   let subredditId = 1; // for testing only
@@ -66,7 +64,6 @@ function PostFullPage() {
   // Fetching the post info
   const fetchPostInfo = async () => {
     const results = await getPost(postId);
-    console.log(results);
     if (results.statusCode === 400) setGoToErrorPage(true);
     else if (results && results.subredditInfo.name !== subredditName) {
       setGoToErrorPage(true);
@@ -193,3 +190,4 @@ function PostFullPage() {
 }
 
 export default PostFullPage;
+

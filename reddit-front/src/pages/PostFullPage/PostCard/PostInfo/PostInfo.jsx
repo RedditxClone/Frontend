@@ -8,29 +8,28 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import './PostInfo.css';
 
-import { memo, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { memo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
 import { FcApproval, FcLock } from 'react-icons/fc';
-import { BsFillShieldFill } from 'react-icons/bs';
 import { RiSpamLine } from 'react-icons/ri';
 import { CiNoWaitingSign } from 'react-icons/ci';
-import { useNavigate } from 'react-router-dom';
 import { followPost } from '../../../../services/requests/Post';
 import Logo from '../../../../assets/Images/test.png';
-import RemovalReasonDialog from './RemovalReasonDialog';
 import { divideBigNumber } from '../../../../utilities/Helpers';
 
 /**
  * @typedef PropType
- * @property {number} postId
- * @property {string} communityName
- * @property {string} postedBy
+ * @property {string} postId
+ * @property {object} userInfo
+ * @property {object} subredditInfo
  * @property {timestamp} postedAt
  * @property {string} approvedBy
  * @property {timestamp} approvedAt
  * @property {string} spammedBy
  * @property {timestamp} spammedAt
+ * @property {string} removedBy
+ * @property {timestamp} removedAt
  * @property {integer} modAction  // 0: none, 1: approved, 2: spammed, 3: removed
  * @property {boolean} isNSFW
  * @property {boolean} isLocked
@@ -60,6 +59,7 @@ function PostInfo({
   isLocked,
   isFollowed
 }) {
+  // States
   const { user } = useSelector((state) => state.auth);
   const communityName = subredditInfo.name;
   const communityId = subredditInfo.id;
@@ -72,7 +72,6 @@ function PostInfo({
   const [isPostFollowed, setIsPostFollowed] = useState(isFollowed);
   const [isUserFollowed, setIsUserFollowed] = useState(userInfo.isFollowed);
   const [isJoined, setIsJoined] = useState(subredditInfo.isJoin);
-  const navigate = useNavigate();
   const subredditLogo =
     subredditInfo.logo === '' || subredditInfo.logo == null
       ? subredditInfo.logo
@@ -193,7 +192,7 @@ function PostInfo({
                 <a
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
-                    navigate(`/r/${subredditInfo.name}`);
+                    window.location.replace(`/r/${subredditInfo.name}`);
                   }}
                 >
                   {getCommunityName()}
@@ -219,7 +218,7 @@ function PostInfo({
               <a
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
-                  navigate(`/r/${subredditInfo.name}`);
+                  window.location.replace(`/r/${subredditInfo.name}`);
                 }}
                 className="view-community"
               >
@@ -240,7 +239,7 @@ function PostInfo({
           <a
             style={{ cursor: 'pointer' }}
             onClick={() => {
-              navigate(`/user/${userInfo.username}`);
+              window.location.replace(`/user/${userInfo.username}`);
             }}
           >
             {getPostedBy()}

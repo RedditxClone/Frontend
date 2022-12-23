@@ -12,10 +12,13 @@ import ModeratorsCard from '../ModeratorsCard/ModeratorsCard';
 /**
  * @typedef PropType
  * @property {boolean} isModeratorMode
- * @property {Array} aboutInfo
+ * @property {boolean} isJoined
+ * @property {object} aboutInfo
  * @property {Array} flairsList
  * @property {Array} rulesList
- * @property {Integer} subredditId
+ * @property {string} subredditId
+ * @property {Array} moderatorsList
+ * @property {string} subredditName
  */
 
 /**

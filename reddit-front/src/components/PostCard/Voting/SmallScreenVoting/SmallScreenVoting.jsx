@@ -11,8 +11,8 @@ import { divideBigNumber } from '../../../../utilities/Helpers';
 /**
  * @typedef PropType
  * @property {number} votesCount
- * @property {number} postId
- * @property {number} currentVotingState  // 0 : not voted, 1 -> up, -1 -> down
+ * @property {string} postId
+ * @property {string} currentVotingState
  */
 
 /**
@@ -26,6 +26,7 @@ export default function SmallScreenVoting({
   postId,
   currentVotingState
 }) {
+  // States
   const [votesCountColor, setVotesCountColor] = useState(
     currentVotingState === 'upvote'
       ? '#ff6830'
@@ -39,6 +40,7 @@ export default function SmallScreenVoting({
   );
   const [votes, setVotes] = useState(votesCount);
 
+  // Handlers
   const handleUpVoting = () => {
     votesCount = votes;
     if (isUpVoted) {

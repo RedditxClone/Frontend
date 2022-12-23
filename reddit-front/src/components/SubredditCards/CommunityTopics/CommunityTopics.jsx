@@ -44,7 +44,9 @@ import { topicsList } from './TopicsList';
  * @property {array} setChosenSubTopicsList
  * @property {array} trackUserChosenSubTopic
  * @property {array} trackUserRemovedSubTopic
- * @property {number} subredditId
+ * @property {string} subredditId
+ * @property {string} subredditName
+ * @property {string} activeSubredditTopic
  */
 
 /**
@@ -65,14 +67,12 @@ function CommunityTopics({
   activeSubredditTopic
 }) {
   // states
-
   const [infoIconColor, setInfoIconColor] = useState('#aaa');
   const [showInfo, setShowInfo] = useState(false);
   const [showTopics, setShowTopics] = useState(false);
   const [showSubTopics, setShowSubTopics] = useState(false);
-
   const [subTopicsCounter, setSubTopicsCounter] = useState(
-    chosenSubTopicsList ? chosenSubTopicsList.length : 0
+    chosenSubTopicsList.length
   );
   const [activeTopic, setActiveTopic] = useState(
     activeSubredditTopic === null ? 'Add a Primary Topic' : activeSubredditTopic
@@ -98,23 +98,21 @@ function CommunityTopics({
    */
   const saveNewTopics = () => {
     // Update the counter value
-    if (chosenSubTopicsList) {
-      setSubTopicsCounter(chosenSubTopicsList.length);
+    setSubTopicsCounter(chosenSubTopicsList.length);
 
-      // update the api
-      const requestTopicsList = [...chosenSubTopicsList];
-      requestTopicsList.push(activeTopic);
-      let request = {
-        subredditId,
-        request: {
-          subTopics: requestTopicsList
-        }
-      };
+    // update the api
+    const requestTopicsList = [...chosenSubTopicsList];
+    requestTopicsList.push(activeTopic);
+    let request = {
+      subredditId,
+      request: {
+        subTopics: requestTopicsList
+      }
+    };
 
-      // update chosen sub-topics list
-      updateSubredditSubtopics(request);
-      setChosenSubTopicsList(chosenSubTopicsList);
-    }
+    // update chosen sub-topics list
+    updateSubredditSubtopics(request);
+    setChosenSubTopicsList(chosenSubTopicsList);
 
     // closing the edit mode
     setEditSubTopics(false);
@@ -134,9 +132,7 @@ function CommunityTopics({
     updateSubredditTopic(request);
 
     // remove this topic from the list of subtopics
-    const index = chosenSubTopicsList
-      ? chosenSubTopicsList.indexOf(activeTopic)
-      : -1;
+    const index = chosenSubTopicsList.indexOf(activeTopic);
     if (index >= 0) {
       chosenSubTopicsList.splice(index, 1);
       setRerender(!rerender);
@@ -149,14 +145,11 @@ function CommunityTopics({
    *
    */
   const getSubTopicsToShow = (isEditingMode) => {
-    if (!chosenSubTopicsList) return [];
-
     if (isEditingMode) return chosenSubTopicsList;
 
     if (chosenSubTopicsList.length <= 7) {
       return chosenSubTopicsList;
     }
-
     return chosenSubTopicsList.slice(0, 7);
   };
 
