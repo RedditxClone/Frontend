@@ -6,7 +6,7 @@ import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import classes from './SentPrivateMessage.style.module.css';
 import sendPrivateMessage from '../../services/requests/sendPrivateMessage';
 import AlertMessage from '../../utilities/AlertMessage/AlertMessage';
-import removeSlashFromUserName from '../../services/requests/logic/removeSlashFromUserName';
+import removeSlashFromUserName from '../../services/logic/removeSlashFromUserName';
 
 function SentPrivateMessage() {
   const { user } = useSelector((state) => state.auth);

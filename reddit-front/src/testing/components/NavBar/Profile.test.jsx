@@ -15,9 +15,9 @@ describe('Test for profile in nav bar in case logged in', () => {
     );
     // fireEvent.change(screen.getByTestId('select'), { target: { value: 9 } });
     fireEvent.click(screen.getByTestId('select'));
-    console.log(screen.getByTestId('select'));
-    const options = screen.('options');
-    console.log(screen.getAllByTestId('options'));
+    // console.log(screen.getByTestId('select'));
+    const options = screen.getAllByTestId('options');
+    // console.log(screen.getAllByTestId('options'));
     expect(options[0]).toBeInTheDocument();
     expect(options[1]).toBeInTheDocument();
     expect(options[3]).toBeInTheDocument();
