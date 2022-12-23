@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PostCard/Voting/Voting.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PostCard/Voting/Voting.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable indent */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable object-curly-newline */
+/* eslint-disable no-unreachable */
+/* eslint-disable no-lone-blocks */
+/* eslint-disable operator-linebreak */
+/* eslint-disable react/prop-types */
+import { useState, memo } from 'react';
+import './Voting.css';
+import { BiUpvote, BiDownvote } from 'react-icons/bi';
+import { divideBigNumber } from '../../../../utilities/Helpers';
+import { upVote, downVote, unVote } from '../../../../services/requests/Post';
+
+/**
+ * @typedef PropType
+ * @property {number} votesCount
+ * @property {string} postId
+ * @property {string} currentVotingState
+ */
+
+/**
+ * This Component for the post's voting section.
+ * It contains two methods for handling the up &amp; down voting.
+ *
+ */
+
+function Voting({ votesCount, postId, currentVotingState }) {
+  const [votesCountColor, setVotesCountColor] = useState(
+    currentVotingState === 'upvote'
+      ? '#ff6830'
+      : currentVotingState === 'downvote'
+      ? '#0272c4'
+      : 'black'
+  );
+  const [isUpVoted, setIsUpVoted] = useState(currentVotingState === 'upvote');
+  const [isDownVoted, setIsDownVoted] = useState(
+    currentVotingState === 'downvote'
+  );
+  const [votes, setVotes] = useState(votesCount);
+
+  const handleUpVoting = () => {
+    votesCount = votes;
+    if (isUpVoted) {
+      setVotes(votesCount - 1);
+      votesCount -= 1;
+      setIsUpVoted(false);
+      setIsDownVoted(false);
+      currentVotingState = 0;
+      setVotesCountColor('black');
+      unVote({ id: postId });
+    } else if (isDownVoted) {
+      setVotes(votesCount + 2);
+      votesCount += 2;
+      setIsDownVoted(false);
+      setIsUpVoted(true);
+      currentVotingState = 1;
+      setVotesCountColor('#ff6830');
+      upVote({ id: postId });
+    } else {
+      setVotes(votesCount + 1);
+      votesCount += 1;
+      setIsUpVoted(true);
+      setIsDownVoted(false);
+      currentVotingState = 1;
+      setVotesCountColor('#ff6830');
+      downVote({ id: postId });
+    }
+  };
+
+  const handleDownVoting = () => {
+    votesCount = votes;
+    if (isUpVoted) {
+      setVotes(votesCount - 2);
+      votesCount -= 2;
+      setIsUpVoted(false);
+      setIsDownVoted(true);
+      currentVotingState = -1;
+      setVotesCountColor('#0272c4');
+      downVote({ id: postId });
+    } else if (isDownVoted) {
+      setVotes(votesCount + 1);
+      votesCount += 1;
+      setIsDownVoted(false);
+      setIsUpVoted(false);
+      currentVotingState = 0;
+      setVotesCountColor('black');
+      unVote({ id: postId });
+    } else {
+      setVotes(votesCount - 1);
+      votesCount -= 1;
+      setIsUpVoted(false);
+      setIsDownVoted(true);
+      currentVotingState = -1;
+      setVotesCountColor('#0272c4');
+      downVote({ id: postId });
+    }
+  };
+
+  // Returning the result
+  return (
+    &lt;div
+      className="voting-container"
+      data-testid="test-voting-container"
+    >
+      &lt;div className="voting-content">
+        &lt;span
+          className="up-vote-icon"
+          data-testid="test-up-vote"
+        >
+          &lt;BiUpvote
+            color={isUpVoted ? '#ff6830' : '#c0c2c4'}
+            fontSize="24"
+            onClick={handleUpVoting}
+            data-testid="test-up-voting-button"
+          />
+        &lt;/span>
+        &lt;div
+          className="votes-count"
+          data-testid="test-votes-count"
+          style={{ color: votesCountColor }}
+        >
+          {divideBigNumber(votes)}
+        &lt;/div>
+        &lt;span
+          className="down-vote-icon"
+          data-testid="test-down-vote"
+        >
+          &lt;BiDownvote
+            color={isDownVoted ? '#0272c4' : '#c0c2c4'}
+            fontSize="24"
+            onClick={handleDownVoting}
+            data-testid="test-down-voting-button"
+          />
+        &lt;/span>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+export default memo(Voting);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCard">AboutCard</a></li><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostFullPage">PostFullPage</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:52:12 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

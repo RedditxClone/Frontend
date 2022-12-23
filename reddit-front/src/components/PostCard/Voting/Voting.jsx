@@ -15,9 +15,8 @@ import { upVote, downVote, unVote } from '../../../services/requests/Post';
 /**
  * @typedef PropType
  * @property {number} votesCount
- * @property {number} postId
- * @property {number} currentVotingState  // 0 : not voted, 1 -> up, -1 -> down
- * @property {bool} isHomePagePost
+ * @property {string} postId
+ * @property {string} currentVotingState
  */
 
 /**
@@ -26,7 +25,8 @@ import { upVote, downVote, unVote } from '../../../services/requests/Post';
  *
  */
 
-function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
+function Voting({ votesCount, postId, currentVotingState }) {
+  // States
   const [votesCountColor, setVotesCountColor] = useState(
     currentVotingState === 'upvote'
       ? '#ff6830'
@@ -40,6 +40,7 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
   );
   const [votes, setVotes] = useState(votesCount);
 
+  // Handlers
   const handleUpVoting = () => {
     votesCount = votes;
     if (isUpVoted) {
@@ -121,11 +122,7 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
           data-testid="test-votes-count"
           style={{ color: votesCountColor }}
         >
-          {isHomePagePost
-            ? votes > 0
-              ? divideBigNumber(votes)
-              : 'Vote'
-            : null}
+          {divideBigNumber(votes)}
         </div>
         <span
           className="down-vote-icon"

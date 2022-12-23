@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/aria-role */
 /* eslint-disable operator-linebreak */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
@@ -53,17 +54,20 @@ import {
  * @property {function} setHidePost
  * @property {number} commentsCount
  * @property {number} votesCount
- * @property {number} postId
+ * @property {string} postId
+ * @property {string} communityName
  * @property {bool} isCommunityPost
  * @property {function} setModAction
- * @property {function} setDistinguishAsMod
  * @property {function} setNsfw
  * @property {function} setLocked
  * @property {bool} isModeratorMode
  * @property {bool} isSaved
  * @property {bool} isLocked
+ * @property {bool} isNSFW
+ * @property {bool} isSpoiled
  * @property {bool} replyNotifications
  * @property {bool} canBeSpoiled
+ * @property {bool} currentVotingState
  */
 
 /**
@@ -84,7 +88,6 @@ function PostInteractions({
   isModeratorMode,
   isSaved,
   isLocked,
-  isPostApproved,
   isNSFW,
   isSpoiled,
   approved,
@@ -94,6 +97,7 @@ function PostInteractions({
   canBeSpoiled,
   currentVotingState
 }) {
+  // States
   const [saveState, setSaveState] = useState(isSaved);
   const [isApproved, setIsApproved] = useState(approved);
   const [replyNotificationsState, setReplyNotificationsState] =
@@ -347,7 +351,14 @@ function PostInteractions({
             className="interaction-item"
           >
             <BsBookmark fontSize="18px" />
-            <span className="interaction-text"> save</span>
+            <span
+              data-testid="save-state-span"
+              className="interaction-text"
+              role="interaction-item"
+            >
+              {' '}
+              save
+            </span>
           </a>
         ) : (
           <a

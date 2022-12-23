@@ -6,7 +6,6 @@ import { useState, memo } from 'react';
 import { Link } from '@mui/material';
 import { BsShield } from 'react-icons/bs';
 import Typography from '@mui/material/Typography';
-import { useNavigate } from 'react-router-dom';
 import {
   CardsHeaderContainer,
   DropDownMenuContainer,
@@ -19,6 +18,7 @@ import {
  * @property {string} title
  * @property {boolean} hasDropDownMenu
  * @property {boolean} isModeratorMode
+ * @property {string} subredditName
  */
 
 /**
@@ -33,7 +33,7 @@ function CardHeader({
   subredditName
 }) {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
-  const navigate = useNavigate();
+
   return (
     <CardsHeaderContainer
       data-testid="card-header-container"
@@ -55,7 +55,7 @@ function CardHeader({
       {isModeratorMode ? (
         <ModToolsButton
           onClick={() => {
-            navigate(`/${subredditName}/about/spam`);
+            window.location.replace(`/${subredditName}/about/spam`);
           }}
         >
           <BsShield

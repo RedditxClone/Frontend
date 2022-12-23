@@ -16,7 +16,6 @@ import Switch from '@mui/material/Switch';
 import { AiOutlineDown, AiOutlineEye, AiOutlineUp } from 'react-icons/ai';
 import { RiCake3Line } from 'react-icons/ri';
 import { BsPencil } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
 import CardHeader from '../CardHeader/CardHeader';
 import CommunityTopics from '../CommunityTopics/CommunityTopics';
 import StyledHorizontalLine from '../../../utilities/StyledHorizontalLine/StyledHorizontalLine';
@@ -43,7 +42,10 @@ import { topicsList } from '../CommunityTopics/TopicsList';
 /**
  * @typedef PropType
  * @property {boolean} isModeratorMode
- * @property {Integer} subredditId
+ * @property {boolean} isPostFullDetailsMode
+ * @property {boolean} isJoined
+ * @property {string} subredditId
+ * @property {string} subredditName
  * @property {boolean} inCreatePost
  * @property {array} aboutInfo
  */
@@ -77,7 +79,7 @@ function AboutCard({
     aboutInfo.description ? aboutInfo.description : ''
   );
   const [charCounter, setCharCounter] = useState(0);
-  const navigate = useNavigate();
+
   useEffect(() => {
     // initialize counter
     if (aboutInfo.description) {
@@ -135,9 +137,9 @@ function AboutCard({
 
   const handleClickJoinButton = (e) => {
     if (joined) {
-      setJoin(false);
+      setJoined(false);
     } else {
-      setJoin(true);
+      setJoined(true);
     }
   };
 
@@ -413,7 +415,12 @@ function AboutCard({
               <CreatePostButton
                 sx={{ backgroundColor: '#0079D3' }}
                 onClick={() => {
-                  navigate(`/${subredditName}/submit`);
+                  // checking if not authenticated
+                  if (false) {
+                    window.location.replace('/auth/login');
+                  } else {
+                    window.location.replace(`/${subredditName}/submit`);
+                  }
                 }}
               >
                 Create post

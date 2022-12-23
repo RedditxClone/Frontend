@@ -26,7 +26,9 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable react/jsx-curly-newline */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable operator-linebreak */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/jsx-curly-newline */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-unused-vars */
@@ -46,33 +48,35 @@ import {
   StyledDescription,
   StyledHeading
 } from './PeopleResults.Style';
-import retrieveResults from '../../../services/requests/Search';
+import { retrieveResults } from '../../../services/requests/Search';
+import Loader from '../../../utilities/Loader/Loader';
+import { followUser, unFollowUser } from '../../../services/requests/User';
 
 /**
  * @typedef PropType
  * @property {bool} isSideBarCard // To show the results in a side bar cards
+ * @property {string} searchKey
  */
 
 /**
- * This Component for the showing the users related to the key of the searching.
+ * This Component for the showing the search results related to the users
  *
  */
-function PeopleResults({ isSideBarCard }) {
+function PeopleResults({ isSideBarCard, searchKey }) {
   // states
-  const searchKey = 'test'; // for testing
   const [result, setResult] = useState([]);
   const slicingSize = isSideBarCard ? 4 : result.length;
-  const [isFinished, setIsFinished] = useState(false);
+  const [statusCode, setStatusCode] = useState(0);
 
   // Fetching the results by calling the fetch service
   useEffect(() => {
     const fetchResults = async () => {
       const results = await retrieveResults({
         key: searchKey,
-        searchingCategory: 'people'
+        searchingCategory: 'peoples'
       });
-      setResult(results);
-      setIsFinished(true);
+      setResult(results.data);
+      setStatusCode(results.statusCode);
     };
     fetchResults();
   }, []);
@@ -83,74 +87,113 @@ function PeopleResults({ isSideBarCard }) {
    * @param {int} subredditId - The number to be divided.
    * @param {bool} currentState - true : followed, false: not followed
    */
-  const handleFollowButton = (e, subredditId, currentState) => {
-    if (currentState) {
-      // unfollowUser({ id: subredditId });
+  const handleFollowButton = (userId) => {
+    const btn = document.getElementById(`follow-button-${userId}`);
+    const currentState = btn.dataset.isfollowed;
+
+    if (currentState === 'true' || currentState === true) {
+      btn.dataset.isfollowed = false;
+      btn.innerHTML = 'Unfollow';
+      unFollowUser(userId);
     } else {
-      // followUser({ id: subredditId });
+      btn.dataset.isfollowed = true;
+      btn.innerHTML = 'Follow';
+      followUser(userId);
     }
   };
 
   const handleHoveringOnFollowButton = (e) => {
-    if (e.target.dataset.isfollowed === true) {
+    if (e.target.dataset.isfollowed === 'true') {
       e.target.innerHTML = 'Unfollow';
+    } else {
+      e.target.innerHTML = 'Follow';
     }
   };
 
   const handleHoveringOutFollowButton = (e) => {
-    if (e.target.dataset.isfollowed === true) {
+    if (e.target.dataset.isfollowed === 'true') {
       e.target.innerHTML = 'Following';
-    }
-    if (e.target.dataset.isfollowed === false) {
+    } else {
       e.target.innerHTML = 'Follow';
     }
   };
 
   return (
     &lt;RootContainer data-testid="people-results">
-      &lt;ResultsContainer>
-        {isSideBarCard ? &lt;StyledHeading>People&lt;/StyledHeading> : null}
+      {/* /* Displaying loader while loading the data */}
+      {statusCode === 0 ? (
+        &lt;Loader />
+      ) : (
+        &lt;ResultsContainer>
+          {/* // check if failed to fetch the results from the server  */}
+          {!isSideBarCard &amp;&amp; statusCode === 400 ? (
+            &lt;h1
+              style={{
+                padding: '.76rem',
+                margin: 0,
+                paddingLeft: '1rem',
+                backgroundColor: '#dae0e6'
+              }}
+            >
+              Failed to fetch the results.
+            &lt;/h1>
+          ) : null}
 
-        {/* result container  */}
-        {result.length === 0 &amp;&amp; isFinished ? (
-          &lt;h3>No data found.&lt;/h3>
-        ) : (
-          result.slice(0, slicingSize).map((item, index) => (
-            &lt;SingleResultContainer key={`people-result-${index}`}>
-              {/* Name and logo  */}
-              &lt;NameLogoContainer>
-                &lt;StyledLogoContainer>
-                  &lt;StyledLogo
-                    data-testid="user-logo-search"
-                    src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png"
-                    alt="user_image"
-                  />
-                &lt;/StyledLogoContainer>
-                &lt;div>
-                  &lt;StyledUsername data-testid="username-search">
-                    {`u/${item.name}`}
-                  &lt;/StyledUsername>
-                  &lt;StyledDescription>
-                    {!isSideBarCard ? item.description : null}
-                  &lt;/StyledDescription>
-                &lt;/div>
-              &lt;/NameLogoContainer>
-              {/* follow button  */}
-              &lt;FollowButton
-                data-testid="follow-button"
-                data-isFollowed={item.followed}
-                onClick={() =>
-                  handleFollowButton(this, item.community_id, item.followed)
-                }
-                onMouseOver={handleHoveringOnFollowButton}
-                onMouseOut={handleHoveringOutFollowButton}
-              >
-                {item.followed ? 'Following' : 'Follow'}
-              &lt;/FollowButton>
-            &lt;/SingleResultContainer>
-          ))
-        )}
-      &lt;/ResultsContainer>
+          {isSideBarCard ? &lt;StyledHeading>People&lt;/StyledHeading> : null}
+
+          {/* result container  */}
+          {result.length === 0 &amp;&amp; (statusCode === 200 || statusCode === 400) ? (
+            &lt;h2
+              style={{
+                padding: '.76rem',
+                margin: 0,
+                paddingLeft: '1.8rem'
+              }}
+            >
+              No results found.
+            &lt;/h2>
+          ) : (
+            result.slice(0, slicingSize).map((item, index) => (
+              &lt;SingleResultContainer key={`people-result-${index}`}>
+                {/* Name and logo  */}
+                &lt;NameLogoContainer>
+                  &lt;StyledLogoContainer>
+                    &lt;StyledLogo
+                      data-testid="user-logo-search"
+                      src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png"
+                      alt="user_image"
+                    />
+                  &lt;/StyledLogoContainer>
+                  &lt;div>
+                    &lt;StyledUsername
+                      data-testid="username-search"
+                      onClick={() => {
+                        window.location.replace(`/user/${item.username}`);
+                      }}
+                    >
+                      {`u/${item.username}`}
+                    &lt;/StyledUsername>
+                    &lt;StyledDescription>
+                      {!isSideBarCard ? item.about : null}
+                    &lt;/StyledDescription>
+                  &lt;/div>
+                &lt;/NameLogoContainer>
+                {/* follow button  */}
+                &lt;FollowButton
+                  data-testid="community-follow-button"
+                  data-isFollowed={item.followed}
+                  id={`follow-button-${item._id}`}
+                  onClick={() => handleFollowButton(item._id)}
+                  onMouseOver={handleHoveringOnFollowButton}
+                  onMouseOut={handleHoveringOutFollowButton}
+                >
+                  {item.followed ? 'Following' : 'Follow'}
+                &lt;/FollowButton>
+              &lt;/SingleResultContainer>
+            ))
+          )}
+        &lt;/ResultsContainer>
+      )}
     &lt;/RootContainer>
   );
 }
@@ -172,7 +215,7 @@ export default PeopleResults;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Tue Nov 15 2022 22:37:28 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:19:48 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

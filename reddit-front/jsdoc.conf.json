@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["src/components/Layout/"],
+    "include": ["src/components/ActionMessage/"],
     "includePattern": ".jsx$",
     "excludePattern": "(node_modules/|docs)"
   },
@@ -11,7 +11,7 @@
   },
   "opts": {
     "recurse": true,
-    "destination": "./documentations/NavBarComponents/",
+    "destination": "./documentations/ActionMessage",
     "readme": "README.md"
   }
 }

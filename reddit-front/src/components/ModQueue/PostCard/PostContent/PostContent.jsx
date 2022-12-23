@@ -285,23 +285,11 @@ function PostContent({
       {/* Post info -> community, username, time */}
       <PostInfo
         communityName={postContentData.subredditInfo.name}
-        communityId={postContentData.subredditInfo.id}
-        description={postContentData.subredditInfo.description}
-        userId={postContentData.user.id}
         postedBy={postContentData.user.username}
         postedAt={getDateDiff(postContentData.publishedDate)}
         postId={postContentData._id}
         isCommunityPost={isCommunityPost}
-        isPostFullDetailsMode={isPostFullDetailsMode}
-        modAction={modAction}
-        isNSFW={postContentData.nsfw}
-        isLocked={locked}
         showComments={showComments}
-        membersCount={
-          postContentData.subredditInfo.membersCount
-            ? postContentData.subredditInfo.membersCount
-            : 0
-        }
       />
 
       {/* Post title & flairs  */}
@@ -402,14 +390,9 @@ function PostContent({
 
       {/* post interactions -> comment, save, hide, ..  */}
       <PostInteractions
-        commentsCount={divideBigNumber(postContentData.commentCount)}
         postId={postContentData._id}
-        isCommunityPost={true}
-        changeModAction={setModAction}
-        setModAction={setModAction}
         setNsfw={setNsfw}
         setLocked={setLocked}
-        isModeratorMode={true}
         isLocked={locked}
         isPostApproved={approved}
         isPostRemoved={removed}
@@ -417,7 +400,6 @@ function PostContent({
         isNSFW={postContentData.nsfw}
         isSpoiled={isSpoiled}
         replyNotifications={postContentData.replyNotifications}
-        canBeSpoiled={canBeSpoiled}
         showComments={showComments}
         handleApproveButton={handleApproveButton}
         handleRemoveButton={handleRemoveButton}

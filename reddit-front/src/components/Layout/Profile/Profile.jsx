@@ -164,136 +164,138 @@ function Profile() {
           disableUnderline
           data-testid="select"
         >
-          <MenuItem
-            sx={{ gap: '0.3rem' }}
-            data-testid="options"
-          >
-            <CgProfile
-              color="#1A3043"
-              size="2rem"
-            />
-            <StyledText sx={{ width: '100%' }}>My Stuff</StyledText>
-          </MenuItem>
-          <MenuItem
-            data-testid="options"
-            onClick={handleOnlineStatusClick}
-          >
-            <StyledButton> Online Status</StyledButton>
-            {OnlineStatus ? (
-              <IconButton
-                sx={{
-                  color: '#249FEC',
-                  fontSize: '3rem',
-                  '&.MuiButtonBase-root': {
-                    padding: '0.2rem'
-                  }
-                }}
-              >
-                <BsToggleOn />
-              </IconButton>
-            ) : (
-              <IconButton
-                sx={{
-                  color: '#DFDFDF',
-                  fontSize: '3rem',
-                  '&.MuiButtonBase-root': {
-                    padding: '0.2rem'
-                  }
-                }}
-              >
-                <BsToggleOff />
-              </IconButton>
-            )}
-          </MenuItem>
-          <MenuItem data-testid="options">
-            <StyledButton>My Profile</StyledButton>
-          </MenuItem>
-          {isAuth && (
+          <div data-testid="options">
+            <MenuItem
+              sx={{ gap: '0.3rem' }}
+              data-testid="options"
+            >
+              <CgProfile
+                color="#1A3043"
+                size="2rem"
+              />
+              <StyledText sx={{ width: '100%' }}>My Stuff</StyledText>
+            </MenuItem>
+            <MenuItem
+              data-testid="options"
+              onClick={handleOnlineStatusClick}
+            >
+              <StyledButton> Online Status</StyledButton>
+              {OnlineStatus ? (
+                <IconButton
+                  sx={{
+                    color: '#249FEC',
+                    fontSize: '3rem',
+                    '&.MuiButtonBase-root': {
+                      padding: '0.2rem'
+                    }
+                  }}
+                >
+                  <BsToggleOn />
+                </IconButton>
+              ) : (
+                <IconButton
+                  sx={{
+                    color: '#DFDFDF',
+                    fontSize: '3rem',
+                    '&.MuiButtonBase-root': {
+                      padding: '0.2rem'
+                    }
+                  }}
+                >
+                  <BsToggleOff />
+                </IconButton>
+              )}
+            </MenuItem>
             <MenuItem data-testid="options">
-              <StyledButton onClick={userSettingsClickHandler}>
-                User Settings
+              <StyledButton>My Profile</StyledButton>
+            </MenuItem>
+            {isAuth && (
+              <MenuItem data-testid="options">
+                <StyledButton onClick={userSettingsClickHandler}>
+                  User Settings
+                </StyledButton>
+              </MenuItem>
+            )}
+            <Divider />
+            <MenuItem
+              sx={{ gap: '0.3rem' }}
+              data-testid="options"
+            >
+              <AiOutlineEye
+                color="#1A3043"
+                size="2rem"
+              />
+              <StyledText>View Options</StyledText>
+            </MenuItem>
+            <MenuItem
+              data-testid="options"
+              onClick={handleDarkModeClick}
+            >
+              <StyledButton>Dark Mode </StyledButton>
+              {DarkMode ? (
+                <BsToggleOn
+                  color="#249FEC"
+                  size="3.5rem"
+                />
+              ) : (
+                <BsToggleOff
+                  color="#DFDFDF"
+                  size="3.5rem"
+                />
+              )}
+            </MenuItem>
+            <Divider />
+            <MenuItem
+              sx={{ gap: '0.3rem' }}
+              data-testid="options"
+            >
+              <AiOutlineCopyrightCircle
+                color="#1A3043"
+                size="2rem"
+              />
+              <StyledButton onClick={() => setOpenCreateCommunity(true)}>
+                Create community
               </StyledButton>
             </MenuItem>
-          )}
-          <Divider />
-          <MenuItem
-            sx={{ gap: '0.3rem' }}
-            data-testid="options"
-          >
-            <AiOutlineEye
-              color="#1A3043"
-              size="2rem"
-            />
-            <StyledText>View Options</StyledText>
-          </MenuItem>
-          <MenuItem
-            data-testid="options"
-            onClick={handleDarkModeClick}
-          >
-            <StyledButton>Dark Mode </StyledButton>
-            {DarkMode ? (
-              <BsToggleOn
-                color="#249FEC"
-                size="3.5rem"
-              />
-            ) : (
-              <BsToggleOff
-                color="#DFDFDF"
-                size="3.5rem"
-              />
-            )}
-          </MenuItem>
-          <Divider />
-          <MenuItem
-            sx={{ gap: '0.3rem' }}
-            data-testid="options"
-          >
-            <AiOutlineCopyrightCircle
-              color="#1A3043"
-              size="2rem"
-            />
-            <StyledButton onClick={() => setOpenCreateCommunity(true)}>
-              Create community
-            </StyledButton>
-          </MenuItem>
-          <MenuItem
-            sx={{ gap: '8px' }}
-            onClick={() => handleExploreClick()}
-            data-testid="options"
-          >
-            <IconButton
-              sx={{
-                color: '#1A3043',
-                fontSize: '1.2rem',
-                '&.MuiButtonBase-root': {
-                  padding: '0.2rem'
-                }
-              }}
+            <MenuItem
+              sx={{ gap: '8px' }}
+              onClick={() => handleExploreClick()}
+              data-testid="options"
             >
-              <BsPencil size="1.5rem" />
-            </IconButton>
-            <StyledButton>Explore</StyledButton>
-            {openexplore ? (
-              <MdExpandLess size="2rem" />
-            ) : (
-              <MdExpandMore size="2rem" />
-            )}
-          </MenuItem>
-          {openexplore ? Catogeries : null}
-          {/* here is the list of recent communities will handle when backend is done */}
-          <Divider />
-          <MenuItem
-            sx={{ gap: '0.5rem' }}
-            data-testid="options"
-          >
-            <IoMdExit
-              color="#1A3043"
-              size="2rem"
-            />
-            <StyledButton onClick={logoutHandler}>
-              <span>Log Out</span>
-            </StyledButton>
-          </MenuItem>
+              <IconButton
+                sx={{
+                  color: '#1A3043',
+                  fontSize: '1.2rem',
+                  '&.MuiButtonBase-root': {
+                    padding: '0.2rem'
+                  }
+                }}
+              >
+                <BsPencil size="1.5rem" />
+              </IconButton>
+              <StyledButton>Explore</StyledButton>
+              {openexplore ? (
+                <MdExpandLess size="2rem" />
+              ) : (
+                <MdExpandMore size="2rem" />
+              )}
+            </MenuItem>
+            {openexplore ? Catogeries : null}
+            {/* here is the list of recent communities will handle when backend is done */}
+            <Divider />
+            <MenuItem
+              sx={{ gap: '0.5rem' }}
+              data-testid="options"
+            >
+              <IoMdExit
+                color="#1A3043"
+                size="2rem"
+              />
+              <StyledButton onClick={logoutHandler}>
+                <span>Log Out</span>
+              </StyledButton>
+            </MenuItem>
+          </div>
         </StyledSelect>
       </FormControl>
     </ProfileContainer>

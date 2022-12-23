@@ -7,64 +7,37 @@
 import './PostInfo.css';
 
 import { memo, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
-import { FcApproval, FcLock } from 'react-icons/fc';
-import { BsFillShieldFill } from 'react-icons/bs';
-import { RiSpamLine } from 'react-icons/ri';
-import { CiNoWaitingSign } from 'react-icons/ci';
 import { followPost } from '../../../../services/requests/Post';
 import Logo from '../../../../assets/Images/test.png';
-import RemovalReasonDialog from './RemovalReasonDialog';
-import { divideBigNumber } from '../../../../utilities/Helpers';
 
 /**
  * @typedef PropType
- * @property {number} postId
- * @property {number} userId
- * @property {number} communityId
  * @property {string} communityName
  * @property {string} postedBy
  * @property {timestamp} postedAt
  * @property {boolean} isCommunityPost
- * @property {boolean} isPostFullDetailsMode
- * @property {integer} modAction  // 0: none, 1: approved, 2: spammed, 3: removed
- * @property {boolean} isNSFW
- * @property {boolean} isLocked
- * @property {boolean} isDistinguishedAsMode
- * @property {bool} isFollowed
+ * @property {boolean} showComments
  */
 
 /**
  * This Component for the post Info ( post header ) which contains the username that posted the post
  * , the community of the post, flairs, and the join community button.
- * Using Redux here for fetching the data of the username and the community.
  *
  */
 
 function PostInfo({
   communityName,
-  communityId,
-  description,
-  userId,
   postedBy,
   postedAt,
   postId,
-  membersCount,
   isCommunityPost,
-  isPostFullDetailsMode,
-  modAction,
-  isNSFW,
-  isLocked,
-  isDistinguishedAsMode,
-  isFollowed,
   showComments
 }) {
+  // States
   const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
 
   const [openRemovalDialog, setOpenRemovalDialog] = useState(false);
 
-  // Dispatching the action to get the data of subreddit and user that related to the post
   useEffect(() => {
     setIsCommunityNameHovered(false);
   }, [isCommunityNameHovered]);
@@ -115,11 +88,6 @@ function PostInfo({
   /* This function return the username of the person that published the post 'u/' */
   const getPostedBy = function () {
     return postedBy ? 'u/ '.concat(postedBy) : 'user_name';
-  };
-
-  /* This function return date at which the post was published */
-  const getPostedAt = function () {
-    return postedAt ? postedAt.concat(' ago') : 'posted_time';
   };
 
   /* This function handles the follow button */

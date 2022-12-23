@@ -1,8 +1,16 @@
+/* eslint-disable max-len */
 import { IconButton } from '@mui/material';
 import { AiOutlineClose } from 'react-icons/ai';
 import { IoLogoReddit } from 'react-icons/io';
 import { useState, useEffect } from 'react';
 import { StyledButton, MessageAlert } from '../Layout/AppBar/AppBar.Style';
+
+/**
+ * @description *this component for message alert for any important event is done in the website just send the message to it
+ * @param {string} message the message which appear in the sweet element
+ * @param {bool} show to show it
+ * @return {React.Component} backtotop buttton
+ */
 
 function ActionMessage({ message, show }) {
   const [showClose, setShowClose] = useState(false);

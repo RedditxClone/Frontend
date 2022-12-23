@@ -27,7 +27,6 @@ import { FiShield } from 'react-icons/fi';
 import { BsThreeDots, BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { BiHide, BiAddToQueue } from 'react-icons/bi';
 import { TbArrowsCross } from 'react-icons/tb';
-import { useNavigate } from 'react-router-dom';
 import {
   approvePost,
   unApprovePost,
@@ -51,20 +50,21 @@ import {
 
 /**
  * @typedef PropType
- * @property {function} setHidePost
  * @property {number} commentsCount
- * @property {number} postId
+ * @property {string} postId
  * @property {function} setModAction
  * @property {function} setNsfw
  * @property {function} setLocked
  * @property {bool} isModeratorMode
  * @property {bool} isSaved
  * @property {bool} isLocked
- * @property {bool} isPostApproved
  * @property {bool} isNSFW
  * @property {bool} isSpoiled
  * @property {bool} replyNotifications
  * @property {bool} canBeSpoiled
+ * @property {bool} approved
+ * @property {bool} removed
+ * @property {bool} spammed
  */
 
 /**
@@ -89,6 +89,7 @@ function PostInteractions({
   removed,
   spammed
 }) {
+  // States
   const [saveState, setSaveState] = useState(isSaved);
   const [isApproved, setIsApproved] = useState(approved);
   const [replyNotificationsState, setReplyNotificationsState] =
@@ -100,7 +101,7 @@ function PostInteractions({
   const [isRemoved, setIsRemoved] = useState(removed);
   const [isSpammed, setIsSpammed] = useState(spammed);
   const [hidePostState, setHidePostState] = useState(false);
-  const navigate = useNavigate();
+
   // Handler Methods
   const handleSavePost = () => {
     if (!saveState) {
@@ -233,7 +234,7 @@ function PostInteractions({
     // const postCard = document.getElementById(`post-${postId}`);
     // if (postCard) postCard.style.display = 'none';
 
-    navigate('/');
+    window.location.href = '/';
   };
 
   const handleLockComments = () => {

@@ -26,7 +26,9 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unused-vars */
 /* eslint-disable prefer-template */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
@@ -39,20 +41,30 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import InfiniteScroll from 'react-infinite-scroller';
 
-import { getPosts } from '../../services/requests/Post';
+import {
+  getSpammedPosts,
+  getUnModeratedPosts,
+  getEditedPosts,
+  getPosts
+} from '../../services/requests/Post';
 import PostCard from './PostCard/PostCard';
+import Loader from '../../utilities/Loader/Loader';
 /**
  * @typedef PropType
  * @property {string} sortType
  * @property {bool} isCommunityPost
  * @property {bool} isModeratorMode
  * @property {bool} isHomePagePost
+ * @property {string} whichQueue
+ * @property {string} subredditName
+ * @property {string} subredditId
  */
 
 /**
- * This Component for the spammed posts List.
- * It fetches the api data for the posts, then looping on each post data to display it.
+ * This Component for the mod queue of the mod tools page
+ * It contains the spammed posts, the edited posts, and the un-moderated posts
  *
  */
 
@@ -61,22 +73,51 @@ function ModQueue({
   isCommunityPost,
   isModeratorMode,
   isHomePagePost,
-  whichQueue
+  whichQueue,
+  subredditName,
+  subredditId
 }) {
+  // States
   const isPostFullDetailsMode = false;
   const [posts, setPosts] = useState([]);
   const [sort, setSort] = useState(0);
   const [time, setTime] = useState(0);
   const [showComments, setShowComments] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
 
   // Fetching the results by calling the fetch service
   const fetchPosts = async (timeState, sortState) => {
-    const results = await getPosts({ sortType });
-    setPosts(results);
+    setLoading(true);
+    let results = [];
+    switch (whichQueue) {
+      case 'spam':
+        results = await getSpammedPosts({ subredditName, sortType, page });
+        break;
+
+      case 'edited':
+        results = await getEditedPosts({ subredditName, sortType, page });
+        break;
+
+      case 'unmoderated':
+        results = await getUnModeratedPosts({ subredditName, sortType, page });
+        break;
+
+      default:
+        break;
+    }
+
+    const tempList = posts;
+    const newPosts = tempList.concat(results);
+    if (results.length &lt;= 0) {
+      setHasMore(false);
+      setLoading(false);
+    }
+    setPage(page + 1);
+    setPosts(newPosts);
+    setLoading(false);
   };
-  useEffect(() => {
-    fetchPosts();
-  }, []);
 
   const handleSorting = (event) => {
     setSort(event.target.value);
@@ -86,17 +127,18 @@ function ModQueue({
     setTime(event.target.value);
     fetchPosts(event.target.value, sort);
   };
+
   // Preparing the data of the post to get displayed
   const postsData =
     posts.length > 0
       ? posts.map((post) => (
           &lt;PostCard
-            key={post.id}
+            key={post._id}
             postData={post}
             isCommunityPost={isCommunityPost}
             isPostFullDetailsMode={isPostFullDetailsMode}
             isHomePagePost={isHomePagePost}
-            isModeratorMode={isModeratorMode}
+            isModeratorMode={true}
             isSaved={post.is_saved}
             isLocked={post.is_locked}
             isPostApproved={post.is_postApproved}
@@ -117,9 +159,9 @@ function ModQueue({
       style={{ width: '640px' }}
       id="spammed-container"
     >
-      &lt;h1 style={{ margin: '4rem 0', textTransform: 'capitalize' }}>
+      &lt;h2 style={{ margin: '4rem 0', textTransform: 'capitalize' }}>
         {whichQueue}
-      &lt;/h1>
+      &lt;/h2>
 
       {/* Sorting the content */}
       &lt;Box
@@ -235,7 +277,13 @@ function ModQueue({
         &lt;/Box>
       &lt;/Box>
 
-      &lt;div>{postsData}&lt;/div>
+      &lt;InfiniteScroll
+        loadMore={fetchPosts}
+        hasMore={hasMore}
+        loader={&lt;Loader />}
+      >
+        &lt;div>{postsData}&lt;/div>
+      &lt;/InfiniteScroll>
     &lt;/div>
   );
 }
@@ -251,13 +299,13 @@ export default ModQueue;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ModQueue">ModQueue</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#FlairDialog">FlairDialog</a></li><li><a href="global.html#ModQueue">ModQueue</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 09 2022 00:06:55 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:02:40 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

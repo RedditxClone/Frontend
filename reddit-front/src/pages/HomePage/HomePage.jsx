@@ -78,7 +78,13 @@ const communities = [
 
 const buttons1 = ['Top', 'Food', 'Near You'];
 const buttonText = 'Near You';
-export default function HomePage() {
+
+/**
+ * This Page for the home page ( navbar, posts, communities recommendations)
+ *
+ */
+
+function HomePage() {
   let { user, isAuth } = useSelector((state) => state.auth);
   const [sortButton, setSortButton] = useState({ sort: null, time: null });
   console.log('sortButton', sortButton);
@@ -171,3 +177,4 @@ export default function HomePage() {
     </>
   );
 }
+export default HomePage;

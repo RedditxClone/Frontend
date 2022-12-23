@@ -26,7 +26,12 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable no-use-before-define */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable import/no-unresolved */
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable no-use-before-define */
 /* eslint-disable prefer-const */
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable no-unused-vars */
@@ -35,18 +40,20 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
-import { useEffect, memo, useState } from 'react';
+import { memo, useState } from 'react';
+import ReactMarkdown from 'https://esm.sh/react-markdown@7';
+import { Link } from '@mui/material';
+import { FiExternalLink } from 'react-icons/fi';
 import PostInteractions from '../PostInteractions/PostInteractions';
 import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
-import { divideBigNumber } from '../../../utilities/Helpers';
-import Logo from './test.png';
+import { divideBigNumber, getDateDiff } from '../../../utilities/Helpers';
+
 /**
  * @typedef PropType
  * @property {bool} setHidePost
  * @property {object} postContentData
  * @property {bool} isCommunityPost
- * @property {bool} isPostFullDetailsMode
  * @property {bool} isModeratorMode
  */
 
@@ -61,41 +68,47 @@ function PostContent({
   setHidePost,
   postContentData,
   isCommunityPost,
-  isPostFullDetailsMode,
   isModeratorMode
 }) {
   let postContent = null;
   let slideIndex = 0;
   const [modAction, setModAction] = useState(0);
+  const [locked, setLocked] = useState(postContentData.commentsLocked);
+  const [nsfw, setNsfw] = useState(postContentData.nsfw);
+  const [isVisited, setIsVisited] = useState(postContentData.visited);
+  const [isSaved, setIsSaved] = useState(postContentData.isSaved);
+  const [isSpoiled, setIsSpoiled] = useState(postContentData.spoiler);
+  const [isPostApproved, setIsPostApproved] = useState(
+    postContentData.replyNotifications
+  );
+  const [replyNotifications, setReplyNotifications] = useState(
+    postContentData.visited
+  );
+  const [canBeSpoiled, setCanBeSpoiled] = useState(
+    true
+    // postContentData.images.length === 1
+  );
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
-  const getPostContent = function () {
-    const contentType = postContentData.post_type;
-    const mediaCount = postContentData.media_count;
+  const getPostContent = () => {
+    let contentType = postContentData.postType;
+    let mediaCount = postContentData.images ? postContentData.images.length : 0;
 
     switch (contentType) {
-      case 'img':
+      case 'images':
         if (mediaCount > 1) {
           postContent = (
             &lt;>
-              &lt;div className="my-slides fade">
-                &lt;img
-                  src={Logo}
-                  alt="post image"
-                />
-              &lt;/div>
-              &lt;div className="my-slides fade">
-                &lt;img
-                  src={Logo}
-                  alt="post image"
-                />
-              &lt;/div>
-              &lt;div className="my-slides fade">
-                &lt;img
-                  src={Logo}
-                  alt="post image"
-                />
-              &lt;/div>
+              {postContentData.images &amp;&amp; postContentData.images.length > 0
+                ? postContentData.images.map((image) => (
+                    &lt;div className="my-slides fade">
+                      &lt;img
+                        src={`https://static.swproject.demosfortest.com/${image}`}
+                        alt="post image"
+                      />
+                    &lt;/div>
+                  ))
+                : null}
               &lt;button
                 type="button"
                 className="prev"
@@ -117,8 +130,12 @@ function PostContent({
           postContent = (
             &lt;div className="post-image">
               &lt;img
-                src={Logo}
+                className={`post-image-${postContentData._id}`}
+                src={`https://static.swproject.demosfortest.com/${postContentData.images[0]}`}
                 alt="post image"
+                style={{
+                  filter: postContentData.spoiler ? 'blur(60px)' : 'none'
+                }}
               />
             &lt;/div>
           );
@@ -133,14 +150,33 @@ function PostContent({
             className="post-content-video"
           >
             &lt;source
-              src=""
+              src={postContentData.video}
               type="video/mp4"
             />
           &lt;/video>
         );
         break;
       case 'text':
-        postContent = &lt;p>{postContentData.content}&lt;/p>;
+        postContent = (
+          &lt;div className="post-content-text">
+            &lt;p style={{ color: isVisited ? '#949494' : 'black' }}>
+              &lt;ReactMarkdown>{postContentData.text}&lt;/ReactMarkdown>
+            &lt;/p>
+          &lt;/div>
+        );
+        break;
+      case 'link':
+        postContent = (
+          &lt;div className="post-content-link">
+            &lt;a>
+              {postContentData.link}
+              &lt;FiExternalLink
+                className="external-link-icon"
+                style={{ marginLeft: '4px', color: '#3f9ade' }}
+              />
+            &lt;/a>
+          &lt;/div>
+        );
         break;
       default:
         break;
@@ -180,46 +216,76 @@ function PostContent({
     showSlides();
   };
 
+  const handleClickOnPost = () => {
+    window.location.href = `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`;
+  };
+
   // Returning the result
   return (
     &lt;div
       className="post-content"
       data-testid="test-post-content"
+      // onClick={handleClickOnPost}
     >
       {/* Post info -> community, username, time */}
       &lt;PostInfo
-        communityName={postContentData.community_name}
-        communityId={postContentData.community_id}
-        userId={postContentData.user_id}
-        postedBy={postContentData.posted_by}
-        postedAt={postContentData.posted_at}
-        postId={postContentData.id}
+        userInfo={postContentData.user}
+        subredditInfo={postContentData.subredditInfo}
+        postedAt={getDateDiff(postContentData.publishedDate)}
+        postId={postContentData._id}
         isCommunityPost={isCommunityPost}
-        isPostFullDetailsMode={isPostFullDetailsMode}
         modAction={modAction}
+        isNSFW={nsfw}
+        isLocked={locked}
+        isFollowed={postContentData.follow}
+        approvedBy={postContentData.approvedBy}
+        approvedAt={postContentData.approvedAt}
+        removedBy={postContentData.removedBy}
+        removedAt={postContentData.removedAt}
+        spammedBy={postContentData.spammedBy}
+        spammedAt={postContentData.spammedAt}
       />
 
-      {/* Post title  */}
+      {/* Post title &amp; flairs  */}
       &lt;div
         className="post-title-container"
         data-testid="test-post-title"
+        onClick={() => {
+          console.log('clicked');
+          window.location.replace(
+            `r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`
+          );
+        }}
       >
         &lt;div className="post-title">
-          &lt;a
+          &lt;Link
             className="post-link"
-            href="#"
+            sx={{ textDecoration: 'none' }}
           >
-            &lt;h3 className="post-title-heading">{postContentData.title}&lt;/h3>
-          &lt;/a>
+            &lt;h3
+              className="post-title-heading"
+              style={{ color: isVisited ? '#949494' : 'black' }}
+            >
+              {postContentData.title}
+            &lt;/h3>
+          &lt;/Link>
         &lt;/div>
-        &lt;div className="flair">
+
+        {postContentData.flair ? (
           &lt;a
-            href="#"
             className="flair-link"
+            style={{
+              color: postContentData.flair.textColor,
+              backgroundColor: postContentData.flair.backgroundColor,
+              padding: '0.5rem',
+              borderRadius: '999px',
+              fontWeight: '700',
+              fontSize: '12px'
+            }}
           >
-            {postContentData.flair_name}
+            {postContentData.flair.text}
           &lt;/a>
-        &lt;/div>
+        ) : null}
       &lt;/div>
 
       {/* post content  */}
@@ -233,13 +299,28 @@ function PostContent({
       {/* post interactions -> comment, save, hide, ..  */}
       &lt;PostInteractions
         setHidePost={setHidePost}
-        commentsCount={divideBigNumber(postContentData.comments_count)}
-        votesCount={postContentData.votes}
-        postId={postContentData.id}
+        commentsCount={divideBigNumber(postContentData.commentCount)}
+        votesCount={postContentData.votesCount}
+        postId={postContentData._id}
+        communityName={postContentData.subredditInfo.name}
         isCommunityPost={isCommunityPost}
         changeModAction={setModAction}
         setModAction={setModAction}
+        setNsfw={setNsfw}
+        setLocked={setLocked}
         isModeratorMode={isModeratorMode}
+        isSaved={isSaved}
+        isLocked={locked}
+        isNSFW={nsfw}
+        isSpoiled={isSpoiled}
+        replyNotifications={replyNotifications}
+        canBeSpoiled={canBeSpoiled}
+        approved={postContentData.approvedAt ? true : false}
+        removed={postContentData.removedAt ? true : false}
+        spammed={postContentData.spammedAt ? true : false}
+        currentVotingState={
+          postContentData.voteType === null ? 0 : postContentData.voteType
+        }
       />
     &lt;/div>
   );
@@ -256,13 +337,13 @@ export default memo(PostContent);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 22:12:20 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:12:04 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
