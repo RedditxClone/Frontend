@@ -97,12 +97,14 @@ function ProfileLogin() {
           <MenuItem
             style={{ gap: '8px' }}
             onClick={() => handleComClick()}
-            data-testid="elements"
+            data-testid="items"
           >
             <IconButton sx={{ fontSize: '1.7rem' }}>
               <BsClock color="#1A3043" />
             </IconButton>
-            <StyledButton>Recent Communities</StyledButton>
+            <StyledButton data-testid="recent-comm">
+              Recent Communities
+            </StyledButton>
             {opencommunity ? (
               <MdExpandLess size="2rem" />
             ) : (
@@ -111,14 +113,17 @@ function ProfileLogin() {
           </MenuItem>
           {/* here is the list of recent communities will handle when backend is done */}
           {opencommunity ? (
-            <MenuItem data-testid="elements">
+            <MenuItem data-testid="items">
               <StyledButton sx={{ ml: '4rem' }}>any community</StyledButton>
             </MenuItem>
           ) : null}
           {isAuth && (
             <MenuItem onClick={() => handleSettingClick()}>
               <IoSettingsOutline size="2rem" />
-              <StyledButton sx={{ pr: '95px', pl: '5px' }}>
+              <StyledButton
+                sx={{ pr: '95px', pl: '5px' }}
+                data-testid="settings"
+              >
                 Settings
               </StyledButton>
               {opensettings ? (
@@ -130,7 +135,7 @@ function ProfileLogin() {
           )}
           {/* here is the list of seetingse */}
           {opensettings ? (
-            <MenuItem data-testid="elements">
+            <MenuItem data-testid="items">
               <StyledButton sx={{ pl: '40px' }}>
                 Dark Mode
                 <IconButton sx={{ fontSize: '2rem' }}>
@@ -143,11 +148,14 @@ function ProfileLogin() {
             </MenuItem>
           ) : null}
           <Divider />
-          <MenuItem data-testid="elements">
+          <MenuItem data-testid="items">
             <IconButton sx={{ fontSize: '2rem' }}>
               <CgProfile color="#1A3043" />
             </IconButton>
-            <StyledButton onClick={clickSignUpHandler}>
+            <StyledButton
+              onClick={clickSignUpHandler}
+              data-testid="Sign Up or Log In"
+            >
               Sign Up or Log In
             </StyledButton>
           </MenuItem>

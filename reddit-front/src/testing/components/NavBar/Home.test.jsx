@@ -1,9 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import HomeBox from '../../../components/Layout/Home/Home';
+import { Store } from '../../../store/Store';
 
 describe('Test for Home in nav bar', () => {
   it('Test for rendering Home ', () => {
-    render(<HomeBox />);
+    render(
+      <BrowserRouter>
+        <Provider store={Store}>
+          <HomeBox />
+        </Provider>
+      </BrowserRouter>
+    );
     const homeButton = screen.getByTestId('homebutton');
     expect(homeButton).toBeInTheDocument();
     fireEvent.click(homeButton);
@@ -16,7 +25,13 @@ describe('Test for Home in nav bar', () => {
 
 describe('Test for HomeList in nav bar', () => {
   it('Test for rendering HomeList filterinput', () => {
-    render(<HomeBox />);
+    render(
+      <BrowserRouter>
+        <Provider store={Store}>
+          <HomeBox />
+        </Provider>
+      </BrowserRouter>
+    );
     const homeButton = screen.getByTestId('homebutton');
     fireEvent.click(homeButton);
     const filter = screen.getByPlaceholderText(/Filter/i);
@@ -25,7 +40,13 @@ describe('Test for HomeList in nav bar', () => {
   });
 
   it('Test for rendering HomeList texts', () => {
-    render(<HomeBox />);
+    render(
+      <BrowserRouter>
+        <Provider store={Store}>
+          <HomeBox />
+        </Provider>
+      </BrowserRouter>
+    );
     const homeButton = screen.getByTestId('homebutton');
     fireEvent.click(homeButton);
     // const favorite = screen.getByTestId('favinhomelist');
@@ -42,7 +63,13 @@ describe('Test for HomeList in nav bar', () => {
   });
 
   it('Test for rendering HomeList Buttons', () => {
-    render(<HomeBox />);
+    render(
+      <BrowserRouter>
+        <Provider store={Store}>
+          <HomeBox />
+        </Provider>
+      </BrowserRouter>
+    );
     const homeButton = screen.getByTestId('homebutton');
     fireEvent.click(homeButton);
     const rmod = screen.getByTestId('r/mod');
