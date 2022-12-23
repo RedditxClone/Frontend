@@ -104,7 +104,7 @@
     
 
     
-    <h4 class="name" id="ModQueue"><span class="type-signature"></span>ModQueue<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="FlairDialog"><span class="type-signature"></span>FlairDialog<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -112,8 +112,7 @@
 
 
 <div class="description">
-    <p>This Component for the spammed posts List.
-It fetches the api data for the posts, then looping on each post data to display it.</p>
+    <p>This Component for the post's flair card.</p>
 </div>
 
 
@@ -157,7 +156,96 @@ It fetches the api data for the posts, then looping on each post data to display
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ModQueue.jsx.html">ModQueue.jsx</a>, <a href="ModQueue.jsx.html#line31">line 31</a>
+        <a href="PostCard_PostInteractions_FlairDialog.jsx.html">PostCard/PostInteractions/FlairDialog.jsx</a>, <a href="PostCard_PostInteractions_FlairDialog.jsx.html#line46">line 46</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="ModQueue"><span class="type-signature"></span>ModQueue<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This Component for the mod queue of the mod tools page
+It contains the spammed posts, the edited posts, and the un-moderated posts</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ModQueue.jsx.html">ModQueue.jsx</a>, <a href="ModQueue.jsx.html#line43">line 43</a>
     </li></ul></dd>
     
 
@@ -246,7 +334,7 @@ It wraps other small components that do the work.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostCard_PostCard.jsx.html">PostCard/PostCard.jsx</a>, <a href="PostCard_PostCard.jsx.html#line35">line 35</a>
+        <a href="PostCard_PostCard.jsx.html">PostCard/PostCard.jsx</a>, <a href="PostCard_PostCard.jsx.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -425,7 +513,7 @@ the method 'showSlides' to render a slideshow for the images</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostCard_PostContent_PostContent.jsx.html">PostCard/PostContent/PostContent.jsx</a>, <a href="PostCard_PostContent_PostContent.jsx.html#line59">line 59</a>
+        <a href="PostCard_PostContent_PostContent.jsx.html">PostCard/PostContent/PostContent.jsx</a>, <a href="PostCard_PostContent_PostContent.jsx.html#line61">line 61</a>
     </li></ul></dd>
     
 
@@ -470,8 +558,7 @@ the method 'showSlides' to render a slideshow for the images</p>
 
 <div class="description">
     <p>This Component for the post Info ( post header ) which contains the username that posted the post
-, the community of the post, flairs, and the join community button.
-Using Redux here for fetching the data of the username and the community.</p>
+, the community of the post, flairs, and the join community button.</p>
 </div>
 
 
@@ -515,7 +602,7 @@ Using Redux here for fetching the data of the username and the community.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostCard_PostInfo_PostInfo.jsx.html">PostCard/PostInfo/PostInfo.jsx</a>, <a href="PostCard_PostInfo_PostInfo.jsx.html#line48">line 48</a>
+        <a href="PostCard_PostInfo_PostInfo.jsx.html">PostCard/PostInfo/PostInfo.jsx</a>, <a href="PostCard_PostInfo_PostInfo.jsx.html#line28">line 28</a>
     </li></ul></dd>
     
 
@@ -604,7 +691,7 @@ It just listens to the user interaction and handles it.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostCard_PostInteractions_PostInteractions.jsx.html">PostCard/PostInteractions/PostInteractions.jsx</a>, <a href="PostCard_PostInteractions_PostInteractions.jsx.html#line80">line 80</a>
+        <a href="PostCard_PostInteractions_PostInteractions.jsx.html">PostCard/PostInteractions/PostInteractions.jsx</a>, <a href="PostCard_PostInteractions_PostInteractions.jsx.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -693,7 +780,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostCard_Voting_Voting.jsx.html">PostCard/Voting/Voting.jsx</a>, <a href="PostCard_Voting_Voting.jsx.html#line27">line 27</a>
+        <a href="PostCard_Voting_Voting.jsx.html">PostCard/Voting/Voting.jsx</a>, <a href="PostCard_Voting_Voting.jsx.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -857,6 +944,75 @@ It contains two methods for handling the up &amp; down voting.</p>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>whichQueue</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subredditName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subredditId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -892,7 +1048,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ModQueue.jsx.html">ModQueue.jsx</a>, <a href="ModQueue.jsx.html#line17">line 17</a>
+        <a href="ModQueue.jsx.html">ModQueue.jsx</a>, <a href="ModQueue.jsx.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -1301,7 +1457,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostCard_PostContent_PostContent.jsx.html">PostCard/PostContent/PostContent.jsx</a>, <a href="PostCard_PostContent_PostContent.jsx.html#line34">line 34</a>
+        <a href="PostCard_PostContent_PostContent.jsx.html">PostCard/PostContent/PostContent.jsx</a>, <a href="PostCard_PostContent_PostContent.jsx.html#line36">line 36</a>
     </li></ul></dd>
     
 
@@ -1352,75 +1508,6 @@ It contains two methods for handling the up &amp; down voting.</p>
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>postId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>userId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>communityId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
     
 
         <tr>
@@ -1517,128 +1604,13 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>isPostFullDetailsMode</code></td>
+                <td class="name"><code>showComments</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>modAction</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">integer</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>// 0: none, 1: approved, 2: spammed, 3: removed</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>isNSFW</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>isLocked</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>isDistinguishedAsMode</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>isFollowed</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">bool</span>
 
 
             
@@ -1687,7 +1659,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostCard_PostInfo_PostInfo.jsx.html">PostCard/PostInfo/PostInfo.jsx</a>, <a href="PostCard_PostInfo_PostInfo.jsx.html#line24">line 24</a>
+        <a href="PostCard_PostInfo_PostInfo.jsx.html">PostCard/PostInfo/PostInfo.jsx</a>, <a href="PostCard_PostInfo_PostInfo.jsx.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -1742,7 +1714,30 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>setHidePost</code></td>
+                <td class="name"><code>postId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>handleClose</code></td>
             
 
             <td class="type">
@@ -1765,76 +1760,7 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>commentsCount</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>votesCount</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>postId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>isCommunityPost</code></td>
+                <td class="name"><code>open</code></td>
             
 
             <td class="type">
@@ -1857,13 +1783,13 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>setModAction</code></td>
+                <td class="name"><code>subredditName</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">string</span>
 
 
             
@@ -1877,16 +1803,103 @@ It contains two methods for handling the up &amp; down voting.</p>
         </tr>
 
     
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PostCard_PostInteractions_FlairDialog.jsx.html">PostCard/PostInteractions/FlairDialog.jsx</a>, <a href="PostCard_PostInteractions_FlairDialog.jsx.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="PropType">PropType</h4>
+
+
+
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
 
         <tr>
             
-                <td class="name"><code>setDistinguishAsMod</code></td>
+                <td class="name"><code>postId</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">string</span>
 
 
             
@@ -1949,53 +1962,122 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>isModeratorMode</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">bool</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>isSaved</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">bool</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>isLocked</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isPostApproved</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isPostRemoved</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isPostSpammed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isNSFW</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isSpoiled</code></td>
             
 
             <td class="type">
@@ -2041,13 +2123,105 @@ It contains two methods for handling the up &amp; down voting.</p>
 
         <tr>
             
-                <td class="name"><code>canBeSpoiled</code></td>
+                <td class="name"><code>showComments</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>handleApproveButton</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>handleRemoveButton</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>handleSpamButton</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>whichQueue</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -2096,7 +2270,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostCard_PostInteractions_PostInteractions.jsx.html">PostCard/PostInteractions/PostInteractions.jsx</a>, <a href="PostCard_PostInteractions_PostInteractions.jsx.html#line57">line 57</a>
+        <a href="PostCard_PostInteractions_PostInteractions.jsx.html">PostCard/PostInteractions/PostInteractions.jsx</a>, <a href="PostCard_PostInteractions_PostInteractions.jsx.html#line36">line 36</a>
     </li></ul></dd>
     
 
@@ -2180,7 +2354,7 @@ It contains two methods for handling the up &amp; down voting.</p>
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -2203,7 +2377,7 @@ It contains two methods for handling the up &amp; down voting.</p>
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -2213,7 +2387,7 @@ It contains two methods for handling the up &amp; down voting.</p>
 
             
 
-            <td class="description last"><p>// 0 : not voted, 1 -&gt; up, -1 -&gt; down</p></td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -2275,7 +2449,7 @@ It contains two methods for handling the up &amp; down voting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PostCard_Voting_Voting.jsx.html">PostCard/Voting/Voting.jsx</a>, <a href="PostCard_Voting_Voting.jsx.html#line13">line 13</a>
+        <a href="PostCard_Voting_Voting.jsx.html">PostCard/Voting/Voting.jsx</a>, <a href="PostCard_Voting_Voting.jsx.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -2305,13 +2479,13 @@ It contains two methods for handling the up &amp; down voting.</p>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ModQueue">ModQueue</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#FlairDialog">FlairDialog</a></li><li><a href="global.html#ModQueue">ModQueue</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 09 2022 00:06:55 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:02:40 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

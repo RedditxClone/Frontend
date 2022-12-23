@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: HomePage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: HomePage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable */
+import { useSelector } from 'react-redux';
+import pic from '../../assets/Images/1166721.jpg';
+import './HomePage.style.css';
+import AppBar from '../../components/Layout/AppBar/AppBar';
+import BestHotNewCard from '../../components/HomePageCards/BestHotNewCard';
+import CreatePostCard from '../../components/HomePageCards/CreatePostCard';
+import PostsList from '../../components/PostsList/PostsList';
+import HomeCommunitiesCard from '../../components/HomePageCards/HomeCommunitiesCard';
+import HomeLanguagesCard from '../../components/HomePageCards/HomeLanguagesCard';
+import HomeCreatePostCard from '../../components/HomePageCards/HomeCreatePostCard';
+import { useState } from 'react';
+import getUser from '../../services/requests/getUser';
+import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
+
+const communities = [
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: true,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: true,
+    rank: 1,
+    joined: false,
+    userCommunity: true,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: true,
+    rank: 1,
+    joined: false,
+    userCommunity: true,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: true,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  },
+  {
+    name: 'My Community',
+    picture: pic,
+    growing: false,
+    goingDown: false,
+    rank: 1,
+    joined: false,
+    userCommunity: false,
+    noMembers: '1.6m',
+    noOnlineMembers: '825',
+    description: 'For Your Health'
+  }
+];
+
+const buttons1 = ['Top', 'Food', 'Near You'];
+const buttonText = 'Near You';
+
+/**
+ * This Page for the home page ( navbar, posts, communities recommendations)
+ *
+ */
+
+function HomePage() {
+  let { user, isAuth } = useSelector((state) => state.auth);
+  const [sortButton, setSortButton] = useState({ sort: null, time: null });
+  console.log('sortButton', sortButton);
+  return (
+    &lt;>
+      &lt;header>
+        &lt;AppBar />
+      &lt;/header>
+      &lt;main className="home-page_container">
+        &lt;div className="post-section">
+          {isAuth &amp;&amp; &lt;CreatePostCard />}
+          &lt;BestHotNewCard setSortButton={setSortButton} />
+          {/* sort top  */}
+          {sortButton.sort === 'Top' ? (
+            &lt;PostsList
+              isHomePagePost={true}
+              sort={'top'}
+              time="alltime"
+            />
+          ) : null}
+          {/* sort top , now */}
+          {sortButton.sort === 'Top' &amp;&amp; sortButton.time === 'Now' ? (
+            &lt;PostsList
+              isHomePagePost={true}
+              sort={'top'}
+              time="now"
+            />
+          ) : null}
+          {/* sort top , today */}
+          {sortButton.sort === 'Top' &amp;&amp; sortButton.time === 'Today' ? (
+            &lt;PostsList
+              isHomePagePost={true}
+              sort={'top'}
+              time="today"
+            />
+          ) : null}
+          {/* sort top , this week */}
+          {sortButton.sort === 'Top' &amp;&amp; sortButton.time === 'This Week' ? (
+            &lt;PostsList
+              isHomePagePost={true}
+              sort={'top'}
+              time="thisweek"
+            />
+          ) : null}
+          {/* sort best*/}
+          {sortButton.sort === 'Best' || sortButton.sort === null ? (
+            &lt;PostsList
+              isHomePagePost={true}
+              sort={'best'}
+            />
+          ) : null}
+          {/* sort hot*/}
+          {sortButton.sort === 'Hot' || sortButton.sort === null ? (
+            &lt;PostsList
+              isHomePagePost={true}
+              sort={'hot'}
+            />
+          ) : null}
+          {/* sort new*/}
+          {sortButton.sort === 'New' || sortButton.sort === null ? (
+            &lt;PostsList
+              isHomePagePost={true}
+              sort={'new'}
+            />
+          ) : null}
+        &lt;/div>
+        &lt;div className="cards-section">
+          &lt;HomeCommunitiesCard
+            buttons1={buttons1}
+            buttons2={buttons1}
+            pic={pic}
+            communities={communities}
+            homePageCard={true}
+            buttonText={buttonText}
+          />
+
+          {isAuth &amp;&amp; (
+            &lt;div>
+              &lt;div className="card-wrapper">
+                &lt;HomeCreatePostCard />
+              &lt;/div>
+
+              &lt;div className="card-wrapper">
+                &lt;HomeLanguagesCard />
+              &lt;/div>
+            &lt;/div>
+          )}
+        &lt;/div>
+      &lt;/main>
+    &lt;/>
+  );
+}
+export default HomePage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#HomePage">HomePage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:37:17 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

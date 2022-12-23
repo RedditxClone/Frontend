@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PostFullPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PostFullPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-nested-ternary */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable prefer-const */
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { ThemeProvider, Box } from '@mui/material';
+
+import BackToTop from '../../components/BackToTop/BackToTop';
+import AppBar from '../../components/Layout/AppBar/AppBar';
+import RulesCard from '../../components/SubredditCards/RulesCard/RulesCard';
+import AboutCard from './AboutCard/AboutCard';
+import ModeratorsCard from '../../components/SubredditCards/ModeratorsCard/ModeratorsCard';
+import {
+  CardsContainer,
+  PostsContainer,
+  subredditTheme
+} from '../Subreddit/Subreddit.Style';
+
+import {
+  SideBarContainer,
+  SideBarContent
+} from '../../components/SubredditCards/SubredditSideBar/SubredditSideBar.Style';
+import PostCard from './PostCard/PostCard';
+
+import { getPost } from '../../services/requests/Post';
+import { getSubreddit } from '../../services/requests/Subreddit';
+import Loader from '../../utilities/Loader/Loader';
+
+/**
+ * This Component for the post page
+ *
+ */
+
+function PostFullPage() {
+  const { postId, subredditName } = useParams();
+
+  const [postData, setPostData] = useState([]);
+  const [subredditData, setSubredditData] = useState([]);
+  const [loadingPost, setLoadingPost] = useState(true);
+  const [loadingSubreddit, setLoadingSubreddit] = useState(true);
+  const [goToErrorPage, setGoToErrorPage] = useState(false);
+
+  const color = '#ccc';
+
+  // Fetching the post info
+  const fetchPostInfo = async () => {
+    const results = await getPost(postId);
+    if (results.statusCode === 400) setGoToErrorPage(true);
+    if (results &amp;&amp; results.subredditInfo.name !== subredditName) {
+      setGoToErrorPage(true);
+    }
+    setPostData(results);
+    setLoadingPost(false);
+  };
+
+  // Fetching the about info of the subreddit
+  const fetchSubredditInfo = async () => {
+    const subredditInfo = await getSubreddit(subredditName);
+    if (subredditInfo.statusCode === 400) setGoToErrorPage(true);
+    setSubredditData(subredditInfo);
+    setLoadingSubreddit(false);
+  };
+
+  useEffect(() => {
+    // calling fetching methods
+    fetchPostInfo();
+    fetchSubredditInfo();
+  }, []);
+
+  return (
+    &lt;ThemeProvider theme={subredditTheme}>
+      {!goToErrorPage ? (
+        loadingPost || loadingSubreddit ? (
+          &lt;Loader />
+        ) : (
+          &lt;>
+            &lt;AppBar />
+            &lt;Box
+              id="subreddit"
+              data-testid="subreddit-cards"
+              className="container"
+              component="div"
+              sx={{
+                width: '100%',
+                justifyContent: 'flex-start',
+                borderLeft: '8rem solid #2B2C2C',
+                borderRight: '8rem solid #2B2C2C',
+                [subredditTheme.breakpoints.down('md_2')]: {
+                  border: 'none'
+                }
+              }}
+            >
+              &lt;CardsContainer style={{ backgroundColor: color }}>
+                &lt;PostsContainer>
+                  &lt;div>
+                    &lt;PostCard
+                      postData={postData}
+                      isCommunityPost={true}
+                      isPostFullDetailsMode={true}
+                      isModeratorMode={postData.subredditInfo.isModerator}
+                    />
+                  &lt;/div>
+                  &lt;div>Write comment is here&lt;/div>
+                  &lt;div>comments are here&lt;/div>
+                &lt;/PostsContainer>
+
+                &lt;SideBarContainer>
+                  &lt;SideBarContent>
+                    &lt;AboutCard
+                      isJoined={postData.subredditInfo.isJoin}
+                      subredditId={postData.subredditInfo.id}
+                      subredditName={postData.subredditInfo.name}
+                      aboutInfo={{
+                        createdDate: subredditData.createdDate,
+                        memberCount: subredditData.users,
+                        onlineCount: 0,
+                        description: subredditData.description,
+                        logo: subredditData.logo
+                      }}
+                    />
+
+                    {/* &lt;RulesCard rulesList={subredditData.rules} /> */}
+                    &lt;ModeratorsCard moderatorsList={subredditData.moderators} />
+                  &lt;/SideBarContent>
+                &lt;/SideBarContainer>
+
+                &lt;BackToTop id="subreddit" />
+              &lt;/CardsContainer>
+            &lt;/Box>
+          &lt;/>
+        )
+      ) : (
+        window.location.replace('/error')
+      )}
+    &lt;/ThemeProvider>
+  );
+}
+
+export default PostFullPage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCard">AboutCard</a></li><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostFullPage">PostFullPage</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:52:12 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

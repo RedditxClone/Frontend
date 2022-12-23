@@ -16,27 +16,22 @@ import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 
 // eslint-disable-next-line no-unused-vars
-import { Box } from '@mui/material';
-import {
-  getPosts,
-  getHomePosts,
-  getSubredditPosts
-} from '../../services/requests/Post';
+import { getHomePosts, getSubredditPosts } from '../../services/requests/Post';
 import PostCard from '../PostCard/PostCard';
 import Loader from '../../utilities/Loader/Loader';
-import BestHotNewCard from '../HomePageCards/BestHotNewCard';
-import { getSubreddit } from '../../services/requests/Subreddit';
 
 /**
  * @typedef PropType
- * @property {string} sortType
+ * @property {string} sort
+ * @property {string} time
  * @property {bool} isCommunityPost
  * @property {bool} isModeratorMode
  * @property {bool} isHomePagePost
+ * @property {string} subredditName
  */
 
 /**
- * This Component for the posts List.
+ * This Component for the posts Listing. ( Infinite Scrolling listing )
  * It fetches the api data for the posts, then looping on each post data to display it.
  *
  */
@@ -49,13 +44,13 @@ function PostsList({
   isHomePagePost,
   subredditName
 }) {
-  const isPostFullDetailsMode = false;
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [sortType, setSortType] = useState(sort);
   const limit = 4;
+
   // Fetching the results by calling the fetch service
   const fetchPosts = async () => {
     setLoading(true);

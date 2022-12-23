@@ -26,12 +26,18 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable indent */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-plusplus */
+/* eslint-disable array-callback-return */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable object-curly-newline */
+/* eslint-disable no-unused-vars */
+/* eslint-disable indent */
 /* eslint-disable operator-linebreak */
 /* eslint-disable consistent-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable prefer-const */
-import { useState, memo } from 'react';
+import { useState, memo, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Switch from '@mui/material/Switch';
@@ -55,12 +61,21 @@ import {
   StyledActionButton,
   EditCommunityActionsContainer
 } from './AboutCard.Style';
+import {
+  getAboutInfo,
+  updateDescription
+} from '../../../services/requests/Subreddit';
+import { topicsList } from '../CommunityTopics/TopicsList';
 
 /**
  * @typedef PropType
- * @property {string, color} baseColor
- * @property {string, color} highlightColor
  * @property {boolean} isModeratorMode
+ * @property {boolean} isPostFullDetailsMode
+ * @property {boolean} isJoined
+ * @property {string} subredditId
+ * @property {string} subredditName
+ * @property {boolean} inCreatePost
+ * @property {array} aboutInfo
  */
 
 /**
@@ -68,38 +83,57 @@ import {
  *
  */
 
-function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
-  // For testing
-  const subTopicsList = [
-    'first',
-    'second',
-    'third',
-    'fourth',
-    'fifth',
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9'
-  ];
-  const chosenSubTopicsList = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+function AboutCard({
+  isModeratorMode,
+  isPostFullDetailsMode,
+  isJoined,
+  subredditId,
+  subredditName,
+  inCreatePost,
+  aboutInfo
+}) {
   let paragraphColor = '#7c7c7c';
   const maxDescriptionLength = 500;
   const trackUserChosenSubTopic = [];
   const trackUserRemovedSubTopic = [];
-
   // States
-  const [showThemeOption, setShowThemeOption] = useState(false);
-  const [editDescription, setEditDescription] = useState(false);
-  const [communityDescription, setCommunityDescription] =
-    useState('old Description');
-  const [charCounter, setCharCounter] = useState(
-    maxDescriptionLength - communityDescription.length
+  const [joined, setJoined] = useState(isJoined);
+  const [subTopicsList, setSubTopicsList] = useState(aboutInfo.subTopics);
+  const [chosenSubTopicsList, setChosenSubTopicsList] = useState(
+    aboutInfo.subTopics
   );
+  const [editDescription, setEditDescription] = useState(false);
+  const [communityDescription, setCommunityDescription] = useState(
+    aboutInfo.description ? aboutInfo.description : ''
+  );
+  const [charCounter, setCharCounter] = useState(0);
+
+  useEffect(() => {
+    // initialize counter
+    if (aboutInfo.description) {
+      setCharCounter(maxDescriptionLength - aboutInfo.description.length);
+    } else {
+      setCharCounter(0);
+    }
+    // preparing the subTopics list
+    let subTopics = [...topicsList];
+
+    // removing the activeTopic from the available subtopics list
+    if (aboutInfo.activeTopic) {
+      const index = subTopics.indexOf(aboutInfo.activeTopic);
+      subTopics.splice(index, 1);
+    }
+
+    // removing the active sub topics from the available subtopics list
+    if (subTopicsList.length > 0) {
+      let index = -1;
+      for (let i = 0; i &lt; subTopicsList.length; i++) {
+        index = subTopics.indexOf(subTopicsList[i]);
+        subTopics.splice(index, 1);
+      }
+    }
+    setSubTopicsList(subTopics);
+  }, []);
 
   // Event Listeners
   /**
@@ -117,6 +151,26 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
     }
   };
 
+  const handleHoverOnJoinButton = (e) => {
+    if (joined) {
+      e.target.innerHTML = 'Leave';
+    }
+  };
+
+  const handleHoverOutJoinButton = (e) => {
+    if (joined) {
+      e.target.innerHTML = 'Joined';
+    }
+  };
+
+  const handleClickJoinButton = (e) => {
+    if (joined) {
+      setJoined(false);
+    } else {
+      setJoined(true);
+    }
+  };
+
   /**
    * This Method executes the actions that made by the user (moderator)
    *
@@ -127,6 +181,14 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
     ).value;
     setCommunityDescription(newDescription);
     setEditDescription(false);
+    // update the database
+    const request = {
+      subredditName,
+      request: {
+        description: newDescription
+      }
+    };
+    updateDescription(request);
   };
 
   /**
@@ -144,10 +206,10 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
   return (
     &lt;AboutCardContainer data-testid="about-card-container">
       &lt;CardHeader
-        title="About Community"
-        baseColor={baseColor}
-        hasDropDownMenu={1}
+        title={inCreatePost ? '' : 'About Community'}
+        hasDropDownMenu={0}
         isModeratorMode={isModeratorMode}
+        subredditName={subredditName}
       />
 
       &lt;Box sx={{ padding: '1.2rem' }}>
@@ -161,14 +223,16 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
             visibility: !editDescription ? 'visible' : 'hidden',
             cursor: isModeratorMode ? 'pointer' : 'auto',
             backgroundColor:
-              communityDescription.length === 0 ? '#F6F7F8' : 'white',
+              communityDescription.length === 0 &amp;&amp; isModeratorMode
+                ? '#F6F7F8'
+                : 'white',
             border:
-              communityDescription.length === 0
-                ? `1px solid ${highlightColor}`
+              communityDescription.length === 0 &amp;&amp; isModeratorMode
+                ? '1px solid #0079D3'
                 : 'none',
             '&amp;:hover': isModeratorMode
               ? {
-                  border: `1px solid ${highlightColor}`,
+                  border: '1px solid #0079D3',
                   borderRadius: '10px',
                   paddingBottom: '10px',
                   paddingLeft: '15px'
@@ -181,16 +245,19 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
         >
           {communityDescription.length > 0 ? (
             communityDescription
+          ) : !isModeratorMode ? (
+            &lt;span>{`Welcome to ${subredditName}`}&lt;/span>
           ) : (
-            &lt;span style={{ color: highlightColor, fontWeight: 'bold' }}>
+            &lt;span style={{ color: '#0079D3', fontWeight: 'bold' }}>
               Add description
             &lt;/span>
           )}
+
           {isModeratorMode ? (
             &lt;BsPencil
               fontSize="18px"
               style={{
-                color: highlightColor,
+                color: '#0079D3',
                 marginLeft: '5px'
               }}
             />
@@ -202,7 +269,7 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
           className="edit-community-description"
           sx={{
             position: 'relative',
-            border: `1px solid ${highlightColor}`,
+            border: '1px solid #0079D3',
             borderRadius: '4px',
             display: editDescription ? 'block' : 'none',
             visibility: editDescription ? 'visible' : 'hidden'
@@ -227,13 +294,13 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
             &lt;Box sx={{ float: 'right' }}>
               &lt;StyledActionButton
                 onClick={cancelModification}
-                sx={{ color: highlightColor }}
+                sx={{ color: '#0079D3' }}
               >
                 Cancel
               &lt;/StyledActionButton>
               &lt;StyledActionButton
                 onClick={saveNewDescription}
-                sx={{ color: highlightColor }}
+                sx={{ color: '#0079D3' }}
               >
                 Save
               &lt;/StyledActionButton>
@@ -251,7 +318,7 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
               marginLeft: '1rem'
             }}
           >
-            Created Oct 11, 2022
+            {`Created ${aboutInfo.createdDate}`}
           &lt;/Typography>
         &lt;/CommunityCreatedDate>
         &lt;StyledHorizontalLine
@@ -283,7 +350,7 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
                 lineHeight: '2rem'
               }}
             >
-              {divideBigNumber(6254)}
+              {divideBigNumber(aboutInfo.memberCount)}
             &lt;/span>
             &lt;MembersTypography
               variant="paragraph"
@@ -315,7 +382,7 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
               >
                 ●
               &lt;/span>
-              {divideBigNumber(12344)}
+              {divideBigNumber(aboutInfo.onlineCount)}
             &lt;/Box>
             &lt;MembersTypography
               variant="paragraph"
@@ -326,89 +393,67 @@ function AboutCard({ baseColor, highlightColor, isModeratorMode }) {
           &lt;/OnlineMembersBox>
         &lt;/Box>
 
-        &lt;StyledHorizontalLine
-          marginTop="1.5"
-          marginBottom="1.5"
-          marginLeft="0"
-          marginRight="0"
-        />
-
         {/* Community Topics  */}
-        {isModeratorMode ? (
+        {isModeratorMode &amp;&amp; !inCreatePost &amp;&amp; (
           &lt;>
-            &lt;CommunityTopics
-              highlightColor={highlightColor}
-              baseColor={baseColor}
-              subTopicsList={subTopicsList}
-              chosenSubTopicsList={chosenSubTopicsList}
-              trackUserChosenSubTopic={trackUserChosenSubTopic}
-              trackUserRemovedSubTopic={trackUserRemovedSubTopic}
-            />
             &lt;StyledHorizontalLine
               marginTop="1.5"
               marginBottom="1.5"
               marginLeft="0"
               marginRight="0"
             />
+            &lt;CommunityTopics
+              subTopicsList={subTopicsList}
+              setSubTopicsList={setSubTopicsList}
+              chosenSubTopicsList={chosenSubTopicsList}
+              setChosenSubTopicsList={setChosenSubTopicsList}
+              trackUserChosenSubTopic={trackUserChosenSubTopic}
+              trackUserRemovedSubTopic={trackUserRemovedSubTopic}
+              subredditId={subredditId}
+              subredditName={subredditName}
+              activeSubredditTopic={aboutInfo.activeTopic}
+            />
           &lt;/>
-        ) : null}
-
-        {/* Create Post Button  */}
+        )}
         &lt;Box
           className="subreddit-create-post"
           data-testid="create-post-inside-community"
         >
-          &lt;CreatePostButton sx={{ backgroundColor: highlightColor }}>
-            Create post
-          &lt;/CreatePostButton>
-        &lt;/Box>
-        &lt;StyledHorizontalLine
-          marginTop="1.5"
-          marginBottom="1.5"
-          marginLeft="0"
-          marginRight="0"
-        />
-
-        {/* Community options  */}
-        &lt;Box
-          className="community-options"
-          sx={{
-            paddingTop: '1.6rem',
-            marginTop: '1.6rem'
-          }}
-        >
-          &lt;ShowOptionsButton
-            data-testid="community-options-button"
-            sx={{ backgroundColor: 'transparent', color: highlightColor }}
-            onClick={() => {
-              setShowThemeOption(!showThemeOption);
-            }}
-          >
-            Community options
-            {!showThemeOption ? (
-              &lt;AiOutlineDown fontSize="1.3rem" />
-            ) : (
-              &lt;AiOutlineUp fontSize="1.3rem" />
-            )}
-          &lt;/ShowOptionsButton>
-          {showThemeOption ? (
-            &lt;CommunityThemeOption
-              className="community-theme-option"
-              data-testid="community-theme-option"
+          {isPostFullDetailsMode ? (
+            &lt;CreatePostButton
+              onMouseOver={handleHoverOnJoinButton}
+              onMouseOut={handleHoverOutJoinButton}
+              onClick={handleClickJoinButton}
+              sx={{
+                backgroundColor: joined ? 'white' : '#0079D3',
+                border: joined ? '1px solid #0079D3' : 'none',
+                color: joined ? '#0079D3' : 'white'
+              }}
             >
-              &lt;span
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  margin: '8px 0'
+              {joined ? 'Joined' : 'Join'}
+            &lt;/CreatePostButton>
+          ) : isJoined ? (
+            &lt;>
+              &lt;StyledHorizontalLine
+                marginTop="1.5"
+                marginBottom="1.5"
+                marginLeft="0"
+                marginRight="0"
+              />
+              &lt;CreatePostButton
+                sx={{ backgroundColor: '#0079D3' }}
+                onClick={() => {
+                  // checking if not authenticated
+                  if (false) {
+                    window.location.replace('/auth/login');
+                  } else {
+                    window.location.replace(`/${subredditName}/submit`);
+                  }
                 }}
               >
-                &lt;AiOutlineEye fontSize="2rem" />
-                &lt;span style={{ marginLeft: '1rem' }}>Community theme&lt;/span>
-              &lt;/span>
-              &lt;Switch defaultChecked />
-            &lt;/CommunityThemeOption>
+                Create post
+              &lt;/CreatePostButton>
+            &lt;/>
           ) : null}
         &lt;/Box>
       &lt;/Box>
@@ -427,13 +472,13 @@ export default memo(AboutCard);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCard">AboutCard</a></li><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#BackgroundImage">BackgroundImage</a></li><li><a href="global.html#ButtonsContainer">ButtonsContainer</a></li><li><a href="global.html#CancelSaveContainer">CancelSaveContainer</a></li><li><a href="global.html#CardHeader">CardHeader</a></li><li><a href="global.html#CardsContainer">CardsContainer</a></li><li><a href="global.html#CardsHeaderContainer">CardsHeaderContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CommunityTopics">CommunityTopics</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#DropDownMenuContainer">DropDownMenuContainer</a></li><li><a href="global.html#DropDownMenuItem">DropDownMenuItem</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#FlairItem">FlairItem</a></li><li><a href="global.html#FlairItemContainer">FlairItemContainer</a></li><li><a href="global.html#FlairsCard">FlairsCard</a></li><li><a href="global.html#FlairsContainer">FlairsContainer</a></li><li><a href="global.html#HeadingContainer">HeadingContainer</a></li><li><a href="global.html#JoinButton">JoinButton</a></li><li><a href="global.html#LogoImg">LogoImg</a></li><li><a href="global.html#LogoNameContainer">LogoNameContainer</a></li><li><a href="global.html#LogoNameContent">LogoNameContent</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#MessageModsButton">MessageModsButton</a></li><li><a href="global.html#ModeratorsCard">ModeratorsCard</a></li><li><a href="global.html#ModeratorsContainer">ModeratorsContainer</a></li><li><a href="global.html#ModeratorUsername">ModeratorUsername</a></li><li><a href="global.html#ModToolsButton">ModToolsButton</a></li><li><a href="global.html#NotificationTypesContainer">NotificationTypesContainer</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PopupInfo">PopupInfo</a></li><li><a href="global.html#PostsContainer">PostsContainer</a></li><li><a href="global.html#RuleContainer">RuleContainer</a></li><li><a href="global.html#RuleDescription">RuleDescription</a></li><li><a href="global.html#RuleNumber">RuleNumber</a></li><li><a href="global.html#RulesCard">RulesCard</a></li><li><a href="global.html#RulesCardContainer">RulesCardContainer</a></li><li><a href="global.html#RuleTitle">RuleTitle</a></li><li><a href="global.html#SelectList">SelectList</a></li><li><a href="global.html#SelectListOption">SelectListOption</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#ShowRuleDescription">ShowRuleDescription</a></li><li><a href="global.html#SideBarContainer">SideBarContainer</a></li><li><a href="global.html#SideBarContent">SideBarContent</a></li><li><a href="global.html#SingleNotificationTypeContainer">SingleNotificationTypeContainer</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledSubredditName">StyledSubredditName</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#StylesSpan">StylesSpan</a></li><li><a href="global.html#SubredditInfo">SubredditInfo</a></li><li><a href="global.html#SubredditName">SubredditName</a></li><li><a href="global.html#SubredditSideBar">SubredditSideBar</a></li><li><a href="global.html#SubredditTitle">SubredditTitle</a></li><li><a href="global.html#SubTitle">SubTitle</a></li><li><a href="global.html#SubTopic">SubTopic</a></li><li><a href="global.html#SubTopicsContainer">SubTopicsContainer</a></li><li><a href="global.html#SuggestedSubTopic">SuggestedSubTopic</a></li><li><a href="global.html#SuggestedSubTopicsContainer">SuggestedSubTopicsContainer</a></li><li><a href="global.html#TitleLogoContainer">TitleLogoContainer</a></li><li><a href="global.html#TopicDropdownList">TopicDropdownList</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCard">AboutCard</a></li><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#BackgroundImage">BackgroundImage</a></li><li><a href="global.html#ButtonsContainer">ButtonsContainer</a></li><li><a href="global.html#CancelSaveContainer">CancelSaveContainer</a></li><li><a href="global.html#CardHeader">CardHeader</a></li><li><a href="global.html#CardsHeaderContainer">CardsHeaderContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CommunityTopics">CommunityTopics</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#DropDownMenuContainer">DropDownMenuContainer</a></li><li><a href="global.html#DropDownMenuItem">DropDownMenuItem</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#FlairItem">FlairItem</a></li><li><a href="global.html#FlairItemContainer">FlairItemContainer</a></li><li><a href="global.html#FlairsCard">FlairsCard</a></li><li><a href="global.html#FlairsContainer">FlairsContainer</a></li><li><a href="global.html#HeadingContainer">HeadingContainer</a></li><li><a href="global.html#JoinButton">JoinButton</a></li><li><a href="global.html#LogoImg">LogoImg</a></li><li><a href="global.html#LogoNameContainer">LogoNameContainer</a></li><li><a href="global.html#LogoNameContent">LogoNameContent</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#MessageModsButton">MessageModsButton</a></li><li><a href="global.html#ModeratorsCard">ModeratorsCard</a></li><li><a href="global.html#ModeratorsContainer">ModeratorsContainer</a></li><li><a href="global.html#ModeratorUsername">ModeratorUsername</a></li><li><a href="global.html#ModToolsButton">ModToolsButton</a></li><li><a href="global.html#NotificationTypesContainer">NotificationTypesContainer</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PopupInfo">PopupInfo</a></li><li><a href="global.html#RuleContainer">RuleContainer</a></li><li><a href="global.html#RuleDescription">RuleDescription</a></li><li><a href="global.html#RuleNumber">RuleNumber</a></li><li><a href="global.html#RulesCard">RulesCard</a></li><li><a href="global.html#RulesCardContainer">RulesCardContainer</a></li><li><a href="global.html#RuleTitle">RuleTitle</a></li><li><a href="global.html#SelectList">SelectList</a></li><li><a href="global.html#SelectListOption">SelectListOption</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#ShowRuleDescription">ShowRuleDescription</a></li><li><a href="global.html#SideBarContainer">SideBarContainer</a></li><li><a href="global.html#SideBarContent">SideBarContent</a></li><li><a href="global.html#SingleNotificationTypeContainer">SingleNotificationTypeContainer</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledSubredditName">StyledSubredditName</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#StylesSpan">StylesSpan</a></li><li><a href="global.html#SubredditBackground">SubredditBackground</a></li><li><a href="global.html#SubredditInfo">SubredditInfo</a></li><li><a href="global.html#SubredditName">SubredditName</a></li><li><a href="global.html#SubredditSideBar">SubredditSideBar</a></li><li><a href="global.html#SubredditTitle">SubredditTitle</a></li><li><a href="global.html#SubTitle">SubTitle</a></li><li><a href="global.html#SubTopic">SubTopic</a></li><li><a href="global.html#SubTopicsContainer">SubTopicsContainer</a></li><li><a href="global.html#SuggestedSubTopic">SuggestedSubTopic</a></li><li><a href="global.html#SuggestedSubTopicsContainer">SuggestedSubTopicsContainer</a></li><li><a href="global.html#TitleLogoContainer">TitleLogoContainer</a></li><li><a href="global.html#TopicDropdownList">TopicDropdownList</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 22:13:08 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:33:29 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -26,7 +26,9 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable no-nested-ternary */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 /* eslint-disable operator-linebreak */
 /* eslint-disable no-param-reassign */
@@ -37,19 +39,10 @@
 /* eslint-disable react/prop-types */
 import { useState, memo } from 'react';
 import './PostInteractions.css';
-import { GoComment } from 'react-icons/go';
-import { RiSpamLine, RiSpam3Fill, RiSpam3Line } from 'react-icons/ri';
-import { TiTickOutline } from 'react-icons/ti';
-import { GrCheckbox } from 'react-icons/gr';
-import { FiShield } from 'react-icons/fi';
-import {
-  BsThreeDots,
-  BsBookmark,
-  BsFillBookmarkFill,
-  BsShareFill
-} from 'react-icons/bs';
+import { RiSpam3Line } from 'react-icons/ri';
+import { BsThreeDots, BsShareFill } from 'react-icons/bs';
 import { BiHide } from 'react-icons/bi';
-import { CiCircleRemove, CiNoWaitingSign } from 'react-icons/ci';
+import { CiCircleRemove } from 'react-icons/ci';
 import {
   AiOutlineCheck,
   AiOutlineTag,
@@ -59,45 +52,32 @@ import {
   AiOutlineWarning
 } from 'react-icons/ai';
 import {
-  approvePost,
-  unApprovePost,
-  removePost,
-  unRemovePost,
   hidePost,
-  savePost,
-  unSavePost,
+  unHidePost,
   lockPost,
   unLockPost,
   unMarkPostAsNSFW,
-  markPostAsNSFW,
-  spamPost,
-  unSpamPost,
-  sendReplyNotifications,
-  stickyPost,
-  unStickyPost,
-  distinguishAsMod,
-  unDistinguishAsMod,
-  spoilPost,
-  unSpoilPost
+  markPostAsNSFW
 } from '../../../../services/requests/Post';
 import FlairDialog from './FlairDialog';
 
 /**
  * @typedef PropType
- * @property {function} setHidePost
- * @property {number} commentsCount
- * @property {number} votesCount
- * @property {number} postId
- * @property {bool} isCommunityPost
- * @property {function} setModAction
- * @property {function} setDistinguishAsMod
+ * @property {string} postId
  * @property {function} setNsfw
  * @property {function} setLocked
- * @property {bool} isModeratorMode
- * @property {bool} isSaved
  * @property {bool} isLocked
+ * @property {bool} isPostApproved
+ * @property {bool} isPostRemoved
+ * @property {bool} isPostSpammed
+ * @property {bool} isNSFW
+ * @property {bool} isSpoiled
  * @property {bool} replyNotifications
- * @property {bool} canBeSpoiled
+ * @property {bool} showComments
+ * @property {function} handleApproveButton
+ * @property {function} handleRemoveButton
+ * @property {function} handleSpamButton
+ * @property {string} whichQueue
  */
 
 /**
@@ -106,40 +86,27 @@ import FlairDialog from './FlairDialog';
  *
  */
 function PostInteractions({
-  setHidePost,
-  commentsCount,
   postId,
-  isCommunityPost,
-  setModAction,
-  setDistinguishPostAsMod,
   setNsfw,
   setLocked,
-  isModeratorMode,
-  isSaved,
   isLocked,
   isPostApproved,
   isPostRemoved,
   isPostSpammed,
-  isPostSticky,
-  isDistinguishedAsMode,
   isNSFW,
   isSpoiled,
   replyNotifications,
-  canBeSpoiled,
   showComments,
   handleApproveButton,
   handleRemoveButton,
   handleSpamButton,
   whichQueue
 }) {
-  const [saveState, setSaveState] = useState(isSaved);
+  // states
   const [isApproved, setIsApproved] = useState(isPostApproved);
-  const [isSticky, setIsSticky] = useState(isPostSticky);
   const [replyNotificationsState, setReplyNotificationsState] =
     useState(replyNotifications);
-  const [distinguishAsMode, setDistinguishAsMode] = useState(
-    isDistinguishedAsMode
-  );
+
   const [lockComments, setLockComments] = useState(isLocked);
   const [lockThread, setLockThread] = useState(isLocked);
   const [markedAsNSFW, setMarkedAsNSFW] = useState(isNSFW);
@@ -147,19 +114,7 @@ function PostInteractions({
   const [isRemoved, setIsRemoved] = useState(isPostRemoved);
   const [isSpammed, setIsSpammed] = useState(isPostSpammed);
   const [openFlairDialog, setOpenFlairDialog] = useState(false);
-
-  // Handler Methods
-  const handleSavePost = () => {
-    if (!saveState) {
-      setSaveState(true);
-      const info = { request: { is_saved: true }, id: postId };
-      savePost(info);
-    } else {
-      setSaveState(false);
-      const info = { request: { is_saved: false }, id: postId };
-      unSavePost(info);
-    }
-  };
+  const [hidePostState, setHidePostState] = useState(false);
 
   /* This function shows the dropdown for more interactions on the post */
   const handleClickMoreInteractions = () => {
@@ -187,31 +142,12 @@ function PostInteractions({
   };
 
   const handleHideButton = () => {
-    setHidePost(true);
-    hidePost({ id: postId });
-  };
-
-  const handleStickyButton = () => {
-    if (!isSticky) {
-      setIsSticky(true);
-      const request = { id: postId };
-      stickyPost(request);
+    if (hidePostState) {
+      setHidePostState(false);
+      unHidePost({ id: postId });
     } else {
-      setIsSticky(false);
-      const request = { id: postId };
-      unStickyPost(request);
-    }
-  };
-
-  const handleDistinguishAsMod = () => {
-    if (!distinguishAsMode) {
-      setDistinguishAsMode(true);
-      setDistinguishPostAsMod(true);
-      distinguishAsMod({ id: postId });
-    } else {
-      setDistinguishAsMode(false);
-      setDistinguishPostAsMod(false);
-      unDistinguishAsMod({ id: postId });
+      setHidePostState(true);
+      hidePost({ id: postId });
     }
   };
 
@@ -241,40 +177,6 @@ function PostInteractions({
     }
   };
 
-  const handleMarkAsSpoiler = () => {
-    const img = document.querySelector(
-      `.post-card .post-content .post-image-${postId}`
-    );
-    if (!markedAsSpoiler) {
-      setMarkedAsSpoiler(true);
-      spoilPost({ id: postId });
-      img.style.filter = 'blur(60px)';
-    } else {
-      setMarkedAsSpoiler(false);
-      unSpoilPost({ id: postId });
-      img.style.filter = 'none';
-    }
-  };
-
-  const getCommentsCount = function () {
-    if (!isCommunityPost) {
-      return commentsCount ? commentsCount.concat(' Comments') : 'No Comments';
-    }
-    return commentsCount;
-  };
-
-  const handleSendReplies = () => {
-    if (!replyNotificationsState) {
-      setReplyNotificationsState(true);
-      const info = { request: { state: true }, id: postId };
-      sendReplyNotifications(info);
-    } else {
-      setReplyNotificationsState(false);
-      const info = { request: { state: false }, id: postId };
-      sendReplyNotifications(info);
-    }
-  };
-
   const handleOpenFlairDialog = () => {
     setOpenFlairDialog(true);
   };
@@ -297,49 +199,125 @@ function PostInteractions({
           postId={postId}
           subredditName="testing"
         />
+
         {whichQueue === 'unmoderated' ? (
           &lt;>
             {/* approve  */}
             {!isApproved ? (
               &lt;a
                 className="post-approve"
-                onClick={() => handleApproveButton(postId)}
+                onClick={() =>
+                  handleApproveButton(
+                    postId,
+                    setIsApproved,
+                    setIsRemoved,
+                    setIsSpammed
+                  )
+                }
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem'
+                }}
               >
                 &lt;AiOutlineCheck
                   fontSize="20px"
-                  style={{ marginRight: '5px' }}
+                  style={{
+                    marginRight: '5px'
+                  }}
                 />
                 &lt;span> Approve&lt;/span>
               &lt;/a>
-            ) : null}
+            ) : (
+              &lt;a
+                className="post-approve"
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem',
+                  color: '#19ff00',
+                  cursor: 'now-allowed'
+                }}
+              >
+                &lt;AiOutlineCheck
+                  fontSize="20px"
+                  style={{
+                    marginRight: '5px',
+                    cursor: 'now-allowed'
+                  }}
+                />
+                &lt;span> Approved&lt;/span>
+              &lt;/a>
+            )}
 
             {/* remove  */}
             {!isRemoved &amp;&amp; !isSpammed ? (
               &lt;a
                 className="post-approve"
-                onClick={() => handleRemoveButton(postId)}
+                onClick={() =>
+                  handleRemoveButton(
+                    postId,
+                    setIsApproved,
+                    setIsRemoved,
+                    setIsSpammed
+                  )
+                }
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem'
+                }}
               >
                 &lt;CiCircleRemove
                   fontSize="20px"
-                  style={{ marginRight: '5px' }}
+                  style={{
+                    marginRight: '5px'
+                  }}
                 />
                 &lt;span> Remove&lt;/span>
               &lt;/a>
-            ) : null}
+            ) : (
+              &lt;a
+                className="post-approve"
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem',
+                  color: 'red'
+                }}
+              >
+                &lt;CiCircleRemove
+                  fontSize="20px"
+                  style={{
+                    marginRight: '5px'
+                  }}
+                />
+                &lt;span> Removed&lt;/span>
+              &lt;/a>
+            )}
           &lt;/>
         ) : null}
 
         {whichQueue === 'spam' ? (
           &lt;>
             {/* approve  */}
-            {isRemoved || isSpammed ? (
+            {isSpammed || isRemoved ? (
               &lt;a
                 className="post-approve"
-                onClick={() => handleApproveButton(postId)}
+                onClick={() =>
+                  handleApproveButton(
+                    postId,
+                    setIsApproved,
+                    setIsRemoved,
+                    setIsSpammed
+                  )
+                }
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem'
+                }}
               >
                 &lt;AiOutlineCheck
                   fontSize="20px"
-                  style={{ marginRight: '5px' }}
+                  style={{
+                    marginRight: '5px'
+                  }}
                 />
                 &lt;span> Approve&lt;/span>
               &lt;/a>
@@ -349,7 +327,18 @@ function PostInteractions({
             {isApproved ? (
               &lt;a
                 className="post-approve"
-                onClick={() => handleRemoveButton(postId)}
+                onClick={() =>
+                  handleRemoveButton(
+                    postId,
+                    setIsApproved,
+                    setIsRemoved,
+                    setIsSpammed
+                  )
+                }
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem'
+                }}
               >
                 &lt;CiCircleRemove
                   fontSize="20px"
@@ -368,10 +357,16 @@ function PostInteractions({
               &lt;a
                 className="post-approve"
                 onClick={() => handleApproveButton(postId)}
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem'
+                }}
               >
                 &lt;AiOutlineCheck
                   fontSize="20px"
-                  style={{ marginRight: '5px' }}
+                  style={{
+                    marginRight: '5px'
+                  }}
                 />
                 &lt;span> Approve&lt;/span>
               &lt;/a>
@@ -382,6 +377,10 @@ function PostInteractions({
               &lt;a
                 className="post-approve"
                 onClick={() => handleRemoveButton(postId)}
+                style={{
+                  paddingTop: '.7rem',
+                  paddingBottom: '.7rem'
+                }}
               >
                 &lt;CiCircleRemove
                   fontSize="20px"
@@ -398,10 +397,16 @@ function PostInteractions({
           &lt;a
             className="post-flair"
             onClick={handleOpenFlairDialog}
+            style={{
+              paddingTop: '.7rem',
+              paddingBottom: '.7rem'
+            }}
           >
             &lt;AiOutlineTag
               fontSize="20px"
-              style={{ marginRight: '5px' }}
+              style={{
+                marginRight: '5px'
+              }}
             />
             &lt;span> Flair&lt;/span>
           &lt;/a>
@@ -412,10 +417,7 @@ function PostInteractions({
           className="post-more-interactions"
           data-testid="test-post-more-interactions"
         >
-          &lt;button
-            type="button"
-            onClick={handleClickMoreInteractions}
-          >
+          &lt;a onClick={handleClickMoreInteractions}>
             &lt;BsThreeDots
               fontSize="18px"
               color="#949494"
@@ -426,19 +428,17 @@ function PostInteractions({
               data-testid="test-2-interactions-dropdown"
             >
               {/* mark as spam  */}
-              {whichQueue !== 'spam' ? (
-                &lt;div
-                  className="drop-down-item"
-                  onClick={handleSpamButton}
-                >
-                  {!isRemoved &amp;&amp; !isSpammed ? (
-                    &lt;a onClick={() => handleSpamButton(postId)}>
-                      &lt;RiSpam3Line fontSize="20px" />
-                      &lt;span> Remove As spam &lt;/span>
-                    &lt;/a>
-                  ) : null}
-                &lt;/div>
-              ) : null}
+              &lt;div
+                className="drop-down-item"
+                onClick={handleSpamButton}
+              >
+                {isApproved ? (
+                  &lt;a onClick={() => handleSpamButton(postId)}>
+                    &lt;RiSpam3Line fontSize="20px" />
+                    &lt;span> Remove As spam &lt;/span>
+                  &lt;/a>
+                ) : null}
+              &lt;/div>
 
               {/* lock thread  */}
               {showComments ? (
@@ -490,11 +490,16 @@ function PostInteractions({
                 >
                   &lt;a>
                     {markedAsNSFW ? (
-                      &lt;AiFillWarning fontSize="20px" />
+                      &lt;>
+                        &lt;AiFillWarning fontSize="20px" />
+                        &lt;span> un-Mark As NSFW &lt;/span>
+                      &lt;/>
                     ) : (
-                      &lt;AiOutlineWarning fontSize="20px" />
+                      &lt;>
+                        &lt;AiOutlineWarning fontSize="20px" />
+                        &lt;span> Mark As NSFW &lt;/span>
+                      &lt;/>
                     )}
-                    &lt;span> Mark As NSFW &lt;/span>
                   &lt;/a>
                 &lt;/div>
               ) : null}
@@ -505,10 +510,17 @@ function PostInteractions({
                   className="post-hide"
                   onClick={handleHideButton}
                 >
-                  &lt;a>
-                    &lt;BiHide fontSize="25px" />
-                    &lt;span> hide&lt;/span>
-                  &lt;/a>
+                  {hidePostState ? (
+                    &lt;a>
+                      &lt;BiHide fontSize="25px" />
+                      &lt;span> un-Hide&lt;/span>
+                    &lt;/a>
+                  ) : (
+                    &lt;a>
+                      &lt;BiHide fontSize="25px" />
+                      &lt;span> hide&lt;/span>
+                    &lt;/a>
+                  )}
                 &lt;/div>
               ) : null}
 
@@ -523,7 +535,7 @@ function PostInteractions({
                 &lt;/a>
               &lt;/div>
             &lt;/div>
-          &lt;/button>
+          &lt;/a>
         &lt;/a>
       &lt;/div>
     &lt;/div>
@@ -541,13 +553,13 @@ export default memo(PostInteractions);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ModQueue">ModQueue</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#FlairDialog">FlairDialog</a></li><li><a href="global.html#ModQueue">ModQueue</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 09 2022 00:06:55 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:02:40 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

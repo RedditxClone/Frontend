@@ -12,13 +12,10 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
-import { useEffect, memo, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
+import { memo, useState } from 'react';
+import ReactMarkdown from 'https://esm.sh/react-markdown@7';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
-import Logo3 from '../../../assets/Images/test.png';
-import Logo from '../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
 import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
@@ -29,16 +26,7 @@ import { divideBigNumber, getDateDiff } from '../../../utilities/Helpers';
  * @property {bool} setHidePost
  * @property {object} postContentData
  * @property {bool} isCommunityPost
- * @property {bool} isPostFullDetailsMode
  * @property {bool} isModeratorMode
- * @property {bool} isSaved
- * @property {bool} isLocked
- * @property {bool} isPostApproved
- * @property {bool} isPostSticky
- * @property {bool} isDistinguishedAsMode
- * @property {bool} isNSFW
- * @property {bool} isSpoiled
- * @property {bool} replyNotifications
  */
 
 /**
@@ -54,8 +42,6 @@ function PostContent({
   isCommunityPost,
   isModeratorMode
 }) {
-  const navigate = useNavigate();
-
   let postContent = null;
   let slideIndex = 0;
   const [modAction, setModAction] = useState(0);
@@ -79,6 +65,7 @@ function PostContent({
   const getPostContent = () => {
     let contentType = postContentData.postType;
     let mediaCount = postContentData.images ? postContentData.images.length : 0;
+
     switch (contentType) {
       case 'images':
         if (mediaCount > 1) {
@@ -202,12 +189,7 @@ function PostContent({
   };
 
   const handleClickOnPost = () => {
-    console.log(
-      `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`
-    );
-    navigate(
-      `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`
-    );
+    window.location.href = `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`;
   };
 
   // Returning the result
@@ -240,7 +222,12 @@ function PostContent({
       <div
         className="post-title-container"
         data-testid="test-post-title"
-        onClick={handleClickOnPost}
+        onClick={() => {
+          console.log('clicked');
+          window.location.replace(
+            `r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`
+          );
+        }}
       >
         <div className="post-title">
           <Link
@@ -296,7 +283,6 @@ function PostContent({
         isModeratorMode={isModeratorMode}
         isSaved={isSaved}
         isLocked={locked}
-        isPostApproved={isPostApproved}
         isNSFW={nsfw}
         isSpoiled={isSpoiled}
         replyNotifications={replyNotifications}

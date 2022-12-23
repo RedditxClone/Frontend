@@ -9,11 +9,10 @@ import {
   FlairItem
 } from './FlairsCard.Style';
 import CardHeader from '../CardHeader/CardHeader';
-import { getFlairsList } from '../../../services/requests/Subreddit';
 /**
  * @typedef PropType
- * @property {Integer} subredditId
- * @property {Integer} flairsList
+ * @property {string} subredditId
+ * @property {Array} flairsList
  */
 
 /**

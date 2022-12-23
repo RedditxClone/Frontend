@@ -15,8 +15,8 @@ import { upVote, downVote, unVote } from '../../../../services/requests/Post';
 /**
  * @typedef PropType
  * @property {number} votesCount
- * @property {number} postId
- * @property {number} currentVotingState  // 0 : not voted, 1 -> up, -1 -> down
+ * @property {string} postId
+ * @property {string} currentVotingState
  * @property {bool} isHomePagePost
  */
 
@@ -27,6 +27,7 @@ import { upVote, downVote, unVote } from '../../../../services/requests/Post';
  */
 
 function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
+  // states
   const [votesCountColor, setVotesCountColor] = useState(
     currentVotingState === 'upvote'
       ? '#ff6830'
@@ -40,6 +41,7 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
   );
   const [votes, setVotes] = useState(votesCount);
 
+  // handlers
   const handleUpVoting = () => {
     votesCount = votes;
     if (isUpVoted) {

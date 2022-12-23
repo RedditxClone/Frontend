@@ -15,7 +15,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from 'https://esm.sh/react-markdown@7';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
 import Logo3 from '../../../../assets/Images/test.png';
@@ -30,16 +30,7 @@ import { divideBigNumber, getDateDiff } from '../../../../utilities/Helpers';
  * @property {bool} setHidePost
  * @property {object} postData
  * @property {bool} isCommunityPost
- * @property {bool} isPostFullDetailsMode
  * @property {bool} isModeratorMode
- * @property {bool} isSaved
- * @property {bool} isLocked
- * @property {bool} isPostApproved
- * @property {bool} isPostSticky
- * @property {bool} isDistinguishedAsMode
- * @property {bool} isNSFW
- * @property {bool} isSpoiled
- * @property {bool} replyNotifications
  */
 
 /**
@@ -69,8 +60,6 @@ function PostContent({
   const [locked, setLocked] = useState(postData.commentsLocked);
   const [nsfw, setNsfw] = useState(postData.nsfw);
   const [isSpoiled, setIsSpoiled] = useState(postData.spoiler);
-  const [isVisited, setIsVisited] = useState(postData.visited);
-
   const [isSaved, setIsSaved] = useState(postData.isSaved);
   const [isPostApproved, setIsPostApproved] = useState(
     postData.approved !== null ? postData.approved : false
@@ -98,7 +87,7 @@ function PostContent({
                 ? postData.images.map((image) => (
                     <div className="my-slides fade">
                       <img
-                        src={`https://static.swproject.demosfortest.com/${image}`}
+                        src={image}
                         alt="post image"
                       />
                     </div>

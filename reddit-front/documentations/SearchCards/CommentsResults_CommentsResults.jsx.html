@@ -26,7 +26,9 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable object-shorthand */
+/* eslint-disable prefer-const */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
@@ -39,7 +41,7 @@ import {
   ResultsContainer,
   SingleResultContainer
 } from '../PeopleResults/PeopleResults.Style';
-
+import Loader from '../../../utilities/Loader/Loader';
 import {
   PostInfo,
   StyledLogo,
@@ -54,20 +56,24 @@ import {
   UpVotes,
   Comments
 } from './CommentsResults.Style';
-import retrieveResults from '../../../services/requests/Search';
+import { retrieveResults } from '../../../services/requests/Search';
 
 import { divideBigNumber } from '../../../utilities/Helpers';
 
 /**
- * This Component for the showing the comments that contains the key of the searching.
+ * @typedef PropType
+ * @property {string} searchKey
+ */
+
+/**
+ * This Component for the showing the search results related to the comments
  *
  */
 
-function CommentsResults() {
+function CommentsResults({ searchKey }) {
   // states
-  const searchKey = 'test'; // for testing
   const [result, setResult] = useState([]);
-  const [isFinished, setIsFinished] = useState(false);
+  const [statusCode, setStatusCode] = useState(0);
 
   // Fetching the results by calling the fetch service
   useEffect(() => {
@@ -76,99 +82,133 @@ function CommentsResults() {
         key: searchKey,
         searchingCategory: 'comments'
       });
-      setResult(results);
-      setIsFinished(true);
+      setResult(results.data);
+      setStatusCode(results.statusCode);
     };
     fetchResults();
   }, []);
 
   return (
-    &lt;RootContainer data-testid="comments-results">
-      &lt;ResultsContainer>
-        {result.length === 0 &amp;&amp; isFinished ? (
-          &lt;h3>No data found.&lt;/h3>
-        ) : (
-          result.map((item, index) => (
-            //  result container
-            &lt;SingleResultContainer
-              key={`people-result-${index}`}
-              sx={{
-                flexDirection: 'column',
-                ':hover': {
-                  border: '.5px solid black',
-                  borderRadius: '5px'
-                }
+    &lt;RootContainer data-testid="search-comments-results">
+      {/* /* Displaying loader while loading the data */}
+      {statusCode === 0 ? (
+        &lt;Loader />
+      ) : (
+        &lt;ResultsContainer>
+          {/* // check if failed to fetch the results from the server  */}
+          {statusCode === 400 ? (
+            &lt;h1
+              style={{
+                padding: '.76rem',
+                margin: 0,
+                paddingLeft: '1rem',
+                backgroundColor: '#dae0e6'
               }}
             >
-              {/* Post info ( posted by, time, ..) */}
-              &lt;PostInfo>
-                &lt;StyledLogo>
-                  &lt;img
-                    style={{
-                      width: '100%',
-                      height: '100%'
+              Failed to fetch the results.
+            &lt;/h1>
+          ) : null}
+
+          {result.length === 0 &amp;&amp; statusCode === 200 ? (
+            &lt;h3>No data found.&lt;/h3>
+          ) : (
+            result.map((item, index) => (
+              //  result container
+              &lt;SingleResultContainer
+                key={`people-result-${index}`}
+                sx={{
+                  flexDirection: 'column',
+                  ':hover': {
+                    border: '.5px solid black',
+                    borderRadius: '5px'
+                  }
+                }}
+              >
+                {/* Post info ( posted by, time, ..) */}
+                &lt;PostInfo>
+                  &lt;StyledLogo>
+                    &lt;img
+                      style={{
+                        width: '100%',
+                        height: '100%'
+                      }}
+                      src="https://styles.redditmedia.com/t5_2rr0e/styles/communityIcon_ylhgbe8ngx481.jpg?width=256&amp;s=1bcbaeab5d6b9e79ad2b820ce7bf7b86b1cf3af5"
+                      alt="community logo"
+                    />
+                  &lt;/StyledLogo>
+                  &lt;Username
+                    onClick={() => {
+                      window.location.replace(`/r/${item.subreddit.name}`);
                     }}
-                    src="https://styles.redditmedia.com/t5_2rr0e/styles/communityIcon_ylhgbe8ngx481.jpg?width=256&amp;s=1bcbaeab5d6b9e79ad2b820ce7bf7b86b1cf3af5"
-                    alt="community logo"
-                  />
-                &lt;/StyledLogo>
-                &lt;Username>{`r/${item.subreddit_name}`}&lt;/Username>
-                &lt;StyledSpan>
-                  &lt;span>
-                    Posted by
-                    &lt;Username> {` u/${item.posted_by} `}&lt;/Username>
-                    {`${item.posted_since} ago`}
-                  &lt;/span>
-                &lt;/StyledSpan>
-              &lt;/PostInfo>
-
-              {/* result  */}
-              &lt;CommentContainer>
-                &lt;PostContent>{`${item.post_text}`}&lt;/PostContent>
-                &lt;CommentContent>
-                  {/* Reusing the Same styles of the post info */}
-                  &lt;PostInfo>
-                    &lt;StyledLogo sx={{ width: '26px', height: '26px' }}>
-                      &lt;img
-                        style={{
-                          width: '100%',
-                          height: '100%'
+                  >
+                    {`r/${item.subreddit.name}`}
+                  &lt;/Username>
+                  &lt;StyledSpan>
+                    &lt;span>
+                      Posted by
+                      &lt;Username
+                        onClick={() => {
+                          window.location.replace(
+                            `/user/${item.user.username}`
+                          );
                         }}
-                        src="https://styles.redditmedia.com/t5_5o0s6e/styles/profileIcon_snoo-nftv2_bmZ0X2VpcDE1NToxMzdfNjIyZDhmZWE0NjAzYmE5ZWRhZjEwODRiNDA3MDUyZDhiMGE5YmVkN182MTkwODI_rare_aa14d1a2-ce7a-4353-a124-2711a56af3e0-headshot.png?width=256&amp;height=256&amp;frame=1&amp;crop=256:256,smart&amp;s=cae5091026e76c645be8d4f94d23208bf538924a"
-                        alt="community logo"
-                      />
-                    &lt;/StyledLogo>
-                    &lt;Username sx={{ fontWeight: '600', fontSize: '12px' }}>
-                      {`u/${item.commented_by}`}
-                    &lt;/Username>
-                    &lt;StyledSpan>{`${item.commented_since}`} ago&lt;/StyledSpan>
-                  &lt;/PostInfo>
+                      >
+                        {' '}
+                        {` u/${item.user.username} `}
+                      &lt;/Username>
+                      {`${item.post.publishedDate} ago`}
+                    &lt;/span>
+                  &lt;/StyledSpan>
+                &lt;/PostInfo>
 
-                  {/* Comment result  */}
-                  &lt;Comment>{`${item.comment_content}`}&lt;/Comment>
+                {/* result  */}
+                &lt;CommentContainer>
+                  &lt;PostContent>{`${item.post.title}`}&lt;/PostContent>
+                  &lt;CommentContent>
+                    {/* Reusing the Same styles of the post info */}
+                    &lt;PostInfo>
+                      &lt;StyledLogo sx={{ width: '26px', height: '26px' }}>
+                        &lt;img
+                          style={{
+                            width: '100%',
+                            height: '100%'
+                          }}
+                          src="https://styles.redditmedia.com/t5_5o0s6e/styles/profileIcon_snoo-nftv2_bmZ0X2VpcDE1NToxMzdfNjIyZDhmZWE0NjAzYmE5ZWRhZjEwODRiNDA3MDUyZDhiMGE5YmVkN182MTkwODI_rare_aa14d1a2-ce7a-4353-a124-2711a56af3e0-headshot.png?width=256&amp;height=256&amp;frame=1&amp;crop=256:256,smart&amp;s=cae5091026e76c645be8d4f94d23208bf538924a"
+                          alt="community logo"
+                        />
+                      &lt;/StyledLogo>
+                      &lt;Username sx={{ fontWeight: '600', fontSize: '12px' }}>
+                        {`u/${item.user.username}`}
+                      &lt;/Username>
+                      &lt;StyledSpan>{`${item.createdDate}`} ago&lt;/StyledSpan>
+                    &lt;/PostInfo>
 
-                  &lt;PostStatistics>
-                    &lt;UpVotes sx={{ margin: '1rem 1rem .5rem 2rem' }}>
-                      {`${divideBigNumber(item.comment_upvotes_count)}`} upvotes
-                    &lt;/UpVotes>
-                  &lt;/PostStatistics>
-                &lt;/CommentContent>
-                &lt;GoToThread>Go to thread&lt;/GoToThread>
-              &lt;/CommentContainer>
+                    {/* Comment result  */}
+                    &lt;Comment>{`${item.text}`}&lt;/Comment>
 
-              {/* Number of comments and upvotes  */}
-              &lt;PostStatistics>
-                &lt;UpVotes>
-                  {`${divideBigNumber(item.post_upvotes_count)}`} upvotes
-                &lt;/UpVotes>
-                &lt;Comments>
-                  {`${divideBigNumber(item.post_comments_count)}`} Comments
-                &lt;/Comments>
-              &lt;/PostStatistics>
-            &lt;/SingleResultContainer>
-          ))
-        )}
-      &lt;/ResultsContainer>
+                    &lt;PostStatistics>
+                      &lt;UpVotes sx={{ margin: '1rem 1rem .5rem 2rem' }}>
+                        {`${divideBigNumber(item.votesCount)}`} upvotes
+                      &lt;/UpVotes>
+                    &lt;/PostStatistics>
+                  &lt;/CommentContent>
+                  &lt;GoToThread>Go to thread&lt;/GoToThread>
+                &lt;/CommentContainer>
+
+                {/* Number of comments and upvotes of the post */}
+                &lt;PostStatistics>
+                  &lt;UpVotes>
+                    {`${divideBigNumber(item.post.votesCount)}`} upvotes
+                  &lt;/UpVotes>
+                  &lt;Comments>
+                    {`${divideBigNumber(item.post.commentCount)}`} Comments
+                  &lt;/Comments>
+                &lt;/PostStatistics>
+              &lt;/SingleResultContainer>
+            ))
+          )}
+        &lt;/ResultsContainer>
+      )}
     &lt;/RootContainer>
   );
 }
@@ -190,7 +230,7 @@ export default CommentsResults;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Tue Nov 15 2022 22:37:28 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:19:48 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

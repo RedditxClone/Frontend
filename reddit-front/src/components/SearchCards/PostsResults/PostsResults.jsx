@@ -19,7 +19,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useNavigate } from 'react-router-dom';
 import {
   RootContainer,
   SingleResultContainer
@@ -63,9 +62,10 @@ import Logo from '../../../assets/Images/test.png';
  */
 
 /**
- * This Component for the showing the posts related to the key of the searching.
+ * This Component for the showing the search results related to the posts
  *
  */
+
 function PostsResults({ searchKey }) {
   // states
   const [result, setResult] = useState([]);
@@ -73,7 +73,6 @@ function PostsResults({ searchKey }) {
   const [sort, setSort] = useState('');
   const [statusCode, setStatusCode] = useState(0);
 
-  const navigate = useNavigate();
   // Fetching the results by calling the fetch service
   const fetchResults = async () => {
     const results = await retrievePostResults({
@@ -88,7 +87,7 @@ function PostsResults({ searchKey }) {
 
   useEffect(() => {
     fetchResults();
-  }, [time, sort, searchKey]);
+  }, [time, sort]);
 
   const handleSorting = (event) => {
     fetchResults();
@@ -307,12 +306,10 @@ function PostsResults({ searchKey }) {
                     </StyledLogo>
                     <Username
                       onClick={() => {
-                        if (item && item.subreddit) {
-                          navigate(`/r/${item.subreddit.name}`);
-                        }
+                        window.location.replace(`/r/${item.subreddit.name}`);
                       }}
                     >
-                      {item && item.subreddit && `r/${item.subreddit.name}`}
+                      {`r/${item.subreddit.name}`}
                     </Username>
 
                     <StyledSpan>
@@ -320,12 +317,12 @@ function PostsResults({ searchKey }) {
                         Posted by
                         <Username
                           onClick={() => {
-                            if (item && item.subreddit) {
-                              navigate(`/r/${item.subreddit.name}`);
-                            }
+                            window.location.replace(
+                              `/user/${item.user.username}`
+                            );
                           }}
                         >
-                          {item && item.user && ` u/${item.user.username}`}
+                          {` u/${item.user.username}`}
                         </Username>
                       </span>
                     </StyledSpan>

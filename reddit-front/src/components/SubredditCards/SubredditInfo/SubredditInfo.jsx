@@ -14,6 +14,7 @@ import {
  * @typedef PropType
  * @property {bool} isJoined
  * @property {string} subredditId
+ * @property {string} subredditName
  * @property {string} name
  * @property {string} title
  * @property {string} username

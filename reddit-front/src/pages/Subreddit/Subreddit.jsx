@@ -5,7 +5,6 @@
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable prefer-const */
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { ThemeProvider, Box } from '@mui/material';
 import SubredditBackground from '../../components/SubredditCards/SubredditBackground/SubredditBackground';
@@ -24,10 +23,9 @@ import PostsList from '../../components/PostsList/PostsList';
 import { getSubreddit } from '../../services/requests/Subreddit';
 import Loader from '../../utilities/Loader/Loader';
 import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
-import { AuthActions } from '../../store/slices/AuthSlice';
-import getUser from '../../services/requests/getUser';
+
 /**
- * This Component for the Community Cards.
+ * This Component for the Community Page.
  *
  */
 
