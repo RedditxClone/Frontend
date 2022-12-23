@@ -1,13 +1,16 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import SideDrawer from '../../../components/Layout/Drawer/Drawer';
 
 describe('Test for SideDrawer', () => {
   it('Test for rendering SideDrawer list', () => {
     render(
-      <SideDrawer
-        showSideBar="true"
-        onClickSideIcon={() => {}}
-      />
+      <BrowserRouter>
+        <SideDrawer
+          showSideBar="true"
+          onClickSideIcon={() => {}}
+        />
+      </BrowserRouter>
     );
 
     const items = screen.getAllByTestId('items');
@@ -16,10 +19,12 @@ describe('Test for SideDrawer', () => {
 
   it('Test for rendering SideDrawer text', () => {
     render(
-      <SideDrawer
-        showSideBar="true"
-        onClickSideIcon={() => {}}
-      />
+      <BrowserRouter>
+        <SideDrawer
+          showSideBar="true"
+          onClickSideIcon={() => {}}
+        />
+      </BrowserRouter>
     );
     const filter = screen.getByPlaceholderText('Filter');
     expect(filter).toBeInTheDocument();
@@ -37,10 +42,12 @@ describe('Test for SideDrawer', () => {
 
   it('Test for rendering SideDrawer buttons', () => {
     render(
-      <SideDrawer
-        showSideBar="true"
-        onClickSideIcon={() => {}}
-      />
+      <BrowserRouter>
+        <SideDrawer
+          showSideBar="true"
+          onClickSideIcon={() => {}}
+        />
+      </BrowserRouter>
     );
     const createCommunityButton = screen.getByText(/Create Community/i);
     const homeButton = screen.getByText(/Home/i);

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import ActionMessage from '../../../components/ActionMessage/ActionMessage';
+import ActionMessage from '../../components/ActionMessage/ActionMessage';
 
 describe('Test for actionmessage in case show it by message save changes', () => {
   it('Test for rendering actionmessage button', () => {
