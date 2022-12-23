@@ -250,6 +250,7 @@ function ModQueue({
       </Box>
 
       <InfiniteScroll
+        data-testid="posts-for-mod-queue"
         loadMore={fetchPosts}
         hasMore={hasMore}
         loader={<Loader />}
