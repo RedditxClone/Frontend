@@ -8,7 +8,16 @@ import { useState } from 'react';
 import { Button } from '@mui/material';
 import MutedUsers from './MutedUsers';
 
-export default function SearchComp({ mutedUsers }) {
+/**
+ * @param {object} mutedUsers
+ */
+
+/**
+ * This component is in muted page in mod tools
+ * this is search component
+ */
+
+function SearchComp({ mutedUsers }) {
   const [searchInput, setSearchInput] = useState('');
   const [searchArray, setSearchArray] = useState([]);
   const [search, setSearch] = useState(false);
@@ -125,7 +134,7 @@ export default function SearchComp({ mutedUsers }) {
   }
 
   return (
-    <div>
+    <div data-testid="Search-container">
       <div
         style={{
           display: 'flex',
@@ -165,3 +174,4 @@ export default function SearchComp({ mutedUsers }) {
     </div>
   );
 }
+export default SearchComp;

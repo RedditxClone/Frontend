@@ -7,7 +7,17 @@ import { Button } from '@mui/material';
 // import { useState } from 'react';
 import './ActionComponents.css';
 
-export default function Box4({ setIsDelete, setIsShownDelContinue }) {
+/**
+ * @param {function} setIsDelete
+ * @param {function} setIsShownDelContinue
+ */
+
+/**
+ * this is component to delete your account
+ * when we click on delete account button, it show this component
+ */
+
+function Box4({ setIsDelete, setIsShownDelContinue }) {
   const handleClickClose = () => {
     const ele = document.getElementById('confg-4');
     ele.style.display = 'none';
@@ -22,8 +32,10 @@ export default function Box4({ setIsDelete, setIsShownDelContinue }) {
     <div
       className="box-4"
       id="confg-4"
+      data-testid="confirmation-box-4"
     >
       <div
+        data-testid="close-ic"
         className="icon-1"
         onClick={handleClickClose}
       >
@@ -36,15 +48,16 @@ export default function Box4({ setIsDelete, setIsShownDelContinue }) {
             style={{ fontSize: '2rem' }}
           />
         </div>
-        <h2 className="box-4-h2">Change your email address</h2>
+        <h2 className="box-4-h2">Deactivate account</h2>
       </div>
       <p className="box-4-p">
-        To change your email address, you need to create a Reddit password
+        To deactivate your Reddit account, you need to create a Reddit password
         first. We'll walk you through it.
       </p>
       <div className="buttons">
         <div className="btn-1">
           <Button
+            data-testid="cancel-btn"
             variant="outlined"
             color="primary"
             onClick={handleClickClose}
@@ -54,6 +67,7 @@ export default function Box4({ setIsDelete, setIsShownDelContinue }) {
         </div>
         <div>
           <Button
+            data-testid="cont-btn"
             onClick={handleClickContinue}
             variant="contained"
           >
@@ -64,3 +78,4 @@ export default function Box4({ setIsDelete, setIsShownDelContinue }) {
     </div>
   );
 }
+export default Box4;

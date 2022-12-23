@@ -51,7 +51,16 @@ function BootstrapDialogTitle(props) {
   );
 }
 
-export default function Moderators({ moderator }) {
+/**
+ * @param {object} moderator
+ */
+
+/**
+ * This component is in moderator page in mod tools
+ * this represents moderators
+ */
+
+function Moderators({ moderator }) {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -189,3 +198,4 @@ export default function Moderators({ moderator }) {
     </div>
   );
 }
+export default Moderators;

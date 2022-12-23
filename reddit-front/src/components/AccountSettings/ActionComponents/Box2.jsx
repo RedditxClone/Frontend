@@ -5,7 +5,17 @@ import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread';
 import { Button } from '@mui/material';
 import './ActionComponents.css';
 
-export default function Box2({ setIsShownContinue, email }) {
+/**
+ * @param {function} setIsShownContinue
+ * @param {object} email
+ */
+
+/**
+ * this is component to verify that you changed your email address
+ * when we click on continue button in change email component , it show this component
+ */
+
+function Box2({ setIsShownContinue, email }) {
   const handleClickOk = () => {
     const ele = document.getElementById('confg-2');
     ele.style.display = 'none';
@@ -16,6 +26,7 @@ export default function Box2({ setIsShownContinue, email }) {
     <div
       className="box-2"
       id="confg-2"
+      data-testid="confirmation-box-2"
     >
       <div
         className="icon-1"
@@ -51,3 +62,4 @@ export default function Box2({ setIsShownContinue, email }) {
     </div>
   );
 }
+export default Box2;

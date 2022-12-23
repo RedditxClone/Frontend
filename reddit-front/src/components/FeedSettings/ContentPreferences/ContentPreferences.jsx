@@ -14,7 +14,12 @@ import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignCenter';
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
 import { UpdateSettings, getSettings } from '../../../store/slices/Settings';
 
-export default function ContentPreferences() {
+/**
+ * This component is in Feed Settings Page
+ * it contains features : Adult content, Autoplay media
+ */
+
+function ContentPreferences() {
   const dispatch = useDispatch();
   const { settings } = useSelector((state) => state.settings);
   const [adultContent, setAdultContent] = useState(false);
@@ -62,6 +67,7 @@ export default function ContentPreferences() {
         </div>
         <Box className="child-b">
           <Switch
+            data-testid="adult-cont"
             onChange={handleAdultContnet}
             checked={adultContent}
           />
@@ -118,6 +124,7 @@ export default function ContentPreferences() {
         </div>
         <Box className="child-b">
           <Switch
+            data-testid="media-cont"
             onChange={handlePlayMedia}
             checked={autoPlayMedia}
           />
@@ -246,3 +253,4 @@ export default function ContentPreferences() {
     </div>
   );
 }
+export default ContentPreferences;

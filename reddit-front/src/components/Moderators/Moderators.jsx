@@ -57,7 +57,12 @@ function BootstrapDialogTitle(props) {
   );
 }
 
-export default function Moderators() {
+/**
+ * This component is in moderator page in mod tools
+ * this represent each moderator component
+ */
+
+function Moderators() {
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [userNameModerator, setUserNameModerator] = useState('');
@@ -330,3 +335,4 @@ export default function Moderators() {
     </div>
   );
 }
+export default Moderators;

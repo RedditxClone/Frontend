@@ -37,7 +37,16 @@ import Box27 from '../ActionComponents.jsx/Box27';
 import Box28 from '../ActionComponents.jsx/Box28';
 import { UpdateSettings } from '../../../store/slices/Settings';
 
-export default function ProfileInformation({ settings }) {
+/**
+ * @param {object} settings
+ */
+
+/**
+ * this is component in profile information page
+ * it contains the features : display name, about, social links
+ */
+
+function ProfileInformation({ settings }) {
   const dispatch = useDispatch();
   const maxTextCount = 30;
   const maxTextCharCount = 200;
@@ -69,6 +78,7 @@ export default function ProfileInformation({ settings }) {
           </p>
           <div className="cont-2">
             <Box
+              data-testid="display-cont"
               className="box"
               style={{ marginTop: 0 }}
             >
@@ -92,6 +102,7 @@ export default function ProfileInformation({ settings }) {
           A brief description of yourself shown on your profile.
         </p>
         <TextareaAutosize
+          data-testid="about-cont"
           placeholder="About(optional)"
           maxLength={maxTextCharCount}
           style={{ width: 685, height: 100 }}
@@ -113,6 +124,7 @@ export default function ProfileInformation({ settings }) {
           </p>
           <Box>
             <Button
+              data-testid="social-btn"
               variant="contained"
               startIcon={<VscAdd />}
               onClick={handleClickAdd}
@@ -282,3 +294,4 @@ export default function ProfileInformation({ settings }) {
     </>
   );
 }
+export default ProfileInformation;

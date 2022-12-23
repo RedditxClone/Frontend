@@ -8,7 +8,16 @@ import { useState } from 'react';
 import { Button } from '@mui/material';
 import Moderators from './ModeratorsComp';
 
-export default function SearchComp({ moderators }) {
+/**
+ * @param {object} moderators
+ */
+
+/**
+ * This component is in moderators page in mod tools
+ * this is search component
+ */
+
+function SearchComp({ moderators }) {
   const [searchInput, setSearchInput] = useState('');
   const [searchArray, setSearchArray] = useState([]);
   const [search, setSearch] = useState(false);
@@ -165,3 +174,4 @@ export default function SearchComp({ moderators }) {
     </div>
   );
 }
+export default SearchComp;

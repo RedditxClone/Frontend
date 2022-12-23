@@ -6,7 +6,12 @@ import { TextField, Button, Box, MenuItem } from '@mui/material';
 import './SafetyStyle.css';
 import { useState } from 'react';
 
-export default function Safety() {
+/**
+ * This component is in Safety & Privacy Settings Page
+ * it contains features : people you have blocked
+ */
+
+function Safety() {
   const [state, setState] = useState('OFF');
   const handleChangeState = (e) => {
     setState(e.target.value);
@@ -20,6 +25,7 @@ export default function Safety() {
       </p>
       <div className="text-btn">
         <TextField
+          data-testid="block-inp"
           id="filled-basic"
           label="Block New User"
           variant="filled"
@@ -31,7 +37,7 @@ export default function Safety() {
           style={{
             marginLeft: '-63px',
             color: '#0079d3',
-            opacity: 0.5,
+            opacity: 0.5
           }}
         >
           ADD
@@ -74,3 +80,4 @@ export default function Safety() {
     </div>
   );
 }
+export default Safety;

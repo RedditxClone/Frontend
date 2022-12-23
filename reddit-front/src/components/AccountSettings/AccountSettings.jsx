@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable no-unused-vars */
 /* eslint-disable linebreak-style */
 /* eslint-disable react/self-closing-comp */
@@ -13,14 +14,22 @@ import DeleteAccount from './DeleteAccount/DeleteAccount';
 import './AccountSettingsStyle.css';
 import { getSettings } from '../../store/slices/Settings';
 
-export default function AccountSettings() {
+/**
+ * This component is main component of account settings
+ * it wraps other small components that do the work
+ */
+
+function AccountSettings() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSettings());
   }, []);
   const { settings } = useSelector((state) => state.settings);
   return (
-    <div className="account-settings">
+    <div
+      className="account-settings"
+      data-testid="account-settings-container"
+    >
       <h2 className="h2">Account settings</h2>
       <AccountPreference settings={settings} />
       <ConnectedAccounts />
@@ -29,3 +38,4 @@ export default function AccountSettings() {
     </div>
   );
 }
+export default AccountSettings;

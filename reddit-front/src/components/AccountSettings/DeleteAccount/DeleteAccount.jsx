@@ -11,7 +11,11 @@ import { useState } from 'react';
 import Box4 from '../ActionComponents/Box4';
 import Box5 from '../ActionComponents/Box5';
 
-export default function DeleteAccount() {
+/**
+ * this is component that contains delete account feature
+ */
+
+function DeleteAccount() {
   const [isDelete, setIsDelete] = useState(false);
   const handleClickDelete = () => {
     setIsDelete(true);
@@ -24,6 +28,7 @@ export default function DeleteAccount() {
         <h3 className="main-h3">Delete Account</h3>
         <Box className="del">
           <Button
+            data-testid="delete-button"
             onClick={handleClickDelete}
             startIcon={<RiDeleteBin5Fill style={{ color: '#ff585b' }} />}
             variant="text"
@@ -45,3 +50,4 @@ export default function DeleteAccount() {
     </>
   );
 }
+export default DeleteAccount;

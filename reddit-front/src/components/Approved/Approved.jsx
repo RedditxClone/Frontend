@@ -57,7 +57,12 @@ function BootstrapDialogTitle(props) {
   );
 }
 
-export default function Approved() {
+/**
+ * This component is in approved page in mod tools
+ * this represent each approved user component
+ */
+
+function Approved() {
   const [open, setOpen] = useState(false);
   const [userNameApprove, setUserNameApprove] = useState('');
   const [isAdded, setIsAdded] = useState(0);
@@ -130,6 +135,7 @@ export default function Approved() {
 
   return (
     <div
+      data-testid="approved-container"
       className="approved-cont"
       style={{ backgroundColor: '#dae0e6', width: '100%' }}
     >
@@ -159,10 +165,12 @@ export default function Approved() {
               height: '31px'
             }}
             onClick={handleClickOpen}
+            data-testid="approved-btn"
           >
             Approve user
           </Button>
           <BootstrapDialog
+            data-testid="apprpved-card"
             onClose={handleClose2}
             aria-labelledby="customized-dialog-title"
             open={open}
@@ -248,3 +256,4 @@ export default function Approved() {
     </div>
   );
 }
+export default Approved;

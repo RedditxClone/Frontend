@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ProfileInformation/ProfileInformation.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ProfileInformation/ProfileInformation.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
+/* eslint-disable linebreak-style */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable object-curly-newline */
+import './ProfileInformationStyle.css';
+import { TextareaAutosize, Button, Box } from '@mui/material';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { VscAdd } from 'react-icons/vsc';
+import Box1 from '../ActionComponents.jsx/Box1';
+import Box2 from '../ActionComponents.jsx/Box2';
+import Box4 from '../ActionComponents.jsx/Box4';
+import Box5 from '../ActionComponents.jsx/Box5';
+import Box6 from '../ActionComponents.jsx/Box6';
+import Box7 from '../ActionComponents.jsx/Box7';
+import Box8 from '../ActionComponents.jsx/Box8';
+import Box9 from '../ActionComponents.jsx/Box9';
+import Box10 from '../ActionComponents.jsx/Box10';
+import Box11 from '../ActionComponents.jsx/Box11';
+import Box12 from '../ActionComponents.jsx/Box12';
+import Box13 from '../ActionComponents.jsx/Box13';
+import Box14 from '../ActionComponents.jsx/Box14';
+import Box15 from '../ActionComponents.jsx/Box15';
+import Box16 from '../ActionComponents.jsx/Box16';
+import Box17 from '../ActionComponents.jsx/Box17';
+import Box18 from '../ActionComponents.jsx/Box18';
+import Box19 from '../ActionComponents.jsx/Box19';
+import Box20 from '../ActionComponents.jsx/Box20';
+import Box21 from '../ActionComponents.jsx/Box21';
+import Box23 from '../ActionComponents.jsx/Box23';
+import Box24 from '../ActionComponents.jsx/Box24';
+import Box25 from '../ActionComponents.jsx/Box25';
+import Box26 from '../ActionComponents.jsx/Box26';
+import Box27 from '../ActionComponents.jsx/Box27';
+import Box28 from '../ActionComponents.jsx/Box28';
+import { UpdateSettings } from '../../../store/slices/Settings';
+
+/**
+ * @param {object} settings
+ */
+
+/**
+ * this is component in profile information page
+ * it contains the features : display name, about, social links
+ */
+
+function ProfileInformation({ settings }) {
+  const dispatch = useDispatch();
+  const maxTextCount = 30;
+  const maxTextCharCount = 200;
+  const [isShownAdd, setIsShownAdd] = useState(false);
+  const [numCom, setNumCom] = useState();
+  const handleClickAdd = () => {
+    setIsShownAdd(true);
+  };
+  const [isShownComp, setIsShownComp] = useState(false);
+  const [countText, setCountText] = useState(maxTextCount);
+  const [countChar, setCountChar] = useState(maxTextCharCount);
+  const handleChangeNameDisply = (e) => {
+    dispatch(UpdateSettings({ displayName: e.target.value }));
+    setCountText(maxTextCount - e.target.value.length);
+  };
+  const handleChangeAbout = (e) => {
+    dispatch(UpdateSettings({ about: e.target.value }));
+    setCountChar(maxTextCharCount - e.target.value.length);
+  };
+  return (
+    &lt;>
+      {(isShownAdd || isShownComp) &amp;&amp; &lt;div className="overlay">&lt;/div>}
+      &lt;div className="main-profile-info">
+        &lt;h3 className="main-h3">Profile Information&lt;/h3>
+        &lt;div className="cont-1">
+          &lt;h3 className="h3">Display name (optional)&lt;/h3>
+          &lt;p className="p">
+            Set a display name. This does not change your username.
+          &lt;/p>
+          &lt;div className="cont-2">
+            &lt;Box
+              className="box"
+              style={{ marginTop: 0 }}
+            >
+              &lt;input
+                placeholder="Display name (optional)"
+                maxLength={maxTextCount}
+                type="text"
+                className="input-1"
+                value={settings.displayName}
+                onChange={handleChangeNameDisply}
+              />
+            &lt;/Box>
+            &lt;p className="p">
+              {countText}
+              &lt;span style={{ marginLeft: '2px' }}>Characters remaining&lt;/span>
+            &lt;/p>
+          &lt;/div>
+        &lt;/div>
+        &lt;h3 className="h3">About (optional)&lt;/h3>
+        &lt;p className="p1">
+          A brief description of yourself shown on your profile.
+        &lt;/p>
+        &lt;TextareaAutosize
+          placeholder="About(optional)"
+          maxLength={maxTextCharCount}
+          style={{ width: 685, height: 100 }}
+          className="input-2"
+          value={settings.about}
+          onChange={handleChangeAbout}
+        />
+        &lt;p className="p2">
+          {countChar}
+          &lt;span style={{ marginLeft: '2px' }}>Characters remaining&lt;/span>
+        &lt;/p>
+        &lt;div className="last">
+          &lt;h3 className="h3">Social links (5 max)&lt;/h3>
+          &lt;p
+            className="p3"
+            style={{ marginBottom: '15px', marginTop: '2px' }}
+          >
+            People who visit your profile will see your social links.
+          &lt;/p>
+          &lt;Box>
+            &lt;Button
+              variant="contained"
+              startIcon={&lt;VscAdd />}
+              onClick={handleClickAdd}
+            >
+              Add social link
+            &lt;/Button>
+          &lt;/Box>
+          {isShownAdd &amp;&amp; (
+            &lt;Box1
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+              setNumCom={setNumCom}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 1 &amp;&amp; (
+            &lt;Box2
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 2 &amp;&amp; (
+            &lt;Box4
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 3 &amp;&amp; (
+            &lt;Box5
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 4 &amp;&amp; (
+            &lt;Box6
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 5 &amp;&amp; (
+            &lt;Box7
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 6 &amp;&amp; (
+            &lt;Box8
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 7 &amp;&amp; (
+            &lt;Box9
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 8 &amp;&amp; (
+            &lt;Box10
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 9 &amp;&amp; (
+            &lt;Box11
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 10 &amp;&amp; (
+            &lt;Box12
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 11 &amp;&amp; (
+            &lt;Box13
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 12 &amp;&amp; (
+            &lt;Box14
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 13 &amp;&amp; (
+            &lt;Box15
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 14 &amp;&amp; (
+            &lt;Box16
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 15 &amp;&amp; (
+            &lt;Box17
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 16 &amp;&amp; (
+            &lt;Box18
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 17 &amp;&amp; (
+            &lt;Box19
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 18 &amp;&amp; (
+            &lt;Box20
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 19 &amp;&amp; (
+            &lt;Box21
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 20 &amp;&amp; (
+            &lt;Box23
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 21 &amp;&amp; (
+            &lt;Box24
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 23 &amp;&amp; (
+            &lt;Box25
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 24 &amp;&amp; (
+            &lt;Box26
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 25 &amp;&amp; (
+            &lt;Box27
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+          {isShownComp &amp;&amp; numCom === 26 &amp;&amp; (
+            &lt;Box28
+              setIsShownAdd={setIsShownAdd}
+              setIsShownComp={setIsShownComp}
+            />
+          )}
+        &lt;/div>
+      &lt;/div>
+    &lt;/>
+  );
+}
+export default ProfileInformation;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Advanced">Advanced</a></li><li><a href="global.html#Images">Images</a></li><li><a href="global.html#ProfileCategory">ProfileCategory</a></li><li><a href="global.html#ProfileInformation">ProfileInformation</a></li><li><a href="global.html#ProfileSettings">ProfileSettings</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 16:43:21 GMT+0200 (توقيت شرق أوروبا الرسمي)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

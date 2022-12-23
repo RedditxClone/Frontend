@@ -17,7 +17,16 @@ import Box1 from '../ActionComponents/Box1';
 import Box2 from '../ActionComponents/Box2';
 import ChangePassword from './ChangePassword';
 
-export default function AccountPreference({ settings }) {
+/**
+ * @param {object} settings
+ */
+
+/**
+ * This component contains the acount prefernecs features in account setting page
+ * it contains fetures : change email address & password , select gender , select country
+ */
+
+function AccountPreference({ settings }) {
   const dispatch = useDispatch();
   const [isShownChange, setIsShownChange] = useState(false);
   const handleClickChange = () => {
@@ -56,6 +65,7 @@ export default function AccountPreference({ settings }) {
           <div className="cont">
             <Button
               onClick={handleClickChange}
+              data-testid="chage-button"
               variant="outlined"
               color="primary"
             >
@@ -109,8 +119,14 @@ export default function AccountPreference({ settings }) {
                 fullwidth
                 value={settings.gender}
                 onChange={handleChangeGender}
+                data-testid="gender-selecte"
               >
-                <MenuItem value="Woman">Woman</MenuItem>
+                <MenuItem
+                  value="Woman"
+                  data-testid="woman-option"
+                >
+                  Woman
+                </MenuItem>
                 <MenuItem value="Man">Man</MenuItem>
                 <MenuItem value="Non-Binary">Non-Binary</MenuItem>
                 <MenuItem value="I Refer To Myself As...">
@@ -187,6 +203,7 @@ export default function AccountPreference({ settings }) {
               style={{ display: 'flex' }}
             >
               <select
+                data-testid="country-select"
                 id="countries"
                 style={{
                   fontSize: '16px',
@@ -222,3 +239,4 @@ export default function AccountPreference({ settings }) {
     </>
   );
 }
+export default AccountPreference;

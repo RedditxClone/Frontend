@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: MutedUsers.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: MutedUsers.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-nested-ternary */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable operator-linebreak */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-unused-vars */
+import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
+import { Button } from '@mui/material';
+import { useState } from 'react';
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import avatarImg from '../../assets/Images/avatar_default_5.png';
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '&amp; .MuiDialogContent-root': {
+    padding: theme.spacing(2)
+  },
+  '&amp; .MuiDialogActions-root': {
+    padding: theme.spacing(1)
+  }
+}));
+
+function BootstrapDialogTitle(props) {
+  const { children, onClose, ...other } = props;
+
+  return (
+    &lt;DialogTitle
+      sx={{ m: 0, p: 2 }}
+      {...other}
+    >
+      {children}
+      {onClose ? (
+        &lt;IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500]
+          }}
+        >
+          &lt;CloseIcon />
+        &lt;/IconButton>
+      ) : null}
+    &lt;/DialogTitle>
+  );
+}
+
+/**
+ * @param {object} mutedUser
+ */
+
+/**
+ * This component is in muted page in mod tools
+ * this represents muted users
+ */
+
+function MutedUsers({ mutedUser }) {
+  const [detail, setDetail] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [reasonMute, setreasonMute] = useState(mutedUser.reason);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleClose2 = () => {
+    setOpen(false);
+  };
+  const [isHovering, setIsHovering] = useState(false);
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
+
+  const onDetail = () => {
+    if (detail) {
+      setDetail(false);
+    } else {
+      setDetail(true);
+    }
+  };
+  const reson = mutedUser.reason;
+  const reason = detail ? (
+    reson ? (
+      &lt;div
+        style={{
+          display: 'flex',
+          padding: '8px 16px',
+          backgroundColor: '#edeff1',
+          alignItems: 'center'
+        }}
+      >
+        &lt;h4 style={{ marginRight: '5px', color: '#878a8c' }}>Mod Note:&lt;/h4>
+        {mutedUser.reason}
+      &lt;/div>
+    ) : (
+      &lt;div
+        style={{
+          display: 'flex',
+          padding: '8px 16px',
+          backgroundColor: '#edeff1',
+          alignItems: 'center'
+        }}
+      >
+        &lt;h3 style={{ marginRight: '5px', color: '#878a8c' }}>No mod note.&lt;/h3>
+        {mutedUser.reason}
+      &lt;/div>
+    )
+  ) : (
+    ''
+  );
+  return (
+    &lt;div>
+      &lt;div
+        style={{
+          fontSize: '12px',
+          fontWeight: '400',
+          padding: '8px 16px',
+          height: '48px',
+          backgroundColor: '#ffffff',
+          borderBottom: '1px solid #edeff1',
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
+        &lt;div
+          style={{
+            padding: '4px 8px 4px 4px',
+            display: 'inline-block',
+            cursor: 'pointer',
+            backgroundColor: isHovering ? '#dae0e6' : '',
+            borderRadius: '5px'
+          }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          &lt;div
+            style={{
+              height: '30px',
+              display: 'flex',
+              alignItems: 'center',
+              minWidth: '160px'
+            }}
+          >
+            &lt;img
+              src={avatarImg}
+              style={{ borderRadius: '4px' }}
+              alt="avatar"
+            />
+            &lt;h3 style={{ marginLeft: '8px' }}>{mutedUser.username}&lt;/h3>
+          &lt;/div>
+        &lt;/div>
+        &lt;div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px'
+          }}
+        >
+          &lt;p style={{ marginLeft: '6.25rem', color: '#878a8c' }}>4 hours ago&lt;/p>
+          &lt;p
+            style={{
+              marginLeft: '12px',
+              marginRight: '12px',
+              fontSize: '40px',
+              marginBottom: '63px',
+              color: '#878a8c'
+            }}
+          >
+            .
+          &lt;/p>
+          &lt;p style={{ color: '#878a8c' }}>{mutedUser.reason}&lt;/p>
+        &lt;/div>
+        &lt;div style={{ display: 'flex', marginLeft: 'auto' }}>
+          &lt;Button
+            variant="text"
+            style={{
+              fontSize: '14px',
+              fontWeight: '600',
+              borderRadius: '9999px',
+              textTransform: 'none'
+            }}
+            onClick={handleClickOpen}
+          >
+            Unmute
+          &lt;/Button>
+          &lt;BootstrapDialog
+            onClose={handleClose2}
+            aria-labelledby="customized-dialog-title"
+            open={open}
+          >
+            &lt;BootstrapDialogTitle
+              id="customized-dialog-title"
+              onClose={handleClose2}
+            >
+              Confirm
+            &lt;/BootstrapDialogTitle>
+            &lt;DialogContent
+              dividers
+              style={{
+                width: '550px',
+                paddingTop: '0px',
+                paddingBottom: '3px'
+              }}
+            >
+              &lt;h2
+                style={{
+                  marginTop: '15px',
+                  opacity: '0.7',
+                  backgroundColor: '#ffffff'
+                }}
+              >
+                Are you sure you want to unmute {mutedUser.username}?
+              &lt;/h2>
+            &lt;/DialogContent>
+            &lt;DialogActions>
+              &lt;Button
+                onClick={handleClose2}
+                variant="outlined"
+                style={{ borderRadius: '50px', fontSize: '12px' }}
+              >
+                Cancel
+              &lt;/Button>
+              &lt;Button
+                onClick={handleClose}
+                variant="outlined"
+                style={{ borderRadius: '50px', fontSize: '12px' }}
+              >
+                Unmute
+              &lt;/Button>
+            &lt;/DialogActions>
+          &lt;/BootstrapDialog>
+          &lt;Button
+            variant="text"
+            style={{
+              fontSize: '14px',
+              fontWeight: '600',
+              borderRadius: '9999px',
+              textTransform: 'none'
+            }}
+            endIcon={&lt;IoIosArrowDown />}
+            onClick={onDetail}
+          >
+            More Details
+          &lt;/Button>
+        &lt;/div>
+      &lt;/div>
+      {reason}
+    &lt;/div>
+  );
+}
+export default MutedUsers;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Muted">Muted</a></li><li><a href="global.html#MutedUsers">MutedUsers</a></li><li><a href="global.html#SearchComp">SearchComp</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 17:55:19 GMT+0200 (توقيت شرق أوروبا الرسمي)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

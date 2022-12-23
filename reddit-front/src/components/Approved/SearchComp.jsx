@@ -8,7 +8,16 @@ import { useState } from 'react';
 import { Button } from '@mui/material';
 import ApprovedUsers from './ApprovedUsers';
 
-export default function SearchComp({ approvedUsers }) {
+/**
+ * @param {object} approvedUsers
+ */
+
+/**
+ * This component is in approved page in mod tools
+ * this is search component
+ */
+
+function SearchComp({ approvedUsers }) {
   const [searchInput, setSearchInput] = useState('');
   const [searchArray, setSearchArray] = useState([]);
   const [search, setSearch] = useState(false);
@@ -129,7 +138,7 @@ export default function SearchComp({ approvedUsers }) {
   }
 
   return (
-    <div>
+    <div data-testid="Search-container">
       <div
         style={{
           display: 'flex',
@@ -169,3 +178,4 @@ export default function SearchComp({ approvedUsers }) {
     </div>
   );
 }
+export default SearchComp;

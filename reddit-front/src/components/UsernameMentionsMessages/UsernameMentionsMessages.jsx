@@ -8,7 +8,11 @@ import Loader from '../../utilities/Loader/Loader';
 import PostReply from '../PostRepliesMessages/PostReply';
 import { getPostRepliesMessages } from '../../services/requests/messages';
 
-export default function UsernameMentionsMessages() {
+/**
+ * this component represents username mentions messages in messages page
+ */
+
+function UsernameMentionsMessages() {
   const limit = 5;
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
@@ -79,3 +83,4 @@ export default function UsernameMentionsMessages() {
     </div>
   );
 }
+export default UsernameMentionsMessages;

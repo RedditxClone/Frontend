@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PostReply.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PostReply.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-underscore-dangle */
+/* eslint-disable linebreak-style */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable comma-dangle */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable no-unused-vars */
+import { useState } from 'react';
+import { ImArrowDown, ImArrowUp } from 'react-icons/im';
+import './PostReply.style.css';
+import { Button } from '@mui/material/';
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Typography from '@mui/material/Typography';
+import {
+  postReplySpam,
+  postReplyReply,
+  deleteReplySpam,
+  postReplyMarkAsRead
+} from '../../services/requests/messages';
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '&amp; .MuiDialogContent-root': {
+    padding: theme.spacing(2)
+  },
+  '&amp; .MuiDialogActions-root': {
+    padding: theme.spacing(1)
+  }
+}));
+function BootstrapDialogTitle(props) {
+  const { children, onClose, ...other } = props;
+
+  return (
+    &lt;DialogTitle
+      sx={{ m: 0, p: 2 }}
+      {...other}
+    >
+      {children}
+      {onClose ? (
+        &lt;IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500]
+          }}
+        >
+          &lt;CloseIcon />
+        &lt;/IconButton>
+      ) : null}
+    &lt;/DialogTitle>
+  );
+}
+
+/**
+ * @param {object} postReply 
+ */
+
+/**
+ * this component represents each post reply message
+ */
+
+function PostReply({ postReply }) {
+  console.log(postReply.messages[0]._id);
+  const [open, setOpen] = useState(false);
+  const [textReply, setTextReply] = useState('');
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleClose2 = () => {
+    postReplySpam({ id: postReply.messages[0]._id });
+    setOpen(false);
+  };
+  const [spamClicked, setSpamClicked] = useState(false);
+  const [spammed, setSpammed] = useState(false);
+  const handleClickSpam = () => {
+    setSpamClicked(true);
+  };
+  const handleClickSpamNo = () => {
+    setSpamClicked(false);
+  };
+  const handleClickSpamYes = () => {
+    postReplySpam({ id: postReply.messages[0]._id });
+    setSpamClicked(false);
+    setSpammed(true);
+  };
+  const [removeClicked, setRemoveClicked] = useState(false);
+  const [removed, setRemoved] = useState(false);
+  const handleClickRemove = () => {
+    setRemoveClicked(true);
+  };
+  const handleClickRemoveNo = () => {
+    setRemoveClicked(false);
+  };
+  const handleClickRemoveYes = () => {
+    deleteReplySpam({ id: postReply.messages[0]._id });
+    setRemoveClicked(false);
+    setRemoved(true);
+  };
+  const [blockClicked, setBlockClicked] = useState(false);
+  const [blocked, setBlocked] = useState(false);
+  const handleClickBlocked = () => {
+    setBlockClicked(true);
+  };
+  const handleClickBlockedNo = () => {
+    setBlockClicked(false);
+  };
+  const handleClickBlockedYes = () => {
+    setBlockClicked(false);
+    setBlocked(true);
+  };
+  const [markRead, setMarkRead] = useState(false);
+  const handleClickMarkRead = () => {
+    postReplyMarkAsRead({ body: postReply.messages[0].body });
+    setMarkRead(true);
+  };
+  const [reply, setReply] = useState(false);
+  const handleClickReply = () => {
+    setReply(true);
+  };
+  const handleClickSave = () => {
+    postReplyReply({
+      id: postReply.messages[0]._id,
+      body: { body: textReply }
+    });
+    setTextReply('');
+    setReply(false);
+  };
+  const handleClickCancel = () => {
+    setReply(false);
+  };
+  const handleChangetext = (e) => {
+    setTextReply(e.target.value);
+  };
+  return (
+    &lt;div
+      style={{
+        margin: '0',
+        padding: '10px 15px',
+        backgroundColor: '#f6f7f8',
+        paddingBottom: '10px',
+        borderBottom: '1px solid rgb(229, 222, 222)'
+      }}
+    >
+      &lt;p
+        style={{
+          margin: '0',
+          fontSize: '13px',
+          fontWeight: 'bold',
+          opacity: '0.9'
+        }}
+      >
+        &lt;span>post reply: &lt;/span>
+        &lt;a
+          href="##"
+          style={{
+            textDecoration: 'none',
+            marginLeft: '5px',
+            cursor: 'pointer',
+            color: '#551a8b'
+          }}
+        >
+          {postReply.messages[0].subject}
+        &lt;/a>
+      &lt;/p>
+      &lt;div style={{ marginLeft: '-1px', marginTop: '10px', color: '#bdbdbd' }}>
+        &lt;div>
+          &lt;ImArrowUp style={{ cursor: 'pointer', fontSize: '15px' }} />
+        &lt;/div>
+        &lt;div>
+          &lt;ImArrowDown style={{ cursor: 'pointer', fontSize: '15px' }} />
+        &lt;/div>
+      &lt;/div>
+      &lt;div
+        style={{
+          marginLeft: '33px',
+          marginTop: '-30px',
+          paddingBottom: '11px'
+        }}
+      >
+        &lt;div>
+          &lt;span
+            style={{
+              fontSize: '11px',
+              color: !markRead ? '#8B8787' : 'red',
+              fontWeight: markRead ? 'bold' : 'normal'
+            }}
+          >
+            from
+          &lt;/span>
+          &lt;a
+            href="##"
+            style={{
+              textDecoration: 'none',
+              marginLeft: '4px',
+              marginRight: '4px',
+              cursor: 'pointer',
+              color: '#0079d3',
+              fontSize: '11px',
+              fontWeight: markRead ? 'bold' : 'normal'
+            }}
+          >
+            /u/{postReply.messages[0].authorName}
+          &lt;/a>
+          &lt;span
+            style={{
+              fontSize: '11px',
+              color: !markRead ? '#8B8787' : 'red',
+              fontWeight: markRead ? 'bold' : 'normal'
+            }}
+          >
+            via
+          &lt;/span>
+          &lt;a
+            href="##"
+            style={{
+              textDecoration: 'none',
+              marginLeft: '4px',
+              marginRight: '4px',
+              cursor: 'pointer',
+              color: '#0079d3',
+              fontSize: '11px',
+              fontWeight: markRead ? 'bold' : 'normal'
+            }}
+          >
+            /r/{postReply.messages[0].subreddit}
+          &lt;/a>
+          &lt;span
+            style={{
+              fontSize: '11px',
+              color: !markRead ? '#8B8787' : 'red',
+              fontWeight: markRead ? 'bold' : 'normal'
+            }}
+          >
+            sent 1 day ago
+          &lt;/span>
+        &lt;/div>
+        &lt;div style={{ marginTop: '-4px', opacity: '0.7' }}>
+          &lt;p style={{ fontSize: '13px' }}>{postReply.messages[0].body}&lt;/p>
+        &lt;/div>
+        &lt;div style={{ marginTop: '14px' }}>
+          &lt;a
+            className="link-comment-message"
+            href="##"
+            style={{ marginLeft: '0' }}
+          >
+            Context
+          &lt;/a>
+          &lt;a
+            className="link-comment-message"
+            href="##"
+          >
+            Full Comments({postReply.messages[0].commentCount})
+          &lt;/a>
+          {!spamClicked ? (
+            !spammed ? (
+              &lt;a
+                className="link-comment-message"
+                href="##"
+                onClick={handleClickSpam}
+              >
+                Spam
+              &lt;/a>
+            ) : (
+              &lt;p
+                style={{
+                  margin: '0 8px',
+                  fontSize: '12px',
+                  display: 'inline-block',
+                  opacity: '0.7'
+                }}
+              >
+                spammed
+              &lt;/p>
+            )
+          ) : (
+            &lt;span
+              style={{ color: 'red', fontWeight: 'normal', fontSize: '11px' }}
+            >
+              &lt;span style={{ marginLeft: '3px' }}>are you sure?&lt;/span>
+              &lt;a
+                className="link-comment-message"
+                href="##"
+                onClick={handleClickSpamYes}
+              >
+                Yes
+              &lt;/a>
+              /
+              &lt;a
+                className="link-comment-message"
+                href="##"
+                onClick={handleClickSpamNo}
+              >
+                No
+              &lt;/a>
+            &lt;/span>
+          )}
+          {!removeClicked ? (
+            !removed ? (
+              &lt;a
+                className="link-comment-message"
+                href="##"
+                onClick={handleClickRemove}
+              >
+                Remove
+              &lt;/a>
+            ) : (
+              &lt;p
+                style={{
+                  margin: '0 8px',
+                  fontSize: '12px',
+                  display: 'inline-block',
+                  opacity: '0.7'
+                }}
+              >
+                removed
+              &lt;/p>
+            )
+          ) : (
+            &lt;span
+              style={{ color: 'red', fontWeight: 'normal', fontSize: '11px' }}
+            >
+              &lt;span style={{ marginLeft: '3px' }}>are you sure?&lt;/span>
+              &lt;a
+                className="link-comment-message"
+                href="##"
+                onClick={handleClickRemoveYes}
+              >
+                Yes
+              &lt;/a>
+              /
+              &lt;a
+                className="link-comment-message"
+                href="##"
+                onClick={handleClickRemoveNo}
+              >
+                No
+              &lt;/a>
+            &lt;/span>
+          )}
+          &lt;a
+            onClick={handleClickOpen}
+            className="link-comment-message"
+            href="##"
+          >
+            Report
+          &lt;/a>
+          &lt;BootstrapDialog
+            onClose={handleClose}
+            aria-labelledby="customized-dialog-title"
+            open={open}
+          >
+            &lt;BootstrapDialogTitle
+              id="customized-dialog-title"
+              onClose={handleClose}
+              style={{ color: '#888', fontSize: '16px' }}
+            >
+              Submit a Report
+            &lt;/BootstrapDialogTitle>
+            &lt;DialogContent dividers>
+              &lt;Typography
+                gutterBottom
+                style={{ fontSize: '15px' }}
+              >
+                Thanks for looking out for yourself and your fellow redditors by
+                reporting things that break the rules. Let us know what&amp;apos;s
+                happening, and we&amp;apos;ll look into it.
+              &lt;/Typography>
+            &lt;/DialogContent>
+            &lt;DialogActions>
+              &lt;Button
+                autoFocus
+                onClick={handleClose2}
+                style={{ fontSize: '16px' }}
+              >
+                Spam
+              &lt;/Button>
+            &lt;/DialogActions>
+          &lt;/BootstrapDialog>
+          {!blockClicked ? (
+            !blocked ? (
+              &lt;a
+                className="link-comment-message"
+                href="##"
+                onClick={handleClickBlocked}
+              >
+                Block User
+              &lt;/a>
+            ) : (
+              &lt;p
+                style={{
+                  margin: '0 8px',
+                  fontSize: '12px',
+                  display: 'inline-block',
+                  opacity: '0.7'
+                }}
+              >
+                blocked
+              &lt;/p>
+            )
+          ) : (
+            &lt;span
+              style={{ color: 'red', fontWeight: 'normal', fontSize: '11px' }}
+            >
+              &lt;span style={{ marginLeft: '3px' }}>are you sure?&lt;/span>
+              &lt;a
+                className="link-comment-message"
+                href="##"
+                onClick={handleClickBlockedYes}
+              >
+                Yes
+              &lt;/a>
+              /
+              &lt;a
+                className="link-comment-message"
+                href="##"
+                onClick={handleClickBlockedNo}
+              >
+                No
+              &lt;/a>
+            &lt;/span>
+          )}
+          {!markRead ? (
+            &lt;a
+              className="link-comment-message"
+              href="##"
+              onClick={handleClickMarkRead}
+            >
+              Mark Unread
+            &lt;/a>
+          ) : (
+            ''
+          )}
+          &lt;a
+            className="link-comment-message"
+            href="##"
+            onClick={handleClickReply}
+          >
+            Reply
+          &lt;/a>
+        &lt;/div>
+      &lt;/div>
+      {reply ? (
+        &lt;div style={{ paddingTop: '22px' }}>
+          &lt;textarea
+            onChange={handleChangetext}
+            style={{ width: '540px', height: '100px' }}
+          />
+          &lt;div style={{ display: 'flex', marginTop: '12px' }}>
+            &lt;Button
+              variant="contained"
+              style={{
+                width: '73px',
+                marginRight: '8px',
+                height: '30px',
+                fontWeight: 'Bold',
+                fontSize: '13px',
+                borderRadius: '4px'
+              }}
+              onClick={handleClickSave}
+            >
+              Save
+            &lt;/Button>
+            &lt;Button
+              variant="contained"
+              style={{
+                width: '93px',
+                marginRight: '8px',
+                height: '30px',
+                fontWeight: 'Bold',
+                fontSize: '13px',
+                borderRadius: '4px'
+              }}
+              onClick={handleClickCancel}
+            >
+              Cancel
+            &lt;/Button>
+          &lt;/div>
+        &lt;/div>
+      ) : (
+        ''
+      )}
+    &lt;/div>
+  );
+}
+export default PostReply;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#PostRepliesMessages">PostRepliesMessages</a></li><li><a href="global.html#PostReply">PostReply</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 18:53:11 GMT+0200 (توقيت شرق أوروبا الرسمي)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

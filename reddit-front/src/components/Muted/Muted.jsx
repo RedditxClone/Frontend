@@ -57,7 +57,12 @@ function BootstrapDialogTitle(props) {
   );
 }
 
-export default function Muted() {
+/**
+ * This component is in banned page in mod tools
+ * this represent each banned user component
+ */
+
+function Muted() {
   const maxTextCount = 300;
   const [countCharText, setCountCharText] = useState(maxTextCount);
   const [open, setOpen] = useState(false);
@@ -139,6 +144,7 @@ export default function Muted() {
 
   return (
     <div
+      data-testid="muted-container"
       className="muted-cont"
       style={{ backgroundColor: '#dae0e6', width: '100%' }}
     >
@@ -168,10 +174,12 @@ export default function Muted() {
               height: '31px'
             }}
             onClick={handleClickOpen}
+            data-testid="mute-btn"
           >
             Mute user
           </Button>
           <BootstrapDialog
+            data-testid="mute-card"
             onClose={handleClose2}
             aria-labelledby="customized-dialog-title"
             open={open}
@@ -272,3 +280,4 @@ export default function Muted() {
     </div>
   );
 }
+export default Muted;

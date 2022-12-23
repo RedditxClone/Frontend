@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Emails.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Emails.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable linebreak-style */
+/* eslint-disable react/no-unescaped-entities */
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { Box, Switch } from '@mui/material';
+import './EmailsStyle.css';
+import { getSettings, UpdateSettings } from '../../store/slices/Settings';
+
+/**
+ * this component is main component of emails page
+ * it contains the features : Chat requests, new follower, unsubscribe
+ */
+
+function Emails() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getSettings());
+  }, []);
+  const { settings } = useSelector((state) => state.settings);
+  const handleChatRequest = (e) => {
+    dispatch(UpdateSettings({ chatRequest: e.target.checked }));
+  };
+  const handleFollower = (e) => {
+    dispatch(UpdateSettings({ newFollower: e.target.checked }));
+  };
+  const handleUnsubscribe = (e) => {
+    dispatch(UpdateSettings({ unSubscribe: e.target.checked }));
+  };
+  return (
+    &lt;div className="emails">
+      &lt;h2 className="h2">Manage Emails&lt;/h2>
+      &lt;div className="messages">
+        &lt;h3 className="main-h3">Messages&lt;/h3>
+        &lt;div
+          className="parent-div"
+          style={settings.unSubscribe ? { opacity: 0.4 } : { opacity: 1 }}
+        >
+          &lt;div className="child-div">
+            &lt;h3 className="h3">Inbox messages&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch disabled={settings.unSubscribe} />
+          &lt;/Box>
+        &lt;/div>
+        &lt;div
+          className="parent-div-last"
+          style={settings.unSubscribe ? { opacity: 0.4 } : { opacity: 1 }}
+        >
+          &lt;div className="child-div">
+            &lt;h3 className="h3">Chat requests&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch
+              onChange={handleChatRequest}
+              checked={settings.chatRequest}
+              disabled={settings.unSubscribe}
+            />
+          &lt;/Box>
+        &lt;/div>
+      &lt;/div>
+      &lt;div className="activity">
+        &lt;h3 className="main-h3">Activity&lt;/h3>
+        &lt;div
+          className="parent-div"
+          style={settings.unSubscribe ? { opacity: 0.4 } : { opacity: 1 }}
+        >
+          &lt;div className="child-div">
+            &lt;h3 className="h3">New user welcome&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch disabled={settings.unSubscribe} />
+          &lt;/Box>
+        &lt;/div>
+        &lt;div
+          className="parent-div"
+          style={settings.unSubscribe ? { opacity: 0.4 } : { opacity: 1 }}
+        >
+          &lt;div className="child-div">
+            &lt;h3 className="h3">Comments on your posts&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch disabled={settings.unSubscribe} />
+          &lt;/Box>
+        &lt;/div>
+        &lt;div
+          className="parent-div"
+          style={settings.unSubscribe ? { opacity: 0.4 } : { opacity: 1 }}
+        >
+          &lt;div className="child-div">
+            &lt;h3 className="h3">Replies to your comments&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch disabled={settings.unSubscribe} />
+          &lt;/Box>
+        &lt;/div>
+        &lt;div
+          className="parent-div"
+          style={settings.unSubscribe ? { opacity: 0.4 } : { opacity: 1 }}
+        >
+          &lt;div className="child-div">
+            &lt;h3 className="h3">Upvotes on your posts&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch disabled={settings.unSubscribe} />
+          &lt;/Box>
+        &lt;/div>
+        &lt;div
+          className="parent-div"
+          style={settings.unSubscribe ? { opacity: 0.4 } : { opacity: 1 }}
+        >
+          &lt;div className="child-div">
+            &lt;h3 className="h3">Upvotes on your comments&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch disabled={settings.unSubscribe} />
+          &lt;/Box>
+        &lt;/div>
+        &lt;div
+          className="parent-div"
+          style={settings.unSubscribe ? { opacity: 0.4 } : { opacity: 1 }}
+        >
+          &lt;div className="child-div">
+            &lt;h3 className="h3">Username mentions&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch disabled={settings.unSubscribe} />
+          &lt;/Box>
+        &lt;/div>
+        &lt;div
+          className="parent-div-last"
+          style={settings.unSubscribe ? { opacity: 0.4 } : { opacity: 1 }}
+        >
+          &lt;div className="child-div">
+            &lt;h3 className="h3">New followers&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch
+              onChange={handleFollower}
+              checked={settings.newFollower}
+              disabled={settings.unSubscribe}
+            />
+          &lt;/Box>
+        &lt;/div>
+      &lt;/div>
+      &lt;div className="newsletters">
+        &lt;h3 className="main-h3">NewsLetters&lt;/h3>
+        &lt;div
+          className="parent-div"
+          style={settings.unSubscribe ? { opacity: 0.4 } : { opacity: 1 }}
+        >
+          &lt;div className="child-div">
+            &lt;h3 className="h3">Daily Digest&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch disabled={settings.unSubscribe} />
+          &lt;/Box>
+        &lt;/div>
+        &lt;div
+          className="parent-div"
+          style={settings.unSubscribe ? { opacity: 0.4 } : { opacity: 1 }}
+        >
+          &lt;div className="child-div">
+            &lt;h3 className="h3">Weekly Recap&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch disabled={settings.unSubscribe} />
+          &lt;/Box>
+        &lt;/div>
+        &lt;div
+          className="parent-div-last"
+          style={settings.unSubscribe ? { opacity: 0.4 } : { opacity: 1 }}
+        >
+          &lt;div className="child-div">
+            &lt;h3 className="h3">Community Discovery&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch disabled={settings.unSubscribe} />
+          &lt;/Box>
+        &lt;/div>
+      &lt;/div>
+      &lt;div className="last">
+        &lt;h3 className="main-h3"> &lt;/h3>
+        &lt;div className="parent-div">
+          &lt;div className="child-div">
+            &lt;h3 className="h3">Unsubscribe from all emails&lt;/h3>
+          &lt;/div>
+          &lt;Box className="child-b">
+            &lt;Switch
+              onChange={handleUnsubscribe}
+              checked={settings.unSubscribe}
+            />
+          &lt;/Box>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+export default Emails;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Emails">Emails</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 17:19:50 GMT+0200 (توقيت شرق أوروبا الرسمي)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

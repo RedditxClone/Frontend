@@ -5,9 +5,16 @@ import Safety from './Safety/Safety';
 import Privacy from './Privacy/Privacy';
 import AdvancedSecurity from './AdvancedSecurity/AdvancedSecurity';
 
-export default function SafetyPrivacySettings() {
+/**
+ * This component is main component of Safety & Privace Settings page
+ */
+
+function SafetyPrivacySettings() {
   return (
-    <div className="safety-privacy">
+    <div
+      className="safety-privacy"
+      data-testid="safety-settings-container"
+    >
       <h2 className="h2">Safety & Privacy</h2>
       <p
         className="p"
@@ -29,3 +36,4 @@ export default function SafetyPrivacySettings() {
     </div>
   );
 }
+export default SafetyPrivacySettings;

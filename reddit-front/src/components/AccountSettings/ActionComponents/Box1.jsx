@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable linebreak-style */
 /* eslint-disable react/no-unescaped-entities */
 import CloseIcon from '@mui/icons-material/Close';
@@ -6,7 +7,17 @@ import { Button } from '@mui/material';
 // import { useState } from 'react';
 import './ActionComponents.css';
 
-export default function Box1({ setIsShownChange, setIsShownContinue }) {
+/**
+ * @param {function} setIsShownChange
+ * @param {function} setIsShownContinue
+ */
+
+/**
+ * this is component to change email address
+ * when we click on change email button , it shows this component
+ */
+
+function Box1({ setIsShownChange, setIsShownContinue }) {
   const handleClickClose = () => {
     const ele = document.getElementById('confg-1');
     ele.style.display = 'none';
@@ -20,10 +31,12 @@ export default function Box1({ setIsShownChange, setIsShownContinue }) {
   return (
     <div className="b-contain">
       <div
+        data-testid="confirmation-box-1"
         className="box-1"
         id="confg-1"
       >
         <div
+          data-testid="close-icon"
           className="icon-1"
           onClick={handleClickClose}
         >
@@ -45,6 +58,7 @@ export default function Box1({ setIsShownChange, setIsShownContinue }) {
         <div className="buttons">
           <div className="btn-1">
             <Button
+              data-testid="cancel-button"
               variant="outlined"
               color="primary"
               onClick={handleClickClose}
@@ -54,6 +68,7 @@ export default function Box1({ setIsShownChange, setIsShownContinue }) {
           </div>
           <div>
             <Button
+              data-testid="continue-button"
               onClick={handleClickContinue}
               variant="contained"
             >
@@ -65,3 +80,4 @@ export default function Box1({ setIsShownChange, setIsShownContinue }) {
     </div>
   );
 }
+export default Box1;

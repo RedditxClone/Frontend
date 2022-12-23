@@ -5,7 +5,12 @@ import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import './ImagesStyle.css';
 import { useState, useRef } from 'react';
 
-export default function Images() {
+/**
+ * this is component in profile information page
+ * it contains the features : avatar, banner image
+ */
+
+function Images() {
   const inputRef = useRef();
   const inputRefCover = useRef();
   const [image, setImage] = useState(null);
@@ -82,6 +87,7 @@ export default function Images() {
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
             onClick={() => inputRef.current.click()}
+            data-testid="profile-ph"
           >
             <ControlPointIcon
               style={{
@@ -123,6 +129,7 @@ export default function Images() {
             onDragEnter={handleDragEnterCover}
             onDragLeave={handleDragLeaveCover}
             onClick={() => inputRefCover.current.click()}
+            data-testid="cover-ph"
           >
             <ControlPointIcon
               style={{
@@ -152,3 +159,5 @@ export default function Images() {
     </div>
   );
 }
+
+export default Images;

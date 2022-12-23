@@ -9,14 +9,22 @@ import Advanced from './Advanced/Advanced';
 import ProfileModeration from './ProfileModeration/ProfileModeration';
 import { getSettings } from '../../store/slices/Settings';
 
-export default function ProfileSettings() {
+/**
+ * this is component that contains profile settings features
+ * it wraps other small components
+ */
+
+function ProfileSettings() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSettings());
   }, []);
   const { settings } = useSelector((state) => state.settings);
   return (
-    <div className="profile-settings">
+    <div
+      className="profile-settings"
+      data-testid="profile-settings-container"
+    >
       <h2 className="h2">Customize profile</h2>
       <ProfileInformation settings={settings} />
       <Images />
@@ -26,3 +34,4 @@ export default function ProfileSettings() {
     </div>
   );
 }
+export default ProfileSettings;

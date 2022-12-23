@@ -8,7 +8,16 @@ import { useDispatch } from 'react-redux';
 import Box3 from '../ActionComponents.jsx/Box3';
 import { UpdateSettings } from '../../../store/slices/Settings';
 
-export default function ProfileCategory({ settings }) {
+/**
+ * @param {object} settings
+ */
+
+/**
+ * this is component in profile information page
+ * it contains the features : NSFW
+ */
+
+function ProfileCategory({ settings }) {
   const dispatch = useDispatch();
   const [isToggled, setIsToggled] = useState(false);
   const [nsfwState, setIsnsfwState] = useState(false);
@@ -42,3 +51,4 @@ export default function ProfileCategory({ settings }) {
     </>
   );
 }
+export default ProfileCategory;

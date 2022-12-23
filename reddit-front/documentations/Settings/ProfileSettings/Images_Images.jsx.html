@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Images/Images.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Images/Images.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
+/* eslint-disable linebreak-style */
+/* eslint-disable comma-dangle */
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import './ImagesStyle.css';
+import { useState, useRef } from 'react';
+
+/**
+ * this is component in profile information page
+ * it contains the features : avatar, banner image
+ */
+
+function Images() {
+  const inputRef = useRef();
+  const inputRefCover = useRef();
+  const [image, setImage] = useState(null);
+  const [imageCover, setImageCover] = useState(null);
+  const [isShow, setIsShow] = useState(false);
+  const [isShowCover, setIsShowCover] = useState(false);
+  const handleImage = (e) => {
+    setImage(e.target.files);
+    setIsShow(true);
+  };
+  const handleDragEnter = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+  const handleDragOver = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+  const handleDragLeave = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+  const handleDrop = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setImage(e.dataTransfer);
+    setIsShow(true);
+  };
+
+  const handleImageCover = (e) => {
+    setImageCover(e.target.files);
+    setIsShowCover(true);
+  };
+  const handleDragEnterCover = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+  const handleDragOverCover = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+  const handleDragLeaveCover = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+  const handleDropCover = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setImageCover(e.dataTransfer);
+    setIsShowCover(true);
+  };
+  return (
+    &lt;div className="images">
+      &lt;h3 className="main-h3">Images&lt;/h3>
+      &lt;h3 className="h3">Avatar and banner image&lt;/h3>
+      &lt;p className="p3">Images must be .png or .jpg format&lt;/p>
+      &lt;div className="Div-img-1">
+        {isShow &amp;&amp; (
+          &lt;img
+            className="div-1"
+            src={image}
+            alt=""
+            width="110px"
+            height="110px"
+            style={{ border: 'none' }}
+          />
+        )}
+        {!isShow &amp;&amp; (
+          &lt;div
+            className="div-1"
+            style={{ backgroundColor: '#f2f4f5' }}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onClick={() => inputRef.current.click()}
+          >
+            &lt;ControlPointIcon
+              style={{
+                marginLeft: '34px',
+                marginTop: '14px',
+                fontSize: '2.7rem',
+                color: '#0079d3'
+              }}
+              onClick={() => inputRef.current.click()}
+            />
+            &lt;input
+              type="file"
+              hidden
+              ref={inputRef}
+              onChange={handleImage}
+            />
+            &lt;p className="p">
+              &lt;div className="div-span-1">Drag and Drop or&lt;/div>
+              &lt;div className="div-span-2"> Upload Profile Image&lt;/div>
+            &lt;/p>
+          &lt;/div>
+        )}
+        {isShowCover &amp;&amp; (
+          &lt;img
+            className="div-2"
+            src={imageCover}
+            alt=""
+            width="410px"
+            height="120px"
+            style={{ border: 'none' }}
+          />
+        )}
+        {!isShowCover &amp;&amp; (
+          &lt;div
+            className="div-2"
+            style={{ backgroundColor: '#f2f4f5' }}
+            onDrop={handleDropCover}
+            onDragOver={handleDragOverCover}
+            onDragEnter={handleDragEnterCover}
+            onDragLeave={handleDragLeaveCover}
+            onClick={() => inputRefCover.current.click()}
+          >
+            &lt;ControlPointIcon
+              style={{
+                marginLeft: '166px',
+                marginTop: '14px',
+                fontSize: '2.7rem',
+                color: '#0079d3'
+              }}
+              onClick={() => inputRefCover.current.click()}
+            />
+            &lt;input
+              type="file"
+              hidden
+              ref={inputRefCover}
+              onChange={handleImageCover}
+            />
+            &lt;p
+              className="p"
+              style={{ marginLeft: '137px' }}
+            >
+              &lt;div className="div-span-1">Drag and Drop or&lt;/div>
+              &lt;div className="div-span-2"> Upload Cover Image&lt;/div>
+            &lt;/p>
+          &lt;/div>
+        )}
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+export default Images;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Advanced">Advanced</a></li><li><a href="global.html#Images">Images</a></li><li><a href="global.html#ProfileCategory">ProfileCategory</a></li><li><a href="global.html#ProfileInformation">ProfileInformation</a></li><li><a href="global.html#ProfileSettings">ProfileSettings</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 16:43:21 GMT+0200 (توقيت شرق أوروبا الرسمي)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

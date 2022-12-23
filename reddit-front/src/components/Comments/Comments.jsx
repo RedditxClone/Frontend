@@ -7,6 +7,10 @@ import { Button } from '@mui/material';
 import avatarImg from '../../assets/Images/avatar_default_5.png';
 import CreatePostEditor from '../../pages/CreatePost/CreatePostEditor';
 
+/**
+ * this component represents comments
+ */
+
 export default function Comments() {
   const [replyContnet, setReplyContnet] = useState('');
   const [countVotes, setCountVotes] = useState();
@@ -48,6 +52,7 @@ export default function Comments() {
   };
   return (
     <div
+      data-testid="comment-container"
       style={{
         backgroundColor: '#ffffff',
         paddingLeft: '12px',

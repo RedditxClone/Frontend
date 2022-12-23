@@ -169,15 +169,20 @@ export default function Box1({ setIsShownAdd, setIsShownComp, setNumCom }) {
     <div
       className="box1"
       id="confg1"
+      data-testid="confirmation-box1"
     >
       <div className="contain">
         <div className="div-main-1">Add Social Link</div>
-        <div className="icon-1">
+        <div
+          className="icon-1"
+          data-testid="close-i"
+        >
           <CloseIcon onClick={handleClickClose} />
         </div>
       </div>
       <div className="contain-2">
         <Button
+          data-testid="custom-btn"
           onClick={handleClickComp1}
           variant="outlined"
           startIcon={

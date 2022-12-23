@@ -51,7 +51,16 @@ function BootstrapDialogTitle(props) {
   );
 }
 
-export default function MutedUsers({ mutedUser }) {
+/**
+ * @param {object} mutedUser
+ */
+
+/**
+ * This component is in muted page in mod tools
+ * this represents muted users
+ */
+
+function MutedUsers({ mutedUser }) {
   const [detail, setDetail] = useState(false);
   const [open, setOpen] = useState(false);
   const [reasonMute, setreasonMute] = useState(mutedUser.reason);
@@ -112,7 +121,7 @@ export default function MutedUsers({ mutedUser }) {
     ''
   );
   return (
-    <div>
+    <div data-testid="muted-user-container">
       <div
         style={{
           fontSize: '12px',
@@ -183,10 +192,12 @@ export default function MutedUsers({ mutedUser }) {
               textTransform: 'none'
             }}
             onClick={handleClickOpen}
+            data-testid="unmute-btn"
           >
             Unmute
           </Button>
           <BootstrapDialog
+            data-testid="confirm-card"
             onClose={handleClose2}
             aria-labelledby="customized-dialog-title"
             open={open}
@@ -251,3 +262,4 @@ export default function MutedUsers({ mutedUser }) {
     </div>
   );
 }
+export default MutedUsers;

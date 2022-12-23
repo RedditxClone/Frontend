@@ -6,7 +6,16 @@ import { useState } from 'react';
 import { Button } from '@mui/material';
 import BannedUsers from './BannedUsers';
 
-export default function SearchComp({ bannedUsers }) {
+/**
+ * @param {object} bannedUsers
+ */
+
+/**
+ * This component is in banned page in mod tools
+ * this is search component
+ */
+
+function SearchComp({ bannedUsers }) {
   const [searchInput, setSearchInput] = useState('');
   const [searchArray, setSearchArray] = useState([]);
   const [search, setSearch] = useState(false);
@@ -153,7 +162,7 @@ export default function SearchComp({ bannedUsers }) {
   }
 
   return (
-    <div>
+    <div data-testid="Search-container">
       <div
         style={{
           display: 'flex',
@@ -193,3 +202,4 @@ export default function SearchComp({ bannedUsers }) {
     </div>
   );
 }
+export default SearchComp;

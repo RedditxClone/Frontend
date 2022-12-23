@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable linebreak-style */
 /* eslint-disable react/jsx-wrap-multilines */
@@ -6,7 +7,11 @@ import { Switch, Button, Box } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import google from '../../../assets/Images/google.png';
 
-export default function ConnectedAccounts() {
+/**
+ * This is component in account settings page that contains connected accounts features (Facebook, Google)
+ */
+
+function ConnectedAccounts() {
   return (
     <div className="connected-accounts">
       <h3 className="main-h3">Connected Accounts</h3>
@@ -25,6 +30,7 @@ export default function ConnectedAccounts() {
           </p>
           <Box className="cont">
             <Button
+              data-testid="facebook-ic"
               startIcon={<FacebookIcon />}
               variant="contained"
               style={{ backgroundColor: '#1da1f2' }}
@@ -56,6 +62,7 @@ export default function ConnectedAccounts() {
         </div>
         <Box className="cont">
           <Button
+            data-testid="google-ic"
             // onClick={(e) => {
             //   e.preventDefault();
             //   window.open('https://www.google.com/', '_blank');
@@ -77,3 +84,4 @@ export default function ConnectedAccounts() {
     </div>
   );
 }
+export default ConnectedAccounts;

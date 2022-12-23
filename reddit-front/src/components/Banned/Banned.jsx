@@ -61,7 +61,12 @@ function BootstrapDialogTitle(props) {
   );
 }
 
-export default function Banned() {
+/**
+ * This component is in banned page in mod tools
+ * this represent each banned user component
+ */
+
+function Banned() {
   const maxTextCharCount = 300;
   const maxTextCount = 5000;
   const [countChar, setCountChar] = useState(maxTextCharCount);
@@ -173,6 +178,7 @@ export default function Banned() {
 
   return (
     <div
+      data-testid="banned-container"
       className="banned-cont"
       style={{ backgroundColor: '#dae0e6', width: '100%' }}
     >
@@ -202,6 +208,7 @@ export default function Banned() {
               height: '31px'
             }}
             onClick={handleClickOpen}
+            data-testid="ban-btn"
           >
             Ban user
           </Button>
@@ -209,6 +216,7 @@ export default function Banned() {
             onClose={handleClose2}
             aria-labelledby="customized-dialog-title"
             open={open}
+            data-testid="ban-card"
           >
             <BootstrapDialogTitle
               id="customized-dialog-title"
@@ -381,3 +389,4 @@ export default function Banned() {
     </div>
   );
 }
+export default Banned;

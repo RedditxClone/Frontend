@@ -5,7 +5,16 @@ import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread';
 import { Button } from '@mui/material';
 import './ActionComponents.css';
 
-export default function Box5({ setIsShownDelContinue }) {
+/**
+ * @param {function} setIsShownDelContinue
+ */
+
+/**
+ * this is component to verify that you deleted your account
+ * when we click on continue button in delete account component , it show this component
+ */
+
+function Box5({ setIsShownDelContinue }) {
   const handleClickOk = () => {
     const ele = document.getElementById('confg-5');
     ele.style.display = 'none';
@@ -16,6 +25,7 @@ export default function Box5({ setIsShownDelContinue }) {
     <div
       className="box-5"
       id="confg-5"
+      data-testid="confirmation-box-5"
     >
       <div
         className="icon-1"
@@ -50,3 +60,4 @@ export default function Box5({ setIsShownDelContinue }) {
     </div>
   );
 }
+export default Box5;

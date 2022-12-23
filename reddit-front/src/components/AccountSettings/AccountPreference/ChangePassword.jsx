@@ -6,7 +6,16 @@ import reddit from '../../../assets/Images/editedReddit.png';
 import cover from '../../../assets/Images/redditCover.png';
 import './ChangePassStyle.css';
 
-export default function ChangePassword({ setIsShownChangePass }) {
+/**
+ * @param {fuction} setIsShownChangePass
+ */
+
+/**
+ * this is change password component
+ * when we click on change password button it shows this component
+ */
+
+function ChangePassword({ setIsShownChangePass }) {
   const handleClickClose = () => {
     const ele = document.getElementById('confgg1');
     ele.style.display = 'none';
@@ -111,3 +120,4 @@ export default function ChangePassword({ setIsShownChangePass }) {
     </div>
   );
 }
+export default ChangePassword;

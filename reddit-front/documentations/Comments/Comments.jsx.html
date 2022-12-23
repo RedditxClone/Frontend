@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Comments.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Comments.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
+import './Comments.style.css';
+import { BiUpvote, BiDownvote } from 'react-icons/bi';
+import { FaRegCommentAlt } from 'react-icons/fa';
+import { useState } from 'react';
+import { Button } from '@mui/material';
+import avatarImg from '../../assets/Images/avatar_default_5.png';
+import CreatePostEditor from '../../pages/CreatePost/CreatePostEditor';
+
+/**
+ * this component represents comments
+ */
+
+export default function Comments() {
+  const [replyContnet, setReplyContnet] = useState('');
+  const [countVotes, setCountVotes] = useState();
+  const [showReply, setShowReply] = useState(false);
+  const handleClickReply = () => {
+    setShowReply(!showReply);
+  };
+  const [save, setSave] = useState(false);
+  const handleSave = () => {
+    setSave(!save);
+  };
+  const [follow, setFollow] = useState(false);
+  const handleFollow = () => {
+    setFollow(!follow);
+  };
+  const [countUp, setCountUp] = useState(false);
+  const [countDown, setCountDown] = useState(false);
+  const handleUpVote = () => {
+    setCountUp(!countUp);
+    if (countUp === true) {
+      setCountVotes(countVotes + 1);
+    } else {
+      setCountVotes(countVotes - 1);
+    }
+  };
+  const handleDownVote = () => {
+    setCountDown(!countDown);
+    if (countDown === true) {
+      setCountVotes(countVotes - 1);
+    } else {
+      setCountVotes(countVotes + 1);
+    }
+  };
+  const handleReply = () => {
+    setShowReply(false);
+  };
+  const handleCloseReply = () => {
+    setShowReply(false);
+  };
+  return (
+    &lt;div
+      style={{
+        backgroundColor: '#ffffff',
+        paddingLeft: '12px',
+        borderRadius: '5px'
+      }}
+    >
+      &lt;div style={{ display: 'flex', alignItems: 'center' }}>
+        &lt;div>
+          &lt;img
+            src={avatarImg}
+            style={{ borderRadius: '4px' }}
+            alt="avatar"
+          />
+        &lt;/div>
+        &lt;p style={{ marginLeft: '10px', fontSize: '13px' }}>karim&lt;/p>
+        &lt;p
+          style={{
+            marginLeft: '7px',
+            fontSize: '13px',
+            color: '#7c7c7c'
+          }}
+        >
+          . 18 hr.ago
+        &lt;/p>
+      &lt;/div>
+      &lt;div style={{ paddingBottom: '20px' }}>
+        &lt;div>
+          &lt;p style={{ fontSize: '14px', marginLeft: '40px', marginTop: '3px' }}>
+            Most people just naming clubs when I think the question was the best
+            player of each position
+          &lt;/p>
+          &lt;div
+            style={{
+              marginLeft: '38px',
+              fontSize: '23px',
+              color: '#7c7c7c',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            {!countUp ? (
+              &lt;BiUpvote
+                onClick={handleUpVote}
+                className="span-hov"
+                style={{ marginRight: '7px', cursor: 'pointer' }}
+              />
+            ) : (
+              &lt;BiUpvote
+                onClick={handleUpVote}
+                className="span-hov"
+                style={{
+                  marginRight: '7px',
+                  cursor: 'pointer',
+                  color: '#ff015b'
+                }}
+              />
+            )}
+            &lt;span
+              style={{
+                fontSize: '14px',
+                marginRight: '7px',
+                color: 'black'
+              }}
+            >
+              222
+            &lt;/span>
+            {!countDown ? (
+              &lt;BiDownvote
+                onClick={handleDownVote}
+                className="span-vot"
+                style={{ marginRight: '8px', cursor: 'pointer' }}
+              />
+            ) : (
+              &lt;BiDownvote
+                onClick={handleDownVote}
+                className="span-vot"
+                style={{
+                  marginRight: '8px',
+                  cursor: 'pointer',
+                  color: '#02b7f2'
+                }}
+              />
+            )}
+            &lt;div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '5px',
+                marginRight: '7px'
+              }}
+            >
+              &lt;span
+                className="span-vot"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '5px',
+                  cursor: 'pointer'
+                }}
+                onClick={handleClickReply}
+              >
+                &lt;FaRegCommentAlt
+                  style={{ fontSize: '22px', marginRight: '6px' }}
+                />
+                &lt;span
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    marginBottom: '-3px'
+                  }}
+                >
+                  Reply
+                &lt;/span>
+              &lt;/span>
+            &lt;/div>
+            &lt;div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '-5px'
+              }}
+            >
+              {!save ? (
+                &lt;span
+                  onClick={handleSave}
+                  style={{
+                    fontSize: '14px',
+                    marginRight: '8px',
+                    padding: '5px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer'
+                  }}
+                  className="span-hov"
+                >
+                  Save
+                &lt;/span>
+              ) : (
+                &lt;span
+                  onClick={handleSave}
+                  style={{
+                    fontSize: '14px',
+                    marginRight: '8px',
+                    padding: '5px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer'
+                  }}
+                  className="span-hov"
+                >
+                  UnSave
+                &lt;/span>
+              )}
+              {!follow ? (
+                &lt;span
+                  onClick={handleFollow}
+                  style={{
+                    fontSize: '14px',
+                    marginRight: '8px',
+                    padding: '5px',
+                    fontWeight: 'bold',
+                    marginBottom: '-2px',
+                    cursor: 'pointer'
+                  }}
+                  className="span-hov"
+                >
+                  Follow
+                &lt;/span>
+              ) : (
+                &lt;span
+                  onClick={handleFollow}
+                  style={{
+                    fontSize: '14px',
+                    marginRight: '8px',
+                    padding: '5px',
+                    fontWeight: 'bold',
+                    marginBottom: '-2px',
+                    cursor: 'pointer'
+                  }}
+                  className="span-hov"
+                >
+                  Followed
+                &lt;/span>
+              )}
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+      {showReply ? (
+        &lt;div
+          style={{
+            paddingBottom: '35px',
+            paddingRight: '70px',
+            marginLeft: '74px'
+          }}
+        >
+          &lt;CreatePostEditor
+            setPostContent={setReplyContnet}
+            postContent={replyContnet}
+          />
+          &lt;Button
+            style={{ marginLeft: '503px', marginTop: '-44px' }}
+            variant="contained"
+            onClick={handleReply}
+          >
+            Reply
+          &lt;/Button>
+          &lt;Button
+            style={{ marginLeft: '430px', marginTop: '-68px' }}
+            variant="contained"
+            onClick={handleCloseReply}
+          >
+            Cancle
+          &lt;/Button>
+        &lt;/div>
+      ) : (
+        ''
+      )}
+    &lt;/div>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 18:57:33 GMT+0200 (توقيت شرق أوروبا الرسمي)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

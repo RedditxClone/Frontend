@@ -6,7 +6,12 @@ import { Box, Switch } from '@mui/material';
 import './EmailsStyle.css';
 import { getSettings, UpdateSettings } from '../../store/slices/Settings';
 
-export default function Emails() {
+/**
+ * this component is main component of emails page
+ * it contains the features : Chat requests, new follower, unsubscribe
+ */
+
+function Emails() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSettings());
@@ -22,7 +27,10 @@ export default function Emails() {
     dispatch(UpdateSettings({ unSubscribe: e.target.checked }));
   };
   return (
-    <div className="emails">
+    <div
+      className="emails"
+      data-testid="emails-settings-container"
+    >
       <h2 className="h2">Manage Emails</h2>
       <div className="messages">
         <h3 className="main-h3">Messages</h3>
@@ -130,6 +138,7 @@ export default function Emails() {
           </div>
           <Box className="child-b">
             <Switch
+              data-testid="new-followers-sw"
               onChange={handleFollower}
               checked={settings.newFollower}
               disabled={settings.unSubscribe}
@@ -190,3 +199,4 @@ export default function Emails() {
     </div>
   );
 }
+export default Emails;

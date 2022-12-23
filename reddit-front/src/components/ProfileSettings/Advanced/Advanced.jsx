@@ -4,7 +4,16 @@ import './AdvancedStyle.css';
 import { useDispatch } from 'react-redux';
 import { UpdateSettings } from '../../../store/slices/Settings';
 
-export default function Advanced({ settings }) {
+/**
+ * @param {object} settings
+ */
+
+/**
+ * this is component in profile information page
+ * it contains the features : allow people to follow you
+ */
+
+function Advanced({ settings }) {
   const dispatch = useDispatch();
   const handleToggle = (e) => {
     dispatch(UpdateSettings({ allowFollow: e.target.checked }));
@@ -53,3 +62,4 @@ export default function Advanced({ settings }) {
     </div>
   );
 }
+export default Advanced;

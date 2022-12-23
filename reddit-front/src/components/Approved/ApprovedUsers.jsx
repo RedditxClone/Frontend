@@ -51,7 +51,16 @@ function BootstrapDialogTitle(props) {
   );
 }
 
-export default function ApprovedUsers({ approvedUser }) {
+/**
+ * @param {object} approvedUser
+ */
+
+/**
+ * This component is in approved page in mod tools
+ * this represents approved users
+ */
+
+function ApprovedUsers({ approvedUser }) {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -73,7 +82,7 @@ export default function ApprovedUsers({ approvedUser }) {
   };
 
   return (
-    <div>
+    <div data-testid="approved-user-container">
       <div
         style={{
           fontSize: '12px',
@@ -143,10 +152,12 @@ export default function ApprovedUsers({ approvedUser }) {
               textTransform: 'none'
             }}
             onClick={handleClickOpen}
+            data-testid="remove-btn"
           >
             Remove
           </Button>
           <BootstrapDialog
+            data-testid="confirm-dialog"
             onClose={handleClose2}
             aria-labelledby="customized-dialog-title"
             open={open}
@@ -198,3 +209,4 @@ export default function ApprovedUsers({ approvedUser }) {
     </div>
   );
 }
+export default ApprovedUsers;

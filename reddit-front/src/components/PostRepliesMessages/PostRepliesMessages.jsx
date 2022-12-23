@@ -8,7 +8,11 @@ import Loader from '../../utilities/Loader/Loader';
 import PostReply from './PostReply';
 import { getPostRepliesMessages } from '../../services/requests/messages';
 
-export default function PostRepliesMessages() {
+/**
+ * this component represents postreplies messages in messages page
+ */
+
+function PostRepliesMessages() {
   const limit = 5;
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
@@ -35,7 +39,7 @@ export default function PostRepliesMessages() {
         <PostReply postReply={postReply} />
       ))
     ) : (
-      <div>
+      <div data-testid="message-postreply-container">
         <p
           style={{
             fontSize: '14px',
@@ -60,3 +64,4 @@ export default function PostRepliesMessages() {
     </div>
   );
 }
+export default PostRepliesMessages;

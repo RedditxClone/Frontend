@@ -58,7 +58,16 @@ function BootstrapDialogTitle(props) {
     </DialogTitle>
   );
 }
-export default function PostReply({ postReply }) {
+
+/**
+ * @param {object} postReply
+ */
+
+/**
+ * this component represents each post reply message
+ */
+
+function PostReply({ postReply }) {
   console.log(postReply.messages[0]._id);
   const [open, setOpen] = useState(false);
   const [textReply, setTextReply] = useState('');
@@ -136,6 +145,7 @@ export default function PostReply({ postReply }) {
   };
   return (
     <div
+      data-testid="message-reply-container"
       style={{
         margin: '0',
         padding: '10px 15px',
@@ -260,6 +270,7 @@ export default function PostReply({ postReply }) {
                 className="link-comment-message"
                 href="##"
                 onClick={handleClickSpam}
+                data-testid="spam-post-message"
               >
                 Spam
               </a>
@@ -271,6 +282,7 @@ export default function PostReply({ postReply }) {
                   display: 'inline-block',
                   opacity: '0.7'
                 }}
+                data-testid="spammed-post-message"
               >
                 spammed
               </p>
@@ -284,6 +296,7 @@ export default function PostReply({ postReply }) {
                 className="link-comment-message"
                 href="##"
                 onClick={handleClickSpamYes}
+                data-testid="yes-post-message"
               >
                 Yes
               </a>
@@ -344,10 +357,12 @@ export default function PostReply({ postReply }) {
             onClick={handleClickOpen}
             className="link-comment-message"
             href="##"
+            data-testid="report-post-message"
           >
             Report
           </a>
           <BootstrapDialog
+            data-testid="dialog-post-message"
             onClose={handleClose}
             aria-labelledby="customized-dialog-title"
             open={open}
@@ -437,6 +452,7 @@ export default function PostReply({ postReply }) {
             className="link-comment-message"
             href="##"
             onClick={handleClickReply}
+            data-testid="reply-post-message"
           >
             Reply
           </a>
@@ -445,6 +461,7 @@ export default function PostReply({ postReply }) {
       {reply ? (
         <div style={{ paddingTop: '22px' }}>
           <textarea
+            data-testid="textreply-post-message"
             onChange={handleChangetext}
             style={{ width: '540px', height: '100px' }}
           />
@@ -485,3 +502,4 @@ export default function PostReply({ postReply }) {
     </div>
   );
 }
+export default PostReply;

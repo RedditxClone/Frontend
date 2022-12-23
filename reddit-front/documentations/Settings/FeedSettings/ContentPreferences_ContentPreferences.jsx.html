@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ContentPreferences/ContentPreferences.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ContentPreferences/ContentPreferences.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
+/* eslint-disable linebreak-style */
+/* eslint-disable object-curly-newline */
+import { TextField, Box, Switch, MenuItem } from '@mui/material';
+import './ContentPreferencesStyle.css';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+import Brightness5Icon from '@mui/icons-material/Brightness5';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import MenuIcon from '@mui/icons-material/Menu';
+import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignCenter';
+import DensitySmallIcon from '@mui/icons-material/DensitySmall';
+import { UpdateSettings, getSettings } from '../../../store/slices/Settings';
+
+/**
+ * This component is in Feed Settings Page
+ * it contains features : Adult content, Autoplay media
+ */
+
+function ContentPreferences() {
+  const dispatch = useDispatch();
+  const { settings } = useSelector((state) => state.settings);
+  const [adultContent, setAdultContent] = useState(false);
+  const [autoPlayMedia, setAutoPlayMedia] = useState(false);
+  const [safeMode, setSafeMode] = useState(false);
+
+  useEffect(() => {
+    console.log('content');
+    dispatch(getSettings());
+    setAdultContent(settings.adultContent);
+    setAutoPlayMedia(settings.autoPlayMedia);
+    setSafeMode(settings.safeMode);
+  }, []);
+
+  const handlePlayMedia = (e) => {
+    setAutoPlayMedia((prev) => !prev);
+    dispatch(UpdateSettings({ autoPlayMedia: e.target.checked }));
+  };
+  const handleAdultContnet = (e) => {
+    setAdultContent((prev) => !prev);
+    dispatch(UpdateSettings({ adultContent: e.target.checked }));
+  };
+  const handleSafeMode = (e) => {
+    setSafeMode((prev) => !prev);
+    dispatch(UpdateSettings({ SafeBrowsingMode: e.target.checked }));
+  };
+  const [state, setState] = useState('HOT');
+  const handleChangeState = (e) => {
+    setState(e.target.value);
+  };
+  const [view, setView] = useState('CARD');
+  const handleChangeView = (e) => {
+    setView(e.target.value);
+  };
+  return (
+    &lt;div className="content-preferences">
+      &lt;h3 className="main-h3">Content Preferences&lt;/h3>
+      &lt;div className="parent-div">
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Adult content&lt;/h3>
+          &lt;p className="p">
+            Enable to view adult and NSFW (not safe for work) content in your
+            feed and search results.
+          &lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;Switch
+            onChange={handleAdultContnet}
+            checked={adultContent}
+          />
+        &lt;/Box>
+      &lt;/div>
+      &lt;div
+        className="parent-div-disabled"
+        style={adultContent ? { opacity: 1 } : { opacity: 0.4 }}
+      >
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Safe browsing mode&lt;/h3>
+          &lt;p className="p">
+            Blur thumbnails and media preview for anything labeled NSFW (not
+            safe for work).
+          &lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;Switch
+            disabled={!adultContent}
+            checked={safeMode}
+            onChange={handleSafeMode}
+          />
+        &lt;/Box>
+      &lt;/div>
+      &lt;div className="parent-div">
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Enable home feed recommendations&lt;/h3>
+          &lt;p className="p">
+            Allow us to introduce recommended posts in your home feed.
+          &lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;Switch />
+        &lt;/Box>
+      &lt;/div>
+      &lt;div className="parent-div">
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Enable live recommendations&lt;/h3>
+          &lt;p className="p">
+            Allow us to feature recommended live events at the top of your home
+            feed.
+          &lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;Switch />
+        &lt;/Box>
+      &lt;/div>
+      &lt;div className="parent-div">
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Autoplay media&lt;/h3>
+          &lt;p className="p">
+            Play videos and gifs automatically when in the viewport.
+          &lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;Switch
+            onChange={handlePlayMedia}
+            checked={autoPlayMedia}
+          />
+        &lt;/Box>
+      &lt;/div>
+      &lt;div className="parent-div">
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Reduce Animations&lt;/h3>
+          &lt;p className="p">Reduce animations on posts, comments, and feeds.&lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;Switch />
+        &lt;/Box>
+      &lt;/div>
+      &lt;div className="parent-div">
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Community themes&lt;/h3>
+          &lt;p className="p">
+            Use custom themes for all communities. You can also turn this off on
+            a per community basis.
+          &lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;Switch />
+        &lt;/Box>
+      &lt;/div>
+      &lt;div className="parent-div">
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Community content sort&lt;/h3>
+          &lt;p className="p">
+            Choose how you would like content organized in communities you
+            visit. This will not affect global feeds such as Home, or Popular.
+          &lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;TextField
+            variant="standard"
+            select
+            fullwidth
+            value={state}
+            onChange={handleChangeState}
+          >
+            &lt;MenuItem value="HOT">
+              &lt;LocalFireDepartmentIcon />
+              HOT
+            &lt;/MenuItem>
+            &lt;MenuItem value="NEW">
+              &lt;Brightness5Icon />
+              NEW
+            &lt;/MenuItem>
+            &lt;MenuItem value="TOP">
+              &lt;LeaderboardIcon />
+              TOP
+            &lt;/MenuItem>
+            &lt;MenuItem value="RISING">
+              &lt;ShowChartIcon />
+              RISING
+            &lt;/MenuItem>
+          &lt;/TextField>
+        &lt;/Box>
+      &lt;/div>
+      &lt;div className="parent-div">
+        &lt;div className="child-div-shifted">
+          &lt;h3 className="h3">Remember per community&lt;/h3>
+          &lt;p className="p">
+            Enable if you would like each community to remember and use the last
+            content sort you selected for that community.
+          &lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;Switch />
+        &lt;/Box>
+      &lt;/div>
+      &lt;div className="parent-div">
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Global content view&lt;/h3>
+          &lt;p className="p">
+            Choose how you would like content displayed in feeds. This control
+            is also found above your feed.
+          &lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;TextField
+            variant="standard"
+            select
+            fullwidth
+            value={view}
+            onChange={handleChangeView}
+          >
+            &lt;MenuItem value="CARD">
+              &lt;MenuIcon />
+              CARD
+            &lt;/MenuItem>
+            &lt;MenuItem value="CLASSIC">
+              &lt;DensitySmallIcon />
+              CLASSIC
+            &lt;/MenuItem>
+            &lt;MenuItem value="COMPACT">
+              &lt;FormatAlignJustifyIcon />
+              COMPACT
+            &lt;/MenuItem>
+          &lt;/TextField>
+        &lt;/Box>
+      &lt;/div>
+      &lt;div className="parent-div">
+        &lt;div className="child-div-shifted">
+          &lt;h3 className="h3">Remember per community&lt;/h3>
+          &lt;p className="p">
+            Enable if you would like each community to remember and use the last
+            content view you selected for that community.
+          &lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;Switch />
+        &lt;/Box>
+      &lt;/div>
+      &lt;div className="parent-div">
+        &lt;div className="child-div">
+          &lt;h3 className="h3">Open posts in new tab&lt;/h3>
+          &lt;p className="p">Enable to always open posts in a new tab.&lt;/p>
+        &lt;/div>
+        &lt;Box className="child-b">
+          &lt;Switch />
+        &lt;/Box>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+export default ContentPreferences;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ContentPreferences">ContentPreferences</a></li><li><a href="global.html#FeedSettings">FeedSettings</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 17:05:26 GMT+0200 (توقيت شرق أوروبا الرسمي)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

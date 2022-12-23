@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: SearchComp.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: SearchComp.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable operator-linebreak */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable no-unused-vars */
+import { BiSearch } from 'react-icons/bi';
+import { useState } from 'react';
+import { Button } from '@mui/material';
+import BannedUsers from './BannedUsers';
+
+/**
+ * @param {object} bannedUsers
+ */
+
+/**
+ * This component is in banned page in mod tools
+ * this is search component
+ */
+
+function SearchComp({ bannedUsers }) {
+  const [searchInput, setSearchInput] = useState('');
+  const [searchArray, setSearchArray] = useState([]);
+  const [search, setSearch] = useState(false);
+  let arr = [];
+  const handleChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+  const handleSearch = () => {
+    setSearch(true);
+    arr = bannedUsers.filter(
+      (bannedUser) => bannedUser.username === searchInput
+    );
+    setSearchArray([1, 2, 3, 4, 5]);
+  };
+
+  const handleSeeAll = () => {
+    setSearch(false);
+    setSearchInput('');
+  };
+
+  function searchData() {
+    arr = bannedUsers.filter(
+      (bannedUser) => bannedUser.username === searchInput
+    );
+    const dataArr = arr.map((searchArr) => (
+      &lt;BannedUsers bannedUser={searchArr} />
+    ));
+    const data =
+      arr.length > 0 ? (
+        &lt;>
+          &lt;div
+            style={{
+              display: 'flex',
+              padding: '8px 16px',
+              backgroundColor: '#ffffff',
+              borderBottom: '1px solid #edeff1'
+            }}
+          >
+            &lt;p style={{ fontSize: '15px', margin: '7px', marginLeft: '0' }}>
+              1 search result for{' '}
+              &lt;span style={{ color: '#0079d3' }}>
+                {' '}
+                &amp;apos;{searchInput}&amp;apos;:
+              &lt;/span>
+            &lt;/p>
+            &lt;Button
+              variant="text"
+              style={{
+                fontSize: '14px',
+                fontWeight: '600',
+                borderRadius: '9999px',
+                textTransform: 'none',
+                marginLeft: 'auto'
+              }}
+              onClick={handleSeeAll}
+            >
+              See all
+            &lt;/Button>
+          &lt;/div>
+          {dataArr}
+        &lt;/>
+      ) : (
+        &lt;div
+          className="banned-users"
+          style={{
+            backgroundColor: '#ffffff',
+            minHeight: '262px',
+            borderRadius: '0 0 7px 7px',
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          &lt;span
+            style={{
+              marginLeft: '40%',
+              fontSize: '18px',
+              fontWeight: '500',
+              lineHeight: '22px',
+              color: '#878a8c'
+            }}
+          >
+            &lt;span>
+              &lt;BiSearch
+                style={{
+                  fontSize: '35px',
+                  marginLeft: '70px',
+                  marginBottom: '15px'
+                }}
+              />
+            &lt;/span>
+            &lt;br />
+            No results for u/{searchInput}
+            &lt;br />
+            &lt;Button
+              variant="text"
+              style={{
+                fontSize: '14px',
+                fontWeight: '600',
+                borderRadius: '9999px',
+                textTransform: 'none',
+                marginLeft: '60px'
+              }}
+              onClick={handleSeeAll}
+            >
+              See all
+            &lt;/Button>
+          &lt;/span>
+        &lt;/div>
+      );
+    return data;
+  }
+
+  function dataShow() {
+    &lt;div
+      style={{
+        display: 'flex',
+        padding: '8px 16px',
+        backgroundColor: '#ffffff',
+        borderBottom: '1px solid #edeff1'
+      }}
+    >
+      &lt;p style={{ fontSize: '15px', margin: '7px', marginLeft: '0' }}>
+        1 search result for{' '}
+        &lt;span style={{ color: '#0079d3' }}> &amp;apos;{searchInput}&amp;apos;:&lt;/span>
+      &lt;/p>
+      &lt;Button
+        variant="text"
+        style={{
+          fontSize: '14px',
+          fontWeight: '600',
+          borderRadius: '9999px',
+          textTransform: 'none',
+          marginLeft: 'auto'
+        }}
+        onClick={handleSeeAll}
+      >
+        See all
+      &lt;/Button>
+    &lt;/div>;
+    const data = bannedUsers.map((bannedUser) => (
+      &lt;BannedUsers bannedUser={bannedUser} />
+    ));
+    return data;
+  }
+
+  return (
+    &lt;div>
+      &lt;div
+        style={{
+          display: 'flex',
+          padding: '8px 16px',
+          borderRadius: '4px 4px 0 0',
+          backgroundColor: '#edeff1'
+        }}
+      >
+        &lt;input
+          placeholder="search for a user"
+          style={{
+            width: '248px',
+            height: '32px',
+            borderRadius: '4px 0 0 4px',
+            border: '1px solid #878a8c',
+            padding: '8px'
+          }}
+          value={searchInput}
+          onChange={handleChange}
+        />
+        &lt;div
+          style={{
+            display: 'flex',
+            height: '32px',
+            padding: '12px',
+            alignItems: 'center',
+            backgroundColor: '#878a8c',
+            cursor: 'pointer',
+            borderRadius: '0 4px 4px 0'
+          }}
+          onClick={handleSearch}
+        >
+          &lt;BiSearch style={{ fontSize: '20px', color: '#ffffff' }} />
+        &lt;/div>
+      &lt;/div>
+      {search ? searchData() : dataShow()}
+    &lt;/div>
+  );
+}
+export default SearchComp;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Banned">Banned</a></li><li><a href="global.html#BannedUsers">BannedUsers</a></li><li><a href="global.html#SearchComp">SearchComp</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 17:55:05 GMT+0200 (توقيت شرق أوروبا الرسمي)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
