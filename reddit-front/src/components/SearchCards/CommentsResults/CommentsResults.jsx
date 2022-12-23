@@ -58,7 +58,7 @@ function CommentsResults({ searchKey }) {
       setStatusCode(results.statusCode);
     };
     fetchResults();
-  }, []);
+  }, [searchKey]);
 
   return (
     <RootContainer data-testid="search-comments-results">
