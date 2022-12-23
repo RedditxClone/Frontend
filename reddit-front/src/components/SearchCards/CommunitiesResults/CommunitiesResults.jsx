@@ -62,7 +62,7 @@ function CommunitiesResults({ isSideBarCard, searchKey }) {
       setStatusCode(results.statusCode);
     };
     fetchResults();
-  }, []);
+  }, [searchKey]);
 
   // Handlers
   /**

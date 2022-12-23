@@ -6,7 +6,7 @@
 /* eslint-disable prefer-const */
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { ThemeProvider, Box } from '@mui/material';
 import SubredditBackground from '../../components/SubredditCards/SubredditBackground/SubredditBackground';
 import SubredditInfo from '../../components/SubredditCards/SubredditInfo/SubredditInfo';
@@ -32,6 +32,7 @@ import getUser from '../../services/requests/getUser';
  */
 
 export default function Subreddit() {
+  const location = useLocation();
   const { subredditName } = useParams();
   const [subredditInfo, setSubredditInfo] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,6 +41,7 @@ export default function Subreddit() {
   useEffect(() => {
     // Fetching the about info of the subreddit
     const fetchSubredditInfo = async () => {
+      console.log(subredditName);
       const results = await getSubreddit(subredditName);
       setSubredditInfo(results);
       if (results.statusCode === 400) setGoToErrorPage(true);
@@ -47,7 +49,7 @@ export default function Subreddit() {
     };
 
     fetchSubredditInfo();
-  }, []);
+  }, [location]);
 
   return (
     <ThemeProvider theme={subredditTheme}>
