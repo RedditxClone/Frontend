@@ -36,9 +36,7 @@ function SubredditInfo({
   logo
 }) {
   const [hasLogo, setHasLogo] = useState(logo !== null);
-  const SubredditLogo = (
-    <LogoImg src="https://styles.redditmedia.com/t5_2rr0e/styles/communityIcon_ylhgbe8ngx481.jpg?width=256&format=pjpg&s=fb6c14e5b6e326a13bdff84d7e0aac38511df59c" />
-  );
+  const SubredditLogo = <LogoImg src={logo} />;
   return (
     <Box
       component="div"
