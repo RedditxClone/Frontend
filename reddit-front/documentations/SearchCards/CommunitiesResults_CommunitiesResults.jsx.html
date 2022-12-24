@@ -26,7 +26,10 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable react/jsx-curly-newline */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable operator-linebreak */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable jsx-a11y/aria-role */
+/* eslint-disable react/jsx-curly-newline */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable indent */
@@ -51,28 +54,29 @@ import {
 } from '../PeopleResults/PeopleResults.Style';
 import { StyledCommunityName, MembersCount } from './CommunitiesResults.Style';
 import { divideBigNumber } from '../../../utilities/Helpers';
-import retrieveResults from '../../../services/requests/Search';
+import { retrieveResults } from '../../../services/requests/Search';
 import {
   joinSubreddit,
   leaveSubreddit
 } from '../../../services/requests/Subreddit';
+import Loader from '../../../utilities/Loader/Loader';
 
 /**
  * @typedef PropType
  * @property {bool} isSideBarCard // To show the results in a side bar cards
+ * @property {string} searchKey
  */
 
 /**
- * This Component for the showing the communities related to the key of the searching.
+ * This Component for the showing the search results related to the communities
  *
  */
 
-function CommunitiesResults({ isSideBarCard }) {
+function CommunitiesResults({ isSideBarCard, searchKey }) {
   // states
-  const searchKey = 'test'; // for testing
   const [result, setResult] = useState([]);
   const slicingSize = isSideBarCard ? 5 : result.length;
-  const [isFinished, setIsFinished] = useState(false);
+  const [statusCode, setStatusCode] = useState(0);
 
   // Fetching the results by calling the fetch service
   useEffect(() => {
@@ -81,8 +85,8 @@ function CommunitiesResults({ isSideBarCard }) {
         key: searchKey,
         searchingCategory: 'communities'
       });
-      setResult(results);
-      setIsFinished(true);
+      setResult(results.data);
+      setStatusCode(results.statusCode);
     };
     fetchResults();
   }, []);
@@ -93,25 +97,40 @@ function CommunitiesResults({ isSideBarCard }) {
    * @param {int} subredditId - The number to be divided.
    * @param {bool} currentState - true : joined, false: not joined
    */
-  const handleJoinButton = (e, subredditId, currentState) => {
-    if (currentState) {
-      leaveSubreddit({ id: subredditId });
+  const handleJoinButton = (subredditId) => {
+    const btn = document.getElementById(`join-button-${subredditId}`);
+    const currentState = btn.dataset.isjoined;
+
+    if (currentState === 'true' || currentState === true) {
+      btn.dataset.isjoined = false;
+      btn.innerHTML = 'Leave';
+      leaveSubreddit(subredditId);
     } else {
-      joinSubreddit({ id: subredditId });
+      btn.dataset.isjoined = true;
+      btn.innerHTML = 'Join';
+      joinSubreddit(subredditId);
     }
   };
 
-  const handleHoveringOnJoinButton = (e) => {
-    if (e.target.dataset.isjoined) {
-      e.target.innerHTML = 'Leave';
+  const handleHoveringOnJoinButton = (id) => {
+    const btn = document.getElementById(`join-button-${id}`);
+    const currentState = btn.dataset.isjoined;
+
+    if (currentState === 'true' || currentState === true) {
+      btn.innerHTML = 'Leave';
+    } else {
+      btn.innerHTML = 'Join';
     }
   };
 
-  const handleHoveringOutJoinButton = (e) => {
-    if (e.target.dataset.isjoined) {
-      e.target.innerHTML = 'Joined';
+  const handleHoveringOutJoinButton = (id) => {
+    const btn = document.getElementById(`join-button-${id}`);
+    const currentState = btn.dataset.isjoined;
+
+    if (currentState === 'true' || currentState === true) {
+      btn.innerHTML = 'Joined';
     } else {
-      e.target.innerHTML = 'Join';
+      btn.innerHTML = 'Join';
     }
   };
 
@@ -122,74 +141,104 @@ function CommunitiesResults({ isSideBarCard }) {
         marginTop: isSideBarCard ? '0' : '2rem'
       }}
     >
-      &lt;ResultsContainer>
-        {isSideBarCard ? &lt;StyledHeading>Communities&lt;/StyledHeading> : null}
-        {/* result container  */}
-        {result.length === 0 &amp;&amp; isFinished ? (
-          &lt;h3> No data found.&lt;/h3>
-        ) : (
-          result.slice(0, slicingSize).map((item, index) => (
-            &lt;SingleResultContainer key={`people-result-${index}`}>
-              {/* Name and logo  */}
-              &lt;NameLogoContainer>
-                &lt;StyledLogoContainer>
-                  &lt;StyledLogo
-                    data-testid="community-logo-search"
-                    src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png"
-                    alt="user_image"
-                  />
-                &lt;/StyledLogoContainer>
-                &lt;div>
-                  &lt;StyledCommunityName data-testid="community-search">
-                    {`r/${item.name}`}
-                  &lt;/StyledCommunityName>
-                  {!isSideBarCard ? (
-                    &lt;MembersCount className="subreddit_members_count">
-                      {`${divideBigNumber(item.members_count)} Members`}
-                    &lt;/MembersCount>
-                  ) : null}
+      {statusCode === 0 ? (
+        &lt;Loader />
+      ) : (
+        &lt;ResultsContainer>
+          {/* // check if failed to fetch the results from the server  */}
+          {!isSideBarCard &amp;&amp; statusCode === 400 ? (
+            &lt;h1
+              style={{
+                padding: '.76rem',
+                margin: 0,
+                paddingLeft: '1rem',
+                backgroundColor: '#dae0e6'
+              }}
+            >
+              Failed to fetch the results.
+            &lt;/h1>
+          ) : null}
 
-                  &lt;StyledDescription>
-                    {!isSideBarCard
-                      ? item.description
-                      : `${divideBigNumber(item.members_count)}  Members`}
-                  &lt;/StyledDescription>
-                &lt;/div>
-              &lt;/NameLogoContainer>
+          {isSideBarCard ? &lt;StyledHeading>Communities&lt;/StyledHeading> : null}
+          {/* result container  */}
+          {result.length === 0 &amp;&amp; statusCode === 200 &amp;&amp; !isSideBarCard
+            ? null
+            : result.slice(0, slicingSize).map((item, index) => (
+                &lt;SingleResultContainer key={`people-result-${index}`}>
+                  {/* Name and logo  */}
+                  &lt;NameLogoContainer>
+                    &lt;StyledLogoContainer>
+                      &lt;StyledLogo
+                        data-testid="community-logo-search"
+                        src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png"
+                        alt="user_image"
+                      />
+                    &lt;/StyledLogoContainer>
+                    &lt;div>
+                      &lt;StyledCommunityName
+                        data-testid="community-search"
+                        onClick={() => {
+                          window.location.replace(`/r/${item.name}`);
+                        }}
+                      >
+                        {`r/${item.name}`}
+                      &lt;/StyledCommunityName>
+                      {!isSideBarCard ? (
+                        &lt;MembersCount className="subreddit_members_count">
+                          {`${divideBigNumber(item.users)} Members`}
+                        &lt;/MembersCount>
+                      ) : null}
 
-              {/* follow button  */}
-              &lt;FollowButton
-                data-testid="join-button"
-                data-isJoined={item.joined}
-                onClick={() =>
-                  handleJoinButton(this, item.community_id, item.joined)
-                }
-                onMouseOver={handleHoveringOnJoinButton}
-                onMouseOut={handleHoveringOutJoinButton}
-              >
-                {item.joined ? 'Joined' : 'Join'}
-              &lt;/FollowButton>
-            &lt;/SingleResultContainer>
-          ))
-        )}
-        {isSideBarCard &amp;&amp; result.length > 0 ? (
-          &lt;StyledHeading
-            onClick={() => {
-              window.location.href = '/search/communities';
-            }}
-            sx={{
-              color: '#0079D3',
-              fontSize: '14px',
-              paddingBottom: '1.6rem',
-              cursor: 'pointer'
-            }}
-          >
-            See more communities
-          &lt;/StyledHeading>
-        ) : (
-          &lt;h3> No data found&lt;/h3>
-        )}
-      &lt;/ResultsContainer>
+                      &lt;StyledDescription>
+                        {!isSideBarCard
+                          ? item.description
+                          : `${divideBigNumber(item.users)}  Members`}
+                      &lt;/StyledDescription>
+                    &lt;/div>
+                  &lt;/NameLogoContainer>
+
+                  {/* join button  */}
+                  &lt;FollowButton
+                    role="community-join-button"
+                    data-isJoined={item.joined}
+                    id={`join-button-${item._id}`}
+                    onClick={() => handleJoinButton(item._id)}
+                    onMouseOver={() => handleHoveringOnJoinButton(item._id)}
+                    onMouseOut={() => handleHoveringOutJoinButton(item._id)}
+                  >
+                    {item.joined ? 'Joined' : 'Join'}
+                  &lt;/FollowButton>
+                &lt;/SingleResultContainer>
+              ))}
+          {isSideBarCard &amp;&amp; result.length > 0 ? (
+            &lt;StyledHeading
+              onClick={() => {
+                window.location.href = `/search/sr/${searchKey}`;
+              }}
+              sx={{
+                color: '#0079D3',
+                fontSize: '14px',
+                paddingBottom: '1.6rem',
+                cursor: 'pointer'
+              }}
+            >
+              See more communities
+            &lt;/StyledHeading>
+          ) : null}
+
+          {(isSideBarCard &amp;&amp; result.length === 0) || result.length === 0 ? (
+            &lt;h2
+              style={{
+                padding: '.76rem',
+                margin: 0,
+                paddingLeft: '1.8rem'
+              }}
+            >
+              No results found.
+            &lt;/h2>
+          ) : null}
+        &lt;/ResultsContainer>
+      )}
     &lt;/RootContainer>
   );
 }
@@ -211,7 +260,7 @@ export default CommunitiesResults;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Tue Nov 15 2022 22:37:28 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:19:48 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

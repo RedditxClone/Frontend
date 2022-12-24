@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CreatePostEditor.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CreatePostEditor.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable import/no-unresolved */
+/* eslint-disable object-curly-newline */
+import { useState } from 'react';
+import Draft /* convertToRaw */ from 'draft-js';
+import './CreatePost.module.css';
+import { stateToMarkdown } from 'draft-js-export-markdown';
+import { stateFromMarkdown } from 'draft-js-import-markdown';
+import BlockStyleControls from './BlockStyleControls';
+import InlineStyleControls from './InlineStyleControls';
+import './CreatePostEditor.css';
+
+const { Editor, EditorState, RichUtils, getDefaultKeyBinding } = Draft;
+
+// Custom overrides for "code" style.
+const styleMap = {
+  CODE: {
+    backgroundColor: 'rgba(0, 0, 150, 0.05)',
+    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+    fontSize: 16,
+    padding: 2,
+    maxWidth: '100%',
+    wordWrap: 'break-word',
+    wordBreak: 'break-word'
+  }
+};
+
+/**
+ * This is a rich editor created with draft-js library {@link https://draftjs.org/}
+ * This component is called by the parent component {@link CreatePostTabs}
+ * @param {Function} setPostContent - Function from the parent component that
+ *  sets the post content by the current state of the editor,
+ * By converting the current state to MARKDOWN using {stateFromMarkdown} {@link https://www.npmjs.com/package/draft-js-import-markdown}
+ * @param {String} postContent - A MARKDOWN text that represents
+ * the current state of the editor and it will be converted
+ * to editor state using the function {StateToMarkDown} {@link https://www.npmjs.com/package/draft-js-export-markdown}
+ * @returns {React.component}
+ */
+function CreatePostEditor({ setPostContent, postContent }) {
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(stateFromMarkdown(postContent))
+  );
+  // const editorRef = useRef();
+  console.log('here1', stateFromMarkdown(postContent));
+  console.log('here2', editorState);
+  const getBlockStyle = (block) => {
+    switch (block.getType()) {
+      case 'blockquote':
+        return 'RichEditor-blockquote';
+      default:
+        return null;
+    }
+  };
+
+  const onChangeHandler = (_editorState) => {
+    setEditorState(_editorState);
+  };
+
+  const onBlurHandler = () => {
+    setPostContent(stateToMarkdown(editorState.getCurrentContent()));
+  };
+
+  const handleKeyCommand = (command, _editorState) => {
+    const newState = RichUtils.handleKeyCommand(_editorState, command);
+    if (newState) {
+      onChangeHandler(newState);
+      return true;
+    }
+    return false;
+  };
+
+  const mapKeyToEditorCommand = (e) => {
+    if (e.keyCode === 9 /* TAB */) {
+      const newEditorState = RichUtils.onTab(e, editorState, 4 /* maxDepth */);
+      if (newEditorState !== editorState) {
+        onChangeHandler(newEditorState);
+      }
+    }
+    return getDefaultKeyBinding(e);
+  };
+
+  const toggleBlockType = (blockType) => {
+    onChangeHandler(RichUtils.toggleBlockType(editorState, blockType));
+  };
+  const toggleInlineStyle = (inlineStyle) => {
+    onChangeHandler(RichUtils.toggleInlineStyle(editorState, inlineStyle));
+  };
+
+  let className = 'RichEditor-editor';
+  const contentState = editorState.getCurrentContent();
+  if (!contentState.hasText()) {
+    if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+      className += ' RichEditor-hidePlaceholder';
+    }
+  }
+
+  return (
+    &lt;div className="RichEditor-root">
+      &lt;div className="RichEditor-controls">
+        &lt;InlineStyleControls
+          editorState={editorState}
+          onToggle={toggleInlineStyle}
+        />
+        &lt;BlockStyleControls
+          editorState={editorState}
+          onToggle={toggleBlockType}
+        />
+      &lt;/div>
+      &lt;div className={className}>
+        &lt;Editor
+          blockStyleFn={getBlockStyle}
+          customStyleMap={styleMap}
+          editorState={editorState}
+          handleKeyCommand={handleKeyCommand}
+          keyBindingFn={mapKeyToEditorCommand}
+          onChange={onChangeHandler}
+          placeholder="Text(optional)"
+          spellCheck
+          onBlur={onBlurHandler}
+        />
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+export default CreatePostEditor;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockStyleControls">BlockStyleControls</a></li><li><a href="global.html#ChooseCommunityName">ChooseCommunityName</a></li><li><a href="global.html#CreatePost">CreatePost</a></li><li><a href="global.html#CreatePostEditor">CreatePostEditor</a></li><li><a href="global.html#CreatePostTabs">CreatePostTabs</a></li><li><a href="global.html#DragAndDrop">DragAndDrop</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#InlineStyleControls">InlineStyleControls</a></li><li><a href="global.html#PostingRules">PostingRules</a></li><li><a href="global.html#StyledButton">StyledButton</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sat Dec 24 2022 15:31:33 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

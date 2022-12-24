@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import CreateCommunity from '../../../components/CreateCommunity/CreateCommunity';
 
 let open = true;
@@ -10,10 +11,12 @@ describe('Test for Create Community Card', () => {
   it('Test for rendering the card', () => {
     setOpen(true);
     render(
-      <CreateCommunity
-        open={open}
-        setOpen={setOpen}
-      />
+      <BrowserRouter>
+        <CreateCommunity
+          open={open}
+          setOpen={setOpen}
+        />
+      </BrowserRouter>
     );
     const nameElement = screen.getByText(
       /Community names including capitalization cannot be changed./i
@@ -38,10 +41,12 @@ describe('Test for Create Community Card', () => {
     setOpen(true);
 
     render(
-      <CreateCommunity
-        open={open}
-        setOpen={setOpen}
-      />
+      <BrowserRouter>
+        <CreateCommunity
+          open={open}
+          setOpen={setOpen}
+        />
+      </BrowserRouter>
     );
     const inputNameElement = screen.getByDisplayValue('');
     fireEvent.focus(inputNameElement);
@@ -54,10 +59,12 @@ describe('Test for Create Community Card', () => {
     setOpen(true);
 
     render(
-      <CreateCommunity
-        open={open}
-        setOpen={setOpen}
-      />
+      <BrowserRouter>
+        <CreateCommunity
+          open={open}
+          setOpen={setOpen}
+        />
+      </BrowserRouter>
     );
     const inputNameElement = screen.getByDisplayValue('');
     fireEvent.focus(inputNameElement);
@@ -71,10 +78,12 @@ describe('Test for Create Community Card', () => {
     setOpen(true);
 
     render(
-      <CreateCommunity
-        open={open}
-        setOpen={setOpen}
-      />
+      <BrowserRouter>
+        <CreateCommunity
+          open={open}
+          setOpen={setOpen}
+        />
+      </BrowserRouter>
     );
     const inputNameElement = screen.getByDisplayValue('');
     fireEvent.change(inputNameElement, { target: { value: 'ahmed' } });
@@ -86,10 +95,12 @@ describe('Test for Create Community Card', () => {
     setOpen(true);
 
     render(
-      <CreateCommunity
-        open={open}
-        setOpen={setOpen}
-      />
+      <BrowserRouter>
+        <CreateCommunity
+          open={open}
+          setOpen={setOpen}
+        />
+      </BrowserRouter>
     );
     const inputNameElement = screen.getByDisplayValue('');
     fireEvent.change(inputNameElement, { target: { value: 'ahmed/-+' } });

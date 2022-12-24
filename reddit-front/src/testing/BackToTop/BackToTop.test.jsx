@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import BackTop from '../../../components/BackToTop/BackToTop';
+import BackTop from '../../components/BackToTop/BackToTop';
 
 describe('Test for backtop in case show it by message save changes', () => {
   it('Test for rendering backtop button', () => {

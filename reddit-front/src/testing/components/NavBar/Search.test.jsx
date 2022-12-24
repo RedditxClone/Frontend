@@ -1,9 +1,15 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import SearchBox from '../../../components/Layout/Search/Search';
 
 describe('Test for search bar in nav bar in case not logged in', () => {
   it('Test for rendering the search bar and input', () => {
-    render(<SearchBox login="false" />);
+    render(
+      <BrowserRouter>
+        {' '}
+        <SearchBox login="false" />
+      </BrowserRouter>
+    );
     const searchElement = screen.getByPlaceholderText(/RedditSearch.../i);
     expect(searchElement).toBeInTheDocument();
 
@@ -14,7 +20,12 @@ describe('Test for search bar in nav bar in case not logged in', () => {
 
 describe('Test for search bar in nav bar in case logged in', () => {
   it('Test for rendering the search bar and input', () => {
-    render(<SearchBox login="true" />);
+    render(
+      <BrowserRouter>
+        {' '}
+        <SearchBox login="false" />
+      </BrowserRouter>
+    );
     const searchElement = screen.getByPlaceholderText(/RedditSearch.../i);
     expect(searchElement).toBeInTheDocument();
 

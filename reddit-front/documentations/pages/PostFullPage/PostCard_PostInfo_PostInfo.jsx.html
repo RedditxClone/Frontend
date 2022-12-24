@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PostCard/PostInfo/PostInfo.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PostCard/PostInfo/PostInfo.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable prefer-destructuring */
+/* eslint-disable operator-linebreak */
+/* eslint-disable no-unused-vars */
+/* eslint-disable object-curly-newline */
+/* eslint-disable prefer-template */
+/* eslint-disable consistent-return */
+/* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import './PostInfo.css';
+
+import { memo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { IoIosNotifications, IoMdNotificationsOutline } from 'react-icons/io';
+import { FcApproval, FcLock } from 'react-icons/fc';
+import { RiSpamLine } from 'react-icons/ri';
+import { CiNoWaitingSign } from 'react-icons/ci';
+import { followPost } from '../../../../services/requests/Post';
+import Logo from '../../../../assets/Images/test.png';
+import { divideBigNumber } from '../../../../utilities/Helpers';
+
+/**
+ * @typedef PropType
+ * @property {string} postId
+ * @property {object} userInfo
+ * @property {object} subredditInfo
+ * @property {timestamp} postedAt
+ * @property {string} approvedBy
+ * @property {timestamp} approvedAt
+ * @property {string} spammedBy
+ * @property {timestamp} spammedAt
+ * @property {string} removedBy
+ * @property {timestamp} removedAt
+ * @property {integer} modAction  // 0: none, 1: approved, 2: spammed, 3: removed
+ * @property {boolean} isNSFW
+ * @property {boolean} isLocked
+ * @property {bool} isFollowed
+ */
+
+/**
+ * This Component for the post Info ( post header ) which contains the username that posted the post
+ * , the community of the post, flairs, and the join community button.
+ * Using Redux here for fetching the data of the username and the community.
+ *
+ */
+
+function PostInfo({
+  postId,
+  userInfo,
+  subredditInfo,
+  postedAt,
+  approvedBy,
+  approvedAt,
+  spammedBy,
+  spammedAt,
+  removedBy,
+  removedAt,
+  modAction,
+  isNSFW,
+  isLocked,
+  isFollowed
+}) {
+  // States
+  const { user } = useSelector((state) => state.auth);
+  const communityName = subredditInfo.name;
+  const communityId = subredditInfo.id;
+  const userId = userInfo.id;
+  const postedBy = userInfo.username;
+  const joinedDate = userInfo.joinedDate;
+  const membersCount = subredditInfo.membersCount;
+  const communityDescription = subredditInfo.description;
+  const [isCommunityNameHovered, setIsCommunityNameHovered] = useState(false);
+  const [isPostFollowed, setIsPostFollowed] = useState(isFollowed);
+  const [isUserFollowed, setIsUserFollowed] = useState(userInfo.isFollowed);
+  const [isJoined, setIsJoined] = useState(subredditInfo.isJoin);
+  const subredditLogo =
+    subredditInfo.logo === '' || subredditInfo.logo == null
+      ? subredditInfo.logo
+      : null;
+  const userLogo =
+    userInfo.logo === '' || userInfo.logo == null ? userInfo.photo : null;
+
+  /* This function shows the subreddit info while hovering on the subreddit name */
+  const handleHoverOnSubreddit = () => {
+    setIsCommunityNameHovered(true);
+    const communityInformation = document.getElementById(
+      'community-information-post-' + postId
+    );
+
+    communityInformation.style.display = 'block';
+    communityInformation.style.visibility = 'visible';
+  };
+
+  /* This function hides the subreddit info while hovering out the subreddit name */
+  const handleHoverOutSubreddit = () => {
+    const communityInformation = document.getElementById(
+      'community-information-post-' + postId
+    );
+    communityInformation.style.display = 'none';
+    communityInformation.style.visibility = 'hidden';
+  };
+
+  /* This function shows the user info while hovering on the username */
+  const handleHoverOnUsername = () => {
+    const userInformation = document.getElementById(
+      'user-information-post-' + postId
+    );
+    userInformation.style.display = 'block';
+    userInformation.style.visibility = 'visible';
+  };
+
+  /* This function hides the user info while hovering out the username */
+  const handleHoverOutUsername = () => {
+    const userInformation = document.getElementById(
+      'user-information-post-' + postId
+    );
+    userInformation.style.display = 'none';
+    userInformation.style.visibility = 'hidden';
+  };
+
+  /* This function return the subreddit name concatenated with 'r/' */
+  const getCommunityName = function () {
+    return subredditInfo.name
+      ? 'r/ '.concat(subredditInfo.name)
+      : 'community_name';
+  };
+
+  /* This function return the username of the person that published the post 'u/' */
+  const getPostedBy = function () {
+    return userInfo.username ? 'u/ '.concat(userInfo.username) : 'user_name';
+  };
+
+  /* This function return date at which the post was published */
+  const getPostedAt = function () {
+    return postedAt ? postedAt.concat(' ago') : 'posted_time';
+  };
+
+  /* This function handles the follow button */
+  const handleFollowPost = function () {
+    if (!isPostFollowed) {
+      setIsPostFollowed(true);
+      const info = { request: { follow: true }, id: postId };
+      followPost(info);
+    } else {
+      setIsPostFollowed(false);
+      const info = { request: { follow: false }, id: postId };
+      followPost(info);
+    }
+  };
+
+  /* This function handles the follow button */
+  const handleFollowUser = (e) => {
+    if (!isUserFollowed) {
+      setIsUserFollowed(true);
+      followUser(userInfo.id);
+      e.target.innerHTML = 'Following';
+    } else {
+      setIsUserFollowed(false);
+      unFollowUser(userInfo.id);
+      e.target.innerHTML = 'Follow';
+    }
+  };
+
+  // Returning the result
+  return (
+    &lt;div
+      className="post-info"
+      data-testid="test-post-info"
+    >
+      {/* post info details -> username, time, community name */}
+      &lt;div className="post-info-details">
+        &lt;div
+          className="community-name"
+          onMouseOver={handleHoverOnSubreddit}
+          onFocus={handleHoverOnSubreddit}
+          onMouseOut={handleHoverOutSubreddit}
+          onBlur={handleHoverOutSubreddit}
+          data-testid="test-post-community-name"
+        >
+          &lt;a href={`/r/${subredditInfo.name}`}>{getCommunityName()}&lt;/a>
+          &lt;div
+            className="community-information"
+            id={'community-information-post-' + postId}
+          >
+            &lt;div className="community-information-header">
+              &lt;div className="community-logo-2">
+                &lt;img
+                  src={Logo}
+                  alt="community logo"
+                />
+              &lt;/div>
+              &lt;h3 className="community-name-2">
+                &lt;a
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    window.location.replace(`/r/${subredditInfo.name}`);
+                  }}
+                >
+                  {getCommunityName()}
+                &lt;/a>
+              &lt;/h3>
+            &lt;/div>
+            &lt;div className="community-stats">
+              &lt;div className="community-stats-item">
+                &lt;span className="members-count">
+                  {divideBigNumber(subredditInfo.membersCount)}
+                &lt;/span>
+                &lt;span>members&lt;/span>
+              &lt;/div>
+              &lt;div className="community-stats-item">
+                &lt;span className="online-members">0&lt;/span>
+                &lt;span>online&lt;/span>
+              &lt;/div>
+            &lt;/div>
+            &lt;div className="community-description-text">
+              &lt;p>{subredditInfo.description}&lt;/p>
+            &lt;/div>
+            &lt;div className="community-view-button">
+              &lt;a
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  window.location.replace(`/r/${subredditInfo.name}`);
+                }}
+                className="view-community"
+              >
+                view community
+              &lt;/a>
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+
+        &lt;span className="posted-by">Posted by&lt;/span>
+        &lt;div
+          className="post-user-info"
+          onMouseOver={handleHoverOnUsername}
+          onMouseOut={handleHoverOutUsername}
+          onFocus={handleHoverOnUsername}
+          onBlur={handleHoverOutUsername}
+        >
+          &lt;a
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              window.location.replace(`/user/${userInfo.username}`);
+            }}
+          >
+            {getPostedBy()}
+          &lt;/a>
+          &lt;div
+            className="user-information"
+            id={'user-information-post-' + postId}
+          >
+            &lt;div className="user-information-header">
+              &lt;div className="user-logo-2">
+                &lt;img
+                  src={Logo}
+                  alt="User logo"
+                />
+              &lt;/div>
+              &lt;p className="user-name-2">
+                &lt;a href={`/user/${userInfo.username}`}>{userInfo.username}&lt;/a>
+                &lt;p>
+                  {getPostedBy()}
+                  &lt;span className="user-joined-from"> joined date&lt;/span>
+                &lt;/p>
+              &lt;/p>
+            &lt;/div>
+            &lt;div className="user-stats">
+              &lt;div className="user-stats-item">
+                &lt;span className="karma-count">12&lt;/span>
+                &lt;span>post karma&lt;/span>
+              &lt;/div>
+              &lt;div className="user-stats-item">
+                &lt;span className="karma-commented">123&lt;/span>
+                &lt;span>comment karma&lt;/span>
+              &lt;/div>
+            &lt;/div>
+            &lt;div className="user-stats">
+              &lt;div className="user-stats-item">
+                &lt;span className="awardee-karma">123&lt;/span>
+                &lt;span>awardee karma&lt;/span>
+              &lt;/div>
+              &lt;div className="user-stats-item">
+                &lt;span className="awarder-karma">123&lt;/span>
+                &lt;span>awarder karma&lt;/span>
+              &lt;/div>
+            &lt;/div>
+
+            {user.username !== userInfo.username ? (
+              &lt;div
+                className="follow-user-button"
+                style={{
+                  backgroundColor: isUserFollowed ? 'white' : '#1976d2',
+                  border: isUserFollowed ? '1px solid #1976d2' : null
+                }}
+              >
+                &lt;a
+                  className="view-community"
+                  onClick={handleFollowUser}
+                  style={{
+                    color: isUserFollowed ? '#1976d2' : 'white'
+                  }}
+                >
+                  {isUserFollowed ? 'Following' : 'Follow'}
+                &lt;/a>
+              &lt;/div>
+            ) : null}
+          &lt;/div>
+        &lt;/div>
+        &lt;span className="post-time">{getPostedAt()}&lt;/span>
+        &lt;div className="mod-action-icon">
+          {isNSFW ? (
+            &lt;span
+              className="nsfw-flair"
+              id={`post-nsfw-${postId}`}
+            >
+              nfsw
+            &lt;/span>
+          ) : null}
+
+          {isLocked ? (
+            &lt;FcLock
+              id={`post-lock-comments-${postId}`}
+              style={{
+                fontSize: '13px',
+                color: '#8bc34a',
+                margin: '6px 0 0 7px'
+              }}
+            />
+          ) : null}
+
+          {modAction === 1 ? (
+            &lt;span className="approved-post-icon">
+              &lt;FcApproval style={{ fontSize: '13px', margin: '6px 0 0 7px' }} />
+              &lt;span className="post-approved-by">
+                {`Approved by ${approvedBy} at ${approvedAt}`}
+              &lt;/span>
+            &lt;/span>
+          ) : null}
+
+          {modAction === 2 ? (
+            &lt;span className="spammed-post-icon">
+              &lt;RiSpamLine
+                className="spammed-post-icon"
+                style={{
+                  fontSize: '13px',
+                  color: 'red',
+                  margin: '6px 0 0 7px'
+                }}
+              />
+              &lt;span
+                className="post-spammed-by"
+                style={{ width: '45rem' }}
+              >
+                {`Removed as spam by ${spammedBy} at ${spammedAt}`}
+              &lt;/span>
+            &lt;/span>
+          ) : null}
+
+          {modAction === 3 ? (
+            &lt;span className="removed-post-icon">
+              &lt;CiNoWaitingSign
+                style={{
+                  fontSize: '13px',
+                  color: 'red',
+                  margin: '6px 0 0 5px'
+                }}
+              />
+              &lt;span className="post-removed-by">
+                {`Removed by ${removedBy} at ${removedAt}`}
+              &lt;/span>
+            &lt;/span>
+          ) : null}
+        &lt;/div>
+      &lt;/div>
+
+      {/* showing follow button in the full details mode of the post  */}
+      &lt;a onClick={handleFollowPost}>
+        {isPostFollowed ? (
+          &lt;IoIosNotifications
+            color="#787c7e"
+            fontSize="2.4rem"
+          />
+        ) : (
+          &lt;IoMdNotificationsOutline
+            color="#787c7e"
+            fontSize="2.4rem"
+          />
+        )}
+      &lt;/a>
+    &lt;/div>
+  );
+}
+
+export default memo(PostInfo);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCard">AboutCard</a></li><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostFullPage">PostFullPage</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:52:12 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

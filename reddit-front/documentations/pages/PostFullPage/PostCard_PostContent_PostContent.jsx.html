@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PostCard/PostContent/PostContent.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PostCard/PostContent/PostContent.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable import/no-unresolved */
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable no-use-before-define */
+/* eslint-disable prefer-const */
+/* eslint-disable jsx-a11y/media-has-caption */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
+/* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react/destructuring-assignment */
+import { useEffect, memo, useState } from 'react';
+import ReactMarkdown from 'https://esm.sh/react-markdown@7';
+import { Link } from '@mui/material';
+import { FiExternalLink } from 'react-icons/fi';
+import Logo3 from '../../../../assets/Images/test.png';
+import Logo from '../../../../assets/Images/test_3.jpg';
+import PostInteractions from '../PostInteractions/PostInteractions';
+import PostInfo from '../PostInfo/PostInfo';
+import './PostContent.css';
+import { divideBigNumber, getDateDiff } from '../../../../utilities/Helpers';
+
+/**
+ * @typedef PropType
+ * @property {bool} setHidePost
+ * @property {object} postData
+ * @property {bool} isCommunityPost
+ * @property {bool} isModeratorMode
+ */
+
+/**
+ * This Component for the post content (images, videos, text, etc.)
+ * Calling the method 'getPostContent' to determine what is the type of the content.
+ * Checking for the content type, and seeing if it is more than one image, so we call
+ * the method 'showSlides' to render a slideshow for the images
+ *
+ */
+function PostContent({
+  setHidePost,
+  postData,
+  isCommunityPost,
+  isModeratorMode
+}) {
+  let postContent = null;
+  let slideIndex = 0;
+  const [modAction, setModAction] = useState(
+    postData.approvedBy
+      ? 1
+      : postData.spammedBy
+      ? 2
+      : postData.removedBy
+      ? 3
+      : 0
+  );
+  const [locked, setLocked] = useState(postData.commentsLocked);
+  const [nsfw, setNsfw] = useState(postData.nsfw);
+  const [isSpoiled, setIsSpoiled] = useState(postData.spoiler);
+  const [isSaved, setIsSaved] = useState(postData.isSaved);
+  const [isPostApproved, setIsPostApproved] = useState(
+    postData.approved !== null ? postData.approved : false
+  );
+
+  const [replyNotifications, setReplyNotifications] = useState(
+    postData.replyNotifications
+  );
+  const [canBeSpoiled, setCanBeSpoiled] = useState(
+    // postData.images.length === 1 // this condition means that the post has only one image
+    true
+  );
+
+  /* Gets the post type (img, video, ..), and returns the content as html component */
+  const getPostContent = () => {
+    let contentType = postData.postType;
+    let mediaCount = postData.images ? postData.images.length : 0;
+
+    switch (contentType) {
+      case 'images':
+        if (mediaCount > 1) {
+          postContent = (
+            &lt;>
+              {postData.images &amp;&amp; postData.images.length > 0
+                ? postData.images.map((image) => (
+                    &lt;div className="my-slides fade">
+                      &lt;img
+                        src={image}
+                        alt="post image"
+                      />
+                    &lt;/div>
+                  ))
+                : null}
+              &lt;button
+                type="button"
+                className="prev"
+                onClick={prevSlide}
+              >
+                ❮
+              &lt;/button>
+              &lt;button
+                type="button"
+                className="next"
+                onClick={nextSlide}
+              >
+                ❯
+              &lt;/button>
+            &lt;/>
+          );
+          // showSlides();
+        } else {
+          postContent = (
+            &lt;div className="post-image">
+              &lt;img
+                className={`post-image-${postData._id}`}
+                src={`https://static.swproject.demosfortest.com/${postData.images[0]}`}
+                alt="post image"
+                style={{
+                  filter: postData.spoiler ? 'blur(60px)' : 'none'
+                }}
+              />
+            &lt;/div>
+          );
+        }
+        break;
+      case 'video':
+        postContent = (
+          &lt;video
+            controls="true"
+            muted="false"
+            preload="auto"
+            className="post-content-video"
+          >
+            &lt;source
+              src={postData.video}
+              type="video/mp4"
+            />
+          &lt;/video>
+        );
+        break;
+      case 'text':
+        postContent = (
+          &lt;div className="post-content-text">
+            &lt;p style={{ color: isVisited ? '#949494' : 'black' }}>
+              &lt;ReactMarkdown>{postData.text}&lt;/ReactMarkdown>
+            &lt;/p>
+          &lt;/div>
+        );
+        break;
+      case 'link':
+        postContent = (
+          &lt;div className="post-content-link">
+            &lt;a>
+              {postData.link}
+              &lt;FiExternalLink
+                className="external-link-icon"
+                style={{ marginLeft: '4px', color: '#3f9ade' }}
+              />
+            &lt;/a>
+          &lt;/div>
+        );
+        break;
+      default:
+        break;
+    }
+
+    return postContent;
+  };
+
+  /* show the image slider if the post has multiple images */
+  const showSlides = () => {
+    let slides = document.querySelectorAll('.my-slides');
+
+    const slidesLength = slides.length;
+    if (slideIndex === slidesLength) {
+      slideIndex = 0;
+    }
+    if (slideIndex &lt; 0) {
+      slideIndex = slidesLength - 1;
+    }
+
+    let i;
+    for (i = 0; i &lt; slidesLength; i += 1) {
+      slides.item(i).style.display = 'none';
+    }
+    if (slides[slideIndex] != null) {
+      slides.item(slideIndex).style.display = 'block';
+    }
+  };
+
+  const nextSlide = () => {
+    slideIndex += 1;
+    showSlides();
+  };
+
+  const prevSlide = () => {
+    slideIndex -= 1;
+    showSlides();
+  };
+
+  // Returning the result
+  return (
+    &lt;div
+      className="post-content"
+      data-testid="test-post-content"
+    >
+      {/* Post info -> community, username, time */}
+      &lt;PostInfo
+        postId={postData._id}
+        userInfo={postData.user}
+        subredditInfo={postData.subredditInfo}
+        postedAt={getDateDiff(postData.publishedDate)}
+        approvedBy={postData.approvedBy}
+        approvedAt={postData.approvedAt}
+        spammedBy={postData.spammedBy}
+        spammedAt={postData.spammedAt}
+        removedBy={postData.removedBy}
+        removedAt={postData.removedAt}
+        modAction={modAction}
+        isNSFW={nsfw}
+        isLocked={locked}
+        isFollowed={postData.isFollowed}
+      />
+
+      {/* Post title &amp; flairs  */}
+      &lt;div
+        className="post-title-container"
+        data-testid="test-post-title"
+      >
+        &lt;div className="post-title">
+          &lt;Link
+            className="post-link"
+            sx={{ textDecoration: 'none' }}
+          >
+            &lt;h3
+              className="post-title-heading"
+              style={{ color: 'black' }}
+            >
+              {postData.title}
+            &lt;/h3>
+          &lt;/Link>
+        &lt;/div>
+        {postData.flair ? (
+          &lt;div className="flair">
+            &lt;a
+              className="flair-link"
+              style={{
+                color: postData.flair.textColor,
+                backgroundColor: postData.flair.backgroundColor,
+                padding: '0.5rem',
+                borderRadius: '999px',
+                fontWeight: '700',
+                fontSize: '12px'
+              }}
+            >
+              {postData.flair.text}
+            &lt;/a>
+          &lt;/div>
+        ) : null}
+      &lt;/div>
+
+      {/* post content  */}
+      &lt;div className="post-main-content">
+        &lt;div className="post-content-core">
+          {getPostContent()}
+          {showSlides()}
+        &lt;/div>
+      &lt;/div>
+
+      {/* post interactions -> comment, save, hide, ..  */}
+      &lt;PostInteractions
+        setHidePost={setHidePost}
+        commentsCount={divideBigNumber(postData.commentCount)}
+        votesCount={postData.votesCount}
+        postId={postData._id}
+        isCommunityPost={isCommunityPost}
+        changeModAction={setModAction}
+        setModAction={setModAction}
+        setNsfw={setNsfw}
+        setLocked={setLocked}
+        isModeratorMode={isModeratorMode}
+        isSaved={isSaved}
+        isLocked={locked}
+        isPostApproved={isPostApproved}
+        isNSFW={nsfw}
+        isSpoiled={isSpoiled}
+        replyNotifications={replyNotifications}
+        canBeSpoiled={canBeSpoiled}
+        approved={postData.approvedAt ? true : false}
+        removed={postData.removedAt ? true : false}
+        spammed={postData.spammedAt ? true : false}
+      />
+    &lt;/div>
+  );
+}
+
+export default memo(PostContent);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutCard">AboutCard</a></li><li><a href="global.html#AboutCardContainer">AboutCardContainer</a></li><li><a href="global.html#CommunityCreatedDate">CommunityCreatedDate</a></li><li><a href="global.html#CommunityDescription">CommunityDescription</a></li><li><a href="global.html#CommunityThemeOption">CommunityThemeOption</a></li><li><a href="global.html#CreatePostButton">CreatePostButton</a></li><li><a href="global.html#EditCommunityActionsContainer">EditCommunityActionsContainer</a></li><li><a href="global.html#MembersTypography">MembersTypography</a></li><li><a href="global.html#OnlineMembersBox">OnlineMembersBox</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostFullPage">PostFullPage</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#ShowOptionsButton">ShowOptionsButton</a></li><li><a href="global.html#StyledActionButton">StyledActionButton</a></li><li><a href="global.html#StyledTextarea">StyledTextarea</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:52:12 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

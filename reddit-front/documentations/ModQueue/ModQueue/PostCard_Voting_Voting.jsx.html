@@ -26,7 +26,9 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable no-nested-ternary */
+            <pre class="prettyprint source linenums"><code>/* eslint-disable indent */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-unreachable */
 /* eslint-disable no-lone-blocks */
@@ -36,13 +38,13 @@ import { useState, memo } from 'react';
 import './Voting.css';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { divideBigNumber } from '../../../../utilities/Helpers';
-import { votePost } from '../../../../services/requests/Post';
+import { upVote, downVote, unVote } from '../../../../services/requests/Post';
 
 /**
  * @typedef PropType
  * @property {number} votesCount
- * @property {number} postId
- * @property {number} currentVotingState  // 0 : not voted, 1 -> up, -1 -> down
+ * @property {string} postId
+ * @property {string} currentVotingState
  * @property {bool} isHomePagePost
  */
 
@@ -53,11 +55,21 @@ import { votePost } from '../../../../services/requests/Post';
  */
 
 function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
-  const [votesCountColor, setVotesCountColor] = useState('black');
-  const [isUpVoted, setIsUpVoted] = useState(currentVotingState === 1);
-  const [isDownVoted, setIsDownVoted] = useState(currentVotingState === -1);
+  // states
+  const [votesCountColor, setVotesCountColor] = useState(
+    currentVotingState === 'upvote'
+      ? '#ff6830'
+      : currentVotingState === 'downvote'
+      ? '#0272c4'
+      : 'black'
+  );
+  const [isUpVoted, setIsUpVoted] = useState(currentVotingState === 'upvote');
+  const [isDownVoted, setIsDownVoted] = useState(
+    currentVotingState === 'downvote'
+  );
   const [votes, setVotes] = useState(votesCount);
 
+  // handlers
   const handleUpVoting = () => {
     votesCount = votes;
     if (isUpVoted) {
@@ -67,6 +79,7 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
       setIsDownVoted(false);
       currentVotingState = 0;
       setVotesCountColor('black');
+      unVote({ id: postId });
     } else if (isDownVoted) {
       setVotes(votesCount + 2);
       votesCount += 2;
@@ -74,6 +87,7 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
       setIsUpVoted(true);
       currentVotingState = 1;
       setVotesCountColor('#ff6830');
+      upVote({ id: postId });
     } else {
       setVotes(votesCount + 1);
       votesCount += 1;
@@ -81,9 +95,8 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
       setIsDownVoted(false);
       currentVotingState = 1;
       setVotesCountColor('#ff6830');
+      downVote({ id: postId });
     }
-    const info = { request: { votes: votesCount }, id: postId };
-    votePost(info);
   };
 
   const handleDownVoting = () => {
@@ -95,6 +108,7 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
       setIsDownVoted(true);
       currentVotingState = -1;
       setVotesCountColor('#0272c4');
+      downVote({ id: postId });
     } else if (isDownVoted) {
       setVotes(votesCount + 1);
       votesCount += 1;
@@ -102,6 +116,7 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
       setIsUpVoted(false);
       currentVotingState = 0;
       setVotesCountColor('black');
+      unVote({ id: postId });
     } else {
       setVotes(votesCount - 1);
       votesCount -= 1;
@@ -109,10 +124,8 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
       setIsDownVoted(true);
       currentVotingState = -1;
       setVotesCountColor('#0272c4');
+      downVote({ id: postId });
     }
-
-    const info = { request: { votes: votesCount }, id: postId };
-    votePost(info);
   };
 
   // Returning the result
@@ -138,11 +151,6 @@ function Voting({ votesCount, postId, currentVotingState, isHomePagePost }) {
           data-testid="test-votes-count"
           style={{ color: votesCountColor }}
         >
-          {isHomePagePost
-            ? votes > 0
-              ? divideBigNumber(votes)
-              : 'Vote'
-            : null}
           {divideBigNumber(votes)}
         &lt;/div>
         &lt;span
@@ -172,13 +180,13 @@ export default memo(Voting);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ModQueue">ModQueue</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#FlairDialog">FlairDialog</a></li><li><a href="global.html#ModQueue">ModQueue</a></li><li><a href="global.html#PostCard">PostCard</a></li><li><a href="global.html#PostContainer">PostContainer</a></li><li><a href="global.html#PostContent">PostContent</a></li><li><a href="global.html#PostInfo">PostInfo</a></li><li><a href="global.html#PostInteractions">PostInteractions</a></li><li><a href="global.html#Voting">Voting</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 09 2022 00:06:55 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Dec 23 2022 12:02:40 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
