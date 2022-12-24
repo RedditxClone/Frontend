@@ -292,16 +292,17 @@ export default function CommentsForSamePostCard({
       <Box
         sx={{
           display: "flex",
-          padding: "1.5rem",
+          paddingLeft: "1.5rem",
           border: "2px solid #1a1a1b12",
           "&:hover": {
             border: "2px solid #ccc"
-          }
+          },
+          alignItems:'center'
         }}
       >
         <FaRegCommentAlt size={24} color="#7c7c7c" />
         &ensp;
-        <h6 style={{ fontWeight: "300", color: "#9b9b9b",position:'relative' }}>
+        <h6 style={{ fontWeight: "300", color: "#9b9b9b",fontSize:'16px' }}>
           <span style={{ color: "#0079d3" }}> {postCommentInfo.userName} </span>{" "}
           commented on {postCommentInfo.postTitle} &nbsp;{" "}
           <span style={{ color: "#0079d3" }}>
@@ -315,70 +316,9 @@ export default function CommentsForSamePostCard({
             ) : null}
           </span>
           <span
-            className="community-name"
-            onMouseOver={() =>
-              handleHoverOnSubreddit(postCommentInfo.communityId)
-            }
-            onFocus={() => handleHoverOnSubreddit(postCommentInfo.communityId)}
-            onMouseOut={() =>
-              handleHoverOutSubreddit(postCommentInfo.communityId)
-            }
-            onBlur={() => handleHoverOutSubreddit(postCommentInfo.communityId)}
-            data-testid="test-post-community-name"
-            style={{
-              color: "#1a1a1b",
-              fontWeight: "500",
-              position: "absolute",
-              zIndex: "10000",
-              backgroundColor: "white",
-              width: "100%",
-              top: "20px",
-              left: "20%"
-            }}
+           
           >
-            {" "}
-            {/* {postCommentInfo.communityName}{" "} */}
-            <a href="#">{getCommunityName()}</a>
-            <div
-              className="community-information"
-              id={"community-information-post-" + postCommentInfo.communityId}
-            >
-              <div className="community-information-header">
-                <div className="community-logo-2">
-                  <img src={Logo} alt="community logo" />
-                </div>
-                <h3 className="community-name-2">
-                  <a href="#">{getCommunityName()}</a>
-                </h3>
-              </div>
-              <div className="community-stats">
-                <div className="community-stats-item">
-                  <span className="members-count">
-                    {/* {divideBigNumber(postRelatedCommunityData.members_count)} */}
-                    1234
-                  </span>
-                  <span>members</span>
-                </div>
-                <div className="community-stats-item">
-                  <span className="online-members">
-                    {/* {divideBigNumber(postRelatedCommunityData.online_members)} */}
-                    123
-                  </span>
-                  <span>online</span>
-                </div>
-              </div>
-              <div className="community-description-text">
-                <p>
-                  test
-                  {/* {postRelatedCommunityData.description} */}
-                </p>
-              </div>
-              <div className="community-view-button">
-                <a href="#" className="view-community">
-                  view community
-                </a>
-              </div>
-            </div>
+            {postCommentInfo.communityName}
           </span>{" "}
           . Posted by
           <span> {postCommentInfo.postOwner} </span>
