@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CreatePost.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CreatePost.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-underscore-dangle */
+/* eslint-disable function-paren-newline */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable operator-linebreak */
+import { AiOutlinePlus } from 'react-icons/ai';
+import { MdOutlineDone } from 'react-icons/md';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import classes from './CreatePost.module.css';
+import AppBar from '../../components/Layout/AppBar/AppBar';
+import PostingRules from './PostingRules';
+import ChooseCommunityName from './ChooseCommunityName';
+import { RoundedButton } from '../../components/HomePageCards/HomePageCards.style';
+import PostTag from './PostTag';
+import CreatePostTabs from './CreatePostTabs';
+// import CommunityInfo from './CommunityInfo';
+import createPost, {
+  createPostWithMedia
+} from '../../services/requests/createPost';
+import AlertMessage from '../../utilities/AlertMessage/AlertMessage';
+/**
+ * This is the create post page that contains left and right part
+ * Left part is for the Tabs {@link CreatePostTabs} that has different options to post
+ * Right part is for showing subreddit info and reddit rules for posting
+ *
+ * @returns {React.component}
+ */
+function CreatePost() {
+  const [postTitle, setPostTitle] = useState('');
+  const [postContent, setPostContent] = useState('');
+  const [postUrl, setPostUrl] = useState('');
+  const [postMedia, setPostMedia] = useState([]);
+  const [spoiler, setSpoiler] = useState(false);
+  const [nsfw, setNsfw] = useState(false);
+  const [validUrl, setValidUrl] = useState(false);
+  const [validTitle, setValidTitle] = useState(false);
+  const [choosedPageName, setChoosedPageName] = useState('');
+  const [choosedPageId, setChoosedPageId] = useState('');
+  const [currentTab, setCurrentTab] = useState(0);
+  const [postOnUserProfile, setPostOnUserProfile] = useState(false);
+  const [unableToPost, setUnableToPost] = useState(false);
+  const { isAuth } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const validPost =
+    validTitle &amp;&amp;
+    choosedPageId !== '' &amp;&amp;
+    choosedPageName.length > 0 &amp;&amp;
+    (postContent.trim().length > 0 || validUrl || postMedia.length > 0);
+
+  console.log(validPost);
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate('/auth/login');
+    }
+  }, []);
+
+  const onPostHandler = async () => {
+    let postType;
+    let currentContent;
+    switch (currentTab) {
+      case 0:
+        currentContent = postContent;
+        postType = 'text';
+        break;
+      case 1:
+        currentContent = postMedia;
+        postType = 'images';
+        break;
+      case 2:
+        currentContent = postUrl;
+        postType = 'link';
+        break;
+      default:
+        currentContent = postContent;
+    }
+    let postResponse;
+    if (currentTab !== 1) {
+      postResponse = await createPost(
+        choosedPageId,
+        postTitle,
+        currentContent,
+        nsfw,
+        spoiler,
+        '',
+        postType
+      );
+    } else {
+      const formData = new FormData();
+      for (let i = 0; i &lt; postMedia.length; i += 1) {
+        formData.append(`media${i + 1}`, postMedia[i]);
+      }
+
+      console.log(formData);
+      postResponse = await createPostWithMedia(
+        choosedPageId,
+        postTitle,
+        formData,
+        nsfw,
+        spoiler,
+        '',
+        postType
+      );
+    }
+    console.log(postResponse);
+    if (postResponse.fulfilled) {
+      setUnableToPost(false);
+      if (!postOnUserProfile) {
+        console.log(postResponse.data.subredditId);
+        console.log(`/r/${choosedPageName}/posts/${postResponse.data._id}`);
+        navigate(`/r/${choosedPageName}/posts/${postResponse.data._id}`);
+      } else {
+        navigate(`/u/${choosedPageName}/posts/${postResponse.data._id}`);
+      }
+    } else {
+      setUnableToPost(true);
+    }
+  };
+  // const baseColor = '#0079D3';
+
+  return (
+    &lt;div>
+      &lt;header>
+        &lt;AppBar />
+      &lt;/header>
+      &lt;main className={classes['create-post_container']}>
+        &lt;div className={classes['left-part']}>
+          &lt;header className={classes['left-part_header']}>Create a post&lt;/header>
+          &lt;div>
+            &lt;ChooseCommunityName
+              communityName={choosedPageName}
+              setChoosedPageName={setChoosedPageName}
+              setChoosedPageId={setChoosedPageId}
+              setPostOnUserProfile={setPostOnUserProfile}
+            />
+          &lt;/div>
+          &lt;div className={classes['create-post']}>
+            &lt;CreatePostTabs
+              setPostContent={setPostContent}
+              postMedia={postMedia}
+              setPostMedia={setPostMedia}
+              postTitle={postTitle}
+              setPostTitle={setPostTitle}
+              setPostUrl={setPostUrl}
+              postUrl={postUrl}
+              validUrl={validUrl}
+              setValidUrl={setValidUrl}
+              validTitle={validTitle}
+              setValidTitle={setValidTitle}
+              postContent={postContent}
+              setCurrentTab={setCurrentTab}
+            />
+
+            &lt;div>
+              &lt;PostTag
+                icon2={&lt;AiOutlinePlus />}
+                icon1={&lt;MdOutlineDone />}
+                active={spoiler}
+                setActive={setSpoiler}
+                text="Spoiler"
+                bgColor1="#fff"
+                bgColor2="#000"
+              />
+              &lt;PostTag
+                icon2={&lt;AiOutlinePlus />}
+                icon1={&lt;MdOutlineDone />}
+                active={nsfw}
+                setActive={setNsfw}
+                text="NFSW"
+                bgColor1="#fff"
+                bgColor2="rgb(255, 88, 91)"
+              />
+              &lt;PostTag
+                icon1=""
+                icon2=""
+                text="Flair"
+                bgColor1="#fff"
+                bgColor2="rgb(255, 88, 91)"
+              />
+            &lt;/div>
+            &lt;div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              &lt;RoundedButton
+                variant="contained"
+                color="primary"
+                disableElevation
+                sx={{ fontSize: '1.2rem', fontWeight: '700' }}
+                onClick={onPostHandler}
+                disabled={!validPost}
+              >
+                Post
+              &lt;/RoundedButton>
+            &lt;/div>
+            {unableToPost &amp;&amp; (
+              &lt;AlertMessage
+                type="error"
+                message="Error, unable to post for server error"
+                opnAlertMessage={unableToPost}
+              />
+            )}
+          &lt;/div>
+        &lt;/div>
+        &lt;div className={classes['right-part']}>
+          &lt;div>
+            {/* &lt;CommunityInfo
+              baseColor={baseColor}
+              communityName={choosedCommunity.name}
+              communityIcon={choosedCommunity.icon}
+              communityDiscription={choosedCommunity.description}
+              communityDate={choosedCommunity.date}
+              communityMembers={choosedCommunity.members}
+              communityOnlineMembers={choosedCommunity.online}
+            /> */}
+            &lt;PostingRules />
+          &lt;/div>
+        &lt;/div>
+      &lt;/main>
+    &lt;/div>
+  );
+}
+
+export default CreatePost;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockStyleControls">BlockStyleControls</a></li><li><a href="global.html#ChooseCommunityName">ChooseCommunityName</a></li><li><a href="global.html#CreatePost">CreatePost</a></li><li><a href="global.html#CreatePostEditor">CreatePostEditor</a></li><li><a href="global.html#CreatePostTabs">CreatePostTabs</a></li><li><a href="global.html#DragAndDrop">DragAndDrop</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#InlineStyleControls">InlineStyleControls</a></li><li><a href="global.html#PostingRules">PostingRules</a></li><li><a href="global.html#StyledButton">StyledButton</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sat Dec 24 2022 15:31:33 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

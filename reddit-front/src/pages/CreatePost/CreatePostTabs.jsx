@@ -78,7 +78,25 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`
   };
 }
-
+/**
+ * This is the tab pannel that has different choices for post, these choices are:
+ * 1- Text, Images and Link
+ * and it is called by the The parent component {@link CreatePost}
+ * @param {Function} setPostContent - This is a function that sets the current post content
+ * @param {Function} setPostMedia - This is a function that sets the current post Media
+ * @param {Function} setPostTitle - This is a function that sets the current post title
+ * @param {Function} setPostUrl - This is a function that sets the current post url
+ * @param {Function} setValidUrl - This is a function that tells us if the url is valid or not
+ * @param {Function} setValidTitle - This is a function that tells us if the title is valid or not
+ * @param {Function} setCurrentTab - This is a function that tells us the current tab we are in
+ * @param {String} postContent - The current post content
+ * @param {Array} postMedia - Array of current uploaded images
+ * @param {String} postTitle - The current post title
+ * @param {String} postUrl - The current post url
+ * @param {Boolean} validTitle
+ * @param {Boolean} validUrl
+ * @returns {React.component}
+ */
 function CreatePostTabs({
   setPostContent,
   postContent,

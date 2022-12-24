@@ -15,6 +15,18 @@ const INLINE_STYLES = [
   { id: 'inline6', label: <ImSuperscript2 />, style: 'SUPERSCRIPT' },
   { id: 'inline7', label: <BsTypeUnderline />, style: 'UNDERLINE' }
 ];
+/**
+ * This component return a list of Inline styles for rich editor, these styles are:
+ *  Bold,
+ *  Italic,
+ *  Strikethrough,
+ *  code,
+ *  Superscript,
+ *  Underline
+ * @param {EditorState} editorState - The state of the rich editor
+ * @param {Function} onToggle - This is a function that toggles the inline style
+ * @returns {React.component}
+ */
 function InlineStyleControls({ onToggle, editorState }) {
   const currentStyle = editorState.getCurrentInlineStyle();
 

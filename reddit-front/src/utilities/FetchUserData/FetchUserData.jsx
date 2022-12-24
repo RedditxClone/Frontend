@@ -6,7 +6,11 @@ import {
   getMyCommunities,
   getModeratedCommunities
 } from '../../store/slices/UserCommunitiesSlice';
-
+/**
+ * This component is called in the NavBar component and it is responsible to get the user's data
+ * and set his authentication and token when refreshing every page
+ * @returns {React.Component}
+ */
 export default function FetchUserData() {
   const dispatch = useDispatch();
 

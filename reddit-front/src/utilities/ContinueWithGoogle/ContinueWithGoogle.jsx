@@ -11,6 +11,11 @@ import ErrorMessage from '../CustomStyling/CustomStyling';
 
 const GOOGLE_ID = process.env.REACT_APP_GOOGLE_ID;
 // const GOOGLE_SECRET = process.env.REACT_APP_GOOGLE_SECRET;
+/**
+ * This is a regular button for continue with Google feature
+ * We have used gapi-script library {@link https://www.npmjs.com/package/gapi-script} and GoogleLogin component {@link https://www.npmjs.com/package/react-google-login }
+ * @returns {React.Component}
+ */
 function ContinueWithGoogle() {
   const navigate = useNavigate();
   const [unAuthorized, setUnAuthorized] = useState(false);

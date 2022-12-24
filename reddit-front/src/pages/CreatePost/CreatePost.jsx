@@ -19,7 +19,13 @@ import createPost, {
   createPostWithMedia
 } from '../../services/requests/createPost';
 import AlertMessage from '../../utilities/AlertMessage/AlertMessage';
-
+/**
+ * This is the create post page that contains left and right part
+ * Left part is for the Tabs {@link CreatePostTabs} that has different options to post
+ * Right part is for showing subreddit info and reddit rules for posting
+ *
+ * @returns {React.component}
+ */
 function CreatePost() {
   const [postTitle, setPostTitle] = useState('');
   const [postContent, setPostContent] = useState('');

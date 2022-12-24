@@ -16,6 +16,14 @@ const BLOCK_TYPES = [
   { id: 'block4', label: <MdFormatListNumbered />, style: 'ordered-list-item' },
   { id: 'block5', label: <BsJournalCode />, style: 'code-block' }
 ];
+/**
+ * This component return a list of Block styles for rich editor, these styles are:
+ * Heading, Block Quote, Unordered List, Ordered List, Code Block
+ *  @param {EditorState} editorState - The state of the rich editor
+ *  @param {Function} onToggle - This is a function that toggles the block style
+ *  @returns {React.component}
+ *
+ * */
 function BlockStyleControls({ editorState, onToggle }) {
   const selection = editorState.getSelection();
   const blockType = editorState

@@ -24,6 +24,17 @@ const styleMap = {
   }
 };
 
+/**
+ * This is a rich editor created with draft-js library {@link https://draftjs.org/}
+ * This component is called by the parent component {@link CreatePostTabs}
+ * @param {Function} setPostContent - Function from the parent component that
+ *  sets the post content by the current state of the editor,
+ * By converting the current state to MARKDOWN using {stateFromMarkdown} {@link https://www.npmjs.com/package/draft-js-import-markdown}
+ * @param {String} postContent - A MARKDOWN text that represents
+ * the current state of the editor and it will be converted
+ * to editor state using the function {StateToMarkDown} {@link https://www.npmjs.com/package/draft-js-export-markdown}
+ * @returns {React.component}
+ */
 function CreatePostEditor({ setPostContent, postContent }) {
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(stateFromMarkdown(postContent))

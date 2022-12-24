@@ -8,7 +8,10 @@ const REDDIT_RULES = [
   { id: 'rule4', rule: 'Search for duplicates before posting' },
   { id: 'rule5', rule: 'Read the community’s rules' }
 ];
-
+/**
+ * This is a static component to render the posting rules on reddit
+ * @returns {React.component}
+ */
 function PostingRules() {
   return (
     <div className={classes['posting-rules_container']}>

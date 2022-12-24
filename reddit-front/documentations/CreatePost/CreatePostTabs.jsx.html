@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CreatePostTabs.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CreatePostTabs.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable react/require-default-props */
+/* eslint-disable object-curly-newline */
+/* eslint-disable react/jsx-props-no-spreading */
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { TiDocumentText } from 'react-icons/ti';
+import { BsImage } from 'react-icons/bs';
+import { TfiLink } from 'react-icons/tfi';
+import { BiPoll } from 'react-icons/bi';
+import { HiOutlineMicrophone } from 'react-icons/hi';
+import { useState } from 'react';
+import CreatePostEditor from './CreatePostEditor';
+import classes from './CreatePost.module.css';
+import DragAndDrop from './DragAndDrop';
+import validURL from '../../services/logic/validUrl';
+import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
+import validateTitle from '../../services/logic/validateTitle';
+
+const TABS_OPTIONS = [
+  {
+    icon: &lt;TiDocumentText />,
+    text: 'Post',
+    disabled: false
+  },
+  {
+    icon: &lt;BsImage />,
+    text: 'Images &amp; videos',
+    disabled: false
+  },
+  {
+    icon: &lt;TfiLink />,
+    text: 'Link',
+    disabled: false
+  },
+  {
+    icon: &lt;BiPoll />,
+    text: 'Poll',
+    disabled: true
+  },
+  {
+    icon: &lt;HiOutlineMicrophone />,
+    text: 'Talk',
+    disabled: true
+  }
+];
+
+function TabPanel({ children, value, index, ...other }) {
+  return (
+    &lt;div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index &amp;&amp; (
+        &lt;Box>
+          &lt;Typography>{children}&lt;/Typography>
+        &lt;/Box>
+      )}
+    &lt;/div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`
+  };
+}
+/**
+ * This is the tab pannel that has different choices for post, these choices are:
+ * 1- Text, Images and Link
+ * and it is called by the The parent component {@link CreatePost}
+ * @param {Function} setPostContent - This is a function that sets the current post content
+ * @param {Function} setPostMedia - This is a function that sets the current post Media
+ * @param {Function} setPostTitle - This is a function that sets the current post title
+ * @param {Function} setPostUrl - This is a function that sets the current post url
+ * @param {Function} setValidUrl - This is a function that tells us if the url is valid or not
+ * @param {Function} setValidTitle - This is a function that tells us if the title is valid or not
+ * @param {Function} setCurrentTab - This is a function that tells us the current tab we are in
+ * @param {String} postContent - The current post content
+ * @param {Array} postMedia - Array of current uploaded images
+ * @param {String} postTitle - The current post title
+ * @param {String} postUrl - The current post url
+ * @param {Boolean} validTitle
+ * @param {Boolean} validUrl
+ * @returns {React.component}
+ */
+function CreatePostTabs({
+  setPostContent,
+  postContent,
+  postMedia,
+  setPostMedia,
+  postTitle,
+  setPostTitle,
+  setPostUrl,
+  postUrl,
+  validUrl,
+  validTitle,
+  setValidUrl,
+  setValidTitle,
+  setCurrentTab
+}) {
+  const [value, setValue] = useState(0);
+  const [visitUrl, setVisitUrl] = useState(false);
+  const [visitTitle, setVisitTitle] = useState(false);
+  const handleChangeTab = (event, newValue) => {
+    setValue(newValue);
+    setCurrentTab(newValue);
+  };
+
+  const onChangePostTitle = (event) => {
+    const title = event.target.value;
+    setPostTitle(title);
+    console.log(title);
+    const check = validateTitle(title);
+    console.log(check);
+    setValidTitle(validateTitle(title));
+  };
+
+  const onChangePostUrl = (event) => {
+    const url = event.target.value;
+    setPostUrl(url);
+    setValidUrl(url.length > 0 &amp;&amp; visitUrl &amp;&amp; validURL(url));
+  };
+  return (
+    &lt;Box sx={{ width: '100%' }}>
+      &lt;Box
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider'
+        }}
+      >
+        &lt;Tabs
+          value={value}
+          onChange={handleChangeTab}
+          aria-label="basic tabs example"
+        >
+          {TABS_OPTIONS.map((tab, idx) => (
+            &lt;Tab
+              sx={{ display: 'flex', flexShrink: '1' }}
+              key={tab.text}
+              label={
+                &lt;div
+                  disabled={tab.disabled}
+                  className={classes['icon-tab']}
+                >
+                  &lt;span style={{ marginRight: '0.5rem' }}>{tab.icon}&lt;/span>
+                  &lt;span>{tab.text}&lt;/span>
+                &lt;/div>
+              }
+              {...a11yProps(idx)}
+            />
+          ))}
+        &lt;/Tabs>
+      &lt;/Box>
+      &lt;div className={classes['post-content']}>
+        &lt;div className={classes['post-title']}>
+          &lt;textarea
+            className={classes['post-title_textarea']}
+            maxLength={300}
+            required
+            placeholder="Title"
+            onChange={onChangePostTitle}
+            onFocus={() => setVisitTitle(true)}
+          />
+          &lt;span className={classes['post-title-length']}>
+            {`${postTitle.length}/300`}
+          &lt;/span>
+          {postTitle.length > 0 &amp;&amp; visitTitle &amp;&amp; !validTitle &amp;&amp; (
+            &lt;ErrorMessage>Please, Enter Valid title&lt;/ErrorMessage>
+          )}
+        &lt;/div>
+        &lt;TabPanel
+          value={value}
+          index={0}
+        >
+          &lt;CreatePostEditor
+            setPostContent={setPostContent}
+            postContent={postContent}
+          />
+        &lt;/TabPanel>
+        &lt;TabPanel
+          value={value}
+          index={1}
+        >
+          &lt;DragAndDrop
+            currentFiles={postMedia}
+            setCurrentFiles={setPostMedia}
+          />
+        &lt;/TabPanel>
+        &lt;TabPanel
+          value={value}
+          index={2}
+        >
+          &lt;textarea
+            placeholder="Url"
+            rows={1}
+            value={postUrl}
+            className={classes['post-url']}
+            onChange={onChangePostUrl}
+            onFocus={() => setVisitUrl(true)}
+          />
+          {postUrl.length > 0 &amp;&amp; visitUrl &amp;&amp; !validUrl &amp;&amp; (
+            &lt;ErrorMessage>Please, Enter Valid URL&lt;/ErrorMessage>
+          )}
+        &lt;/TabPanel>
+      &lt;/div>
+    &lt;/Box>
+  );
+}
+
+export default CreatePostTabs;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockStyleControls">BlockStyleControls</a></li><li><a href="global.html#ChooseCommunityName">ChooseCommunityName</a></li><li><a href="global.html#CreatePost">CreatePost</a></li><li><a href="global.html#CreatePostEditor">CreatePostEditor</a></li><li><a href="global.html#CreatePostTabs">CreatePostTabs</a></li><li><a href="global.html#DragAndDrop">DragAndDrop</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#InlineStyleControls">InlineStyleControls</a></li><li><a href="global.html#PostingRules">PostingRules</a></li><li><a href="global.html#StyledButton">StyledButton</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sat Dec 24 2022 15:31:33 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

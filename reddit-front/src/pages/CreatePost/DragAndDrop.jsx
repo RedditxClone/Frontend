@@ -3,7 +3,15 @@ import { IconButton, Stack } from '@mui/material';
 import { BsPlusLg } from 'react-icons/bs';
 import classes from './DragAndDrop.style.module.css';
 import ImageBox from './ImageBox';
-
+/**
+ * This is a component that is called by its parent {@link CreatePostTabs}
+ * It is responsible for uploading the images.
+ * @param {Function} setCurrentFiles - This function is passed by props from the parent
+ * to set the current media in the parent
+ * @param {Array} currentFiles - This is an array of files(images)
+ *  that contains the current uploaded images
+ * @returns {React.component}
+ */
 function DragAndDrop({ setCurrentFiles, currentFiles }) {
   const [previewedMedia, setPreviewedMedia] = useState([]);
   useEffect(() => {

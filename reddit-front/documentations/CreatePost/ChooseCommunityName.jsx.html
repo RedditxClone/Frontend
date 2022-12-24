@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ChooseCommunityName.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ChooseCommunityName.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-underscore-dangle */
+import { useRef, useState } from 'react';
+import { IoIosArrowDown } from 'react-icons/io';
+import { useSelector } from 'react-redux';
+import classes from './CreatePost.module.css';
+/**
+ *
+ * @param {Function} setChoosedPageName - Function from the parent component
+ * that sets the page(Community or profile) name
+ * @param {Function} setChoosedPageId - Function from the parent component
+ * that sets the page(Community or profile) Id
+ * @param {String} communityName - The name of the community or profile
+ * @param {Function} setPostOnUserProfile - Function from the parent component
+ * that tells the parent if the post is on profile or a subreddit
+ * @returns {React.component}
+ */
+function ChooseCommunityName({
+  setChoosedPageName,
+  setChoosedPageId,
+  communityName,
+  setPostOnUserProfile
+}) {
+  const { user } = useSelector((state) => state.auth);
+  const { moderatedCommunities, myCommunities } = useSelector(
+    (state) => state.communities
+  );
+  const inputRef = useRef();
+  const [openList, setOpenList] = useState(false);
+  const [currentIcon, setCurrentIcon] = useState(null);
+  const onChooseCommunity = (community) => {
+    setChoosedPageId(community._id);
+    setChoosedPageName(community.name);
+    setCurrentIcon(community.icon);
+    setOpenList(false);
+    setPostOnUserProfile(false);
+  };
+  const onChooseUserProfile = () => {
+    setChoosedPageId(user._id);
+    setChoosedPageName(user.username);
+    setCurrentIcon(user.profilePhoto);
+    setOpenList(false);
+    setPostOnUserProfile(true);
+  };
+
+  return (
+    &lt;>
+      &lt;div className={classes['choose-community_container']}>
+        &lt;span className={classes['choose-community_icon']}>
+          &lt;img
+            src={currentIcon}
+            alt=""
+          />
+        &lt;/span>
+        &lt;input
+          ref={inputRef}
+          onFocus={() => setOpenList(true)}
+          className={classes['choose-community_input']}
+          placeholder="Choose Community"
+          value={communityName}
+        />
+        &lt;span
+          onClick={() => setOpenList((prev) => !prev)}
+          className={classes['select-button']}
+        >
+          &lt;IoIosArrowDown />
+        &lt;/span>
+      &lt;/div>
+      {openList ? (
+        &lt;div className={classes['communities-list']}>
+          &lt;div>
+            &lt;span className={classes['section-label']}>Your profile&lt;/span>
+            &lt;button
+              type="button"
+              className={classes.communities_item}
+              onClick={() => {
+                onChooseUserProfile();
+              }}
+            >
+              &lt;span className={classes['community-logo']}>
+                &lt;img
+                  src={user.profilePhoto}
+                  alt=""
+                />
+              &lt;/span>
+              &lt;div className={classes['community-info']}>
+                &lt;span>{user.username}&lt;/span>
+              &lt;/div>
+            &lt;/button>
+          &lt;/div>
+          &lt;div>
+            &lt;span className={classes['section-label']}>
+              Your communities
+              &lt;button
+                type="button"
+                className={classes['create-community_btn']}
+              >
+                Create New
+              &lt;/button>
+            &lt;/span>
+            {[...moderatedCommunities, ...myCommunities].map((comm, idx) => (
+              &lt;button
+                key={comm._id + idx}
+                type="button"
+                className={classes.communities_item}
+                onClick={() => {
+                  onChooseCommunity(comm);
+                }}
+              >
+                &lt;span className={classes['community-logo']}>
+                  &lt;img
+                    src={comm.logo}
+                    alt=""
+                  />
+                &lt;/span>
+                &lt;div className={classes['community-info']}>
+                  &lt;span>{comm.name}&lt;/span>
+                &lt;/div>
+              &lt;/button>
+            ))}
+          &lt;/div>
+        &lt;/div>
+      ) : null}
+    &lt;/>
+  );
+}
+
+export default ChooseCommunityName;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BlockStyleControls">BlockStyleControls</a></li><li><a href="global.html#ChooseCommunityName">ChooseCommunityName</a></li><li><a href="global.html#CreatePost">CreatePost</a></li><li><a href="global.html#CreatePostEditor">CreatePostEditor</a></li><li><a href="global.html#CreatePostTabs">CreatePostTabs</a></li><li><a href="global.html#DragAndDrop">DragAndDrop</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#InlineStyleControls">InlineStyleControls</a></li><li><a href="global.html#PostingRules">PostingRules</a></li><li><a href="global.html#StyledButton">StyledButton</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sat Dec 24 2022 15:31:33 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

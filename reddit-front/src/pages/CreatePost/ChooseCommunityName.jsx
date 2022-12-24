@@ -4,7 +4,17 @@ import { useRef, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useSelector } from 'react-redux';
 import classes from './CreatePost.module.css';
-
+/**
+ *
+ * @param {Function} setChoosedPageName - Function from the parent component
+ * that sets the page(Community or profile) name
+ * @param {Function} setChoosedPageId - Function from the parent component
+ * that sets the page(Community or profile) Id
+ * @param {String} communityName - The name of the community or profile
+ * @param {Function} setPostOnUserProfile - Function from the parent component
+ * that tells the parent if the post is on profile or a subreddit
+ * @returns {React.component}
+ */
 function ChooseCommunityName({
   setChoosedPageName,
   setChoosedPageId,
