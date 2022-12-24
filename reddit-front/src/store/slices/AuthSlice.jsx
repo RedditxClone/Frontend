@@ -80,7 +80,7 @@ export const forgetUserName = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
     try {
       const res = await api.post('/api/auth/forget-username', {
-        emai: user.email
+        email: user.email
       });
 
       const { data } = res;
@@ -109,6 +109,7 @@ export const forgetPassword = createAsyncThunk(
 
       return data;
     } catch (err) {
+      console.log(err);
       return rejectWithValue(err.message);
     }
   }
