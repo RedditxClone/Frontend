@@ -57,7 +57,7 @@ function ModToolsPage() {
 
   useEffect(() => {
     fetchSubredditInfo();
-    if (!isAuth) {
+    if (!isAuth && !loading) {
       navigate('/auth/login');
     }
 
