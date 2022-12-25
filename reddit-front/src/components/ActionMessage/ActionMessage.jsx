@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { StyledButton, MessageAlert } from '../Layout/AppBar/AppBar.Style';
 
 function ActionMessage({ message, show }) {
-  const [showClose, setShowClose] = useState(false);
+  const [showClose, setShowClose] = useState(show);
   const [Close, setClose] = useState(false);
 
   useEffect(() => {
@@ -14,7 +14,9 @@ function ActionMessage({ message, show }) {
   const showCloseHandler = () => {
     setShowClose((current) => !current);
   };
-
+  useEffect(() => {
+    setTimeout(() => setShowClose(false), 500);
+  }, []);
   const closeHandler = () => {
     setClose((current) => !current);
   };

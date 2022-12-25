@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable operator-linebreak */
 /* eslint-disable indent */
@@ -36,7 +37,6 @@ import PostFlair from '../../components/PostFlair/PostFlair';
  * This Component for the Moderator Tools Page
  *
  */
-
 function ModToolsPage() {
   // Params
   const { subredditName, activeItem } = useParams();

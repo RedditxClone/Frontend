@@ -148,7 +148,6 @@ function PostInteractions({
     setHidePost(true);
     hidePost({ id: postId });
   };
-
   const handleApproveButton = (id) => {
     let info = {};
     // cancelling spamming
@@ -173,7 +172,6 @@ function PostInteractions({
     info = { id: postId };
     approvePost(info);
   };
-
   const handleSpamButton = (id) => {
     let info = {};
     // cancelling approving

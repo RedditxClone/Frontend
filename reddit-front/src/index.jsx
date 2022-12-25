@@ -42,6 +42,7 @@ import Error404 from './pages/Error404/Error404';
 // import PostFlairSettingsCard from './components/PostFlair/PostFlairSettingsCard';
 // import PostFlair from './components/PostFlair/PostFlair';
 // Routes
+
 const routes = createBrowserRouter([
   {
     path: '/',
@@ -207,7 +208,76 @@ const routes = createBrowserRouter([
       }
     ]
   },
-  { path: '/error', element: <Error404 /> }
+  { path: '/error', element: <Error404 /> },
+  {
+    path: '/r/:subredditName/posts/:postId',
+    element: <PostFullPage />
+  },
+  {
+    path: '/user/',
+    element: <MyProfilePage />,
+    children: [
+      // {
+      //   path: 'submitted',
+      //   element: <HiddenList />
+      // },
+      // {
+      //   path: 'comments',
+      //   element: (
+      //     <CommentTap comments={comments} />
+      //   )
+      // },
+      // {
+      //   path: 'history',
+      //   element: <ProfileList />
+      // },
+      // {
+      //   path: 'saved',
+      //   element: <ProfileList />
+      // },
+      {
+        path: 'hidden',
+        element: (
+          // <UpvotePostList
+          //   postData={Data}
+          //   isCommunityPost={false}
+          //   isPostFullDetailsMode={false}
+          //   isModeratorMode={false}
+          //   post_type="img"
+          //   title="this is sport topic"
+          //   flair_name="Question"
+          // />
+          <HiddenList />
+        )
+      }
+      // {
+      //   path: 'upvoted',
+      //   element: <ProfileList />
+      // },
+      // {
+      //   path: 'downvoted',
+      //   element: <DownVoteList />
+      // }
+    ]
+  }
+  // {
+  //   path: 'profile_user',
+  //   element: <OtherProfilePage />,
+  //   children: [
+  //     {
+  //       path: 'submitted',
+  //       element: (
+  //         <ProfileUpvotePosts
+  //           postData={Data}
+  //           isCommunityPost={false}
+  //           isPostFullDetailsMode={false}
+  //           isModeratorMode={false}
+  //           post_type="img"
+  //           title="this is sport topic"
+  //           flair_name="Question"
+  //         />
+  //       )
+  //     } //]
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

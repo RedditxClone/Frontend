@@ -1,0 +1,48 @@
+div.post-card {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.1s;
+  width: 100%;
+  margin-top: 0.1rem;
+  /* margin-bottom: 3rem; */
+}
+
+div.post-card:hover {
+  border-color: #898989;
+}
+@media (max-width: 1030px) {
+  div.post-card {
+    width: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.1s;
+    margin-bottom: 3rem;
+  }
+}
+@media (max-width: 1080px) {
+  div.post-card {
+    margin-left: 2%;
+  }
+}
+
+@media (max-width: 1030px) {
+  div.post-card {
+    margin-left: 10rem;
+  }
+}
+
+@media (max-width: 970px) {
+  div.post-card {
+    margin-left: 2%;
+  }
+}
+
+@media (max-width: 640px) {
+  div.post-card {
+    /* width: 96%; */
+    /* padding-left: 2%; */
+    /* padding-right: 2%; */
+  }
+}
