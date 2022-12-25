@@ -1,7 +1,10 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable object-curly-newline */
-import { useRef, useState } from 'react';
-import Draft from 'draft-js';
+import { useState } from 'react';
+import Draft /* convertToRaw */ from 'draft-js';
 import './CreatePost.module.css';
+import { stateToMarkdown } from 'draft-js-export-markdown';
+import { stateFromMarkdown } from 'draft-js-import-markdown';
 import BlockStyleControls from './BlockStyleControls';
 import InlineStyleControls from './InlineStyleControls';
 import './CreatePostEditor.css';
@@ -11,17 +14,23 @@ const { Editor, EditorState, RichUtils, getDefaultKeyBinding } = Draft;
 // Custom overrides for "code" style.
 const styleMap = {
   CODE: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    backgroundColor: 'rgba(0, 0, 150, 0.05)',
     fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
     fontSize: 16,
-    padding: 2
+    padding: 2,
+    maxWidth: '100%',
+    wordWrap: 'break-word',
+    wordBreak: 'break-word'
   }
 };
 
-function CreatePostEditor() {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const editorRef = useRef();
-
+function CreatePostEditor({ setPostContent, postContent }) {
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(stateFromMarkdown(postContent))
+  );
+  // const editorRef = useRef();
+  console.log('here1', stateFromMarkdown(postContent));
+  console.log('here2', editorState);
   const getBlockStyle = (block) => {
     switch (block.getType()) {
       case 'blockquote':
@@ -30,11 +39,13 @@ function CreatePostEditor() {
         return null;
     }
   };
-  const focus = () => {
-    editorRef.focus();
-  };
+
   const onChangeHandler = (_editorState) => {
     setEditorState(_editorState);
+  };
+
+  const onBlurHandler = () => {
+    setPostContent(stateToMarkdown(editorState.getCurrentContent()));
   };
 
   const handleKeyCommand = (command, _editorState) => {
@@ -83,10 +94,7 @@ function CreatePostEditor() {
           onToggle={toggleBlockType}
         />
       </div>
-      <div
-        className={className}
-        onClick={focus}
-      >
+      <div className={className}>
         <Editor
           blockStyleFn={getBlockStyle}
           customStyleMap={styleMap}
@@ -95,8 +103,8 @@ function CreatePostEditor() {
           keyBindingFn={mapKeyToEditorCommand}
           onChange={onChangeHandler}
           placeholder="Text(optional)"
-          ref={editorRef}
           spellCheck
+          onBlur={onBlurHandler}
         />
       </div>
     </div>

@@ -44,10 +44,6 @@ import {
   spamPost,
   unSpamPost,
   sendReplyNotifications,
-  stickyPost,
-  unStickyPost,
-  distinguishAsMod,
-  unDistinguishAsMod,
   spoilPost,
   unSpoilPost
 } from '../../../services/requests/Post';
@@ -80,46 +76,45 @@ function PostInteractions({
   commentsCount,
   votesCount,
   postId,
+  communityName,
   isCommunityPost,
   setModAction,
-  setDistinguishPostAsMod,
   setNsfw,
   setLocked,
   isModeratorMode,
   isSaved,
   isLocked,
   isPostApproved,
-  isPostSticky,
-  isDistinguishedAsMode,
   isNSFW,
   isSpoiled,
+  approved,
+  removed,
+  spammed,
   replyNotifications,
-  canBeSpoiled
+  canBeSpoiled,
+  currentVotingState
 }) {
   const [saveState, setSaveState] = useState(isSaved);
-  const [isApproved, setIsApproved] = useState(isPostApproved);
-  const [isSticky, setIsSticky] = useState(isPostSticky);
+  const [isApproved, setIsApproved] = useState(approved);
   const [replyNotificationsState, setReplyNotificationsState] =
     useState(replyNotifications);
-  const [distinguishAsMode, setDistinguishAsMode] = useState(
-    isDistinguishedAsMode
-  );
+
   const [lockComments, setLockComments] = useState(isLocked);
   const [markedAsNSFW, setMarkedAsNSFW] = useState(isNSFW);
   const [markedAsSpoiler, setMarkedAsSpoiler] = useState(isSpoiled);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-  const [isRemoved, setIsRemoved] = useState(false);
-  const [isSpammed, setIsSpammed] = useState(false);
+  const [isRemoved, setIsRemoved] = useState(removed);
+  const [isSpammed, setIsSpammed] = useState(spammed);
 
   // Handler Methods
   const handleSavePost = () => {
     if (!saveState) {
       setSaveState(true);
-      const info = { request: { is_saved: true }, id: postId };
+      const info = { id: postId };
       savePost(info);
     } else {
       setSaveState(false);
-      const info = { request: { is_saved: false }, id: postId };
+      const info = { id: postId };
       unSavePost(info);
     }
   };
@@ -161,14 +156,14 @@ function PostInteractions({
     document.getElementById(`post-spam-${id}`).style.color = '#949494';
     document.getElementById(`post-spam-2-${id}`).style.color = '#949494';
     info = { id: postId };
-    unSpamPost(info);
+    // unSpamPost(info);
 
     // cancelling removing
     setIsRemoved(false);
     document.getElementById(`post-remove-${id}`).style.color = '#949494';
     document.getElementById(`post-remove-2-${id}`).style.color = '#949494';
     info = { id: postId };
-    unRemovePost(info);
+    // unRemovePost(info);
 
     // approving post
     setIsApproved(true);
@@ -186,14 +181,14 @@ function PostInteractions({
     document.getElementById(`post-approve-${id}`).style.color = '#949494';
     document.getElementById(`post-approve-2-${id}`).style.color = '#949494';
     info = { id: postId };
-    unApprovePost(info);
+    // unApprovePost(info);
 
     // cancelling removing
     setIsRemoved(false);
     document.getElementById(`post-remove-${id}`).style.color = '#949494';
     document.getElementById(`post-remove-2-${id}`).style.color = '#949494';
     info = { id: postId };
-    unRemovePost(info);
+    // unRemovePost(info);
 
     // spamming post
     setIsSpammed(true);
@@ -211,14 +206,14 @@ function PostInteractions({
     document.getElementById(`post-spam-${id}`).style.color = '#949494';
     document.getElementById(`post-spam-2-${id}`).style.color = '#949494';
     info = { id: postId };
-    unSpamPost(info);
+    // unSpamPost(info);
 
     // cancelling approving
     setIsApproved(false);
     document.getElementById(`post-approve-${id}`).style.color = '#949494';
     document.getElementById(`post-approve-2-${id}`).style.color = '#949494';
     info = { id: postId };
-    unApprovePost(info);
+    // unApprovePost(info);
 
     // removing post
     setIsRemoved(true);
@@ -239,40 +234,16 @@ function PostInteractions({
     if (postCard) postCard.style.display = 'none';
   };
 
-  const handleStickyButton = () => {
-    if (!isSticky) {
-      setIsSticky(true);
-      const request = { id: postId };
-      stickyPost(request);
-    } else {
-      setIsSticky(false);
-      const request = { id: postId };
-      unStickyPost(request);
-    }
-  };
-
-  const handleDistinguishAsMod = () => {
-    if (!distinguishAsMode) {
-      setDistinguishAsMode(true);
-      setDistinguishPostAsMod(true);
-      distinguishAsMod({ id: postId });
-    } else {
-      setDistinguishAsMode(false);
-      setDistinguishPostAsMod(false);
-      unDistinguishAsMod({ id: postId });
-    }
-  };
-
   const handleLockComments = () => {
     if (!lockComments) {
       setLockComments(true);
       setLocked(true);
-      const info = { request: { is_locked: true }, id: postId };
+      const info = { id: postId };
       lockPost(info);
     } else {
       setLockComments(false);
       setLocked(false);
-      const info = { request: { is_locked: false }, id: postId };
+      const info = { id: postId };
       unLockPost(info);
     }
   };
@@ -305,9 +276,11 @@ function PostInteractions({
     }
   };
 
-  const getCommentsCount = function () {
+  const getCommentsCount = () => {
     if (!isCommunityPost) {
-      return commentsCount ? commentsCount.concat(' Comments') : 'No Comments';
+      return commentsCount
+        ? commentsCount.toString().concat(' Comments')
+        : 'No Comments';
     }
     return commentsCount;
   };
@@ -344,67 +317,84 @@ function PostInteractions({
         <SmallScreenVoting
           votesCount={votesCount}
           postId={postId}
-          currentVotingState={0}
+          currentVotingState={currentVotingState}
         />
         {/* comments  */}
-        <a className="post-comment">
+        <a
+          className="interaction-item"
+          href={`/r/${communityName}/posts/${postId}`}
+        >
           <GoComment fontSize="18px" />
-          <span className="comments-count">{getCommentsCount()}</span>
+          <span
+            className="interaction-text"
+            style={{ marginLeft: '3px', marginBottom: '3px' }}
+          >
+            {getCommentsCount()}
+          </span>
         </a>
         {/* share  */}
         <a
-          className="post-share"
+          className="interaction-item"
           data-testid="test-share-post"
         >
           <TbArrowsCross fontSize="25px" />
-          <span> cross post</span>
+          <span className="interaction-text"> share</span>
         </a>
         {/* save / unsave  */}
         {!saveState ? (
           <a
             onClick={handleSavePost}
-            className="post-save"
+            className="interaction-item"
           >
             <BsBookmark fontSize="18px" />
-            <span> save</span>
+            <span className="interaction-text"> save</span>
           </a>
         ) : (
           <a
-            className="post-unsave"
+            className="interaction-item"
             onClick={handleSavePost}
           >
             <BsFillBookmarkFill fontSize="18px" />
-            <span> unsave</span>
+            <span className="interaction-text"> unsave</span>
           </a>
         )}
         {isCommunityPost && isModeratorMode ? (
           <>
             {/* // approve */}
             <a
-              className="post-approve post-interaction-button"
+              className="interaction-item"
               id={`post-approve-${postId}`}
               onClick={() => handleApproveButton(postId)}
             >
               <TiTickOutline fontSize="25px" />
-              <span> {isApproved ? 'Approved' : 'Approve'}</span>
+              <span className="interaction-text">
+                {' '}
+                {isApproved ? 'Approved' : 'Approve'}
+              </span>
             </a>
             {/* // remove */}
             <a
-              className="post-remove post-interaction-button"
+              className="interaction-item"
               id={`post-remove-${postId}`}
               onClick={() => handleRemoveButton(postId)}
             >
               <CiNoWaitingSign fontSize="25px" />
-              <span> {isRemoved ? 'Removed' : 'Remove'}</span>
+              <span className="interaction-text">
+                {' '}
+                {isRemoved ? 'Removed' : 'Remove'}
+              </span>
             </a>
             {/* // spam */}
             <a
-              className="post-spam post-interaction-button"
+              className="interaction-item"
               id={`post-spam-${postId}`}
               onClick={() => handleSpamButton(postId)}
             >
               <RiSpamLine fontSize="25px" />
-              <span> {isSpammed ? 'Spammed' : 'Spam'}</span>
+              <span className="interaction-text">
+                {' '}
+                {isSpammed ? 'Spammed' : 'Spam'}
+              </span>
             </a>
           </>
         ) : null}
@@ -428,36 +418,6 @@ function PostInteractions({
                 id={`post-options-${postId}`}
                 data-testid="test-2-interactions-dropdown"
               >
-                {/* sticky post  */}
-                <div
-                  className="drop-down-item"
-                  onClick={handleStickyButton}
-                >
-                  <a>
-                    {isSticky ? (
-                      <ImCheckboxChecked fontSize="16px" />
-                    ) : (
-                      <GrCheckbox fontSize="16px" />
-                    )}
-                    <span> Sticky Post</span>
-                  </a>
-                </div>
-
-                {/* distinguish as mod  */}
-                <div
-                  className="drop-down-item"
-                  onClick={handleDistinguishAsMod}
-                >
-                  <a>
-                    {distinguishAsMode ? (
-                      <ImCheckboxChecked fontSize="16px" />
-                    ) : (
-                      <GrCheckbox fontSize="16px" />
-                    )}
-                    <span> Distinguish As Mod</span>
-                  </a>
-                </div>
-
                 {/* lock comment  */}
                 <div
                   className="drop-down-item"
@@ -523,10 +483,10 @@ function PostInteractions({
 
         {/* other interactions  */}
         <div
-          className="post-more-interactions"
+          className="post-more-interactions interaction-item"
           data-testid="test-post-more-interactions"
         >
-          <button
+          <a
             type="button"
             onClick={handleClickMoreInteractions}
           >
@@ -541,7 +501,7 @@ function PostInteractions({
             >
               {/* hide  */}
               <div
-                className="post-hide"
+                className="drop-down-item"
                 onClick={handleHideButton}
               >
                 <a>
@@ -711,7 +671,7 @@ function PostInteractions({
                 </>
               ) : null}
             </div>
-          </button>
+          </a>
         </div>
       </div>
     </div>

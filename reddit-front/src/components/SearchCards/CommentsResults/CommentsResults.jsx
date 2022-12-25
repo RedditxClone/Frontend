@@ -8,6 +8,7 @@
 import { useState, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
 import {
   RootContainer,
   ResultsContainer,
@@ -28,7 +29,7 @@ import {
   UpVotes,
   Comments
 } from './CommentsResults.Style';
-import retrieveResults from '../../../services/requests/Search';
+import { retrieveResults } from '../../../services/requests/Search';
 
 import { divideBigNumber } from '../../../utilities/Helpers';
 
@@ -37,12 +38,11 @@ import { divideBigNumber } from '../../../utilities/Helpers';
  *
  */
 
-function CommentsResults() {
+function CommentsResults({ searchKey }) {
   // states
-  const searchKey = 'test'; // for testing
   const [result, setResult] = useState([]);
   const [statusCode, setStatusCode] = useState(0);
-
+  const navigate = useNavigate();
   // Fetching the results by calling the fetch service
   useEffect(() => {
     const fetchResults = async () => {
@@ -54,7 +54,7 @@ function CommentsResults() {
       setStatusCode(results.statusCode);
     };
     fetchResults();
-  }, []);
+  }, [searchKey]);
 
   return (
     <RootContainer data-testid="search-comments-results">
@@ -104,19 +104,32 @@ function CommentsResults() {
                       alt="community logo"
                     />
                   </StyledLogo>
-                  <Username>{`r/${item.subreddit_name}`}</Username>
+                  <Username
+                    onClick={() => {
+                      navigate(`/r/${item.subreddit.name}`);
+                    }}
+                  >
+                    {`r/${item.subreddit.name}`}
+                  </Username>
                   <StyledSpan>
                     <span>
                       Posted by
-                      <Username> {` u/${item.posted_by} `}</Username>
-                      {`${item.posted_since} ago`}
+                      <Username
+                        onClick={() => {
+                          navigate(`/user/${item.user.username}`);
+                        }}
+                      >
+                        {' '}
+                        {` u/${item.user.username} `}
+                      </Username>
+                      {`${item.post.publishedDate} ago`}
                     </span>
                   </StyledSpan>
                 </PostInfo>
 
                 {/* result  */}
                 <CommentContainer>
-                  <PostContent>{`${item.post_text}`}</PostContent>
+                  <PostContent>{`${item.post.title}`}</PostContent>
                   <CommentContent>
                     {/* Reusing the Same styles of the post info */}
                     <PostInfo>
@@ -131,31 +144,30 @@ function CommentsResults() {
                         />
                       </StyledLogo>
                       <Username sx={{ fontWeight: '600', fontSize: '12px' }}>
-                        {`u/${item.commented_by}`}
+                        {`u/${item.user.username}`}
                       </Username>
-                      <StyledSpan>{`${item.commented_since}`} ago</StyledSpan>
+                      <StyledSpan>{`${item.createdDate}`} ago</StyledSpan>
                     </PostInfo>
 
                     {/* Comment result  */}
-                    <Comment>{`${item.comment_content}`}</Comment>
+                    <Comment>{`${item.text}`}</Comment>
 
                     <PostStatistics>
                       <UpVotes sx={{ margin: '1rem 1rem .5rem 2rem' }}>
-                        {`${divideBigNumber(item.comment_upvotes_count)}`}{' '}
-                        upvotes
+                        {`${divideBigNumber(item.votesCount)}`} upvotes
                       </UpVotes>
                     </PostStatistics>
                   </CommentContent>
                   <GoToThread>Go to thread</GoToThread>
                 </CommentContainer>
 
-                {/* Number of comments and upvotes  */}
+                {/* Number of comments and upvotes of the post */}
                 <PostStatistics>
                   <UpVotes>
-                    {`${divideBigNumber(item.post_upvotes_count)}`} upvotes
+                    {`${divideBigNumber(item.post.votesCount)}`} upvotes
                   </UpVotes>
                   <Comments>
-                    {`${divideBigNumber(item.post_comments_count)}`} Comments
+                    {`${divideBigNumber(item.post.commentCount)}`} Comments
                   </Comments>
                 </PostStatistics>
               </SingleResultContainer>

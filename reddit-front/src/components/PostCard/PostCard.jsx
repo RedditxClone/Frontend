@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prefer-template */
 /* eslint-disable react/jsx-no-bind */
@@ -36,18 +37,9 @@ function PostCard({
   isCommunityPost,
   isPostFullDetailsMode,
   isHomePagePost,
-  isModeratorMode,
-  isSaved,
-  isLocked,
-  isPostApproved,
-  isPostSticky,
-  isDistinguishedAsMode,
-  isNSFW,
-  isSpoiled,
-  replyNotifications
+  isModeratorMode
 }) {
   const [hidePost, setHidePost] = useState(false);
-
   // Returning the result
   return !hidePost ? (
     <div
@@ -58,25 +50,18 @@ function PostCard({
     >
       <PostContainer>
         <Voting
-          votesCount={postData.votes}
-          postId={postData.id}
-          currentVotingState={0}
+          votesCount={postData.votesCount}
+          postId={postData._id}
+          currentVotingState={
+            postData.voteType === null ? 0 : postData.voteType
+          }
           isHomePagePost={isHomePagePost}
         />
         <PostContent
           setHidePost={setHidePost}
           postContentData={postData}
           isCommunityPost={isCommunityPost}
-          isPostFullDetailsMode={isPostFullDetailsMode}
           isModeratorMode={isModeratorMode}
-          isSaved={isSaved}
-          isLocked={isLocked}
-          isPostApproved={isPostApproved}
-          isPostSticky={isPostSticky}
-          isDistinguishedAsMode={isDistinguishedAsMode}
-          isNSFW={isNSFW}
-          isSpoiled={isSpoiled}
-          replyNotifications={replyNotifications}
         />
       </PostContainer>
     </div>

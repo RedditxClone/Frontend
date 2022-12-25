@@ -1,15 +1,148 @@
+/* eslint-disable no-else-return */
+/* eslint-disable object-curly-newline */
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 import api from './api';
+import getCookie from './getCookie';
+
+/**
+ * This service for fetching the posts
+ * @param {object} data - The request data
+ */
+export const getPost = async (id) => {
+  const token = getCookie('Authorization');
+  try {
+    const response = await api.get(`/api/post/${id}`, {
+      headers: { Authorization: token }
+    });
+    return response.data;
+  } catch (err) {
+    if (err.response) {
+      // The client was given an error response (5xx, 4xx)
+      return { data: [], statusCode: 400 };
+    } else if (err.request) {
+      // The client never received a response, and the request was never left
+      return { data: [], statusCode: 400 };
+    } else {
+      // Anything else
+      console.log('Error', err.message);
+      return { data: [], statusCode: 400 };
+    }
+  }
+};
 
 /**
  * This service for fetching the posts
  * @param {object} data - The request data
  */
 export const getPosts = async (data) => {
+  const token = getCookie('Authorization');
+
   const { sortType } = data;
   const response = await api.get(`/api/posts/${sortType}`);
+  return response.data;
+};
+
+/**
+ * This service for fetching the posts
+ * @param {object} data - The request data
+ */
+export const getHomePosts = async (data) => {
+  const token = getCookie('Authorization');
+
+  const { limit, page, sort, time } = data;
+  // /post/timeline?limit=5&page=2&sort=top
+  if (time) {
+    const response = await api.get(
+      `/api/post/timeline?limit=${limit}&page=${page}&sort=${sort}&time=${time}`,
+      {
+        headers: { Authorization: token }
+      }
+    );
+    return response.data;
+  } else {
+    const response = await api.get(
+      `/api/post/timeline?limit=${limit}&page=${page}&sort=${sort}`,
+      {
+        headers: { Authorization: token }
+      }
+    );
+    return response.data;
+  }
+};
+
+/**
+ * This service for fetching the posts
+ * @param {object} data - The request data
+ */
+export const getSubredditPosts = async (data) => {
+  const token = getCookie('Authorization');
+
+  const { limit, page, sort, time, subredditName } = data;
+  // /post/timeline?limit=5&page=2&sort=top
+  if (time) {
+    const response = await api.get(
+      `/api/subreddit/${subredditName}/posts?limit=${limit}&page=${page}&sort=${sort}&time=${time}`,
+      {
+        headers: { Authorization: token }
+      }
+    );
+    return response.data;
+  } else {
+    const response = await api.get(
+      `/api/subreddit/${subredditName}/posts?limit=${limit}&page=${page}&sort=${sort}`,
+      {
+        headers: { Authorization: token }
+      }
+    );
+    return response.data;
+  }
+};
+
+/**
+ * This service for fetching the spammed posts
+ * @param {object} data - The request data
+ */
+export const getSpammedPosts = async (data) => {
+  const token = getCookie('Authorization');
+
+  const { subredditName, sortType, page } = data;
+  const response = await api.get(
+    `/api/subreddit/${subredditName}/spammed?limit=4&page=${page}`,
+    {
+      headers: { Authorization: token }
+    }
+  );
+  return response.data;
+};
+
+/**
+ * This service for fetching the un-moderated posts
+ * @param {object} data - The request data
+ */
+export const getUnModeratedPosts = async (data) => {
+  const token = getCookie('Authorization');
+
+  const { subredditName, sortType, page } = data;
+  const response = await api.get(
+    `/api/subreddit/${subredditName}/unmoderated?limit=4&page=${page}`,
+    {
+      headers: { Authorization: token }
+    }
+  );
+  return response.data;
+};
+
+/**
+ * This service for fetching the edited posts
+ * @param {object} data - The request data
+ */
+export const getEditedPosts = async (data) => {
+  const token = getCookie('Authorization');
+
+  const { sortType } = data;
+  const response = await api.get('/api/posts/edited');
   return response.data;
 };
 
@@ -18,6 +151,8 @@ export const getPosts = async (data) => {
  * @param {object} data - The request data
  */
 export const getPostInsights = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id } = data;
   const response = await api.get(`api/post/${id}/insights_count`);
   return response.data;
@@ -28,8 +163,12 @@ export const getPostInsights = async (data) => {
  * @param {object} data - The request data
  */
 export const deletePost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id } = data;
-  const response = await api.delete(`api/post/${id}`);
+  const response = await api.delete(`api/post/${id}`, {
+    headers: { Authorization: token }
+  });
   return response.data;
 };
 
@@ -38,8 +177,12 @@ export const deletePost = async (data) => {
  * @param {object} data - The request data
  */
 export const removePost = async (data) => {
-  const { id, request } = data;
-  const response = await api.patch(`api/post/${id}/remove`, request);
+  const token = getCookie('Authorization');
+
+  const { id } = data;
+  const response = await api.delete(`api/post/${id}`, {
+    headers: { Authorization: token }
+  });
   return response.data;
 };
 
@@ -48,8 +191,16 @@ export const removePost = async (data) => {
  * @param {object} data - The request data
  */
 export const unRemovePost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id, request } = data;
-  const response = await api.patch(`api/post/${id}/unremove`);
+  const response = await api.post(
+    `api/post/${id}/unremove`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -58,8 +209,16 @@ export const unRemovePost = async (data) => {
  * @param {object} data - The request data
  */
 export const hidePost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id } = data;
-  const response = await api.patch(`api/post/${id}/hide`);
+  const response = await api.post(
+    `api/post/${id}/hide`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -68,8 +227,16 @@ export const hidePost = async (data) => {
  * @param {object} data - The request data
  */
 export const unHidePost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id } = data;
-  const response = await api.patch(`api/post/${id}/unhide`);
+  const response = await api.post(
+    `api/post/${id}/unhide`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -78,10 +245,17 @@ export const unHidePost = async (data) => {
  * @param {object} data - The request data
  */
 export const approvePost = async (data) => {
+  const token = getCookie('Authorization');
   const { id } = data;
-  const response = await api.patch(`api/post/${id}/approve`, {
-    is_postApproved: true
-  });
+  console.log('id', id);
+
+  const response = await api.post(
+    `api/post/${id}/approve`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -90,10 +264,16 @@ export const approvePost = async (data) => {
  * @param {object} data - The request data
  */
 export const unApprovePost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id } = data;
-  const response = await api.patch(`api/post/${id}/unapprove`, {
-    is_postApproved: false
-  });
+  const response = await api.post(
+    `api/post/${id}/unapprove`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -102,8 +282,16 @@ export const unApprovePost = async (data) => {
  * @param {object} data - The request data
  */
 export const savePost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id, request } = data;
-  const response = await api.patch(`api/post/${id}/save`, request);
+  const response = await api.post(
+    `api/user/post/${id}/save`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -112,8 +300,16 @@ export const savePost = async (data) => {
  * @param {object} data - The request data
  */
 export const unSavePost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id, request } = data;
-  const response = await api.patch(`api/post/${id}/unsave`, request);
+  const response = await api.post(
+    `api/user/post/${id}/unsave`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -122,8 +318,16 @@ export const unSavePost = async (data) => {
  * @param {object} data - The request data
  */
 export const lockPost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id, request } = data;
-  const response = await api.patch(`api/post/${id}/lock`, request);
+  const response = await api.patch(
+    `api/post/${id}`,
+    { commentsLocked: true },
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -132,8 +336,16 @@ export const lockPost = async (data) => {
  * @param {object} data - The request data
  */
 export const unLockPost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id, request } = data;
-  const response = await api.patch(`api/post/${id}/unlock`, request);
+  const response = await api.patch(
+    `api/post/${id}`,
+    { commentsLocked: false },
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -142,8 +354,16 @@ export const unLockPost = async (data) => {
  * @param {object} data - The request data
  */
 export const spamPost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id } = data;
-  const response = await api.patch(`api/post/${id}/spam`, { is_spammed: true });
+  const response = await api.post(
+    `api/thing/${id}/spam`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -152,58 +372,16 @@ export const spamPost = async (data) => {
  * @param {object} data - The request data
  */
 export const unSpamPost = async (data) => {
-  const { id } = data;
-  const response = await api.patch(`api/post/${id}/unspam`, {
-    is_spammed: false
-  });
-  return response.data;
-};
+  const token = getCookie('Authorization');
 
-/**
- * This service for pinning a post
- * @param {object} data - The request data
- */
-export const stickyPost = async (data) => {
   const { id } = data;
-  const response = await api.patch(`api/post/${id}/sticky`, {
-    is_postSticky: true
-  });
-  return response.data;
-};
-
-/**
- * This service for un-pinning a post
- * @param {object} data - The request data
- */
-export const unStickyPost = async (data) => {
-  const { id } = data;
-  const response = await api.patch(`api/post/${id}/unsticky`, {
-    is_postSticky: false
-  });
-  return response.data;
-};
-
-/**
- * This service for distinguishing a post as mod
- * @param {object} data - The request data
- */
-export const distinguishAsMod = async (data) => {
-  const { id } = data;
-  const response = await api.patch(`api/post/${id}/distinguish_as_mod`, {
-    is_distinguishedAsMode: true
-  });
-  return response.data;
-};
-
-/**
- * This service for distinguishing a post as mod
- * @param {object} data - The request data
- */
-export const unDistinguishAsMod = async (data) => {
-  const { id } = data;
-  const response = await api.patch(`api/post/${id}/undistinguish_as_mod`, {
-    is_distinguishedAsMode: false
-  });
+  const response = await api.post(
+    `api/thing/${id}/unspam`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -212,10 +390,16 @@ export const unDistinguishAsMod = async (data) => {
  * @param {object} data - The request data
  */
 export const markPostAsNSFW = async (data) => {
-  const { id } = data;
-  const response = await api.patch(`api/post/${id}/mark_nsfw`, {
-    is_NSFW: true
-  });
+  const token = getCookie('Authorization');
+
+  const { id, request } = data;
+  const response = await api.patch(
+    `api/post/${id}`,
+    { nsfw: true },
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -224,10 +408,16 @@ export const markPostAsNSFW = async (data) => {
  * @param {object} data - The request data
  */
 export const unMarkPostAsNSFW = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id } = data;
-  const response = await api.patch(`api/post/${id}/unmark_nsfw`, {
-    is_NSFW: false
-  });
+  const response = await api.patch(
+    `api/post/${id}`,
+    { nsfw: false },
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -236,18 +426,12 @@ export const unMarkPostAsNSFW = async (data) => {
  * @param {object} data - The request data
  */
 export const sendReplyNotifications = async (data) => {
-  const { id, request } = data;
-  const response = await api.patch(`api/post/${id}/send_replies`, request);
-  return response.data;
-};
+  const token = getCookie('Authorization');
 
-/**
- * This service for not sending a post replies notifications
- * @param {object} data - The request data
- */
-export const unSendReplyNotifications = async (data) => {
-  const { id } = data;
-  const response = await api.patch(`api/post/${id}/unsend_replies`);
+  const { id, request } = data;
+  const response = await api.patch(`api/post/${id}`, request, {
+    headers: { Authorization: token }
+  });
   return response.data;
 };
 
@@ -256,10 +440,16 @@ export const unSendReplyNotifications = async (data) => {
  * @param {object} data - The request data
  */
 export const spoilPost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id } = data;
-  const response = await api.patch(`api/post/${id}/spoiler`, {
-    is_spoiled: true
-  });
+  const response = await api.patch(
+    `api/post/${id}`,
+    { spoiler: true },
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -268,10 +458,16 @@ export const spoilPost = async (data) => {
  * @param {object} data - The request data
  */
 export const unSpoilPost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id } = data;
-  const response = await api.patch(`api/post/${id}/unspoiler`, {
-    is_spoiled: false
-  });
+  const response = await api.patch(
+    `api/post/${id}`,
+    { spoiler: false },
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -279,9 +475,57 @@ export const unSpoilPost = async (data) => {
  * This service for not voting a post
  * @param {object} data - The request data
  */
-export const votePost = async (data) => {
-  const { id, request } = data;
-  const response = await api.patch(`api/post/${id}/vote`, request);
+export const upVote = async (data) => {
+  const token = getCookie('Authorization');
+
+  const { id } = data;
+
+  const response = await api.post(
+    `api/thing/${id}/upvote`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
+  return response.data;
+};
+
+/**
+ * This service for not voting a post
+ * @param {object} data - The request data
+ */
+export const downVote = async (data) => {
+  const token = getCookie('Authorization');
+
+  const { id } = data;
+  console.log('id', id);
+
+  const response = await api.post(
+    `api/thing/${id}/downvote`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
+  return response.data;
+};
+
+/**
+ * This service for not voting a post
+ * @param {object} data - The request data
+ */
+export const unVote = async (data) => {
+  const token = getCookie('Authorization');
+  const { id } = data;
+  console.log('id', id);
+
+  const response = await api.post(
+    `api/thing/${id}/unvote`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
@@ -290,28 +534,35 @@ export const votePost = async (data) => {
  * @param {object} data - The request data
  */
 export const followPost = async (data) => {
+  const token = getCookie('Authorization');
+
   const { id, request } = data;
-  const response = await api.patch(`api/post/${id}/follow`, request);
+  const response = await api.post(
+    `api/post/${id}/follow`,
+    {},
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
 };
 
 /**
- * This service for visiting a post
+ * This service for updating a post's flair
  * @param {object} data - The request data
  */
-export const flagPostAsVisited = async (data) => {
-  const { id } = data;
-  const response = await api.patch(`api/post/${id}/visited`, { visited: true });
+export const updatePostFlair = async (data) => {
+  const token = getCookie('Authorization');
+
+  const { postId, flairId } = data;
+  const response = await api.patch(
+    `api/post/${postId}/visited`,
+    {
+      flair: flairId
+    },
+    {
+      headers: { Authorization: token }
+    }
+  );
   return response.data;
-};
-
-// for testing only
-// eslint-disable-next-line arrow-body-style
-export const getPostRelatedCommunityInfo = async (data) => {
-  return [];
-};
-
-// eslint-disable-next-line arrow-body-style
-export const getPostRelatedUserInfo = async (data) => {
-  return [];
 };
