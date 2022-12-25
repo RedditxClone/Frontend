@@ -1,81 +1,131 @@
-# Important Notes for Contributers
+<header style="display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom: 1px solid white;margin-bottom: 35px">
+<h1 style="text-align: center; font-weight:700"> RedditXClone </h1>
 
-- Create your branches from the developement branch as a source branch
-- The components should have extension **.jsx**
-- Do not forget documentations for each component
-- For Icons: use [react icons](https://react-icons.github.io/react-icons)
-- For Documentations: use [JSDoc](https://jsdoc.app/)
-- For The pages components, store the code in the pages directory
-- For the reusable and repeatable components, store them in utilities
-- **Do not forget Testing**
+<div style="margin-bottom: 10px">
+    <img src="./readme_images/reddit.png" >
+</div>
+<div>
+</div>
+</header>
+<div>
+    <h1 style="font-weight:700;">Introduction</h1>
+      <p style="font-size:18px;">This is our whole clone for <a href="https://swproject.demosfortest.com/">Reddit </a>social media website. This work starts in October 20022.</p>
+      
+    
+</div>
 
-# Getting Started with Create React App
+<div style="border-bottom: 1px solid white; margin-bottom: 10px">
+    <h1 style="font-weight:700;">Technologies</h1>
+      <ul>
+        <li style="font-size: 15px;"><a href="https://reactjs.org/">React v18.2.0</a></li>
+        <li style="font-size: 15px;"><a href="https://mui.com/">Material UI</a> for existing components and some animations.</li>
+        <li style="font-size: 15px;"><a href="https://react-icons.github.io/react-icons/search">React-icons</a> Library for icons as components</li>
+        <li style="font-size: 15px;"><a href="https://redux-toolkit.js.org/">Redux-Toolkit</a> For saving every thing related to the current user</li>
+        <li style="font-size: 15px;"><a href="https://draftjs.org/">Draft-js</a> For creating a post editor</li>
+        <li><a href="https://www.npmjs.com/package/draft-js-export-markdown">draft-js-export-markdown</a> For converting the editor state to markdown text</li>
+        <li><a href="https://www.npmjs.com/package/draft-js-import-markdown">draft-js-import-markdown</a> For converting the readme text to the  state to markdown text</li>
+         <li><a href="https://www.npmjs.com/package/react-google-login">React-Google-login</a> For continue with Google feature</li>
+        <li><a href="https://jsdoc.app/">JsDoc</a> For functional documentation</li>
+      </ul>
+      
+    
+</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div>
+    <h1 style="font-weight:700;">Features</h1>
+      <ul>
+        <li style="font-size: 15px;">Login</li>
+      <li style="font-size: 15px;">Sign Up</li>
+      <li style="font-size: 15px;">Forget username</li>
+      <li style="font-size: 15px;">Forget userpassowrd</li>
+      <li style="font-size: 15px;">Continue with Google</li>
+      <li style="font-size: 15px;">Home Page</li>
+      <li style="font-size: 15px;">Subreddit Page</li>
+      <li style="font-size: 15px;">Search</li>
+      <li style="font-size: 15px;">Create Post</li>
+      <li style="font-size: 15px;">Create subreddit</li>
+      <li style="font-size: 15px;">Post full page</li>
+      <li style="font-size: 15px;">send private message</li>
+      </ul>
+    
+</div>
 
-## Available Scripts
 
-In the project directory, you can run:
+<div>
+    <h1 style="font-weight:700;">Installation</h1>
+    <p>
+        Start with the packages put in packages.json, then run the following command. 
+        <code>npm i</code>
+        <p>
+            if you faced a problem with the previous command try using legacy or force
+        </p>
+    </p>
+      
+</div>
 
-### `npm start`
+<div>
+    <h1 style="font-weight:700;">Installation</h1>
+    <p>
+        Start with the packages put in packages.json, then run the following command. 
+        <code>npm i</code>
+        <p>
+            if you faced a problem with the previous command try using legacy or force
+        </p>
+    </p>
+      
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<div>
+    <h1 style="font-weight:700;">Show Case</h1>
+      <ul>
+        <li style="font-size: 15px;">
+            <h3>Home page</h3>
+             <img src="./readme_images/home_page.gif">
+        </li>
+        <li style="font-size: 15px;">
+            <h3>Login</h3>
+             <img src="./readme_images/login.gif">
+        </li>
+        <li style="font-size: 15px;">
+            <h3>Sign Up</h3>
+        <img src="./readme_images/sign_up.gif">
+        </li>
+        <li style="font-size: 15px;">
+            <h3>Continue With Google</h3>
+        <img src="./readme_images/google.gif">
+        </li>
+        <li style="font-size: 15px;">
+            <h3>Create subreddit and subreddit page</h3>
+            <img src="./readme_images/cs.gif">
+        </li>
+        <li style="font-size: 15px;">
+            <h3>Create text Post and Post Page</h3>
+            <img src="./readme_images/cp_text.gif">
+        </li>
+        <li style="font-size: 15px;">
+            <h3>Create Post with images and Post Page</h3>
+            <img src="./readme_images/cp_images.gif">
+        </li>
+        <li style="font-size: 15px;">
+            <h3>Search</h3>
+            <img src="./readme_images/search.gif">
+        </li>
+        <li style="font-size: 15px;">
+            <h3>Send private message</h3>
+            <img src="./readme_images/mess.gif">
+        </li>
+      </ul>
+      
+    
+</div>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<div>
+    <h1 style="font-weight:700;">Future Features</h1>
+    <ul>
+        <li style="font-size: 15px;">Profile Page</li>
+      <li style="font-size: 15px;">Notifications</li>
+      <li style="font-size: 15px;">Messages</li>
+      <li style="font-size: 15px;">Moderation tools</li>
+    </ul>
+      
+</div>
