@@ -8,6 +8,7 @@ function App() {
       <FetchUserData className="fetch-user-data-middleware" />
     </>
   );
+  
 }
 
 export default App;

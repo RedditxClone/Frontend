@@ -19,18 +19,11 @@ import {
 } from './HomePageCards.style';
 
 /**
- * @typedef {PropType} states
- * @property {object} anchorEl
- * @property {string} clickedItem Today Button Menu Clicked Item
- * @property {Number} clickedButton
- * @property {Boolean} open
- */
-/**
- * this function returns Best Hot New Top Card In the Home Screen
- * @param {PropType} states
+ * @description This component is resposinble to render the Best Hot New Top Card In the Home Screen
+ * @returns the card with the Best Hot New Top Card
  */
 
-export default function BestHotNewCard({ setSortButton }) {
+function BestHotNewCard({ setSortButton }) {
   const [clickedButton, setClickedButton] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [clickedItem, setClickedItem] = useState('Today');
@@ -77,7 +70,20 @@ export default function BestHotNewCard({ setSortButton }) {
   };
 
   /**
-   * closes the Today Menu */
+   * @description closes the Rising Menu */
+  const handleClose = () => {
+    setSortButton({ sort: 'Rising', time: null });
+    setAnchorEl(null);
+  };
+  const [anchorElTodayMenu, setAnchorElTodayMenu] = useState(null);
+  const openTodayMenu = Boolean(anchorElTodayMenu);
+  /**
+   * @description  opens the Today Menu */
+  const handleClickTodayMenu = (event) => {
+    setAnchorElTodayMenu(event.currentTarget);
+  };
+  /**
+   * @description  closes the Today Menu */
   const handleCloseTodayMenu = (clicked) => {
     if (clicked == null) {
       console.log(' Error');
@@ -88,19 +94,6 @@ export default function BestHotNewCard({ setSortButton }) {
       console.log('No Error');
     }
     setAnchorElTodayMenu(null);
-  };
-  /**
-   * closes the Rising Menu */
-  const handleClose = () => {
-    setSortButton({ sort: 'Rising', time: null });
-    setAnchorEl(null);
-  };
-  const [anchorElTodayMenu, setAnchorElTodayMenu] = useState(null);
-  const openTodayMenu = Boolean(anchorElTodayMenu);
-  /**
-   * opens the Today Menu */
-  const handleClickTodayMenu = (event) => {
-    setAnchorElTodayMenu(event.currentTarget);
   };
 
   const [anchorElButtonMenu, setAnchorElButtonMenu] = useState(null);
@@ -154,7 +147,7 @@ export default function BestHotNewCard({ setSortButton }) {
     setAnchorElButtonMenu(null);
   };
   /**
-   * handels clicks on buttons */
+   * @description  handels clicks on buttons */
 
   return (
     <CreatePostCardRoot>
@@ -365,3 +358,4 @@ export default function BestHotNewCard({ setSortButton }) {
     </CreatePostCardRoot>
   );
 }
+export default (BestHotNewCard);

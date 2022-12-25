@@ -9,9 +9,10 @@ import {
 } from './HomePageCards.style';
 
 /**
- * this function returns Create Post Card , the one that is displayed in the home screen
+ * @description This component is resposinble to render the
+ * Create Post Card , the one that is displayed in the home screen
  */
-export default function CreatePostCard() {
+function CreatePostCard() {
   const navigate = useNavigate();
   const onFocusHandler = () => {
     navigate('/submit');
@@ -74,3 +75,4 @@ export default function CreatePostCard() {
     </CreatePostCardRoot>
   );
 }
+export default (CreatePostCard);

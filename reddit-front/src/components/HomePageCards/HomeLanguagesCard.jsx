@@ -6,12 +6,13 @@ import {
   StyledLink, StyledRowBox, StyledColBox, Root, StyledCard
 } from './HomePageCards.style';
 /**
- * this function returns Langues and policy Card ,the one that is displayed in the home screen
+ * @description This component is resposinble to render the
+ * Languages and policy Card ,the one that is displayed in the home screen
  */
-export default function HomeLanguagesCard() {
+function HomeLanguagesCard() {
   return (
     <Root>
-      <StyledCard elevation={0}>
+      <StyledCard sx={{ maxWidth: 345 }} elevation={0}>
         <CardContent
           sx={{
             padding: '0',
@@ -82,7 +83,4 @@ export default function HomeLanguagesCard() {
     </Root>
   );
 }
-/*
-<div class="_34dh2eyzMvJfjCBLeoWiDD">Reddit Inc © 2022. All rights reserved</div>
-
-*/
+export default (HomeLanguagesCard);

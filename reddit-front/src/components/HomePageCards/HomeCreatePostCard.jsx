@@ -11,10 +11,11 @@ import StyledHorizontalLine from '../../utilities/StyledHorizontalLine/StyledHor
 import CreateCommunity from '../CreateCommunity/CreateCommunity';
 
 /**
- * this function returns Create Post Card ,the one that is displayed after the communities card
+ * @description This component is resposinble to render the
+ * Create Post Card ,the one that is displayed after the communities card
  */
 
-export default function HomeCreatePostCard() {
+function HomeCreatePostCard() {
   const [openCreateCommunity, setOpenCreateCommunity] = useState(false);
   const navigate = useNavigate();
   const clickCreatePostHandler = () => {
@@ -123,3 +124,4 @@ export default function HomeCreatePostCard() {
     </Root>
   );
 }
+export default (HomeCreatePostCard);

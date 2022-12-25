@@ -13,12 +13,13 @@ import Avatar from '@mui/material/Avatar';
 import { Box } from '@mui/material';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import { useState } from 'react';
+import NavLink from '../SideList/SideList.style';
 import {
   RoundedButton,
   OverButton,
   Root,
   LargeRoundedButton,
-  StyledCard, NavLink
+  StyledCard
 } from './HomePageCards.style';
 
 /**

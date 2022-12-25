@@ -375,7 +375,7 @@ function HomeBox({ allkindcomm }) {
               <StyledHomeIconButton>
                 <HiOutlineBarsArrowUp />
               </StyledHomeIconButton>
-              <StyledButton sx={{ ml: '0.5rem' }}>Top Communities</StyledButton>
+              <StyledButton href="/subreddits/leaderboard" sx={{ ml: '0.5rem' }}>Top Communities</StyledButton>
             </MenuItem>
             <MenuItem onClick={notificationsClickHandler}>
               <StyledHomeIconButton>

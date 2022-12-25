@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CategoriesCard.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CategoriesCard.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-param-reassign */
+/* eslint-disable eqeqeq */
+import CardContent from '@mui/material/CardContent';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import { Box, Typography } from '@mui/material';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+
+import { useState } from 'react';
+import { NavLink, CategoriesCardBar } from './CategoriesCard.style';
+import {
+  RoundedButton,
+  StyledCard
+} from '../HomePageCards/HomePageCards.style';
+import CommunityHoverCard from './CommunityHoverCard';
+
+/**
+ * @description This component is resposinble to render the Categories page Card,
+ * the one that contains the communities of the category the user has choosen
+ * @param {Array} communities this is an array of the top communities that shouild be displayed
+ * depending on the category the user chooses from the side list
+ * @param {string} topText that is the text displayed on the top bar of the card ,
+ * it depends on the category the user reads from the side list
+ * @returns the card with the communities displayed in it
+ */
+
+function CategoriesCard({ communities, topText }) {
+  const [cardCommunities, setCardCommunities] = useState(communities);
+  const activeStyle = {
+    color: 'black'
+  };
+  /**
+   * @description this function handles the click on the join button
+   * @param {boolean} clicked represents whether the button is clicked or not
+   * @param {int} index represents the index of the community that the user wants to join
+   */
+  const joinButtonClickHandler = (clicked, index) => {
+    const newCommunities = [...cardCommunities];
+    newCommunities[index].joined = clicked;
+    communities = [...newCommunities];
+    setCardCommunities(communities);
+  };
+  return (
+    &lt;StyledCard sx={{ width: '50%' }} elevation={0}>
+      &lt;CardContent
+        sx={{
+          padding: '0',
+          '&amp;:last-child': {
+            paddingBottom: '0.7rem'
+          }
+        }}
+      >
+        &lt;CategoriesCardBar data-testid="categories_card_bar">
+          &lt;Typography variant="h5">
+            Today's Top Growing in
+            {' '}
+            {topText}
+          &lt;/Typography>
+          &lt;Typography variant="h5" sx={{ color: '#7C7C7c' }}>
+            Rank Change
+          &lt;/Typography>
+        &lt;/CategoriesCardBar>
+
+        &lt;List
+          sx={{
+            width: '100%',
+            bgcolor: 'background.paper',
+            paddingTop: '0',
+            marginTop: '4rem'
+          }}
+        >
+          {communities.map((community, index) => (
+            &lt;Box sx={{ width: '100%' }}>
+              &lt;NavLink
+                style={({ isActive }) => (isActive ? activeStyle : activeStyle)}
+                to="/food"
+              >
+                &lt;ListItem
+                  key={index}
+                  alignItems="flex-start"
+                  sx={{
+                    paddingBottom: '4px',
+                    paddingTop: '4px',
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                  data-testid="communities_items"
+                >
+                  &lt;Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: '100%'
+                    }}
+                  >
+                    &lt;Box sx={{ display: 'flex' }}>
+                      &lt;ListItemText
+                        sx={{
+                          '&amp; span': {
+                            fontSize: '1.6rem',
+                            paddingRight: '1rem',
+                            marginTop: '1rem',
+                            lineHeight: '2rem',
+                            width: '1rem'
+                          }
+                        }}
+                        primary={index + 1}
+                      />
+                      {community.growing == true ? (
+                        &lt;Box sx={{ marginTop: '1rem', padding: '0.5rem' }}>
+                          &lt;MdKeyboardArrowUp size={23} color="#46d15f" />
+                        &lt;/Box>
+                      ) : null}
+                      {community.goingDown == true ? (
+                        &lt;Box sx={{ marginTop: '1rem', padding: '0.5rem' }}>
+                          &lt;MdKeyboardArrowDown size={23} color="#EA0027" />
+                        &lt;/Box>
+                      ) : null}
+                      {community.goingDown == false
+                    &amp;&amp; community.growing == false ? (
+                      &lt;div style={{ width: '3rem' }} />
+                        ) : null}
+                      &lt;ListItemAvatar sx={{ paddingLeft: '0.5rem' }}>
+                        &lt;Avatar alt={community.name} src={community.picture} />
+                      &lt;/ListItemAvatar>
+                      &lt;div style={{
+                        '&amp; :hover': {
+                          '&amp; .comm_card': {
+                            display: 'block'
+                          }
+                        }
+                      }}
+                      >
+                        &lt;ListItemText
+                          sx={{
+                            '&amp; span': {
+                              fontSize: '1.6rem',
+                              marginTop: '1.7rem',
+                              lineHeight: '2rem'
+                            }
+                          }}
+                          primary={community.name}
+                        >
+                          &lt;div
+                            className="comm_card"
+                            style={{
+
+                              position: 'relative',
+                              width: '100px',
+                              height: '100px',
+                              display: 'none'
+                            }}
+                          >
+                            &lt;CommunityHoverCard community={communities[0]} />
+                          &lt;/div>
+                        &lt;/ListItemText>
+                      &lt;/div>
+                    &lt;/Box>
+                    &lt;Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      {!community.userCommunity &amp;&amp; community.joined == false ? (
+                        &lt;RoundedButton
+                          sx={{
+                            marginLeft: '3rem',
+                            fontSize: '1.3rem',
+                            padding: '2px 7px',
+                            ':hover': {
+                              backgroundColor: '#1484D6'
+                            }
+                          }}
+                          variant="contained"
+                          disableElevation
+                          onClick={() => joinButtonClickHandler(true, index)}
+                        >
+                          join
+                        &lt;/RoundedButton>
+                      ) : !community.userCommunity &amp;&amp; community.joined == true ? (
+                        &lt;RoundedButton
+                          sx={{
+                            marginLeft: '3rem',
+                            fontSize: '1.3rem',
+                            padding: '2px 7px',
+                            '&amp;:hover span': {
+                              display: 'none'
+                            },
+                            '&amp;:hover:before': {
+                              content: '\'Leave\''
+                            }
+                          }}
+                          variant="outlined"
+                          disableElevation
+                          onClick={() => joinButtonClickHandler(false, index)}
+                        >
+                          &lt;span>joined&lt;/span>
+                        &lt;/RoundedButton>
+                      ) : null}
+                      &lt;ListItemText
+                        sx={{
+                          '&amp; span': {
+                            fontSize: '1.6rem',
+                            padding: '1rem 1rem',
+                            marginTop: '1rem',
+                            lineHeight: '2rem',
+                            width: '3rem'
+                          }
+                        }}
+                        primary={community.rank}
+                      />
+                    &lt;/Box>
+                  &lt;/Box>
+                &lt;/ListItem>
+              &lt;/NavLink>
+              {index &lt; communities.length - 1 ? (
+                &lt;Divider variant="fullwidth" component="li" />
+              ) : null}
+            &lt;/Box>
+          ))}
+        &lt;/List>
+      &lt;/CardContent>
+    &lt;/StyledCard>
+  );
+}
+export default (CategoriesCard);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CategoriesCard">CategoriesCard</a></li><li><a href="global.html#CategoriesCardBar">CategoriesCardBar</a></li><li><a href="global.html#CommunityHoverCard">CommunityHoverCard</a></li><li><a href="global.html#NavLink">NavLink</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 20:59:57 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

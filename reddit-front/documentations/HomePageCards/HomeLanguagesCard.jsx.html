@@ -27,19 +27,20 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/* eslint-disable max-len */
-import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import StyledHorizontalLine from '../../utilities/StyledHorizontalLine/StyledHorizontalLine';
 import {
-  StyledLink, StyledRowBox, StyledColBox, Root
+  StyledLink, StyledRowBox, StyledColBox, Root, StyledCard
 } from './HomePageCards.style';
 /**
- * this function returns Langues and policy Card ,the one that is displayed in the home screen
+ * @description This component is resposinble to render the
+ * Languages and policy Card ,the one that is displayed in the home screen
  */
-export default function HomeLanguagesCard() {
+function HomeLanguagesCard() {
   return (
     &lt;Root>
-      &lt;Card sx={{ padding: '1rem', maxWidth: 345 }}>
+      &lt;StyledCard sx={{ maxWidth: 345 }} elevation={0}>
         &lt;CardContent
           sx={{
             padding: '0',
@@ -66,16 +67,12 @@ export default function HomeLanguagesCard() {
               &lt;/StyledLink>
             &lt;/StyledColBox>
           &lt;/StyledRowBox>
-          &lt;Typography
-            variant="h5"
-            sx={{
-              color: '#f7f7f7',
-              marginLeft: '0.5rem',
-              marginBottom: '0.3rem'
-            }}
-          >
-            ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
-          &lt;/Typography>
+          &lt;StyledHorizontalLine
+            marginTop={1.6}
+            marginBottom={1.6}
+            marginLeft={0}
+            marginRight={0.7}
+          />
           &lt;StyledRowBox>
             &lt;StyledColBox>
               &lt;StyledLink underline="none">English&lt;/StyledLink>
@@ -90,16 +87,12 @@ export default function HomeLanguagesCard() {
               &lt;StyledLink underline="none"> Português&lt;/StyledLink>
             &lt;/StyledColBox>
           &lt;/StyledRowBox>
-          &lt;Typography
-            variant="h5"
-            sx={{
-              color: '#f7f7f7',
-              marginLeft: '0.5rem',
-              marginBottom: '0.3rem'
-            }}
-          >
-            ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
-          &lt;/Typography>
+          &lt;StyledHorizontalLine
+            marginTop={1.6}
+            marginBottom={1.6}
+            marginLeft={0}
+            marginRight={0.7}
+          />
           &lt;Typography
             variant="h5"
             sx={{
@@ -108,19 +101,17 @@ export default function HomeLanguagesCard() {
               textTransform: 'none',
               marginLeft: '1px'
             }}
+            data-testid="rights"
           >
             Reddit Inc © 2022. All rights reserved
           &lt;/Typography>
 
         &lt;/CardContent>
-      &lt;/Card>
+      &lt;/StyledCard>
     &lt;/Root>
   );
 }
-/*
-&lt;div class="_34dh2eyzMvJfjCBLeoWiDD">Reddit Inc © 2022. All rights reserved&lt;/div>
-
-*/
+export default (HomeLanguagesCard);
 </code></pre>
         </article>
     </section>
@@ -131,13 +122,13 @@ export default function HomeLanguagesCard() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CreatePostCardRoot">CreatePostCardRoot</a></li><li><a href="global.html#OverButton">OverButton</a></li><li><a href="global.html#Root">Root</a></li><li><a href="global.html#RoundedButton">RoundedButton</a></li><li><a href="global.html#StyledBox">StyledBox</a></li><li><a href="global.html#StyledButton">StyledButton</a></li><li><a href="global.html#StyledColBox">StyledColBox</a></li><li><a href="global.html#StyledLink">StyledLink</a></li><li><a href="global.html#StyledMenuItem">StyledMenuItem</a></li><li><a href="global.html#StyledRowBox">StyledRowBox</a></li><li><a href="global.html#StyledTextField">StyledTextField</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BestHotNewCard">BestHotNewCard</a></li><li><a href="global.html#CreatePostCard">CreatePostCard</a></li><li><a href="global.html#CreatePostCardRoot">CreatePostCardRoot</a></li><li><a href="global.html#HomeCommunitiesCard">HomeCommunitiesCard</a></li><li><a href="global.html#HomeCreatePostCard">HomeCreatePostCard</a></li><li><a href="global.html#HomeLanguagesCard">HomeLanguagesCard</a></li><li><a href="global.html#LargeRoundedButton">LargeRoundedButton</a></li><li><a href="global.html#OverButton">OverButton</a></li><li><a href="global.html#Root">Root</a></li><li><a href="global.html#RoundedButton">RoundedButton</a></li><li><a href="global.html#StyledBox">StyledBox</a></li><li><a href="global.html#StyledButton">StyledButton</a></li><li><a href="global.html#StyledCard">StyledCard</a></li><li><a href="global.html#StyledColBox">StyledColBox</a></li><li><a href="global.html#StyledLink">StyledLink</a></li><li><a href="global.html#StyledMenuItem">StyledMenuItem</a></li><li><a href="global.html#StyledRowBox">StyledRowBox</a></li><li><a href="global.html#StyledTextField">StyledTextField</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Nov 04 2022 19:47:51 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Nov 10 2022 21:05:57 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

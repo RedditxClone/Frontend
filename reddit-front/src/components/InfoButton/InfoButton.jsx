@@ -10,7 +10,7 @@ import Loader from '../Loader/Loader';
  * @param {boolean} disabled to make the button disabled or enabled
  * @returns {React.Component} styled button
  */
-export default function InfoButton({
+function InfoButton({
   len,
   hlen,
   children,
@@ -48,3 +48,4 @@ export default function InfoButton({
 //     </StyledButton>
 //   );
 // }
+export default InfoButton;
