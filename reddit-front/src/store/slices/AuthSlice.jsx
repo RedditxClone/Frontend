@@ -1,7 +1,8 @@
 /* eslint-disable operator-linebreak */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../services/requests/api';
-import removeCookie from '../../services/requests/removeCookie';
+import deleteAllCookies from '../../services/requests/removeAllCookies';
+// import removeCookie from '../../services/requests/removeCookie';
 /**
  * @typedef AuthState - This describes the current authentication state
  * @property {Objec} user - the current authenticated user with its
@@ -79,7 +80,7 @@ export const forgetUserName = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
     try {
       const res = await api.post('/api/auth/forget-username', {
-        emai: user.email
+        email: user.email
       });
 
       const { data } = res;
@@ -157,12 +158,16 @@ const AuthSlice = createSlice({
       state.user = {};
       state.userToken = null;
       state.isAuth = false;
-      removeCookie();
+      deleteAllCookies();
     },
 
     setUser(state, action) {
       // console.log('ussssseeerrrr', action.payload);
       state.user = action.payload;
+    },
+
+    setToken(state, action) {
+      state.userToken = action.payload;
     },
 
     setIsAuthenticated(state, action) {

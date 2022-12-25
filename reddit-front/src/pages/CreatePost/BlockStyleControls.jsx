@@ -6,11 +6,15 @@ import { BsJournalCode } from 'react-icons/bs';
 import StyledButton from './StyledButton';
 
 const BLOCK_TYPES = [
-  { label: <FaHeading />, style: 'header-one' },
-  { label: <TfiQuoteRight />, style: 'blockquote' },
-  { label: <AiOutlineUnorderedList />, style: 'unordered-list-item' },
-  { label: <MdFormatListNumbered />, style: 'ordered-list-item' },
-  { label: <BsJournalCode />, style: 'code-block' }
+  { id: 'block1', label: <FaHeading />, style: 'header-two' },
+  { id: 'block2', label: <TfiQuoteRight />, style: 'blockquote' },
+  {
+    id: 'block3',
+    label: <AiOutlineUnorderedList />,
+    style: 'unordered-list-item'
+  },
+  { id: 'block4', label: <MdFormatListNumbered />, style: 'ordered-list-item' },
+  { id: 'block5', label: <BsJournalCode />, style: 'code-block' }
 ];
 function BlockStyleControls({ editorState, onToggle }) {
   const selection = editorState.getSelection();
@@ -22,7 +26,7 @@ function BlockStyleControls({ editorState, onToggle }) {
     <div className="RichEditor-controls">
       {BLOCK_TYPES.map((type) => (
         <StyledButton
-          key={type.label}
+          key={type.id}
           active={type.style === blockType}
           label={type.label}
           onToggle={onToggle}

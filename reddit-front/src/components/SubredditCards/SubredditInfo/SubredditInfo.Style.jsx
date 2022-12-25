@@ -27,6 +27,7 @@ export const LogoNameContainer = styled(Box)({
  * @return {LogoNameContent} - The styled content
  */
 export const LogoNameContent = styled(Box)({
+  width: '80vw',
   marginBottom: '1.2rem',
   marginTop: '-1.4rem',
   display: 'flex',

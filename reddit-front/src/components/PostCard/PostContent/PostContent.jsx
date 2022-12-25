@@ -1,3 +1,6 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable no-use-before-define */
@@ -10,15 +13,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 import Logo3 from '../../../assets/Images/test.png';
 import Logo from '../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
 import PostInfo from '../PostInfo/PostInfo';
 import './PostContent.css';
-import { divideBigNumber } from '../../../utilities/Helpers';
-import { flagPostAsVisited } from '../../../services/requests/Post';
+import { divideBigNumber, getDateDiff } from '../../../utilities/Helpers';
 
 /**
  * @typedef PropType
@@ -48,58 +52,49 @@ function PostContent({
   setHidePost,
   postContentData,
   isCommunityPost,
-  isPostFullDetailsMode,
-  isModeratorMode,
-  isSaved,
-  isLocked,
-  isPostApproved,
-  isPostSticky,
-  isDistinguishedAsMode,
-  isNSFW,
-  isSpoiled,
-  replyNotifications
+  isModeratorMode
 }) {
+  const navigate = useNavigate();
+
   let postContent = null;
   let slideIndex = 0;
   const [modAction, setModAction] = useState(0);
-  const [locked, setLocked] = useState(postContentData.is_locked);
-  const [distinguishAsMod, setDistinguishAsMod] = useState(
-    postContentData.is_distinguishedAsMode
-  );
-  const [nsfw, setNsfw] = useState(postContentData.is_NSFW);
+  const [locked, setLocked] = useState(postContentData.commentsLocked);
+  const [nsfw, setNsfw] = useState(postContentData.nsfw);
   const [isVisited, setIsVisited] = useState(postContentData.visited);
+  const [isSaved, setIsSaved] = useState(postContentData.isSaved);
+  const [isSpoiled, setIsSpoiled] = useState(postContentData.spoiler);
+  const [isPostApproved, setIsPostApproved] = useState(
+    postContentData.replyNotifications
+  );
+  const [replyNotifications, setReplyNotifications] = useState(
+    postContentData.visited
+  );
   const [canBeSpoiled, setCanBeSpoiled] = useState(
-    postContentData.post_type === 'img'
+    true
+    // postContentData.images.length === 1
   );
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
   const getPostContent = () => {
-    const contentType = postContentData.post_type;
-    const mediaCount = postContentData.media_count;
+    let contentType = postContentData.postType;
+    let mediaCount = postContentData.images ? postContentData.images.length : 0;
+    const MEDIA_URL = process.env.REACT_APP_MEDIA_URL;
     switch (contentType) {
-      case 'img':
+      case 'images':
         if (mediaCount > 1) {
           postContent = (
             <>
-              <div className="my-slides fade">
-                <img
-                  src={Logo}
-                  alt="post image"
-                />
-              </div>
-              <div className="my-slides fade">
-                <img
-                  src={Logo}
-                  alt="post image"
-                  className={`post-image-${postContentData.id}`}
-                />
-              </div>
-              <div className="my-slides fade">
-                <img
-                  src={Logo3}
-                  alt="post image"
-                />
-              </div>
+              {postContentData.images && postContentData.images.length > 0
+                ? postContentData.images.map((image) => (
+                    <div className="my-slides fade">
+                      <img
+                        src={`${MEDIA_URL}${image}`}
+                        alt="post image"
+                      />
+                    </div>
+                  ))
+                : null}
               <button
                 type="button"
                 className="prev"
@@ -121,11 +116,11 @@ function PostContent({
           postContent = (
             <div className="post-image">
               <img
-                className={`post-image-${postContentData.id}`}
-                src={Logo}
+                className={`post-image-${postContentData._id}`}
+                src={`${MEDIA_URL}${postContentData.images[0]}`}
                 alt="post image"
                 style={{
-                  filter: postContentData.is_spoiled ? 'blur(60px)' : 'none'
+                  filter: postContentData.spoiler ? 'blur(60px)' : 'none'
                 }}
               />
             </div>
@@ -141,7 +136,7 @@ function PostContent({
             className="post-content-video"
           >
             <source
-              src=""
+              src={postContentData.video}
               type="video/mp4"
             />
           </video>
@@ -151,7 +146,7 @@ function PostContent({
         postContent = (
           <div className="post-content-text">
             <p style={{ color: isVisited ? '#949494' : 'black' }}>
-              {postContentData.content}
+              <ReactMarkdown>{postContentData.text}</ReactMarkdown>
             </p>
           </div>
         );
@@ -160,7 +155,7 @@ function PostContent({
         postContent = (
           <div className="post-content-link">
             <a>
-              {postContentData.content}
+              {postContentData.link}
               <FiExternalLink
                 className="external-link-icon"
                 style={{ marginLeft: '4px', color: '#3f9ade' }}
@@ -208,7 +203,12 @@ function PostContent({
   };
 
   const handleClickOnPost = () => {
-    flagPostAsVisited({ id: postContentData.id });
+    console.log(
+      `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`
+    );
+    navigate(
+      `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`
+    );
   };
 
   // Returning the result
@@ -216,29 +216,32 @@ function PostContent({
     <div
       className="post-content"
       data-testid="test-post-content"
-      onClick={handleClickOnPost}
+      // onClick={handleClickOnPost}
     >
       {/* Post info -> community, username, time */}
       <PostInfo
-        communityName={postContentData.community_name}
-        communityId={postContentData.community_id}
-        userId={postContentData.user_id}
-        postedBy={postContentData.posted_by}
-        postedAt={postContentData.posted_at}
-        postId={postContentData.id}
+        userInfo={postContentData.user}
+        subredditInfo={postContentData.subredditInfo}
+        postedAt={getDateDiff(postContentData.publishedDate)}
+        postId={postContentData._id}
         isCommunityPost={isCommunityPost}
-        isPostFullDetailsMode={isPostFullDetailsMode}
         modAction={modAction}
         isNSFW={nsfw}
         isLocked={locked}
-        isDistinguishedAsMode={distinguishAsMod}
         isFollowed={postContentData.follow}
+        approvedBy={postContentData.approvedBy}
+        approvedAt={postContentData.approvedAt}
+        removedBy={postContentData.removedBy}
+        removedAt={postContentData.removedAt}
+        spammedBy={postContentData.spammedBy}
+        spammedAt={postContentData.spammedAt}
       />
 
       {/* Post title & flairs  */}
       <div
         className="post-title-container"
         data-testid="test-post-title"
+        onClick={handleClickOnPost}
       >
         <div className="post-title">
           <Link
@@ -253,18 +256,22 @@ function PostContent({
             </h3>
           </Link>
         </div>
-        {postContentData.flairs.length > 0
-          ? postContentData.flairs.map((item) => (
-            <div className="flair">
-              <a
-                href="#"
-                className="flair-link"
-              >
-                {item}
-              </a>
-            </div>
-          ))
-          : null}
+
+        {postContentData.flair ? (
+          <a
+            className="flair-link"
+            style={{
+              color: postContentData.flair.textColor,
+              backgroundColor: postContentData.flair.backgroundColor,
+              padding: '0.5rem',
+              borderRadius: '999px',
+              fontWeight: '700',
+              fontSize: '12px'
+            }}
+          >
+            {postContentData.flair.text}
+          </a>
+        ) : null}
       </div>
 
       {/* post content  */}
@@ -278,25 +285,29 @@ function PostContent({
       {/* post interactions -> comment, save, hide, ..  */}
       <PostInteractions
         setHidePost={setHidePost}
-        commentsCount={divideBigNumber(postContentData.comments_count)}
-        votesCount={postContentData.votes}
-        postId={postContentData.id}
+        commentsCount={divideBigNumber(postContentData.commentCount)}
+        votesCount={postContentData.votesCount}
+        postId={postContentData._id}
+        communityName={postContentData.subredditInfo.name}
         isCommunityPost={isCommunityPost}
         changeModAction={setModAction}
         setModAction={setModAction}
-        setDistinguishPostAsMod={setDistinguishAsMod}
         setNsfw={setNsfw}
         setLocked={setLocked}
         isModeratorMode={isModeratorMode}
         isSaved={isSaved}
-        isLocked={isLocked}
+        isLocked={locked}
         isPostApproved={isPostApproved}
-        isPostSticky={isPostSticky}
-        isDistinguishedAsMode={isDistinguishedAsMode}
-        isNSFW={isNSFW}
+        isNSFW={nsfw}
         isSpoiled={isSpoiled}
         replyNotifications={replyNotifications}
         canBeSpoiled={canBeSpoiled}
+        approved={postContentData.approvedAt ? true : false}
+        removed={postContentData.removedAt ? true : false}
+        spammed={postContentData.spammedAt ? true : false}
+        currentVotingState={
+          postContentData.voteType === null ? 0 : postContentData.voteType
+        }
       />
     </div>
   );

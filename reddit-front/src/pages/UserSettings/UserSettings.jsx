@@ -3,7 +3,9 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/self-closing-comp */
 
-import { NavLink, Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import AppBarReddit from '../../components/Layout/AppBar/AppBar';
 import './UserSettings.css';
 
@@ -12,7 +14,14 @@ function UserSettings() {
     borderBottom: '3px solid #0079d3',
     color: 'black'
   };
+  const { isAuth } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!isAuth) {
+      navigate('/auth/login');
+    }
+  }, []);
   return (
     <>
       <AppBarReddit />

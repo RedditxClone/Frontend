@@ -3,10 +3,11 @@
 // eslint-disable-next-line camelcase
 import { Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import FacebookLogin from 'react-facebook-login';
-import { GrFacebook } from 'react-icons/gr';
+import ContinueWithGoogle from '../../utilities/ContinueWithGoogle/ContinueWithGoogle';
+import ContinueWithGithub from '../../utilities/ContinueWithGithub/ContinueWithGithub';
+// import axios from 'axios';
 import { login } from '../../store/slices/AuthSlice';
 import InfoButton from '../../components/InfoButton/InfoButton';
 import { DividerDiv } from './Login.style';
@@ -20,7 +21,6 @@ import {
 import LoginInputField from '../../components/LoginInputField/LoginInputField';
 import ErrorMessage from '../../utilities/CustomStyling/CustomStyling';
 import useInput from '../../hooks/use-input';
-import continueInWithGoogle from '../../services/requests/continueWithGoogle';
 
 /**
  * This component returns a login page contains:
@@ -57,11 +57,8 @@ function Login() {
     hasError: errorPassword
   } = useInput((value) => value.length >= 8);
 
-  const [loginWithFacebook, setLoginWithFacebook] = useState(false);
-  const [loginWithGoogle, setLoginWithGoogle] = useState(false);
   /** To check if the form is valid or not */
-  const formIsValid =
-    (!errorPassword && !errorUserName) || loginWithGoogle || loginWithFacebook;
+  const formIsValid = !errorPassword && !errorUserName;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -74,7 +71,6 @@ function Login() {
   }, [isAuth]);
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log('heare');
     dispatch(login({ username: userName, password }));
   };
 
@@ -85,45 +81,6 @@ function Login() {
     resetPasswordInput();
     resetUserNameInput();
   };
-
-  const facebookClicked = (data) => {
-    console.log(data);
-  };
-
-  const responseFacebook = (response) => {
-    console.log('response result: ', response);
-    setLoginWithFacebook(true);
-  };
-
-  /**
-   *
-   * @param {Object} response - response from Google API for being registered with google email
-   */
-  const handleCallBackResponse = (response) => {
-    /** Should be sent to API */
-    continueInWithGoogle(response);
-    setLoginWithGoogle(true);
-  };
-
-  /** Render the Google button only once the page is first renedered */
-  useEffect(() => {
-    google.accounts.id.initialize({
-      client_id:
-        '731962970730-93vd9ao2c9ckhmguioje6ar6jmjk3cic.apps.googleusercontent.com',
-      callback: handleCallBackResponse
-    });
-
-    google.accounts.id.renderButton(
-      document.getElementById('signInWithGoggle'),
-      {
-        theme: 'filled_blue',
-        size: 'large',
-        text: 'continue_with',
-        shape: 'recatangular',
-        width: '280px'
-      }
-    );
-  }, []);
 
   const len = 28;
   const lhlen = 3;
@@ -143,23 +100,9 @@ function Login() {
         </p>
       </UserAggrementDiv>
       <form onSubmit={onSubmitHandler}>
-        <div className="AnotherWayToLogin">
-          <div id="signInWithGoggle" />
-          <div style={{ marginTop: '1.2rem' }}>
-            <FacebookLogin
-              appId="1156172054987935"
-              size="small"
-              fields="name,email,picture"
-              onClick={facebookClicked}
-              callback={responseFacebook}
-              icon={
-                <span style={{ marginRight: '1rem' }}>
-                  <GrFacebook />
-                </span>
-              }
-              textButton="CONTINUE WITH FACEBOOK"
-            />
-          </div>
+        <div style={{ width: '280px' }}>
+          <ContinueWithGoogle />
+          <ContinueWithGithub />
         </div>
         <DividerDiv>
           <span className="DividerLine"> </span>

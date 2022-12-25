@@ -15,6 +15,7 @@ import { useState, useEffect } from 'react';
 import { MdExpandMore } from 'react-icons/md';
 import { TfiLayers } from 'react-icons/tfi';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   StyledInputBase,
   StyledText,
@@ -33,7 +34,6 @@ import CreateCommunity from '../../CreateCommunity/CreateCommunity';
 function HomeBox({ allkindcomm }) {
   const [Side, setSide] = useState(false);
   const [Open, setOpen] = useState(false);
-  const [Moderator, SetModetator] = useState(false);
   const [openCreateCommunity, setOpenCreateCommunity] = useState(false);
   const [homeCurrentState, setHomeCurrentState] = useState('');
   // by redux as it is global state
@@ -47,7 +47,11 @@ function HomeBox({ allkindcomm }) {
   const navigate = useNavigate();
   // for changing the path
   const location = useLocation();
-  // let HomeBoxIcon;
+
+  const routeToCommunity = (communityName) => {
+    navigate(`/r/${communityName}`);
+  };
+
   useEffect(() => {
     const MyLocation = window.location.href;
     let lastSegment = MyLocation.split('/').pop();
@@ -56,80 +60,25 @@ function HomeBox({ allkindcomm }) {
     }
     setHomeCurrentState(lastSegment);
     console.log('Location changed');
-    // switch (lastSegment) {
-    //   case 'notifications':
-    //     HomeBoxIcon = (
-    //       <StyledHomeBoxIcon>
-    //         <IoIosNotificationsOutline />
-    //       </StyledHomeBoxIcon>
-    //     );
-    //     break;
-    //   case 'messaging':
-    //     console.log('here');
-    //     HomeBoxIcon = <UserSettingsLogo />;
-    //     console.log(HomeBoxIcon);
-    //     break;
-    //   case 'account':
-    //     HomeBoxIcon = <UserSettingsLogo />;
-    //     break;
-    //   default:
-    //     HomeBoxIcon = (
-    //       <StyledHomeBoxIcon>
-    //         <HiHome />
-    //       </StyledHomeBoxIcon>
-    //     );
-    //     break;
-    // }
   }, [location]);
 
-  // const history = useHistory();
-  // history.listen((location, action) => {
-  //   console.log(
-  //     `The current URL is ${location.pathname}${location.search}${location.hash}`
-  //   );
-  //   console.log(`The last navigation action was ${action}`);
-  // });
+  const { myCommunities, moderatedCommunities } = useSelector(
+    (state) => state.communities
+  );
 
-  const [MyCommunities, setMyCommunities] = useState([
-    {
-      imgsrc:
-        'https://images.pexels.com/photos/863988/pexels-photo-863988.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      communityname: 'r/sports'
-    }
-  ]);
-  const [ModComm, setModComm] = useState([]);
   const [MyFavComm, setMyFavComm] = useState([]);
 
-  const favHandler = (community) => {
-    // console.log('iam at the begnning');
-    const CopyFavComm = [...MyFavComm];
-    let found = false;
-    if (MyFavComm.length !== 0) {
-      found = CopyFavComm.map(
-        (comm) => comm.communityname === community.communityname
-      );
-    } else {
-      setMyFavComm([community]);
-      // console.log(MyFavComm);
-      return;
-    }
-    //  console.log(found);
-    if (found) {
-      const NewFavComm = CopyFavComm.filter(
-        (comm) => comm.communityname !== community.communityname
-      );
-      // console.log(NewFavComm);
-      setMyFavComm([NewFavComm]);
-    } else {
-      setMyFavComm((prevFavComm) => [...prevFavComm, community]);
-    }
-    // console.log(MyFavComm);
-  };
-  const communities = MyCommunities.map((comm) => (
-    <MenuItem key={comm.name}>
+  const communities = myCommunities.map((comm) => (
+    <MenuItem
+      key={comm.name}
+      onClick={() => {
+        routeToCommunity(comm.name);
+        setOpen(false);
+      }}
+    >
       <img
-        src={comm.imgsrc}
-        alt={comm.communityname}
+        src={comm.icon}
+        alt=""
         style={{ width: '2.4rem', height: '2.4rem', borderRadius: '50%' }}
       />
       <StyledButton
@@ -137,19 +86,25 @@ function HomeBox({ allkindcomm }) {
           ml: '0.5rem'
         }}
       >
-        {comm.communityname}
+        {comm.name}
       </StyledButton>
-      <IconButton onClick={() => favHandler(comm)}>
+      <IconButton>
         <AiOutlineStar size="2rem" />
       </IconButton>
     </MenuItem>
   ));
 
-  const ModeratorComm = ModComm.map((comm) => (
-    <MenuItem key={comm.name}>
+  const ModeratorComm = moderatedCommunities.map((comm) => (
+    <MenuItem
+      key={comm.name}
+      onClick={() => {
+        routeToCommunity(comm.name);
+        setOpen(false);
+      }}
+    >
       <img
-        src={comm.imgsrc}
-        alt={comm.communityname}
+        src={comm.icon}
+        alt=""
         style={{ width: '2rem', height: '2rem', borderRadius: '50%' }}
       />
       <StyledButton
@@ -157,7 +112,7 @@ function HomeBox({ allkindcomm }) {
           ml: '0.5rem'
         }}
       >
-        {comm.communityname}
+        {comm.name}
       </StyledButton>
       <IconButton>
         <AiOutlineStar />
@@ -165,10 +120,13 @@ function HomeBox({ allkindcomm }) {
     </MenuItem>
   ));
   const FavComm = MyFavComm.map((comm) => (
-    <MenuItem key={comm.name}>
+    <MenuItem
+      key={comm.name}
+      onClick={() => routeToCommunity(comm.name)}
+    >
       <img
         src={comm.imgsrc}
-        alt={comm.communityname}
+        alt=""
         style={{ width: '2.3rem', height: '2.3rem', borderRadius: '50%' }}
       />
       <StyledButton
@@ -176,7 +134,7 @@ function HomeBox({ allkindcomm }) {
           ml: '0.5rem'
         }}
       >
-        {comm.communityname}
+        {comm.name}
       </StyledButton>
       <IconButton>
         <AiOutlineStar size="2rem" />
@@ -230,7 +188,7 @@ function HomeBox({ allkindcomm }) {
   };
 
   const messagingClickHandler = () => {
-    navigate('/settings/messaging');
+    navigate('/message/selfreply');
   };
   const homeClickHandler = () => {
     navigate('/');
@@ -337,7 +295,7 @@ function HomeBox({ allkindcomm }) {
               {FavComm}
               <StyledText sx={{ fontSize: '13px' }}>MODERATING</StyledText>
             </MenuItem>
-            {Moderator ? { ModeratorComm } : null}
+            {ModeratorComm}
             <MenuItem>
               <StyledHomeIconButton>
                 <TfiLayers />

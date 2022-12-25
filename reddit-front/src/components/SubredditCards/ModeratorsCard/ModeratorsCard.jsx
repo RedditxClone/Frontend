@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import { useState, useEffect, memo } from 'react';
 import Link from '@mui/material/Link';
 import { AiOutlineMail } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 import {
   ModeratorsContainer,
   MessageModsButton,
@@ -16,8 +17,6 @@ import { getModeratorsList } from '../../../services/requests/Subreddit';
 
 /**
  * @typedef PropType
- * @property {string, color} baseColor
- * @property {string, color} highlightColor
  * @property {Array} moderatorsList
  */
 
@@ -26,22 +25,8 @@ import { getModeratorsList } from '../../../services/requests/Subreddit';
  *
  */
 
-function ModeratorsCard({ highlightColor, baseColor, subredditId }) {
-  const [moderatorsList, setModeratorsList] = useState([]);
-
-  useEffect(() => {
-    // Fetching the data of the moderators
-    const fetchModerators = async () => {
-      const results = await getModeratorsList({ id: subredditId });
-
-      setModeratorsList(results[0].list);
-    };
-
-    fetchModerators();
-  }, []);
-
-  // console.log('moderatorsList inside', moderatorsList);
-
+function ModeratorsCard({ moderatorsList, subredditName }) {
+  const navigate = useNavigate();
   return (
     <ModeratorsContainer
       className="moderators"
@@ -50,7 +35,6 @@ function ModeratorsCard({ highlightColor, baseColor, subredditId }) {
       {/* Card Header  */}
       <CardHeader
         title="Moderators"
-        baseColor={baseColor}
         hasDropDownMenu={false}
       />
 
@@ -59,9 +43,9 @@ function ModeratorsCard({ highlightColor, baseColor, subredditId }) {
         <MessageModsButton
           data-testid="msg-mods-button"
           sx={{
-            border: `1px solid ${highlightColor}`,
-            color: highlightColor,
-            fill: highlightColor
+            border: '1px solid #0079D3',
+            color: '#0079D3',
+            fill: '#0079D3'
           }}
         >
           <AiOutlineMail
@@ -74,9 +58,14 @@ function ModeratorsCard({ highlightColor, baseColor, subredditId }) {
         {/* List of the moderators  */}
         {moderatorsList.length > 0
           ? moderatorsList.map((item) => (
-              <Box className="moderator-name">
-                <ModeratorUsername style={{ color: highlightColor }}>
-                  {item}
+              <Box
+                className="moderator-name"
+                onClick={() => {
+                  navigate(`/user/${item}`);
+                }}
+              >
+                <ModeratorUsername style={{ color: '#0079D3' }}>
+                  {`u/${item}`}
                 </ModeratorUsername>
               </Box>
             ))
@@ -92,6 +81,9 @@ function ModeratorsCard({ highlightColor, baseColor, subredditId }) {
           }}
         >
           <Link
+            onClick={() => {
+              naviget(`/${subredditName}/about/moderators`);
+            }}
             data-testid="view-all-moderators"
             sx={{
               fontSize: '12px',
@@ -99,7 +91,7 @@ function ModeratorsCard({ highlightColor, baseColor, subredditId }) {
               letterSpacing: '0.5px',
               textTransform: 'uppercase',
               textDecoration: 'none',
-              color: highlightColor,
+              color: '#0079D3',
               lineHeight: '16px',
               marginLeft: 'auto',
               cursor: 'pointer'
