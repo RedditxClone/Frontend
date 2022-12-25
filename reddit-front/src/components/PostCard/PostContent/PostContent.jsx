@@ -13,9 +13,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
-import ReactMarkdown from 'https://esm.sh/react-markdown@7';
+import ReactMarkdown from 'react-markdown';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 import Logo3 from '../../../assets/Images/test.png';
 import Logo from '../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
@@ -53,6 +54,8 @@ function PostContent({
   isCommunityPost,
   isModeratorMode
 }) {
+  const navigate = useNavigate();
+
   let postContent = null;
   let slideIndex = 0;
   const [modAction, setModAction] = useState(0);
@@ -76,7 +79,7 @@ function PostContent({
   const getPostContent = () => {
     let contentType = postContentData.postType;
     let mediaCount = postContentData.images ? postContentData.images.length : 0;
-
+    const MEDIA_URL = process.env.REACT_APP_MEDIA_URL;
     switch (contentType) {
       case 'images':
         if (mediaCount > 1) {
@@ -86,7 +89,7 @@ function PostContent({
                 ? postContentData.images.map((image) => (
                     <div className="my-slides fade">
                       <img
-                        src={image}
+                        src={`${MEDIA_URL}${image}`}
                         alt="post image"
                       />
                     </div>
@@ -114,7 +117,7 @@ function PostContent({
             <div className="post-image">
               <img
                 className={`post-image-${postContentData._id}`}
-                src={postContentData.images[0]}
+                src={`${MEDIA_URL}${postContentData.images[0]}`}
                 alt="post image"
                 style={{
                   filter: postContentData.spoiler ? 'blur(60px)' : 'none'
@@ -200,7 +203,12 @@ function PostContent({
   };
 
   const handleClickOnPost = () => {
-    window.location.href = `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`;
+    console.log(
+      `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`
+    );
+    navigate(
+      `/r/${postContentData.subredditInfo.name}/posts/${postContentData._id}`
+    );
   };
 
   // Returning the result
@@ -233,6 +241,7 @@ function PostContent({
       <div
         className="post-title-container"
         data-testid="test-post-title"
+        onClick={handleClickOnPost}
       >
         <div className="post-title">
           <Link

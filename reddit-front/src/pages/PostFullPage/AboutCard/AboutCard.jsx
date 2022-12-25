@@ -209,7 +209,7 @@ function AboutCard({ isJoined, subredditId, subredditName, aboutInfo }) {
                 lineHeight: '2rem'
               }}
             >
-              {divideBigNumber(aboutInfo.memberCount)}
+              {divideBigNumber(aboutInfo.membersCount)}
             </span>
             <MembersTypography
               variant="paragraph"

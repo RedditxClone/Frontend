@@ -71,7 +71,10 @@ function HomeBox({ allkindcomm }) {
   const communities = myCommunities.map((comm) => (
     <MenuItem
       key={comm.name}
-      onClick={() => routeToCommunity(comm.name)}
+      onClick={() => {
+        routeToCommunity(comm.name);
+        setOpen(false);
+      }}
     >
       <img
         src={comm.icon}
@@ -94,7 +97,10 @@ function HomeBox({ allkindcomm }) {
   const ModeratorComm = moderatedCommunities.map((comm) => (
     <MenuItem
       key={comm.name}
-      onClick={() => routeToCommunity(comm.name)}
+      onClick={() => {
+        routeToCommunity(comm.name);
+        setOpen(false);
+      }}
     >
       <img
         src={comm.icon}

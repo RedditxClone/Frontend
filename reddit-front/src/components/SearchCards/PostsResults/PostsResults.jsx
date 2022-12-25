@@ -19,6 +19,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useNavigate } from 'react-router-dom';
 import {
   RootContainer,
   SingleResultContainer
@@ -72,6 +73,7 @@ function PostsResults({ searchKey }) {
   const [sort, setSort] = useState('');
   const [statusCode, setStatusCode] = useState(0);
 
+  const navigate = useNavigate();
   // Fetching the results by calling the fetch service
   const fetchResults = async () => {
     const results = await retrievePostResults({
@@ -86,7 +88,7 @@ function PostsResults({ searchKey }) {
 
   useEffect(() => {
     fetchResults();
-  }, [time, sort]);
+  }, [time, sort, searchKey]);
 
   const handleSorting = (event) => {
     fetchResults();
@@ -305,10 +307,12 @@ function PostsResults({ searchKey }) {
                     </StyledLogo>
                     <Username
                       onClick={() => {
-                        window.location.replace(`/r/${item.subreddit.name}`);
+                        if (item && item.subreddit) {
+                          navigate(`/r/${item.subreddit.name}`);
+                        }
                       }}
                     >
-                      {`r/${item.subreddit.name}`}
+                      {item && item.subreddit && `r/${item.subreddit.name}`}
                     </Username>
 
                     <StyledSpan>
@@ -316,12 +320,12 @@ function PostsResults({ searchKey }) {
                         Posted by
                         <Username
                           onClick={() => {
-                            window.location.replace(
-                              `/user/${item.user.username}`
-                            );
+                            if (item && item.subreddit) {
+                              navigate(`/r/${item.subreddit.name}`);
+                            }
                           }}
                         >
-                          {` u/${item.user.username}`}
+                          {item && item.user && ` u/${item.user.username}`}
                         </Username>
                       </span>
                     </StyledSpan>

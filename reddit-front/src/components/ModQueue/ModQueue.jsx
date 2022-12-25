@@ -54,7 +54,6 @@ function ModQueue({
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
-  console.log('subredditId', subredditId);
   // Fetching the results by calling the fetch service
   const fetchPosts = async (timeState, sortState) => {
     setLoading(true);

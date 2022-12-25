@@ -121,7 +121,7 @@ function SubredditName({
               } else {
                 // checking if not authenticated
                 if (!isAuth) {
-                  window.location.replace('/auth/login');
+                  navigate('/auth/login');
                 } else {
                   setJoined(!joined);
                   joinSubreddit(subredditId);

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-underscore-dangle */
 import { useRef, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -87,8 +88,9 @@ function ChooseCommunityName({
                 Create New
               </button>
             </span>
-            {[...moderatedCommunities, ...myCommunities].map((comm) => (
+            {[...moderatedCommunities, ...myCommunities].map((comm, idx) => (
               <button
+                key={comm._id + idx}
                 type="button"
                 className={classes.communities_item}
                 onClick={() => {

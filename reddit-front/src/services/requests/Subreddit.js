@@ -111,8 +111,8 @@ export const getRulesList = async (data) => {
  * This service for getting the subreddit's flairs list
  * @param {object} data - The request data
  */
-export const getFlairsList = async (subredditName) => {
-  const response = await api.get(`/api/subreddit/${subredditName}/flair`);
+export const getFlairsList = async (id) => {
+  const response = await api.get(`/api/subreddit/${id}/flair`);
   return response.data;
 };
 

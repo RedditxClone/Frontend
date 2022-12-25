@@ -43,9 +43,11 @@ function ModToolsPage() {
   const [loading, setLoading] = useState(true);
   const [subredditInfo, setSubredditInfo] = useState([]);
   const [showSettingsSideBar, setShowSettingsSideBar] = useState(false);
-  const { isAuth } = useSelector((state) => state.auth);
+  const { isAuth } = useSelector((state) => {
+    console.log(state.auth);
+    return state.auth;
+  });
   const navigate = useNavigate();
-
   // Fetching the info of the subreddit
   const fetchSubredditInfo = async () => {
     const results = await getSubreddit(subredditName);
@@ -55,6 +57,9 @@ function ModToolsPage() {
 
   useEffect(() => {
     fetchSubredditInfo();
+    if (!isAuth && !loading) {
+      navigate('/auth/login');
+    }
 
     if (
       activeItem === 'communitysettings' ||
@@ -62,9 +67,6 @@ function ModToolsPage() {
       activeItem === 'community'
     ) {
       setShowSettingsSideBar(true);
-    }
-    if (!isAuth) {
-      navigate('/auth/login');
     }
   }, []);
 
@@ -572,7 +574,7 @@ function ModToolsPage() {
               </div>
             </>
           ) : (
-            window.location.replace('/error')
+            navigate('/error')
           )}
         </div>
       )}

@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import { useState, useEffect, memo } from 'react';
 import Link from '@mui/material/Link';
 import { AiOutlineMail } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 import {
   ModeratorsContainer,
   MessageModsButton,
@@ -25,6 +26,7 @@ import { getModeratorsList } from '../../../services/requests/Subreddit';
  */
 
 function ModeratorsCard({ moderatorsList, subredditName }) {
+  const navigate = useNavigate();
   return (
     <ModeratorsContainer
       className="moderators"
@@ -59,7 +61,7 @@ function ModeratorsCard({ moderatorsList, subredditName }) {
               <Box
                 className="moderator-name"
                 onClick={() => {
-                  window.location.replace(`/user/${item}`);
+                  navigate(`/user/${item}`);
                 }}
               >
                 <ModeratorUsername style={{ color: '#0079D3' }}>
@@ -80,7 +82,7 @@ function ModeratorsCard({ moderatorsList, subredditName }) {
         >
           <Link
             onClick={() => {
-              window.location.replace(`/${subredditName}/about/moderators`);
+              naviget(`/${subredditName}/about/moderators`);
             }}
             data-testid="view-all-moderators"
             sx={{

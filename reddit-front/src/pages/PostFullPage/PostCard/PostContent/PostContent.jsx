@@ -15,7 +15,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/destructuring-assignment */
 import { useEffect, memo, useState } from 'react';
-import ReactMarkdown from 'https://esm.sh/react-markdown@7';
+import ReactMarkdown from 'react-markdown';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
 import Logo3 from '../../../../assets/Images/test.png';
@@ -69,6 +69,8 @@ function PostContent({
   const [locked, setLocked] = useState(postData.commentsLocked);
   const [nsfw, setNsfw] = useState(postData.nsfw);
   const [isSpoiled, setIsSpoiled] = useState(postData.spoiler);
+  const [isVisited, setIsVisited] = useState(postData.visited);
+
   const [isSaved, setIsSaved] = useState(postData.isSaved);
   const [isPostApproved, setIsPostApproved] = useState(
     postData.approved !== null ? postData.approved : false
@@ -86,7 +88,7 @@ function PostContent({
   const getPostContent = () => {
     let contentType = postData.postType;
     let mediaCount = postData.images ? postData.images.length : 0;
-
+    const MEDIA_URL = process.env.REACT_APP_MEDIA_URL;
     switch (contentType) {
       case 'images':
         if (mediaCount > 1) {
@@ -96,7 +98,7 @@ function PostContent({
                 ? postData.images.map((image) => (
                     <div className="my-slides fade">
                       <img
-                        src={image}
+                        src={`${MEDIA_URL}${image}`}
                         alt="post image"
                       />
                     </div>
@@ -124,7 +126,7 @@ function PostContent({
             <div className="post-image">
               <img
                 className={`post-image-${postData._id}`}
-                src={`https://static.swproject.demosfortest.com/${postData.images[0]}`}
+                src={`${MEDIA_URL}${postData.images[0]}`}
                 alt="post image"
                 style={{
                   filter: postData.spoiler ? 'blur(60px)' : 'none'
