@@ -167,6 +167,7 @@ export default function HomePage() {
             </div>
           )}
         </div>
+        <BackTop id="navbar" />
       </main>
     </>
   );
