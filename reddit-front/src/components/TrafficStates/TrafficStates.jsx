@@ -4,7 +4,7 @@ import TrafficTable from './TrafficTable';
 /**
  * @description This component is
  * resposinble to render the Whole Traffic States Components of the Subreddit
- */ 
+ */
 function TrafficStates() {
   return (
     <div style={{ margin: '2rem 9rem 4rem 2.5rem', width: '100%' }}>

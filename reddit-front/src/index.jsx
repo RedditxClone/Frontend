@@ -61,6 +61,7 @@ import DownVoteList from './components/DownVoteList/DownVoteList';
 import HiddenList from './components/HiddenList/HiddenList';
  import ProfilePageModerationCard from './components/ProfilePageModerationCard/ProfilePageModerationCard';
  import pic from './assets/Images/1166721.jpg';
+import TrafficStates from './components/TrafficStates/TrafficStates';
 // import CommentsForSamePostCard from './components/CommentsCard/CommentsCard';
 // import CommentTap from './components/CommentTap/CommentTap';
 // import BasicModal from './components/CommentsCard/DeleteModal/DeleteModal';
@@ -219,11 +220,11 @@ const Data = {
 const routes = createBrowserRouter([
   {
     path: '/',
-    element: <CommentTap  />,
+    element: <TrafficStates  />,
     children: [
       {
-        path: 'submitted',
-        element: <ProfileList />
+        path: 'traffic/',
+        element: <TrafficStates />
       },
       {
         path: 'comments',
