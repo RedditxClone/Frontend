@@ -8,6 +8,7 @@
 import { useState, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
 import {
   RootContainer,
   ResultsContainer,
@@ -41,7 +42,7 @@ function CommentsResults({ searchKey }) {
   // states
   const [result, setResult] = useState([]);
   const [statusCode, setStatusCode] = useState(0);
-
+  const navigate = useNavigate();
   // Fetching the results by calling the fetch service
   useEffect(() => {
     const fetchResults = async () => {
@@ -53,7 +54,7 @@ function CommentsResults({ searchKey }) {
       setStatusCode(results.statusCode);
     };
     fetchResults();
-  }, []);
+  }, [searchKey]);
 
   return (
     <RootContainer data-testid="search-comments-results">
@@ -105,7 +106,7 @@ function CommentsResults({ searchKey }) {
                   </StyledLogo>
                   <Username
                     onClick={() => {
-                      window.location.replace(`/r/${item.subreddit.name}`);
+                      navigate(`/r/${item.subreddit.name}`);
                     }}
                   >
                     {`r/${item.subreddit.name}`}
@@ -115,9 +116,7 @@ function CommentsResults({ searchKey }) {
                       Posted by
                       <Username
                         onClick={() => {
-                          window.location.replace(
-                            `/user/${item.user.username}`
-                          );
+                          navigate(`/user/${item.user.username}`);
                         }}
                       >
                         {' '}

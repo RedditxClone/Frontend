@@ -59,7 +59,7 @@ function SentPrivateMessage() {
     alertResponse = (
       <AlertMessage
         opnAlertMessage
-        type="succes"
+        type="success"
         message={sendResponse}
       />
     );

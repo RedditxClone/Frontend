@@ -6,6 +6,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { MdOutlineDone } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import classes from './CreatePost.module.css';
 import AppBar from '../../components/Layout/AppBar/AppBar';
 import PostingRules from './PostingRules';
@@ -35,7 +36,6 @@ function CreatePost() {
   const [unableToPost, setUnableToPost] = useState(false);
   const { isAuth } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-
   const validPost =
     validTitle &&
     choosedPageId !== '' &&

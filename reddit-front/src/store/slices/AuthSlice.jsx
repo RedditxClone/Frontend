@@ -80,7 +80,7 @@ export const forgetUserName = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
     try {
       const res = await api.post('/api/auth/forget-username', {
-        emai: user.email
+        email: user.email
       });
 
       const { data } = res;
@@ -164,6 +164,10 @@ const AuthSlice = createSlice({
     setUser(state, action) {
       // console.log('ussssseeerrrr', action.payload);
       state.user = action.payload;
+    },
+
+    setToken(state, action) {
+      state.userToken = action.payload;
     },
 
     setIsAuthenticated(state, action) {

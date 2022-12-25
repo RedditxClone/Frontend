@@ -11,6 +11,7 @@ import { StyledInputBase, Search } from '../AppBar/AppBar.Style';
 
 function SearchBox({ login }) {
   const navigate = useNavigate();
+
   const changeSearchHandler = (e) => {
     if (e.key === 'Enter') {
       navigate(`/search/post/${e.target.value}`);

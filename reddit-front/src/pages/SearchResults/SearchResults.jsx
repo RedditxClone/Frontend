@@ -5,7 +5,7 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -61,8 +61,10 @@ function a11yProps(index) {
  *
  */
 function SearchResults({ type }) {
-  const { searchKey } = useParams();
-
+  let myLocation = window.location.href;
+  let lastSegment = myLocation.split('/').pop();
+  const location = useLocation();
+  const [searchKey, setSearchKey] = useState(lastSegment);
   const routes = [
     ['posts', `/search/post/${searchKey}`],
     ['comments', `/search/comment/${searchKey}`],
@@ -70,6 +72,12 @@ function SearchResults({ type }) {
     ['people', `/search/user/${searchKey}`]
   ];
 
+  useEffect(() => {
+    myLocation = window.location.href;
+    lastSegment = myLocation.split('/').pop();
+    console.log(lastSegment);
+    setSearchKey(lastSegment);
+  }, [location]);
   const [value, setValue] = useState(type);
 
   const handleChange = (event, newValue) => {

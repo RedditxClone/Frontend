@@ -27,6 +27,7 @@ import { FiShield } from 'react-icons/fi';
 import { BsThreeDots, BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { BiHide, BiAddToQueue } from 'react-icons/bi';
 import { TbArrowsCross } from 'react-icons/tb';
+import { useNavigate } from 'react-router-dom';
 import {
   approvePost,
   unApprovePost,
@@ -99,7 +100,7 @@ function PostInteractions({
   const [isRemoved, setIsRemoved] = useState(removed);
   const [isSpammed, setIsSpammed] = useState(spammed);
   const [hidePostState, setHidePostState] = useState(false);
-
+  const navigate = useNavigate();
   // Handler Methods
   const handleSavePost = () => {
     if (!saveState) {
@@ -232,7 +233,7 @@ function PostInteractions({
     // const postCard = document.getElementById(`post-${postId}`);
     // if (postCard) postCard.style.display = 'none';
 
-    window.location.href = '/';
+    navigate('/');
   };
 
   const handleLockComments = () => {
