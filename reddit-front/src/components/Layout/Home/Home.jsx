@@ -27,6 +27,7 @@ import {
 import SideDrawer from '../Drawer/Drawer';
 import UserSettingsLogo from '../../../utilities/UserSettingsLogo/UserLogo';
 import CreateCommunity from '../../CreateCommunity/CreateCommunity';
+import ActionMessage from '../../ActionMessage/ActionMessage';
 /**
  * @description this function describes the home box in the bar in case u are loggedin it contains ur communities ,etc..
  * @return {React.Component} the home box

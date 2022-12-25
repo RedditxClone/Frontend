@@ -12,7 +12,7 @@ import HomeCreatePostCard from '../../components/HomePageCards/HomeCreatePostCar
 import { useState } from 'react';
 import getUser from '../../services/requests/getUser';
 import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
-
+import BackTop from '../../components/BackToTop/BackToTop';
 const communities = [
   {
     name: 'My Community',

@@ -37,6 +37,8 @@ import SentMessage from './components/SentMessage/SentMessage';
 import Messages from './pages/Messages/Messages';
 import PostFullPage from './pages/PostFullPage/PostFullPage';
 import Error404 from './pages/Error404/Error404';
+import MyProfilePage from './pages/MyProfilePage/MyProfilePage';
+import HiddenList from './components/HiddenList/HiddenList';
 // import DeletePostFlair from './components/PostFlair/DeletePostFlairCard';
 // import CancelCard from './components/PostFlair/CancelCard';
 // import PostFlairSettingsCard from './components/PostFlair/PostFlairSettingsCard';

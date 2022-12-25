@@ -12,7 +12,6 @@ import FetchUserData from '../../../utilities/FetchUserData/FetchUserData';
 /**
 * @description this function is the main function which describes the navigation bar as
   loggedin or not it consists of many components
-* @param {string} topid this an id for nav bar used when back to top button to scroll up to it
 * @return {React.Component} the navigation bar of the site
 */
 function AppBarReddit() {
@@ -20,7 +19,7 @@ function AppBarReddit() {
   // const user = useSelector((state) => state.user);
 
   return (
-    <StyledToolBar id={topid}>
+    <StyledToolBar id="navbar">
       <FetchUserData />
       <Logo />
       {isAuth && <HomeBox allkindcomm={user} />}

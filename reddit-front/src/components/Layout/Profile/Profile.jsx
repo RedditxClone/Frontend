@@ -22,6 +22,7 @@ import {
   ProfileContainer
 } from '../AppBar/AppBar.Style';
 import CreateCommunity from '../../CreateCommunity/CreateCommunity';
+import ActionMessage from '../../ActionMessage/ActionMessage';
 
 /**
  * @description this function describes the profile select
@@ -36,7 +37,7 @@ function Profile() {
   const [DarkMode, setDarkMode] = useState(false);
   const [OnlineStatus, setOnlineStatus] = useState(true);
   const [openCreateCommunity, setOpenCreateCommunity] = useState(false);
-
+  let message = null;
   const [Opened, setOpened] = useState([
     false,
     false,
@@ -52,6 +53,12 @@ function Profile() {
 
   const handleOnlineStatusClick = () => {
     setOnlineStatus((current) => !current);
+    message = (
+      <ActionMessage
+        show="true"
+        message="changes saved"
+      />
+    );
   };
   const handleDarkModeClick = () => {
     setDarkMode((current) => !current);
@@ -296,6 +303,7 @@ function Profile() {
           </MenuItem>
         </StyledSelect>
       </FormControl>
+      {message}
     </ProfileContainer>
   );
 }
