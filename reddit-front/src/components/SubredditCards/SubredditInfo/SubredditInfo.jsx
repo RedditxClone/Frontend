@@ -36,9 +36,8 @@ function SubredditInfo({
   logo
 }) {
   const [hasLogo, setHasLogo] = useState(logo !== null);
-  const SubredditLogo = (
-    <LogoImg src={`https://static.swproject.demosfortest.com/${logo}`} />
-  );
+  const MEDIA_URL = process.env.REACT_APP_MEDIA_URL;
+  const SubredditLogo = <LogoImg src={`${MEDIA_URL}${logo}`} />;
   return (
     <Box
       component="div"

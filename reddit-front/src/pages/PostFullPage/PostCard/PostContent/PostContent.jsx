@@ -88,7 +88,7 @@ function PostContent({
   const getPostContent = () => {
     let contentType = postData.postType;
     let mediaCount = postData.images ? postData.images.length : 0;
-
+    const MEDIA_URL = process.env.REACT_APP_MEDIA_URL;
     switch (contentType) {
       case 'images':
         if (mediaCount > 1) {
@@ -98,7 +98,7 @@ function PostContent({
                 ? postData.images.map((image) => (
                     <div className="my-slides fade">
                       <img
-                        src={`https://static.swproject.demosfortest.com/${image}`}
+                        src={`${MEDIA_URL}${image}`}
                         alt="post image"
                       />
                     </div>
@@ -126,7 +126,7 @@ function PostContent({
             <div className="post-image">
               <img
                 className={`post-image-${postData._id}`}
-                src={`https://static.swproject.demosfortest.com/${postData.images[0]}`}
+                src={`${MEDIA_URL}${postData.images[0]}`}
                 alt="post image"
                 style={{
                   filter: postData.spoiler ? 'blur(60px)' : 'none'

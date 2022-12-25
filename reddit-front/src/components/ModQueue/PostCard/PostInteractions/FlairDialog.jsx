@@ -30,7 +30,13 @@ import FormLabel from '@mui/material/FormLabel';
 import { getFlairsList } from '../../../../services/requests/Subreddit';
 import { updatePostFlair } from '../../../../services/requests/Post';
 
-function FlairDialog({ open, handleClose, postId, subredditName }) {
+function FlairDialog({
+  open,
+  handleClose,
+  postId,
+  subredditName,
+  subredditId
+}) {
   const maxRemovalReasonLength = 65;
   const [removalReason, setRemovalReason] = useState(0);
   const handleSelectChange = (event) => {
@@ -47,7 +53,7 @@ function FlairDialog({ open, handleClose, postId, subredditName }) {
   useEffect(() => {
     // Fetching the about info of the subreddit
     const fetchSubredditFlairs = async () => {
-      const results = await getFlairsList('639da7ae5037e305d283a479');
+      const results = await getFlairsList(subredditId);
       setFlairs(results.flairList);
 
       setLoading(false);

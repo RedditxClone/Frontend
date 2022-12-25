@@ -6,6 +6,7 @@
 /* eslint-disable prefer-const */
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 
 import { ThemeProvider, Box, Button } from '@mui/material';
 

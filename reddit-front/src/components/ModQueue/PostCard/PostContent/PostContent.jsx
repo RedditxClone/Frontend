@@ -18,6 +18,7 @@ import { useEffect, memo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from '@mui/material';
 import { FiExternalLink } from 'react-icons/fi';
+import ReactMarkdown from 'react-markdown';
 import Logo3 from '../../../../assets/Images/test.png';
 import Logo from '../../../../assets/Images/test_3.jpg';
 import PostInteractions from '../PostInteractions/PostInteractions';
@@ -89,32 +90,24 @@ function PostContent({
 
   /* Gets the post type (img, video, ..), and returns the content as html component */
   const getPostContent = () => {
-    const contentType = postContentData.post_type;
-    const mediaCount = postContentData.media_count;
+    let contentType = postContentData.postType;
+    let mediaCount = postContentData.images ? postContentData.images.length : 0;
+    const MEDIA_URL = process.env.REACT_APP_MEDIA_URL;
     switch (contentType) {
-      case 'img':
+      case 'images':
         if (mediaCount > 1) {
           postContent = (
             <>
-              <div className="my-slides fade">
-                <img
-                  src={Logo}
-                  alt="post image"
-                />
-              </div>
-              <div className="my-slides fade">
-                <img
-                  src={Logo}
-                  alt="post image"
-                  className={`post-image-${postContentData.id}`}
-                />
-              </div>
-              <div className="my-slides fade">
-                <img
-                  src={Logo3}
-                  alt="post image"
-                />
-              </div>
+              {postContentData.images && postContentData.images.length > 0
+                ? postContentData.images.map((image) => (
+                    <div className="my-slides fade">
+                      <img
+                        src={`${MEDIA_URL}${image}`}
+                        alt="post image"
+                      />
+                    </div>
+                  ))
+                : null}
               <button
                 type="button"
                 className="prev"
@@ -136,11 +129,11 @@ function PostContent({
           postContent = (
             <div className="post-image">
               <img
-                className={`post-image-${postContentData.id}`}
-                src={Logo}
+                className={`post-image-${postContentData._id}`}
+                src={`${MEDIA_URL}${postContentData.images[0]}`}
                 alt="post image"
                 style={{
-                  filter: postContentData.is_spoiled ? 'blur(60px)' : 'none'
+                  filter: postContentData.spoiler ? 'blur(60px)' : 'none'
                 }}
               />
             </div>
@@ -156,7 +149,7 @@ function PostContent({
             className="post-content-video"
           >
             <source
-              src=""
+              src={postContentData.video}
               type="video/mp4"
             />
           </video>
@@ -165,7 +158,9 @@ function PostContent({
       case 'text':
         postContent = (
           <div className="post-content-text">
-            <p style={{ color: 'black' }}>{postContentData.content}</p>
+            <p style={{ color: isVisited ? '#949494' : 'black' }}>
+              <ReactMarkdown>{postContentData.text}</ReactMarkdown>
+            </p>
           </div>
         );
         break;
@@ -173,7 +168,7 @@ function PostContent({
         postContent = (
           <div className="post-content-link">
             <a>
-              {postContentData.content}
+              {postContentData.link}
               <FiExternalLink
                 className="external-link-icon"
                 style={{ marginLeft: '4px', color: '#3f9ade' }}
@@ -338,7 +333,7 @@ function PostContent({
       </div>
 
       {/* post content  */}
-      {/* {!showComments ? (
+      {!showComments ? (
         <div className="post-main-content">
           <div className="post-content-core">
             {getPostContent()}
@@ -350,17 +345,7 @@ function PostContent({
             </div>
           </div>
         </div>
-      ) : (
-        <div style={{ borderLeft: '1px dashed #7c7c7c', paddingLeft: '8px' }}>
-          <div style={{ borderLeft: '1px dashed #7c7c7c', paddingLeft: '8px' }}>
-            <p style={{ fontSize: '14px' }}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Temporibus ex quibusdam vel commodi! Accusantium nihil excepturi
-              quos.
-            </p>
-          </div>
-        </div>
-      )} */}
+      ) : null}
 
       {/* removed as spam  */}
       {removed || spammed || approved ? (
@@ -423,6 +408,8 @@ function PostContent({
         handleRemoveButton={handleRemoveButton}
         handleSpamButton={handleSpamButton}
         whichQueue={whichQueue}
+        subredditName={postContentData.subredditInfo.name}
+        subredditId={postContentData.subredditInfo.id}
       />
     </div>
   );

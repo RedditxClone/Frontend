@@ -97,7 +97,9 @@ function PostInteractions({
   handleApproveButton,
   handleRemoveButton,
   handleSpamButton,
-  whichQueue
+  whichQueue,
+  subredditName,
+  subredditId
 }) {
   const [isApproved, setIsApproved] = useState(isPostApproved);
   const [replyNotificationsState, setReplyNotificationsState] =
@@ -251,7 +253,8 @@ function PostInteractions({
           open={openFlairDialog}
           handleClose={handleCloseFlairDialog}
           postId={postId}
-          subredditName="testing"
+          subredditName={subredditName}
+          subredditId={subredditId}
         />
 
         {whichQueue === 'unmoderated' ? (
