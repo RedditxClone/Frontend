@@ -51,17 +51,6 @@
 </div>
 
 
-<div>
-    <h1 style="font-weight:700;">Installation</h1>
-    <p>
-        Start with the packages put in packages.json, then run the following command. 
-        <code>npm i</code>
-        <p>
-            if you faced a problem with the previous command try using legacy or force
-        </p>
-    </p>
-      
-</div>
 
 <div>
     <h1 style="font-weight:700;">Installation</h1>
