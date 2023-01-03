@@ -9,7 +9,7 @@
 </header>
 <div>
     <h1 style="font-weight:700;">Introduction</h1>
-      <p style="font-size:18px;">This is our whole clone for <a href="https://swproject.demosfortest.com/">Reddit </a>social media website. This work starts in October 20022.</p>
+      <p style="font-size:18px;">This is our whole clone for <a href="https://swproject.demosfortest.com/">Reddit </a>social media website. This work starts in October 2022.</p>
       
     
 </div>
