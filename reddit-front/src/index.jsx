@@ -37,12 +37,16 @@ import SentMessage from './components/SentMessage/SentMessage';
 import Messages from './pages/Messages/Messages';
 import PostFullPage from './pages/PostFullPage/PostFullPage';
 import Error404 from './pages/Error404/Error404';
-
+// import DeletePostFlair from './components/PostFlair/DeletePostFlairCard';
+// import CancelCard from './components/PostFlair/CancelCard';
+// import PostFlairSettingsCard from './components/PostFlair/PostFlairSettingsCard';
+// import PostFlair from './components/PostFlair/PostFlair';
 // Routes
 const routes = createBrowserRouter([
   {
     path: '/',
     element: <HomePage />
+    // element: <PostFlairSettingsCard />
   },
   {
     path: '/auth',
@@ -157,10 +161,13 @@ const routes = createBrowserRouter([
         element: <SearchResults type={3} />
       }
     ]
+    // here
   },
   {
     path: '/:subredditName/about/:activeItem',
+    // path: '/aha',
     element: <ModToolsPage />
+    // element: <PostFlair />
   },
   {
     path: '/message/',
