@@ -31,7 +31,7 @@ import ModQueue from '../../components/ModQueue/ModQueue';
 import FetchUserData from '../../utilities/FetchUserData/FetchUserData';
 import { getSubreddit } from '../../services/requests/Subreddit';
 import Loader from '../../utilities/Loader/Loader';
-
+import PostFlair from '../../components/PostFlair/PostFlair';
 /**
  * This Component for the Moderator Tools Page
  *
@@ -109,7 +109,7 @@ function ModToolsPage() {
     banned: <Box>banned</Box>,
     moderators: <Box>moderators</Box>,
     approved: <Box>approved</Box>,
-    postflairs: <Box>postflairs</Box>,
+    postflairs: <PostFlair />,
     rules: <Box>rules</Box>,
     communitysettings: <Box>communitysettings</Box>,
     trafficstats: <Box>trafficstats</Box>,
@@ -395,7 +395,7 @@ function ModToolsPage() {
                         }`}
                         onClick={handleClickOnSidebarItem(
                           'Post flairs',
-                          <Box>Post flairs</Box>
+                          <PostFlair subredditId={subredditInfo._id} />
                         )}
                       >
                         Post flairs
